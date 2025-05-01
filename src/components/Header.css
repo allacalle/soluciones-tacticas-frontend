@@ -1,0 +1,132 @@
+/* src/components/Header.css */
+
+/* Estilos generales del header (opcional, puedes añadir más aquí) */
+.site-header {
+    /* Añade estilos de fondo, borde, etc. para todo el header */
+    border-bottom: 1px solid #ccc; /* Ya lo teníamos inline en App.tsx, lo movemos aquí */
+}
+
+/* Estilos para la fila superior (Logo, Búsqueda, Redes) */
+.header-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8; /* Un fondo claro */
+}
+
+/* Estilos para el título del sitio/nombre */
+.site-branding .site-title {
+     font-weight: bold;
+     font-size: 1.5em;
+     vertical-align: middle;
+     color: #333; /* Color del texto */
+}
+
+ /* Estilos para el enlace del logo/nombre */
+.site-branding a {
+    text-decoration: none; /* Quita el subrayado por defecto */
+}
+
+
+/* Estilos para la barra de búsqueda */
+.header-search input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilos para la sección de redes sociales */
+.header-social a {
+    margin-left: 10px; /* Espacio entre enlaces de redes */
+    text-decoration: none;
+    color: #333; /* Color de los enlaces de redes */
+}
+
+
+/* Estilos para la fila inferior (Navegación Principal) */
+.header-bottom-row {
+    background-color: #333; /* Fondo oscuro para la barra de navegación */
+    padding: 0 20px; /* Padding horizontal, el vertical lo controlamos en los li */
+}
+
+/* Estilos para la lista principal del menú */
+.main-navigation ul {
+    list-style: none; /* Quita las viñetas */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Para que los elementos li estén en fila */
+}
+
+/* Estilos para los elementos de lista del menú principal */
+.main-navigation li {
+    margin-right: 20px; /* Espacio entre elementos del menú */
+    padding: 10px 0; /* Padding vertical para dar altura al menú */
+    position: relative; /* Importante para posicionar el submenú absolutamente */
+    /* Alineación de items si el padding vertical no es uniforme, aunque con padding 10px 0 suele bastar */
+    /* display: flex; /* Opcional: si necesitas alinear verticalmente items complejos */
+    /* align-items: center; /* Opcional: si necesitas alinear verticalmente items complejos */
+}
+
+ /* Estilos para el último elemento li (Contacto) para empujarlo a la derecha si usas marginLeft: auto */
+.main-navigation li:last-child {
+     margin-left: auto; /* Empuja el último elemento al final */
+     margin-right: 0; /* Asegura que no tenga margen a la derecha */
+}
+
+/* Estilos para los enlaces dentro del menú principal */
+.main-navigation a {
+    color: #fff; /* Color del texto del menú */
+    text-decoration: none; /* Quita el subrayado */
+    display: block; /* Para que el padding/margen funcione en toda el área del li */
+    /* padding: 10px 0; /* Podrías poner el padding vertical aquí en lugar del li, si prefieres */
+}
+
+ /* Estilos para los enlaces de submenú (display: block y padding para que sean áreas clicables) */
+.main-navigation .sub-menu a {
+    padding: 8px 20px; /* Padding interior de los enlaces de submenú */
+}
+
+
+/* *** ESTILOS PARA LOS SUBMENÚS DESPLEGABLES *** */
+
+/* Por defecto, los submenús están ocultos */
+.main-navigation .sub-menu {
+    list-style: none; /* Quita las viñetas del submenú */
+    padding: 10px 0; /* Padding interior del submenú */
+    margin: 0;
+    position: absolute; /* Posicionamiento absoluto respecto al li padre (relative) */
+    top: 100%; /* Lo coloca justo debajo del borde inferior del li padre */
+    left: 0; /* Lo alinea con el borde izquierdo del li padre */
+    background-color: #444; /* Fondo oscuro para el submenú */
+    min-width: 200px; /* Ancho mínimo para el submenú */
+    z-index: 100; /* Asegura que esté por encima de otros contenidos */
+    border-radius: 0 0 4px 4px; /* Bordes redondeados abajo */
+
+    /* *** ESTA ES LA CLAVE: Inicialmente oculto *** */
+    display: none;
+    /* Opcional: transiciones para que la aparición sea suave */
+    /* transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; */
+    /* opacity: 0; */
+    /* visibility: hidden; */
+}
+
+/* *** ESTA ES LA REGLA MÁGICA: Muestra el submenú cuando se pasa el ratón por encima del LI padre *** */
+.main-navigation li.menu-item-has-children:hover > .sub-menu {
+    /* *** Cambia display: none a block (o flex, grid) *** */
+    display: block;
+    /* Si usas opacity/visibility para transiciones: */
+    /* opacity: 1; */
+    /* visibility: visible; */
+}
+
+ /* Estilos para los li dentro del submenú (sin margen a la derecha, son una lista vertical) */
+ .main-navigation .sub-menu li {
+     margin-right: 0;
+     padding: 0; /* El padding está en el enlace a */
+ }
+
+/* Opcional: Estilo al pasar el ratón por encima de los enlaces de submenú */
+.main-navigation .sub-menu a:hover {
+    background-color: #555; /* Cambia el fondo al pasar el ratón por el enlace */
+}
