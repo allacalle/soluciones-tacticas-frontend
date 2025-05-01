@@ -1,0 +1,75 @@
+/* src/pages/HomePage.css - Estilos para hacer el texto del Hero más visible */
+
+/* ... (Reglas para .home-hero-section se quedan igual) ... */
+.home-hero-section {
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+}
+
+/* Recuadro de texto sobre el carrusel */
+.hero-text-box {
+    /* *** Ajustes para hacerlo más ancho y transparente *** */
+
+    /* Fondo semi-transparente (ajusta la opacidad 0.X) */
+    background-color: rgba(255, 255, 255, 0.8); /* Ejemplo: blanco 60% de opacidad, más transparente que 0.8 */
+    /* Si lo quieres casi transparente pero con un toque: rgba(255, 255, 255, 0.2); */
+
+    /* Añadimos padding para dar espacio interno */
+    padding: 30px; /* Un poco más de padding para que la caja sea más grande */
+
+    /* Quitamos max-width o lo hacemos mucho mayor para que sea más ancho */
+    /* Podemos usar width en porcentaje para que se adapte al ancho de la pantalla */
+    width: 80%; /* Ejemplo: que ocupe el 80% del ancho de su contenedor (home-hero-section) */
+    max-width: 800px; /* Opcional: un ancho máximo para pantallas muy grandes */
+
+
+    text-align: center;
+
+    /* Asegura que esté encima del carrusel */
+    position: relative; /* Ayuda con z-index */
+    z-index: 10; /* Z-index más alto que el del carrusel (z-index: 1) */
+
+    /* Otros estilos opcionales */
+    border-radius: 8px; /* Esquinas redondeadas */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra un poco más pronunciada */
+    color: #333; /* Color del texto si el fondo es claro */
+    font-size: 1.8em; /* Texto un poco más grande para mejor legibilidad */
+    line-height: 1.6; /* Interlineado para mejor legibilidad */
+    
+
+
+}
+
+.hero-text-box p {
+    /* Aplica el grosor de fuente específicamente al párrafo */
+    font-weight: bold; /* Letra en negrita */
+    /* O si usaste un color general en .hero-text-box, puedes repetirlo aquí para asegurar */
+    /* color: #000; */
+    margin-bottom: 0; /* Quita el margen inferior por defecto si es el último elemento */
+}
+
+
+/* Estilos para los enlaces dentro del recuadro de texto */
+.hero-text-box a {
+    /* *** AJUSTES PARA EL COLOR DE LOS ENLACES *** */
+
+    /* Color de los enlaces MUY legible */
+    color: #000; /* Un color oscuro para los enlaces */
+    /* O un color que contraste mucho pero siga siendo legible: color: #007bff; */
+
+
+    text-decoration: underline; /* Mantener o ajustar el subrayado */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); /* Sombra blanca para destacar el texto */
+    /* Opcional: si quieres que los enlaces también sean en negrita */
+    /* font-weight: bold; */
+}
+
+ .hero-text-box a:hover {
+     text-decoration: none;
+ }
+

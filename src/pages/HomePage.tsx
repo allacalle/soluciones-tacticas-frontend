@@ -1,24 +1,60 @@
 // src/pages/HomePage.tsx (o src/pages/HomePage.jsx)
-//import React from 'react';
+
+// Importa el archivo CSS de la página de inicio (si lo tienes)
+import './HomePage.css';
+
+// Importa el componente del carrusel hero
+import ImageCarousel from '../components/ImageCarrousel';
+
+// *** Importa el componente ProductListSection ***
+import ProductListSection from '../components/ProductListSection'; // <-- ¡Añade esta importación!
+
 
 function HomePage() {
   return (
-    // Este div contendrá la sección hero
-    // Le daremos estilos (como la imagen de fondo) después
-    <div className="home-hero-section">
-      {/* Este div es el recuadro de texto que va encima de la imagen */}
-      <div className="hero-text-box">
-        {/* El texto de bienvenida y contacto */}
-        <p>
-          Somos una tienda en Córdoba dedicada a material policial, militar y de aventura. Esta tienda es el escaparate
-          para todos nuestros clientes. Si estás interesado en nuestros productos, ponte en contacto con nosotros
-          mediante <a href="https://wa.me/TU_NUMERO_WHATSAPP" target="_blank" rel="noopener noreferrer">Whatsapp</a>, <a href="mailto:TU_CORREO_ELECTRONICO">correo</a>, o en nuestra página de <a href="/contacto">contacto</a>.
-        </p>
-        {/* Aquí podrías añadir un botón "Explora Productos" */}
-      </div>
-      {/* La imagen de fondo se aplicará mediante CSS al div 'home-hero-section' */}
-    </div>
+    // Este div principal puede ser útil para estructurar la página
+    <div>
+        {/* Sección Hero (Carrusel con texto) */}
+        <div className="home-hero-section"> {/* Asegúrate de que este div existe con esa clase */}
+            <ImageCarousel /> {/* El componente del carrusel */}
+            <div className="hero-text-box"> {/* Asegúrate de que este div existe con esa clase */}
+                {/* El texto de bienvenida y contacto */}
+                <p>
+                  Somos una tienda en Córdoba dedicada a material policial, militar y de aventura. Esta tienda es el escaparate
+                  para todos nuestros clientes. Si estás interesado en nuestros productos, ponte en contacto con nosotros
+                  mediante <a href="https://wa.me/TU_NUMERO_WHATSAPP" target="_blank" rel="noopener noreferrer">Whatsapp</a>, <a href="mailto:TU_CORREO_ELECTRONICO">correo</a>, o en nuestra página de <a href="/contacto">contacto</a>.
+                </p>
+            </div>
+        </div> {/* Fin de la sección Hero */}
+
+        {/* ============================================================== */}
+        {/* *** SECCIÓN DE ÚLTIMOS PRODUCTOS (Usando ProductListSection) *** */}
+        {/* ============================================================== */}
+        {/* Colocamos una instancia de la Estantería Inteligente aquí. */}
+        {/* Le pasamos las props para decirle qué título, subtítulo y qué tipo de productos cargar. */}
+        <ProductListSection
+            title="Últimos Productos" // Prop para el título
+            subtitle="Lo Último en Tecnología Táctica y Equipamiento Militar" // Prop para el subtítulo
+            type="latest" // Prop CLAVE: Le dice que cargue los productos 'latest' (los últimos por fecha)
+            productsPerPage={5} // Prop opcional: Le dice que muestre 10 productos (o el valor por defecto si no la pones)
+        />
+
+        {/* ============================================================== */}
+        {/* *** Opcional: Puedes añadir otras secciones usando el mismo componente *** */}
+        {/* ============================================================== */}
+        {/* Ejemplo para "Los más populares" */}
+        {/* <ProductListSection
+            title="Los más populares"
+            subtitle="Los que más gustan a nuestros clientes"
+            type="popular" // Le decimos que cargue los 'popular'
+            productsPerPage={10}
+        /> */}
+
+
+        {/* Otros contenidos de la página de inicio irían aquí, debajo de las secciones de productos */}
+
+    </div> // Cierre del div principal (si lo usas)
   );
 }
 
-export default HomePage;
+export default HomePage; // Asegúrate de exportar el componente HomePage
