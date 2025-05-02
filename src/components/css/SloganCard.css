@@ -1,0 +1,57 @@
+/* src/components/SloganCard.css - Estilos refinados para la tarjeta de eslogan */
+
+/* Estilos para el contenedor de la tarjeta individual */
+.slogan-card {
+    border: 1px solid #ddd; /* Borde sutil */
+    padding: 25px; /* Más padding interno para dar más aire */
+    text-align: center; /* Centrar contenido (imagen, título, eslogan) */
+    width: 320px; /* Quizás un poco más ancho para acomodar más texto (ajusta si quieres) */
+    /* margin: 10px; */ /* El margen entre tarjetas lo maneja el 'gap' en .slogan-cards-container */
+    border-radius: 8px; /* Esquinas redondeadas */
+    background-color: #fff; /* Fondo blanco para destacar */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* *** AÑADE SOMBRA para que parezca flotar *** */
+
+    /* *** AÑADIMOS FLEXBOX para controlar la disposición interna (icono, título, eslogan) *** */
+    display: flex;
+    flex-direction: column; /* Apila el contenido verticalmente */
+    align-items: center; /* Centra el contenido (icono, título, eslogan) horizontalmente */
+    /* justify-content: space-between; */ /* No es necesario si usamos márgenes para el espacio entre elementos */
+
+    /* Opcional: asegurar una altura mínima si quieres que todas se alineen un poco mejor */
+    /* min-height: 250px; */ /* Ajusta si es necesario */
+}
+
+/* Estilos para el área del Icono */
+.slogan-card-icon {
+    font-size: 3.5em; /* Icono un poco más grande */
+    color: #4b5320; /* Color de marca (o tu color de icono) */
+    margin-bottom: 15px; /* Espacio debajo del icono */
+}
+
+/* Estilos para el Título de la tarjeta */
+.slogan-card-title {
+    font-size: 1.4em; /* Título más grande y legible */
+    color: #333; /* Color oscuro */
+    margin: 0 0 12px 0; /* Más espacio debajo del título */
+    font-weight: bold; /* Título en negrita */
+    /* Asegura que el texto se centre si hay saltos de línea */
+    text-align: center;
+}
+
+/* Estilos para el Texto del eslogan */
+.slogan-card-slogan {
+    font-size: 1em; /* Tamaño de fuente estándar (1em = tamaño base del body) */
+    color: #555; /* Color gris para el texto */
+    margin: 0; /* Quitar margen por defecto del párrafo */
+    line-height: 1.6; /* *** MEJORA LA LEGIBILIDAD con más espacio entre líneas *** */
+    /* Asegura que el texto se centre */
+    text-align: center;
+}
+
+/* Opcional: Estilo al pasar el ratón por encima de la tarjeta */
+.slogan-card:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Sombra un poco más intensa */
+    transform: translateY(-3px); /* Ligeramente levantado */
+    transition: all 0.3s ease-in-out; /* Transición suave */
+    cursor: pointer; /* Indica que es interactiva (aunque no le hemos añadido click aún) */
+}

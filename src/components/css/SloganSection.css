@@ -1,0 +1,39 @@
+/* src/components/SloganSection.css */
+
+/* Estilos para el contenedor principal de la sección de eslóganes */
+.slogan-section {
+    margin: 40px 0; /* Espacio arriba y abajo para separar */
+    padding: 40px 20px; /* Más padding interno para dar aire */
+    /* background-color: #e9ecef; */ /* Puedes comentar o quitar el color de fondo sólido */
+
+    /* *** ESTAS SON LAS PROPIEDADES PARA LA IMAGEN DE FONDO *** */
+    background-image: url('/images/fondoSlogan.jpg'); /* *** CAMBIA 'fondo-slogan.jpg' por el nombre de tu archivo *** */
+    background-size: cover; /* Hace que la imagen cubra toda el área sin distorsionarse */
+    background-position: center; /* Centra la imagen en el área */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+
+    text-align: center; /* Centrar el contenido (si tuviera un título principal) */
+    /* Opcional: Añadir un borde o sombra si quieres más separación */
+    /* border-bottom: 1px solid #ccc; */
+}
+
+/* Estilos para el contenedor de las tarjetas individuales (Flexbox) */
+.slogan-cards-container {
+    display: flex;
+    justify-content: space-evenly; /* O center, space-around... decide cómo distribuir el espacio extra */
+    flex-wrap: nowrap; /* Asegura que se quedan en una línea */
+
+    /* *** AUMENTA EL VALOR DEL GAP NUEVAMENTE *** */
+    gap: 5%; /* Espacio entre las tarjetas - Aumentado a 80px */
+    margin: 0 auto; /* Centra el contenedor de tarjetas */
+
+    /* Opcional: overflow-x si no quieres que se aplasten en ventanas muy estrechas */
+}
+
+
+/* Opcional: Estilos para el título principal de la sección si lo añades */
+/* .slogan-section h2 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #333;
+} */

@@ -1,7 +1,7 @@
 // src/components/Header.tsx (o src/components/Header.jsx)
 //import React from 'react';
 import { Link } from 'react-router-dom'; // Necesitamos Link para la navegación
-import './Header.css'; // <-- Añade esta línea
+import './css/Header.css'; // <-- Añade esta línea
 
 
 function Header() {

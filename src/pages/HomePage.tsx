@@ -1,13 +1,17 @@
 // src/pages/HomePage.tsx (o src/pages/HomePage.jsx)
 
 // Importa el archivo CSS de la página de inicio (si lo tienes)
-import './HomePage.css';
+import './css/HomePage.css';
 
 // Importa el componente del carrusel hero
 import ImageCarousel from '../components/ImageCarrousel';
 
 // *** Importa el componente ProductListSection ***
-import ProductListSection from '../components/ProductListSection'; // <-- ¡Añade esta importación!
+import ProductListSection from '../components/ProductListSection';
+import SloganSection from '../components/SloganSection'; 
+import ReviewCarousel from '../components/ReviewCarousel'; 
+
+
 
 
 function HomePage() {
@@ -39,6 +43,14 @@ function HomePage() {
             productsPerPage={6} // Prop opcional: Le dice que muestre 10 productos (o el valor por defecto si no la pones)
         />
 
+
+        {/* ============================================================== */}
+        {/* *** AÑADIMOS LA SECCIÓN DE ESLÓGANES/TARJETAS AQUÍ *** */}
+        {/* ============================================================== */}
+        {/* Colocamos el componente contenedor de las tarjetas de eslogan */}
+        {/* *** ¡Asegúrate de que esta línea está aquí! *** */}
+        <SloganSection />
+
          {/* ============================================================== */}
         {/* *** SECCIÓN 2: PRODUCTOS DESTACADOS *** */}
         {/* ============================================================== */}
@@ -48,6 +60,11 @@ function HomePage() {
             subtitle="Nuestras recomendaciones" // Un subtítulo para los destacados
             type="featured" // La prop CLAVE: le dice que cargue los productos "featured"
             productsPerPage={6} // Cuántos productos destacados mostrar
+        />
+
+      <ReviewCarousel
+            title="Lo que dicen nuestros clientes" // Opcional: Puedes pasar un título
+            reviewsToShow={2} // Opcional: Cuántas reseñas mostrar a la vez (2 es común)
         />
 
         {/* ============================================================== */}

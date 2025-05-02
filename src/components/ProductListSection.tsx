@@ -1,6 +1,6 @@
 // src/components/ProductListSection.tsx (o src/components/ProductListSection.jsx)
 
-import './ProductListSection.css'
+import './css/ProductListSection.css'
 import  { useEffect, useState } from 'react'; // *** Asegúrate de importar useEffect y useState ***
 
 // Importa la función para obtener productos y la interfaz Product
