@@ -64,7 +64,7 @@ function HomePage() {
 
       <ReviewCarousel
             title="Lo que dicen nuestros clientes" // Opcional: Puedes pasar un título
-            reviewsToShow={2} // Opcional: Cuántas reseñas mostrar a la vez (2 es común)
+            reviewsToShow={3} // Opcional: Cuántas reseñas mostrar a la vez (2 es común)
         />
 
         {/* ============================================================== */}

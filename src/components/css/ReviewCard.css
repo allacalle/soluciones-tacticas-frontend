@@ -1,0 +1,78 @@
+/* src/components/ReviewCard.css - Estilos refinados y profesionales para la tarjeta de reseña */
+
+/* Contenedor principal de la tarjeta de reseña */
+.review-card {
+    border: 1px solid #ddd;
+    border-top: 5px solid #4b5320; /* Borde superior verde */
+    padding: 25px;
+    border-radius: 8px;
+    background-color: #b5d2c5; /* Fondo verde suave de la tarjeta */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+    /* *** MODIFICADO PARA ASEGURAR ALTURA CONSISTENTE Y FLEXIBILIDAD *** */
+    width: 100%; /* Ocupa el 100% del ancho de su contenedor (.slick-slide > div) */
+    height: 100%; /* *** Asegura que estira su altura al 100% del contenedor *** */
+    min-height: 240px; /* Mantén un min-height como respaldo, ajusta si es necesario */
+    min-width: none;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* margin-top: auto; en .reviewer-name ya ayuda a empujar el nombre hacia abajo */
+
+    position: relative;
+}
+
+/* Estilos para el icono de comillas o rating (opcional) */
+/* .review-icon, .review-rating {
+    margin-bottom: 15px;
+    color: #4b5320; // Color de marca
+    font-size: 2em;
+} */
+
+
+/* Estilos para el Texto de la reseña */
+.review-text {
+    font-size: 1.25em;
+    font-style: italic;
+    font-weight: 1000;
+    color: #555;
+    margin: 0 0 15px 0;
+    line-height: 1.6;
+    text-align: center;
+
+    /* *** PROPIEDADES PARA LIMITAR TEXTO A 4 LÍNEAS (verifica que están aquí) *** */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Límite de 4 líneas para Webkit */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 4;
+
+
+    /* Asegura que el texto no fuerce un alto mayor si la limitación de líneas falla */
+    /* Esto puede ayudar a la altura consistente si el text-overflow funciona */
+    /* max-height: calc(1.6em * 4); */ /* Altura máx basada en line-height * líneas */
+
+
+    /* ... (otras propiedades) ... */
+}
+
+/* Estilos para el Nombre del cliente */
+.reviewer-name {
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin: 0;
+    margin-top: auto; /* Empuja el nombre al final del contenedor flex (.review-card) */
+}
+/* Opcional: Estilo al pasar el ratón */
+.review-card:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
