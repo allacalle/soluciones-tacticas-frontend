@@ -1,5 +1,6 @@
 // src/components/ProductListSection.tsx (o src/components/ProductListSection.jsx)
 
+import './ProductListSection.css'
 import  { useEffect, useState } from 'react'; // *** Asegúrate de importar useEffect y useState ***
 
 // Importa la función para obtener productos y la interfaz Product
@@ -129,73 +130,60 @@ function ProductListSection({ title, subtitle, type, categoryId, productIds, pro
      // ======================================================================
     // Bloque 7: Renderizado (Return JSX) - AHORA MOSTRANDO DATOS REALES O ESTADOS
     // ======================================================================
-    return (
-        // Contenedor principal de la sección
-        <section className="product-list-section" style={{ margin: '20px 0' }}> {/* Añadimos un poco de margen para separarlo del hero */}
-            {/* Banner superior de la sección */}
-            <div className="section-banner" style={{ backgroundColor: '#4b5320', color: '#fff', padding: '15px 20px', textAlign: 'center' }}> {/* Estilos del banner */}
-                <h2>{title}</h2> {/* Muestra el título de la prop */}
-                {subtitle && <p style={{ fontSize: '0.9em', opacity: 0.8, margin: 0 }}>{subtitle}</p>} {/* Muestra el subtítulo si existe */}
-            </div>
+// src/components/ProductListSection.tsx (Bloque Return - Elimina los estilos inline de imagen y placeholder)
 
-            {/* Área donde irán los productos o mensajes de estado */}
-            <div className="products-display-area" style={{ padding: '20px', display: 'flex', overflowX: 'auto', gap: '20px' }}> {/* Flexbox para fila horizontal, scroll si muchos, gap para espacio entre productos */}
+// ... (código antes del return se queda igual) ...
 
-                 {/* *** Renderizado Condicional Basado en el Estado *** */}
+return (
+    <section className="product-list-section" style={{ margin: '30px 0' }}>
+        {/* Banner ... */}
+        <div className="section-banner"> {/* ... */} 
+            <h2>{title}</h2> {/* <-- ¡Asegúrate de que esta línea está aquí! */}
+            {subtitle && <p>{subtitle}</p>} {/* <-- ¡Asegúrate de que esta línea está aquí! */}
+        </div>
 
-                 {/* 1. Si está cargando, muestra el mensaje de carga */}
-                 {loading && (
-                     <div style={{ textAlign: 'center', width: '100%' }}>{`Cargando ${title.toLowerCase()}...`}</div>
-                 )}
 
-                 {/* 2. Si hay un error, muestra el mensaje de error */}
-                 {error && (
-                     <div style={{ color: 'red', textAlign: 'center', width: '100%' }}>Error al cargar productos: {error.message}</div>
-                 )}
+        {/* Área de visualización de productos ... */}
+        <div className="products-display-area">
 
-                 {/* 3. Si NO está cargando, NO hay error Y HAY productos, muestra la lista de productos */}
-                 {!loading && !error && products.length > 0 && (
-                     // Itera sobre el array 'products' y crea un elemento por cada producto
-                     products.map((product) => (
-                         // *** Esto es la "tarjeta" de cada producto individual ***
-                         // Puedes refinar mucho más este estilo después
-                         <div key={product.id} className="product-item" style={{ flexShrink: 0, width: '180px', textAlign: 'center', border: '1px solid #eee', padding: '10px', borderRadius: '4px', backgroundColor: '#fff' }}> {/* Estilos de la tarjeta individual */}
-                            {/* Imagen del Producto */}
-                             {product.images && product.images.length > 0 ? (
-                                 <img
-                                     src={product.images[0].src} // Muestra la primera imagen del producto
-                                     alt={product.images[0].alt || product.name} // Texto alternativo
-                                     style={{ width: '100%', height: '150px', objectFit: 'cover', marginBottom: '10px', borderRadius: '4px' }} // Estilos de la imagen
-                                 />
-                             ) : (
-                                 // Placeholder si el producto no tiene imágenes
-                                  <div style={{ width: '100%', height: '150px', backgroundColor: '#ccc', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px' }}>Sin Imagen</div>
-                             )}
+             {/* Renderizado Condicional ... */}
+             {/* ... (mensajes de carga, error, no encontrados se quedan igual) ... */}
 
-                             {/* Nombre del Producto */}
-                             <h3 style={{ fontSize: '1em', margin: '0 0 5px 0', fontWeight: 'normal' }}>{product.name}</h3> {/* Estilos del nombre */}
+             {/* Renderizado de la lista de productos (map) */}
+             {!loading && !error && products.length > 0 && (
+                 products.map((product) => (
+                     <div key={product.id} className="product-item"> {/* Tarjeta */}
+                        {/* Imagen del Producto o Placeholder */}
+                         {product.images && product.images.length > 0 ? (
+                             <img
+                                 src={product.images[0].src}
+                                 alt={product.images[0].alt || product.name}
+                                 // *** ELIMINA ESTA PROP style={...} ***
+                                 // style={{ width: '100%', height: '180px', objectFit: 'cover', marginBottom: '10px', borderRadius: '4px' }}
+                             />
+                         ) : (
+                             // Placeholder
+                              <div className="no-image-placeholder"> {/* *** ELIMINA ESTA PROP style={...} *** */}
+                                  Sin Imagen
+                              </div>
+                         )}
 
-                             {/* Precio del Producto */}
-                             <p style={{ fontSize: '0.9em', color: '#555', margin: 0 }}>{product.price} €</p> {/* Estilos del precio */}
+                         {/* Nombre ... */}
+                         <h3>{product.name}</h3>
 
-                             {/* Opcional: Botón/Enlace "Ver Producto" (usando <Link> de react-router-dom) */}
-                             {/* Asegúrate de importar Link si lo añades aquí */}
-                             {/* import { Link } from 'react-router-dom'; */}
-                             {/* <Link to={`/producto/${product.id}`} style={{ textDecoration: 'none', fontSize: '0.9em', color: '#007bff', marginTop: '10px', display: 'inline-block' }}>Ver más</Link> */}
-                         </div>
-                     ))
-                 )}
+                         {/* Precio ... */}
+                         <p>{product.price} €</p>
 
-                 {/* 4. Si NO está cargando, NO hay error Y la lista de productos está VACÍA, muestra "No encontrados" */}
-                 {!loading && !error && products.length === 0 && (
-                      <div style={{ textAlign: 'center', width: '100%' }}>No se encontraron productos.</div>
-                 )}
+                     </div>
+                 ))
+             )}
 
-            </div>
-        </section>
-    );
-    // NOTA: Los estilos inline en este return son básicos. Lo ideal es moverlos a un archivo CSS después.
+        </div> {/* Cierre de products-display-area */}
+    </section> // Cierre de product-list-section
+);
 }
+
+// ... (export default ProductListSection) ...
 
 // Asegúrate de exportar el componente al final del archivo
 export default ProductListSection;

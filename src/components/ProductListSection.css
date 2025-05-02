@@ -1,0 +1,130 @@
+/* src/components/ProductListSection.css - Estilos optimizados */
+
+/* Estilos para el contenedor principal de la sección */
+.product-list-section {
+    margin: 30px 0; /* Espacio arriba y abajo para separar secciones */
+    background-color: #f8f8f8; /* Un fondo muy claro para la sección si es necesario */
+    border-top: 1px solid #eee; /* Línea separadora superior opcional */
+    border-bottom: 1px solid #eee; /* Línea separadora inferior opcional */
+}
+
+/* Estilos para el banner de título/subtítulo */
+.section-banner {
+    background-color: #4b5320; /* Color verde oscuro similar a la imagen */
+    color: #fff; /* Texto blanco */
+    padding: 15px 20px; /* Espacio interno */
+    text-align: center; /* Centrar texto */
+    margin-bottom: 20px; /* Espacio debajo del banner y antes de la lista de productos */
+}
+
+.section-banner h2 {
+    margin: 0 0 5px 0; /* Espacio debajo del título si hay subtítulo */
+    font-size: 1.8em; /* Tamaño del título */
+    font-weight: bold; /* Grosor del título */
+}
+
+.section-banner p {
+    margin: 0; /* Quitar margen al subtítulo */
+    font-size: 1em; /* Tamaño del subtítulo */
+    opacity: 0.9; /* Un poco transparente para que resalte menos que el título */
+}
+
+/* Estilos para el área que contiene las tarjetas de producto */
+.products-display-area {
+    padding: 0 20px 20px 20px; /* Padding horizontal y abajo, quitar padding superior */
+    display: flex; /* Muestra los productos en fila */
+    overflow-x: auto; /* Añade scroll horizontal si hay muchos productos */
+    gap: 20px; /* Espacio entre las tarjetas de producto */
+
+    /* Distribuye el espacio alrededor de los ítems si no llenan el contenedor */
+    justify-content: space-around;
+
+    /* Opcional: estilos para la barra de scroll en navegadores webkit */
+    scrollbar-width: thin;
+    scrollbar-color: #4b5320 #f8f8f8; /* Color de la barra de scroll */
+}
+
+/* Opcional: Estilo del "pulgar" de la barra de scroll en webkit */
+.products-display-area::-webkit-scrollbar-thumb {
+    background-color: #4b5320;
+    border-radius: 10px;
+}
+
+/* Opcional: Estilo del track de la barra de scroll en webkit */
+.products-display-area::-webkit-scrollbar-track {
+    background: #f8f8f8;
+}
+
+/* Estilos para cada tarjeta individual de producto */
+.product-item {
+    flex-shrink: 0;
+    width: 220px; /* Ancho fijo para cada tarjeta (ajusta según prefieras) */
+    text-align: center;
+    border: 1px solid #ddd; /* Borde un poco más suave */
+    padding: 15px; /* Espacio interno */
+    border-radius: 8px; /* Esquinas un poco más redondeadas */
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra un poco más pronunciada */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Asegura que la altura sea consistente si los nombres tienen diferente número de líneas */
+    min-height: 300px; /* Ejemplo de altura mínima (ajusta si es necesario para alinear) */
+}
+
+/* Estilos para la imagen dentro de la tarjeta */
+.product-item img {
+    width: 100%;
+    height: 180px; /* Misma altura fija */
+    object-fit: cover;
+    margin-bottom: 15px; /* Un poco más de espacio debajo de la imagen */
+    border-radius: 4px;
+}
+
+/* Estilos para el placeholder de imagen */
+.product-item .no-image-placeholder {
+    width: 100%;
+    height: 180px;
+    background-color: #ccc;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+/* Estilos para el nombre del producto (H3) */
+.product-item h3 {
+    font-size: 1.1em; /* Hacer el nombre un poco más grande */
+    margin: 0 0 8px 0; /* Espacio debajo del nombre */
+    font-weight: bold; /* Hacer el nombre en negrita */
+    color: #333; /* Un color oscuro para el nombre */
+    /* Limitar a un número de líneas si es muy largo */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estilos para el precio del producto (P) */
+.product-item p {
+    font-size: 1.2em; /* Hacer el precio más grande que el nombre si quieres destacarlo mucho */
+    color: #007bff; /* EJEMPLO: Usar un color de marca para el precio */
+    /* O si usas Variables CSS globales: color: var(--color-price-sale, var(--color-primary)); */
+    /* O un verde para que se asocie a "comprar": color: #28a745; */
+    margin: 0;
+    font-weight: bold; /* Precio en negrita */
+    margin-top: auto; /* Empuja el precio hacia abajo si el nombre es corto */
+    padding-top: 10px; /* Añadir un poco de padding arriba del precio */
+    border-top: 1px solid #eee; /* Separar el precio con una línea sutil */
+}
+
+/* Opcional: Estilo al pasar el ratón por encima de la tarjeta */
+.product-item:hover {
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25); /* Sombra un poco más intensa al pasar el ratón */
+    transform: translateY(-4px); /* Un poco más levantado */
+    transition: all 0.3s ease-in-out; /* Transición suave */
+}

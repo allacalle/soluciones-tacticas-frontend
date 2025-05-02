@@ -36,22 +36,37 @@ function HomePage() {
             title="Últimos Productos" // Prop para el título
             subtitle="Lo Último en Tecnología Táctica y Equipamiento Militar" // Prop para el subtítulo
             type="latest" // Prop CLAVE: Le dice que cargue los productos 'latest' (los últimos por fecha)
-            productsPerPage={5} // Prop opcional: Le dice que muestre 10 productos (o el valor por defecto si no la pones)
+            productsPerPage={6} // Prop opcional: Le dice que muestre 10 productos (o el valor por defecto si no la pones)
+        />
+
+         {/* ============================================================== */}
+        {/* *** SECCIÓN 2: PRODUCTOS DESTACADOS *** */}
+        {/* ============================================================== */}
+        {/* Esta instancia muestra los productos que marcaste como "Destacados" en WooCommerce */}
+        <ProductListSection
+            title="Productos Destacados" // Un título claro para esta sección
+            subtitle="Nuestras recomendaciones" // Un subtítulo para los destacados
+            type="featured" // La prop CLAVE: le dice que cargue los productos "featured"
+            productsPerPage={6} // Cuántos productos destacados mostrar
         />
 
         {/* ============================================================== */}
-        {/* *** Opcional: Puedes añadir otras secciones usando el mismo componente *** */}
-        {/* ============================================================== */}
-        {/* Ejemplo para "Los más populares" */}
-        {/* <ProductListSection
-            title="Los más populares"
-            subtitle="Los que más gustan a nuestros clientes"
-            type="popular" // Le decimos que cargue los 'popular'
-            productsPerPage={10}
-        /> */}
+        {/* *** SECCIÓN 3: PRODUCTOS EN OFERTA *** */}
+        {/*============================================================= */}
+        {/* Esta instancia muestra los productos que configuraste con precio rebajado en WooCommerce */}
+        <ProductListSection
+            title="Productos en Oferta" // Un título claro para esta sección
+            subtitle="¡Aprovecha nuestras promociones!" // Un subtítulo para las ofertas
+            type="sale" // La prop CLAVE: le dice que cargue los productos "on sale"
+            productsPerPage={6} // Cuántos productos en oferta mostrar
+        />
 
 
-        {/* Otros contenidos de la página de inicio irían aquí, debajo de las secciones de productos */}
+        {/* Aquí irían otras secciones si las añades más adelante */}
+
+
+
+       
 
     </div> // Cierre del div principal (si lo usas)
   );
