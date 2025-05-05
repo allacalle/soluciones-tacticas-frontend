@@ -1,0 +1,190 @@
+/* src/components/css/Footer.css - Estilos para el pie de página (Footer) */
+
+/* ============================================================== */
+/* *** Estilos Generales del Footer *** */
+/* ============================================================== */
+.site-footer {
+    background-color: #333; /* Fondo oscuro (ajusta el color) */
+    color: #fff; /* Color del texto (blanco o claro) */
+    padding: 50px 20px 20px 20px; /* Espacio interno (top, right, bottom, left). Más padding arriba para hacerlo "grande" */
+    font-size: 0.9em; /* Tamaño de fuente general más pequeño */
+    line-height: 1.6; /* Espaciado entre líneas */
+}
+
+/* Contenedor interno para limitar ancho y centrar */
+.footer-content {
+    max-width: 1200px; /* Ancho máximo (ajusta si es necesario) */
+    margin: 0 auto; /* Centra el contenido */
+}
+
+/* ============================================================== */
+/* *** Sección Principal (Columnas) *** */
+/* ============================================================== */
+.footer-main {
+    display: flex; /* Usamos Flexbox para las columnas */
+    flex-wrap: wrap; /* Permite que las columnas salten de línea en pantallas pequeñas */
+    justify-content: space-between; /* Distribuye el espacio entre las columnas */
+    gap: 30px; /* Espacio entre columnas y filas cuando se apilan */
+    margin-bottom: 40px; /* Espacio entre la sección principal y la inferior (copyright) */
+}
+
+/* Estilo base para cada columna (Flexbox) */
+.footer-main > div {
+    flex: 1; /* Permite que cada columna crezca y ocupe espacio */
+    min-width: 150px; /* Ancho mínimo antes de apilarse (ajusta) */
+    /* Si quieres columnas de ancho fijo o porcentual específico, usa flex-basis o width */
+    /* flex-basis: 200px; */
+    /* width: 20%; */
+}
+
+/* Columna del logo/información */
+.footer-brand-info {
+    flex-basis: 200px; /* Le damos un ancho base un poco mayor al logo/info */
+    min-width: 200px; /* Asegura que no se haga demasiado estrecho */
+}
+
+/* Estilo para el enlace del logo */
+.footer-brand-info .footer-logo-link {
+    display: inline-block; /* Para que el margen inferior funcione */
+    margin-bottom: 15px; /* Espacio debajo del logo */
+}
+
+/* Estilo para la imagen del logo */
+.footer-brand-info .footer-logo {
+    max-width: 150px; /* Ancho máximo del logo (ajusta) */
+    height: auto; /* Mantiene aspecto */
+}
+
+/* Estilo para la descripción (opcional) */
+.footer-brand-info .footer-description {
+    margin-top: 0;
+    color: #bbb; /* Un tono ligeramente más claro que el texto principal */
+}
+
+
+/* Estilos para los títulos de columna (h3) */
+.footer-main h3 {
+    color: #b5d2c5; /* Color de los títulos de columna (ajusta) */
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea sutil debajo del título */
+    padding-bottom: 5px;
+}
+
+/* Estilos para las listas de enlaces (ul) */
+.footer-main ul {
+    list-style: none; /* Quita las viñetas */
+    padding: 0; /* Quita el padding por defecto */
+    margin: 0; /* Quita el margen por defecto */
+}
+
+/* Estilos para los elementos de lista (li) */
+.footer-main ul li {
+    margin-bottom: 8px; /* Espacio entre enlaces */
+}
+
+/* Estilos para los enlaces (a) */
+.footer-main ul li a {
+    color: #fff; /* Color de los enlaces */
+    text-decoration: none; /* Quita el subrayado */
+    transition: color 0.2s ease-in-out; /* Transición suave al pasar ratón */
+}
+
+/* Estilo hover para los enlaces */
+.footer-main ul li a:hover {
+    color: #b5d2c5; /* Cambia color al pasar ratón (ajusta) */
+    text-decoration: underline; /* Añade subrayado al pasar ratón */
+}
+
+
+/* Estilos específicos para la columna de contacto (si necesitas ajustar algo) */
+.footer-contact p {
+    margin-bottom: 8px; /* Espacio entre líneas de contacto */
+}
+
+.footer-contact a {
+    color: #fff; /* Color de los enlaces de contacto (email) */
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.footer-contact a:hover {
+    color: #b5d2c5; /* Color hover */
+    text-decoration: underline;
+}
+
+
+/* Estilos para la columna de redes sociales */
+.footer-social .social-icons {
+     display: flex; /* Usa flexbox para los iconos */
+     gap: 15px; /* Espacio entre iconos */
+     margin-top: 10px; /* Espacio encima de los iconos */
+}
+
+/* Estilos para los enlaces de redes sociales (ajustar para iconos reales) */
+.footer-social .social-icons a {
+     color: #fff; /* Color de los iconos (ajusta) */
+     font-size: 1.5em; /* Tamaño de los iconos (ajusta) */
+     text-decoration: none;
+     transition: color 0.2s ease-in-out;
+}
+
+.footer-social .social-icons a:hover {
+    color: #b5d2c5; /* Color hover */
+}
+
+/* ============================================================== */
+/* *** Sección Inferior (Copyright) *** */
+/* ============================================================== */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Línea separadora */
+    padding-top: 20px; /* Espacio encima del copyright */
+    text-align: center; /* Centra el texto de copyright */
+    color: #bbb; /* Color del texto de copyright */
+}
+
+.footer-bottom p {
+    margin: 0; /* Quita el margen por defecto del párrafo */
+}
+
+
+/* ============================================================== */
+/* *** Media Queries para Responsividad *** */
+/* ============================================================== */
+
+/* En pantallas más pequeñas, apilar las columnas */
+@media (max-width: 768px) {
+    .footer-main {
+        flex-direction: column; /* Apila las columnas verticalmente */
+        gap: 40px; /* Aumenta el espacio entre columnas apiladas */
+    }
+
+    /* Ajusta el ancho base de las columnas apiladas */
+    .footer-main > div {
+        min-width: 100%; /* Ocupa todo el ancho disponible */
+    }
+
+    /* Centra el texto de las columnas apiladas */
+    .footer-brand-info,
+    .footer-links-col,
+    .footer-contact,
+    .footer-social {
+        text-align: center;
+    }
+
+    /* Centra el enlace del logo en pantallas pequeñas */
+    .footer-brand-info .footer-logo-link {
+         display: block;
+         text-align: center;
+    }
+
+    /* Centra los iconos sociales en pantallas pequeñas */
+    .footer-social .social-icons {
+        justify-content: center;
+    }
+
+     /* Ajusta el padding en móviles si es necesario */
+     .site-footer {
+         padding: 30px 15px 15px 15px;
+     }
+}

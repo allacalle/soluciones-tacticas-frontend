@@ -1,154 +1,114 @@
-/* src/components/ReviewCarousel.css - Estilos para el carrusel de reseñas (Adaptado y Refinado para react-slick) */
+/* src/components/ReviewCarousel.css - Estilos para el carrusel de reseñas */
 
-/* ============================================================== */
-/* *** Contenedor principal de la sección *** */
-/* ============================================================== */
+/* Contenedor principal de la sección */
 .review-carousel-section {
     margin: 40px 0;
     padding: 40px 20px;
-    /* Fondo de la sección: Puedes mantener un color claro o usar uno que complemente el verde de las tarjetas */
-    /* background-color: #f8f8f8; */ /* O un gris casi blanco */
-    /* background-color: #f0f0f0; */ /* El gris claro que tenías antes */
-    background-image: url('/images/fondoReviews2.png'); /* *** Reemplaza con la ruta correcta a tu imagen *** */
+    background-image: url('/images/fondoReviews2.png'); /* Fondo con imagen */
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center 30%; /* Prueba con 60%, 70%, 80%, etc. hasta que las caras se vean bien */
-
-
-
-    text-align: center; /* Centrar el contenido (título, carrusel, enlace) */
-
-    /* Estilos para el título de la sección si lo quieres */
-    /* .review-carousel-section h2 {
-        margin-bottom: 30px;
-        color: #333;
-        font-size: 2em;
-    } */
+    background-position: center 30%; /* Ajuste de posición de la imagen */
+    text-align: center; /* Centrar contenido */
 }
 
+/* Estilos para el título de la sección */
 .review-carousel-section h2 {
-    margin-bottom: 30px; /* Espacio debajo del título */
-    color: white; /* *** Color blanco para que resalte *** */
-    font-size: 2em; /* Ajusta tamaño si es necesario */
-    /* text-shadow: 1px 1px 2px rgba(0,0,0,0.5); */ /* Opcional: una pequeña sombra para mejor legibilidad */
+    margin-bottom: 30px;
+    color: white; /* Color blanco para resaltar */
+    font-size: 2em;
 }
 
 /* ============================================================== */
-/* *** ESTILOS PARA REACT-SLICK (COMPONENTES <Slider>) *** */
+/* ESTILOS PARA REACT-SLICK */
 /* ============================================================== */
-/* React-slick usa sus propias clases por defecto (.slick-slider, .slick-list, .slick-track, .slick-slide) */
-/* Los estilos base se importan desde 'slick-carousel/slick/slick.css' y 'slick-theme.css'. */
-/* Overrides para que se integre mejor con nuestro diseño. */
 
-
-/* Contenedor principal del Slider (<Slider> componente) */
+/* Contenedor principal del Slider */
 .slick-slider {
-     max-width: 75%; /* Limita el ancho máximo del carrusel */
-     margin: 0 auto; /* Centra el carrusel horizontalmente */
-     /* position: relative; */ /* Slick ya lo maneja */
-
-     /* Opcional: Si notas bordes o padding extra del tema por defecto de Slick, puedes intentar quitarlos */
-     /* box-sizing: border-box; */
+    max-width: 75%; /* Limita el ancho */
+    margin: 0 auto; /* Centra */
 }
 
-/* Contenedor de la lista de diapositivas (.slick-list) */
-/* Este div tiene overflow: hidden y contiene el track */
+/* Contenedor de la lista de diapositivas */
 .slick-list {
-    /* Opcional: Ajusta el padding a los lados para crear espacio antes de la primera y después de la última tarjeta visible */
-    /* El padding del .slick-slide > div crea el gap ENTRE tarjetas. */
-     padding: 0 !important; /* !important a veces necesario para anular estilos de tema por defecto */
-
-     /* Opcional: Si el carrusel se corta a los lados, puedes necesitar padding en el .slick-list */
-     /* Por ejemplo, si el gap entre slides es 20px y slidesToShow es 3, quizás necesitas un padding lateral */
-     /* El padding del .slick-slide > div (0 10px) ya crea un gap de 20px, así que 0 padding aquí debería estar bien */
-
+    padding: 0 !important; /* Elimina padding por defecto si lo hay */
 }
 
-/* Contenedor del track (.slick-track) */
-/* Este div tiene display: flex y se desplaza */
+/* Contenedor del track (manejado por Slick) */
 .slick-track {
-    /* display: flex; */ /* Slick ya lo maneja */
-    /* margin: 0; */ /* Asegura que no hay márgenes extra del tema */
-    /* padding: 0; */ /* Asegura que no hay padding extra del tema */
+    /* Estilos por defecto de Slick */
 }
 
 
 /* Cada diapositiva individual (.slick-slide) */
-/* Este div envuelve cada child (ReviewCard) */
+/* Contenedor que envuelve tu ReviewCard */
 .slick-slide {
-    /* float: left; */ /* Slick lo usa, no anular a menos que sea necesario */
     /* height: 100%; */ /* Slick lo usa para igualar alturas */
-    /* min-height: 1px; */ /* Slick lo usa */
+    height: auto; /* Permitir que la altura se ajuste */
+    min-height: auto; /* Asegurar que no haya min-height conflictivo */
+    margin-bottom: 0; /* Eliminar margen inferior por defecto */
 
-    /* Opcional: Ajustes de padding o margin aquí si no usas el div interno */
-    /* box-sizing: border-box; */
+    /* *** SE ELIMINA EL PADDING REDUNDANTE DE AQUÍ *** */
+    /* padding: 0 10px; */
 
 }
 
+/* Div interno dentro de cada .slick-slide (contiene la ReviewCard) */
+/* Aquí se define el espacio entre tarjetas y se controlan las alturas */
 .slick-slide > div {
-    /* Padding para crear el gap entre tarjetas */
+    /* Padding para crear el gap horizontal entre tarjetas */
     padding: 0 10px; /* 10px a cada lado -> 20px de espacio total entre centros */
 
-    /* *** ASEGURAR QUE ESTIRA LA ALTURA PARA QUE LA TARJETA DENTRO ESTIRE TAMBIÉN *** */
-    display: flex !important; /* Asegura que es flex para alinear ReviewCard */
-    justify-content: center !important; /* Centra ReviewCard horizontalmente */
-    align-items: stretch !important; /* *** Permite que ReviewCard (child) estire verticalmente *** */
-    height: 100%; /* *** Este div ocupa el 100% de la altura del .slick-slide *** */
-
-
-    /* ... (Otras propiedades) ... */
+    /* Asegurar que la ReviewCard dentro estire a la altura disponible */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: stretch !important; /* Permite que ReviewCard (child) estire */
+    height: 100%; /* Ocupa el 100% de la altura del .slick-slide */
 }
 
-/* ============================================================== */
-/* *** Eliminar o Sobrescribir Estilos por Defecto de Slick Theme *** */
-/* ============================================================== */
 
-/* Ocultar las flechas de navegación por defecto si arrows: false en JS */
-/* Si habilitas arrows: true, puedes quitar este display: none; y estilizar .slick-prev, .slick-next */
+/* Eliminar estilos de flechas y puntos por defecto */
 .slick-prev,
-.slick-next {
-    display: none !important; /* Oculta las flechas por defecto */
-}
-
-/* Ocultar los puntos de navegación por defecto si dots: false en JS */
-/* Si habilitas dots: true, puedes quitar este display: none; y estilizar .slick-dots */
+.slick-next,
 .slick-dots {
-    display: none !important; /* Oculta los puntos por defecto */
+    display: none !important; /* Oculta navegación por defecto */
 }
 
-/* Opcional: Eliminar estilos de borde/outline del tema por defecto */
-/* slick-theme.css a veces añade outlines o bordes. */
+/* Eliminar outlines de foco por defecto */
 .slick-list,
-.slick-slider {
-    outline: none !important;
-}
+.slick-slider,
 .slick-slide:focus {
     outline: none !important;
 }
 
 
 /* ============================================================== */
-/* *** Estilos para el Enlace a Google Reviews *** */
+/* Estilos para el Enlace a Google Reviews */
 /* ============================================================== */
 
-/* Contenedor para el enlace a Google Reviews */
+/* Contenedor para el enlace */
 .reviews-google-link-container {
-    margin-top: 30px; /* Espacio superior, un poco más que el padding de la sección */
+    margin-top: 30px;
     text-align: center;
 }
 
-/* Estilos para el enlace */
+/* Estilo del enlace dentro del contenedor (si necesitas un color específico) */
+.reviews-google-link-container a {
+    color: azure; /* Color del enlace en este contenedor */
+}
+
+/* Estilos principales para el enlace */
 .reviews-google-link {
-    color: #4b5320; /* Color de marca */
+    color: #4b5320; /* Color de marca (puede ser sobrescrito por el color en .reviews-google-link-container a) */
     text-decoration: none;
     font-weight: bold;
     font-size: 1.1em;
     transition: color 0.3s ease;
 }
+
+/* Estilo hover para el enlace */
 .reviews-google-link:hover {
     text-decoration: underline;
-    color: #3a421a; /* Tono más oscuro al pasar el ratón */
+    color: #c9f115; /* Color hover */
 }
 
-/* --- Estilos de la ReviewCard (.review-card) se quedan en ReviewCard.css --- */
-/* Asegúrate de que ReviewCard.css tiene el background-color verdecito y width: 100%; max-width: 480px; */
+/* Nota: Los estilos de la ReviewCard (.review-card, .review-text, etc.) están en ReviewCard.css */

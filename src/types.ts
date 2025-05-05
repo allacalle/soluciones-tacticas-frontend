@@ -42,3 +42,21 @@ export interface ReviewData {
     // date?: string; // Si incluyes la fecha de la reseña
     // source?: string; // Ej: "Google", "Facebook"
 }
+
+export interface Brand { // Puedes renombrarla a 'Category' si prefieres que refleje el endpoint usado inicialmente
+    id: number;
+    name: string; // El nombre de la marca
+    slug: string; // El slug de la marca (útil para URLs si las necesitas)
+    description: string; // La descripción de la marca
+    count: number; // Número de productos asociados a esta marca/categoría
+    image: { // Objeto con información de la imagen asociada a la marca/categoría
+        id: number;
+        src: string; // *** La URL de la imagen del logo de la marca ***
+        name: string;
+        alt: string;
+    } | null; // Puede ser null si la marca/categoría no tiene imagen asignada
+    parent: number; // ID del padre si es una subcategoría
+    // Otros campos que la API pueda devolver, si los necesitas
+    // taxonomy?: string; // Nombre de la taxonomía (ej: 'product_cat' o 'brand')
+}
+

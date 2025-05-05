@@ -10,6 +10,8 @@ import ImageCarousel from '../components/ImageCarrousel';
 import ProductListSection from '../components/ProductListSection';
 import SloganSection from '../components/SloganSection'; 
 import ReviewCarousel from '../components/ReviewCarousel'; 
+import BrandCarousel from '../components/BrandCarousel'; // *** Importa el componente ***
+import Footer from '../components/Footer';
 
 
 
@@ -80,8 +82,17 @@ function HomePage() {
 
 
         {/* Aquí irían otras secciones si las añades más adelante */}
+        <BrandCarousel
+                 title="Nuestras Marcas Destacadas" // Puedes ponerle un título a la sección
+                 brandsToShow={4} // Número de logos a mostrar a la vez (ajusta este número)
+                 autoPlayInterval={4000} // Intervalo de rotación en ms (ajusta este tiempo)
+        />
 
-
+      
+          {/* ============================================================== */}
+          {/* *** SECCIÓN DE PIE DE PÁGINA (Footer) *** */}
+          {/* ============================================================== */}
+          <Footer />
 
        
 
