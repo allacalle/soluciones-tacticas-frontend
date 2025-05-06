@@ -1,169 +1,290 @@
-// src/components/Header.tsx (o src/components/Header.jsx)
-//import React from 'react';
-import { Link } from 'react-router-dom'; // Necesitamos Link para la navegación
-import './css/Header.css'; // <-- Añade esta línea
+// src/components/Header.tsx
+
+import React, { useState, useEffect } from 'react'; // *** Importamos useState ***
+import { Link, useNavigate } from 'react-router-dom'; // Necesitamos Link para la navegación
+import './css/Header.css'; // Importamos los estilos CSS para el header
+import storeLogo from '../assets/logo/header-logo.jpg'; // *** Asegúrate de la ruta correcta a tu logo ***
+
+import { getProducts } from '../api/wooApi';
+import { Product } from '../types'; // Asegúrate de que la ruta es correcta
 
 
 function Header() {
-    // ... código anterior (sección superior del header, búsqueda, redes) ...
+     // *** Declaramos el estado para guardar el término de búsqueda ***
+     const [searchTerm, setSearchTerm] = useState('');
+     // *** Obtenemos la función de navegación ***
+    const navigate = useNavigate(); // Llama al hook dentro del componente
+
+    // *** Estado para las sugerencias de búsqueda (lista de productos) ***
+    const [searchResults, setSearchResults] = useState<Product[]>([]); // Usamos la interfaz Product
+    // *** Estado para indicar si se está buscando (ej: para mostrar un spinner) ***
+    const [isSearching, setIsSearching] = useState(false);
+
+     // *** Función que se ejecuta cuando el valor del input cambia ***
+     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+         setSearchTerm(event.target.value); // Actualiza el estado con el nuevo valor del input
+         // console.log("Current search term:", event.target.value); // Opcional: para ver en consola cómo se actualiza
+     };
+
+      // *** Función para manejar el envío del formulario de búsqueda ***
+    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // *** Previene el comportamiento por defecto del formulario (recargar la página) ***
+
+        // Solo navegar si hay algo escrito en el campo de búsqueda
+        if (searchTerm.trim()) { // .trim() quita espacios en blanco al inicio/final
+            // *** Navegamos a la página de búsqueda, pasando el término en la URL ***
+            // Usaremos una ruta '/search' con un parámetro de consulta 's' (search)
+            navigate(`/search?s=${encodeURIComponent(searchTerm.trim())}`);
+            // encodeURIComponent asegura que caracteres especiales en el término de búsqueda sean manejados correctamente en la URL
+        }
+        // Limpiar sugerencias al enviar el formulario con Enter
+        setSearchResults([]);
+    };
+
+    // *** useEffect para la búsqueda en tiempo real con debouncing ***
+    useEffect(() => {
+        // No buscar si el término está vacío
+        if (!searchTerm.trim()) {
+            setSearchResults([]); // Limpia resultados si el campo está vacío
+            setIsSearching(false); // Deja de indicar que busca
+            return; // Salimos del efecto
+        }
+
+        setIsSearching(true); // Indicamos que empieza la búsqueda
+
+
+        // *** Implementación del Debouncing ***
+        // Limpiamos cualquier timeout anterior para reiniciar el contador
+        const debounceTimer = setTimeout(async () => {
+            setIsSearching(true); // Indicamos que la búsqueda ha comenzado
+            console.log(`Workspaceing suggestions for: "${searchTerm}"`); // Log para depuración
+
+            try {
+                // Llamamos a getProducts con el término de búsqueda
+                // Podemos limitar per_page para no traer demasiadas sugerencias
+                const result = await getProducts(1, 5, undefined, searchTerm.trim()); // Busca 10 productos que coincidan
+
+                setSearchResults(result.products); // Guardamos los productos encontrados en el estado
+                console.log("Suggestions fetched:", result.products); // Log de resultados
+
+            } catch (error) {
+                console.error("Error fetching search suggestions:", error);
+                setSearchResults([]); // Limpiamos resultados en caso de error
+                // Puedes añadir un estado de error para sugerencias si quieres
+            } finally {
+                setIsSearching(false); // La búsqueda ha terminado
+            }
+
+        }, 300); // *** Tiempo de espera del Debouncing (300ms) ***
+
+
+        // Función de limpieza del useEffect: se ejecuta al desmontar o antes de que el efecto se ejecute de nuevo
+        // Limpia el timeout si el término de búsqueda cambia antes de que expire el timer
+        return () => {
+            clearTimeout(debounceTimer);
+            console.log("Debounce timer cleared."); // Log de limpieza
+        };
+
+    }, [searchTerm]); // *** Dependencia: Este efecto se ejecuta cada vez que 'searchTerm' cambia ***
+
+        // *** Función para manejar el clic en una sugerencia ***
+        const handleSuggestionClick = (productSlug: string) => {
+            // Limpiamos el término de búsqueda y los resultados al seleccionar una sugerencia
+            setSearchTerm('');
+            setSearchResults([]);
+            // Navegamos a la página individual del producto usando su slug
+            navigate(`/productos/${productSlug}`); // *** Asegúrate de que tu ruta de producto individual usa /productos/:slug ***
+        };
 
     return (
-        <header className="site-header">
-            {/* Fila Superior del Header (Logo, Búsqueda, Redes) - Mantén el código anterior */}
-            <div className="header-top-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#f8f8f8' }}>
-                {/* ... código del logo, nombre, búsqueda, redes ... */}
-                 {/* Ejemplo de Sección del Logo y Nombre (Enlace a Home) */}
-                <div className="site-branding">
-                    <Link to="/" style={{ textDecoration: 'none', color: '#333' }}>
-                         {/* <img src="/path/to/your/logo.png" alt="Soluciones Tacticas Logo" style={{ height: '40px', verticalAlign: 'middle', marginRight: '10px' }} /> */}
-                        <span className="site-title" style={{ fontWeight: 'bold', fontSize: '1.5em', verticalAlign: 'middle' }}>Soluciones Tacticas</span>
-                    </Link>
-                </div>
-                 {/* Sección de la Barra de Búsqueda */}
-                <div className="header-search">
-                        <input type="text" placeholder="Buscar productos..." style={{ padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
-                </div>
-                {/* Sección de Redes Sociales */}
-                <div className="header-social">
-                    <a href="https://www.facebook.com/tupagina" target="_blank" rel="noopener noreferrer" style={{ marginRight: '10px' }}>Facebook</a>
-                    <a href="https://www.instagram.com/tuperfil" target="_blank" rel="noopener noreferrer" style={{ marginRight: '10px' }}>Instagram</a>
-                    <a href="https://wa.me/TUNUMERO" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                </div>
+    <header className="site-header">
+    {/* Fila Superior del Header (Logo, Búsqueda, Redes) */}
+    <div className="header-top-row"> {/* Clase para estilizar esta fila */}
+     {/* Sección del Logo y Nombre (Enlace a Home) */}
+        <div className="site-branding"> {/* Clase para estilizar el logo/nombre */}
+             <Link to="/" className="site-title-link"> {/* Clase para estilizar el enlace */}
+             <img src={storeLogo} alt="Soluciones Tacticas Logo" className="site-logo" />
+            {/* <img src={storeLogo} alt="Soluciones Tacticas Logo" className="site-logo" /> */}
+             </Link>
+             {/*<span className="site-title">Soluciones Tacticas</span> */}
             </div>
+             {/* Sección de la Barra de Búsqueda */}
+             <div className="header-search">
+                    <form onSubmit={handleSearchSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Buscar productos..."
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={handleSearchInputChange}
+                        />
+                        {/* Opcional: Botón de búsqueda si no quieres depender solo de Enter */}
+                        {/* <button type="submit" className="search-button">Buscar</button> */}
+                    </form>
 
-            {/* Fila Inferior del Header: Navegación Principal */}
-            <div className="header-bottom-row" style={{ backgroundColor: '#333', padding: '0 20px' }}> {/* Padding vertical 0 para que el padding lo controle el li */}
-                <nav className="main-navigation">
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex' }}>
+                                        {/* ============================================================== */}
+                                        {/* *** Contenedor para las SUGERENCIAS de búsqueda *** */}
+                    {/* Se muestra si no está buscando Y hay resultados */}
+                    {/* ============================================================== */}
+                     {/* Mostramos el spinner si está buscando */}
+                     {isSearching && (
+                         <div className="search-suggestions-dropdown"> {/* Usamos el mismo contenedor para el spinner */}
+                             <div className="search-loading">Buscando...</div>
+                         </div>
+                     )}
 
-                        {/* Enlace a Inicio */}
-                        <li style={{ marginRight: '20px', padding: '10px 0' }}> {/* Añadimos padding aquí */}
-                            <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Inicio</Link>
-                        </li>
-
-                        {/* *** ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS *** */}
-
-                        {/* Categoría Principal: Equipación */}
-                        <li className="menu-item-has-children" style={{ marginRight: '20px', position: 'relative', padding: '10px 0' }}> {/* position: relative es clave para el dropdown absoluto */}
-                             <Link to="/productos/equipacion" style={{ color: '#fff', textDecoration: 'none' }}>Equipación</Link> {/* Enlace a la categoría padre */}
-                             {/* Submenú Desplegable de Equipación */}
-                             {/* Este ul inicialmente estará oculto y se mostrará con CSS/JS al pasar el ratón o hacer clic */}
-                             <ul className="sub-menu" style={{
-                                 listStyle: 'none', padding: '10px 0', margin: 0,
-                                 position: 'absolute', top: '100%', left: 0, // Posiciona el submenú debajo del padre
-                                 backgroundColor: '#444', // Fondo del submenú
-                                 minWidth: '200px', // Ancho mínimo del submenú
-                                 zIndex: 100, // Asegura que esté por encima de otros contenidos
-                             }}>
-                                 <li><Link to="/productos/iluminacion" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Iluminación</Link></li>
-                                 <li><Link to="/productos/equipo-sanitario" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Equipo sanitario</Link></li>
-                                 <li><Link to="/productos/pouches-chaleco-cinturon" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Pouches chaleco/cinturón</Link></li>
-                                  <li><Link to="/productos/cinturones-hebillas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Cinturones/hebillas</Link></li>
-                                   <li><Link to="/productos/mochilas-bolsas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Mochilas/bolsas</Link></li>
-                                    <li><Link to="/productos/equipo-proteccion" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Equipo protección</Link></li>
-                                     <li><Link to="/productos/guantes" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Guantes</Link></li>
-                                      <li><Link to="/productos/navajas-cuchillos" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Navajas/cuchillos</Link></li>
-                                       <li><Link to="/productos/entrenamiento" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Entrenamiento</Link></li>
-                                        <li><Link to="/productos/fundas-complementos" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Fundas complementos</Link></li>
+                     {/* Mostramos la lista de sugerencias si NO está buscando Y hay resultados */}
+                     {!isSearching && searchResults.length > 0 && (
+                         <div className="search-suggestions-dropdown"> {/* Clase para estilizar el dropdown */}
+                             <ul> {/* Lista de sugerencias */}
+                                 {searchResults.map(product => (
+                                     // Cada sugerencia es un elemento clickeable
+                                     <li
+                                         key={product.id}
+                                         className="search-suggestion-item" // Clase para estilizar cada item
+                                         onClick={() => handleSuggestionClick(product.slug)} // Al hacer clic, navegar al producto
+                                     >
+                                         {/* Puedes mostrar la imagen pequeña si está disponible */}
+                                         {product.images && product.images[0]?.src && (
+                                             <img src={product.images[0].src} alt={product.name} className="suggestion-image"/>
+                                         )}
+                                         <span className="suggestion-name">{product.name}</span> {/* Nombre del producto */}
+                                     </li>
+                                 ))}
                              </ul>
-                        </li>
+                         </div>
+                     )}
 
-                        {/* Categoría Principal: Armería */}
-                        <li className="menu-item-has-children" style={{ marginRight: '20px', position: 'relative', padding: '10px 0' }}>
-                            <Link to="/productos/armeria" style={{ color: '#fff', textDecoration: 'none' }}>Armería</Link>
-                            {/* Submenú Desplegable de Armería */}
-                             <ul className="sub-menu" style={{
-                                 listStyle: 'none', padding: '10px 0', margin: 0,
-                                 position: 'absolute', top: '100%', left: 0,
-                                 backgroundColor: '#444',
-                                 minWidth: '200px',
-                                 zIndex: 100,
-                                  
-                             }}>
-                                 <li><Link to="/productos/spray-defensa" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Spray de defensa</Link></li>
-                                  <li><Link to="/productos/complementos-armas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Complementos armas</Link></li>
-                                   <li><Link to="/productos/armas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Armas</Link></li>
-                                    <li><Link to="/productos/defensas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Defensas</Link></li>
-                                     <li><Link to="/productos/limpieza-armas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Limpieza armas</Link></li>
-                                      <li><Link to="/productos/grilletes" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Grilletes</Link></li>
-                                       <li><Link to="/productos/fundas-arma" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Fundas arma</Link></li>
-                                        <li><Link to="/productos/cargadores" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Cargadores</Link></li>
-                             </ul>
-                        </li>
+                    {/* Opcional: Mostrar mensaje "No results found" si NO está buscando, el término NO está vacío, Y searchResults está vacío */}
+                     {!isSearching && searchTerm.trim() && searchResults.length === 0 && (
+                         <div className="search-suggestions-dropdown"> {/* Usamos el mismo contenedor */}
+                              <div className="no-results">No se encontraron resultados.</div>
+                         </div>
+                     )}
 
-                        {/* Categoría Principal: Vestuario */}
-                        <li className="menu-item-has-children" style={{ marginRight: '20px', position: 'relative', padding: '10px 0' }}>
-                             <Link to="/productos/vestuario" style={{ color: '#fff', textDecoration: 'none' }}>Vestuario</Link>
-                              {/* Submenú Desplegable de Vestuario */}
-                             <ul className="sub-menu" style={{
-                                 listStyle: 'none', padding: '10px 0', margin: 0,
-                                 position: 'absolute', top: '100%', left: 0,
-                                 backgroundColor: '#444',
-                                 minWidth: '200px',
-                                 zIndex: 100,
-                             }}>
-                                 <li><Link to="/productos/pantalones" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Pantalones</Link></li>
-                                  <li><Link to="/productos/botas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Botas</Link></li>
-                                   <li><Link to="/productos/chaquetas" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Chaquetas</Link></li>
-                                    <li><Link to="/productos/cabeza" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Cabeza</Link></li>
-                             </ul>
-                        </li>
+                    
 
-                         {/* Categoría Principal: Outdoor/Bushcraft */}
-                        <li className="menu-item-has-children" style={{ marginRight: '20px', position: 'relative', padding: '10px 0' }}>
-                             <Link to="/productos/outdoor-bushcraft" style={{ color: '#fff', textDecoration: 'none' }}>Outdoor/Bushcraft</Link>
-                              {/* Submenú Desplegable */}
-                             <ul className="sub-menu" style={{ listStyle: 'none', padding: '10px 0', margin: 0, position: 'absolute', top: '100%', left: 0, backgroundColor: '#444', minWidth: '200px', zIndex: 100 }}>
-                                 <li><Link to="/productos/cuchillos-outdoor" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Cuchillos</Link></li>
-                                 <li><Link to="/productos/pedernales" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Pedernales</Link></li>
-                                 <li><Link to="/productos/utensilios-outdoor" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Utensilios</Link></li>
-                                 <li><Link to="/productos/iluminacion-outdoor" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Iluminación</Link></li>
-                                 <li><Link to="/productos/varios-outdoor" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Varios</Link></li>
-                             </ul>
-                        </li>
+                </div> {/* Cierre .header-search */}
+     {/* Sección de Redes Sociales */}
+             <div className="header-social"> {/* Clase para estilizar las redes sociales */}
+    {/* Clases para estilizar los enlaces de redes sociales e iconos si los usas */}
+                <a href="https://www.facebook.com/tupagina" target="_blank" rel="noopener noreferrer" className="social-link">Facebook</a>
+                <a href="https://www.instagram.com/tuperfil" target="_blank" rel="noopener noreferrer" className="social-link">Instagram</a>
+                <a href="https://wa.me/TUNUMERO" target="_blank" rel="noopener noreferrer" className="social-link">WhatsApp</a>
+            </div>
+        </div>
 
-                        {/* Categoría Principal: Militar */}
-                         <li className="menu-item-has-children" style={{ marginRight: '20px', position: 'relative', padding: '10px 0' }}>
-                             <Link to="/productos/militar" style={{ color: '#fff', textDecoration: 'none' }}>Militar</Link>
-                              {/* Submenú Desplegable */}
-                             <ul className="sub-menu" style={{ listStyle: 'none', padding: '10px 0', margin: 0, position: 'absolute', top: '100%', left: 0, backgroundColor: '#444', minWidth: '200px', zIndex: 100}}>
-                                 <li><Link to="/productos/pouches-militar" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Pouches</Link></li>
-                                 <li><Link to="/productos/primera-linea" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Primera línea</Link></li>
-                                 <li><Link to="/productos/complementos-militar" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Complementos</Link></li>
-                                 <li><Link to="/productos/acceso-cefot" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Acceso Cefot</Link></li>
-                             </ul>
-                        </li>
+{/* Fila Inferior del Header: Navegación Principal */}
+        <div className="header-bottom-row"> {/* Clase para estilizar esta fila */}
+        <nav className="main-navigation"> {/* Clase para la navegación */}
+        <ul> {/* Lista principal de navegación */}
 
-                         {/* Categoría Principal: Policial/Vigilante */}
-                         <li className="menu-item-has-children" style={{ marginRight: '20px', position: 'relative', padding: '10px 0' }}>
-                             <Link to="/productos/policial-vigilante" style={{ color: '#fff', textDecoration: 'none' }}>Policial/Vigilante</Link>
-                              {/* Submenú Desplegable */}
-                             <ul className="sub-menu" style={{ listStyle: 'none', padding: '10px 0', margin: 0, position: 'absolute', top: '100%', left: 0, backgroundColor: '#444', minWidth: '200px', zIndex: 100 }}>
-                                 <li><Link to="/productos/proteccion-anticorte" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Protección anticorte</Link></li>
-                                  <li><Link to="/productos/grilletes-policial" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Grilletes</Link></li>
-                                   <li><Link to="/productos/acceso-academia" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Acceso academia</Link></li>
-                                    <li><Link to="/productos/defensas-policial" style={{ color: '#fff', textDecoration: 'none', padding: '8px 20px', display: 'block' }}>Defensas</Link></li>
-                             </ul>
-                        </li>
+            <li> {/* Elemento de lista */}
+                <Link to="/" className="nav-link">Inicio</Link> {/* Clase para enlaces de navegación */}
+            </li>
 
+ {/* *** ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS *** */}
 
-                         {/* Categoría Principal: Gala y regalos */}
-                         {/* Asumiendo que esta no tiene submenú, es un enlace directo */}
-                         <li style={{ marginRight: '20px', padding: '10px 0' }}>
-                             <Link to="/productos/gala-regalos" style={{ color: '#fff', textDecoration: 'none' }}>Gala y regalos</Link>
+{/* Categoría Principal: Equipación */}
+            <li className="menu-item-has-children"> {/* Clase para items con submenú */}
+                <Link to="/productos/equipacion" className="nav-link">Equipación</Link> {/* Enlace categoría padre */}
+            {/* Submenú Desplegable de Equipación */}
+                         <ul className="sub-menu"> {/* Clase para el submenú */}
+                                <li><Link to="/productos/iluminacion" className="sub-menu-link">Iluminación</Link></li> {/* Clase para enlaces de submenú */}
+                                <li><Link to="/productos/equipo-sanitario" className="sub-menu-link">Equipo sanitario</Link></li>
+                                <li><Link to="/productos/pouches-chaleco-cinturon" className="sub-menu-link">Pouches chaleco/cinturón</Link></li>
+                                <li><Link to="/productos/mochilas-bolsas" className="sub-menu-link">Mochilas/bolsas</Link></li>
+                                <li><Link to="/productos/equipo-proteccion" className="sub-menu-link">Equipo protección</Link></li>
+                                <li><Link to="/productos/guantes" className="sub-menu-link">Guantes</Link></li>
+                                <li><Link to="/productos/navajas-cuchillos" className="sub-menu-link">Navajas/cuchillos</Link></li>
+                                <li><Link to="/productos/entrenamiento" className="sub-menu-link">Entrenamiento</Link></li>
+                                <li><Link to="/productos/fundas-complementos" className="sub-menu-link">Fundas complementos</Link></li>
+                            </ul>
                          </li>
+
+                    {/* Categoría Principal: Armería */}
+                         <li className="menu-item-has-children"> {/* Clase para items con submenú */}
+                             <Link to="/productos/armeria" className="nav-link">Armería</Link> {/* Enlace categoría padre */}
+                         {/* Submenú Desplegable de Armería */}
+                            <ul className="sub-menu"> {/* Clase para el submenú */}
+                                <li><Link to="/productos/spray-defensa" className="sub-menu-link">Spray de defensa</Link></li>
+                                <li><Link to="/productos/complementos-armas" className="sub-menu-link">Complementos armas</Link></li>
+                                <li><Link to="/productos/armas" className="sub-menu-link">Armas</Link></li>
+                                <li><Link to="/productos/defensas" className="sub-menu-link">Defensas</Link></li>
+                                <li><Link to="/productos/limpieza-armas" className="sub-menu-link">Limpieza armas</Link></li>
+                                <li><Link to="/productos/grilletes" className="sub-menu-link">Grilletes</Link></li>
+                                <li><Link to="/productos/fundas-arma" className="sub-menu-link">Fundas arma</Link></li>
+                                <li><Link to="/productos/cargadores" className="sub-menu-link">Cargadores</Link></li>
+                            </ul>
+                        </li>
+
+                         {/* Categoría Principal: Vestuario */}
+                         <li className="menu-item-has-children"> {/* Clase para items con submenú */}
+                         <Link to="/productos/vestuario" className="nav-link">Vestuario</Link> {/* Enlace categoría padre */}
+                         {/* Submenú Desplegable de Vestuario */}
+                             <ul className="sub-menu"> {/* Clase para el submenú */}
+                                <li><Link to="/productos/pantalones" className="sub-menu-link">Pantalones</Link></li>
+                                <li><Link to="/productos/botas" className="sub-menu-link">Botas</Link></li>
+                                <li><Link to="/productos/chaquetas" className="sub-menu-link">Chaquetas</Link></li>
+                                <li><Link to="/productos/cabeza" className="sub-menu-link">Cabeza</Link></li>
+                            </ul>
+                        </li>
+
+                        {/* Categoría Principal: Outdoor/Bushcraft */}
+                         <li className="menu-item-has-children"> {/* Clase para items con submenú */}
+                             <Link to="/productos/outdoor-bushcraft" className="nav-link">Outdoor/Bushcraft</Link> {/* Enlace categoría padre */}
+                             {/* Submenú Desplegable */}
+                             <ul className="sub-menu"> {/* Clase para el submenú */}
+                                <li><Link to="/productos/cuchillos-outdoor" className="sub-menu-link">Cuchillos</Link></li>
+                                <li><Link to="/productos/pedernales" className="sub-menu-link">Pedernales</Link></li>
+                                <li><Link to="/productos/utensilios-outdoor" className="sub-menu-link">Utensilios</Link></li>
+                                <li><Link to="/productos/iluminacion-outdoor" className="sub-menu-link">Iluminación</Link></li>
+                                <li><Link to="/productos/varios-outdoor" className="sub-menu-link">Varios</Link></li>
+                            </ul>
+                         </li>
+
+                             {/* Categoría Principal: Militar */}
+                        <li className="menu-item-has-children"> {/* Clase para items con submenú */}
+                         <Link to="/productos/militar" className="nav-link">Militar</Link> {/* Enlace categoría padre */}
+                        {/* Submenú Desplegable */}
+                         <ul className="sub-menu"> {/* Clase para el submenú */}
+                            <li><Link to="/productos/pouches-militar" className="sub-menu-link">Pouches</Link></li>
+                            <li><Link to="/productos/primera-linea" className="sub-menu-link">Primera línea</Link></li>
+                            <li><Link to="/productos/complementos-militar" className="sub-menu-link">Complementos</Link></li>
+                            <li><Link to="/productos/acceso-cefot" className="sub-menu-link">Acceso Cefot</Link></li>
+                        </ul>
+                    </li>
+
+                        {/* Categoría Principal: Policial/Vigilante */}
+                        <li className="menu-item-has-children"> {/* Clase para items con submenú */}
+                            <Link to="/productos/policial-vigilante" className="nav-link">Policial/Vigilante</Link> {/* Enlace categoría padre */}
+                         {/* Submenú Desplegable */}
+                             <ul className="sub-menu"> {/* Clase para el submenú */}
+                                <li><Link to="/productos/proteccion-anticorte" className="sub-menu-link">Protección anticorte</Link></li>
+                                <li><Link to="/productos/grilletes-policial" className="sub-menu-link">Grilletes</Link></li>
+                                <li><Link to="/productos/acceso-academia" className="sub-menu-link">Acceso academia</Link></li>
+                                <li><Link to="/productos/defensas-policial" className="sub-menu-link">Defensas</Link></li>
+                            </ul>
+                        </li>
+
+
+                        {/* Categoría Principal: Gala y regalos */}
+                        {/* Asumiendo que esta no tiene submenú, es un enlace directo */}
+                        <li> {/* Elemento de lista */}
+                             <Link to="/productos/gala-regalos" className="nav-link">Gala y regalos</Link> {/* Clase para enlace */}
+                        </li>
 
 
                         {/* Enlace a Contacto (asumiendo una ruta /contacto) */}
-                         {/* Usamos marginLeft: 'auto' para empujarlo a la derecha si el flexbox lo permite */}
-                        <li style={{ marginLeft: 'auto', padding: '10px 0' }}>
-                            <Link to="/contacto" style={{ color: '#fff', textDecoration: 'none' }}>Contacto</Link>
+                        {/* Usamos marginLeft: 'auto' para empujarlo a la derecha si el flexbox lo permite */}
+                        <li className="nav-contact-item"> {/* Clase para el item de contacto */}
+                         <Link to="/contacto" className="nav-link">Contacto</Link> {/* Clase para enlace */}
                         </li>
 
                     </ul>
                 </nav>
-            </div>
-        </header>
+             </div>
+         </header>
     );
 }
 

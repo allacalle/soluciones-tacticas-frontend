@@ -4,7 +4,9 @@
 export interface Product {
     id: number;
     name: string;
+    slug: string; // *** AÑADE ESTA LÍNEA ***
     price: string; // O number, dependiendo de cómo la API la devuelva y cómo la uses
+    description: string;
     short_description: string; // O descripción completa si la usas
     images: Array<{
         src: string;

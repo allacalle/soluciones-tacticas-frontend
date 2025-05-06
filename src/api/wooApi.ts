@@ -12,60 +12,76 @@
 
 // Función para obtener productos, ahora acepta parámetros de paginación y retorna un objeto con totales
 // Función getProducts: Acepta paginación, categoría, orden, filtros y lista de IDs
+// *** FUNCIÓN getProducts CON 9 PARÁMETROS Y CONSTRUCCIÓN DE URL CORREGIDA ***
 export const getProducts = async (
-    page: number = 1,
-    per_page: number = 100,
-    categoryId?: number, // Opcional: Filtrar por ID de categoría
-    orderby?: string, // Opcional: Campo para ordenar (ej: 'date', 'popularity')
-    order?: 'asc' | 'desc', // Opcional: Orden (ascendente o descendente)
-    on_sale?: boolean, // Opcional: Filtrar productos en oferta
-    featured?: boolean, // Opcional: Filtrar productos destacados
-    includeIds?: number[] // Opcional: Incluir solo productos con estos IDs
+	page: number = 1,
+	per_page: number = 10,
+	category?: string | number, // *** 3º PARÁMETRO: Acepta string (slug) o number (ID) ***
+	search?: string, // *** 4º PARÁMETRO ***
+	orderby: string = 'date', // *** 5º PARÁMETRO ***
+	order: 'asc' | 'desc' = 'desc', // *** 6º PARÁMETRO ***
+	on_sale?: boolean, // *** 7º PARÁMETRO ***
+	featured?: boolean, // *** 8º PARÁMETRO ***
+	includeIds?: number[] // *** 9º PARÁMETRO ***
 ): Promise<{ products: Product[], total: number, totalPages: number }> => {
-    // Construye la URL base con paginación
-    let apiUrl = `${SITEURL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&page=${page}&per_page=${per_page}`;
 
-    // *** Añadir parámetros de filtrado/orden SI se proporcionan ***
+	// Construye la URL base con la autenticación inicial
+	let apiUrl = `${SITEURL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
 
-    if (categoryId !== undefined) { // Verificar si categoryId tiene un valor (puede ser 0 para 'Uncategorized')
-         apiUrl += `&category=${categoryId}`;
-    }
+	// Añadir parámetros de consulta (TODOS una única vez)
 
-    if (orderby) {
-        apiUrl += `&orderby=${orderby}`;
-    }
+	// Añadir paginación
+	apiUrl += `&page=${page}`;
+	apiUrl += `&per_page=${per_page}`;
 
-    if (order) {
-        apiUrl += `&order=${order}`;
-    }
+	// Añadir filtro por categoría (slug o ID) si se proporciona el 3er parámetro
+	if (category !== undefined) { // Verificar si category tiene un valor
+		apiUrl += `&category=${encodeURIComponent(category)}`;
+	}
 
-    if (on_sale !== undefined) { // Verificar si on_sale tiene un valor (true o false)
-        apiUrl += `&on_sale=${on_sale}`;
-    }
+	if (search) { // Si se proporciona término de búsqueda (4º parámetro)
+		apiUrl += `&search=${encodeURIComponent(search)}`;
+	}
 
-     if (featured !== undefined) { // Verificar si featured tiene un valor (true o false)
-         apiUrl += `&featured=${featured}`;
-    }
+	// Añadir filtros booleanos si están explícitamente definidos (7º y 8º parámetros)
+	if (on_sale !== undefined) {
+		apiUrl += `&on_sale=${on_sale}`;
+	}
 
-     if (includeIds && includeIds.length > 0) { // Verificar si includeIds es un array no vacío
-         apiUrl += `&include=${includeIds.join(',')}`; // La API espera IDs separados por coma
-         // Nota: La paginación puede comportarse diferente con 'include'
-     }
+	if (featured !== undefined) {
+		apiUrl += `&featured=${featured}`;
+	}
 
-    // console.log("Calling API with URL:", apiUrl); // Opcional: Log para depuración de la URL
+	// Añadir parámetro 'include' si se proporcionan IDs (9º parámetro)
+	if (includeIds && includeIds.length > 0) {
+		apiUrl += `&include=${includeIds.join(',')}`;
+	}
 
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Basic ${base64Credentials}`,
-                'User-Agent': 'ArmeriaFrontend/1.0'
-            }
-        });
+	// Añadir ordenación (5º y 6º parámetros)
+	// orderby tiene un valor por defecto 'date', order tiene 'desc'
+	// Se envían siempre a menos que pases undefined explícitamente a orderby
+	if (orderby) { // Solo añade orderby si se especifica (o usa el defecto)
+		apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
+		// order tiene por defecto 'desc', se añadirá si orderby está presente
+		apiUrl += `&order=${encodeURIComponent(order)}`;
+	}
 
-        if (!response.ok) {
-             const errorBody = await response.text();
-             let errorMessage = `Error HTTP! Estado: ${response.status}`;
+
+	console.log("Calling API for Products with URL:", apiUrl); // Log para depuración
+
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Basic ${base64Credentials}`,
+				'User-Agent': 'ArmeriaFrontend/1.0'
+			}
+		});
+
+		if (!response.ok) {
+			const errorBody = await response.text();
+			// ... (manejo de error HTTP como antes) ...
+			let errorMessage = `Error HTTP! Estado: ${response.status}`;
              try {
                  const errorJson = JSON.parse(errorBody);
                  if (errorJson.message) {
@@ -77,34 +93,31 @@ export const getProducts = async (
                  console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
                  errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
              }
-             console.error("API Error Response Body:", errorBody); // Log del cuerpo del error
+             console.error("API Error Response Body (Products):", errorBody);
              throw new Error(errorMessage);
-         }
+		}
 
-        const totalProductsHeader = response.headers.get('X-WP-Total');
-        const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+		const totalProductsHeader = response.headers.get('X-WP-Total');
+		const totalPagesHeader = response.headers.get('X-WP-TotalPages');
 
-        const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
-        const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
+		const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
+		const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
 
-        const productsData: Product[] = await response.json();
+		const productsData: Product[] = await response.json();
 
-        // console.log("API Response Data (Partial):", productsData.slice(0, 2)); // Log de los primeros 2 productos
-        // console.log("API Response Totals:", { totalProducts, totalPages }); // Log de los totales
+		return {
+			products: productsData,
+			total: totalProducts,
+			totalPages: totalPages,
+		};
 
-
-        return {
-            products: productsData,
-            total: totalProducts,
-            totalPages: totalPages,
-        };
-
-    } catch (caughtError: unknown) {
-        const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-        console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
-        throw error; // Re-lanzamos el error para que el componente lo maneje
-    }
+	} catch (caughtError: unknown) {
+		const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+		console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
+		throw error;
+	}
 };
+
 
 // ======================================================================
 // *** Función COMPLETA y CORREGIDA para obtener la lista de Marcas ***

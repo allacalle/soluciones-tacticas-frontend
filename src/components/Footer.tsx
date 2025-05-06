@@ -2,7 +2,7 @@
 
 
 import './css/Footer.css'; // Importa los estilos para el footer
-import logoPlaceholder from '../assets/logo/footer-logo.png'; // *** Reemplaza con la ruta real a tu logo ***
+import logoPlaceholder from '../assets/logo/footer-logo.bmp'; // *** Reemplaza con la ruta real a tu logo ***
 
 // Define la interfaz para las propiedades del componente (si necesitaras alguna)
 //interface FooterProps {

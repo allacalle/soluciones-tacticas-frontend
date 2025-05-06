@@ -1,132 +1,331 @@
-/* src/components/Header.css */
+/* src/components/css/Header.css - Estilos para el header (cabecera) */
 
-/* Estilos generales del header (opcional, puedes añadir más aquí) */
+/* ============================================================== */
+/* Estilos Generales del Header */
+/* ============================================================== */
 .site-header {
-    /* Añade estilos de fondo, borde, etc. para todo el header */
-    border-bottom: 1px solid #ccc; /* Ya lo teníamos inline en App.tsx, lo movemos aquí */
+    width: 100%;
+    box-sizing: border-box;
+    /* border-bottom: 1px solid #ccc; */ /* Opcional: borde inferior */
 }
 
-/* Estilos para la fila superior (Logo, Búsqueda, Redes) */
+/* ============================================================== */
+/* Fila Superior del Header (Logo, Búsqueda, Redes) */
+/* ============================================================== */
 .header-top-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #f8f8f8; /* Un fondo claro */
+    background-color: #f8f8f8;
+    padding: 15px 30px; /* Espacio interno de la fila superior */
+    flex-wrap: wrap; /* Permite salto de línea */
+    gap: 20px; /* Espacio entre columnas */
 }
 
-/* Estilos para el título del sitio/nombre */
+/* Sección del Logo y Nombre */
+.site-branding {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* No se encoge */
+}
+
+/* Enlace del Logo y/o Título */
+.site-branding .site-title-link {
+   text-decoration: none;
+   color: #333;
+   display: flex;
+   align-items: center;
+}
+
+/* Imagen del Logo */
+.site-branding .site-logo {
+   height: 50px; /* Altura del logo */
+   max-height: 60px;
+   width: auto;
+   margin-right: 15px; /* Espacio a la derecha del logo */
+   vertical-align: middle;
+}
+
+/* Título del Sitio (texto junto al logo) */
 .site-branding .site-title {
-     font-weight: bold;
-     font-size: 1.5em;
-     vertical-align: middle;
-     color: #333; /* Color del texto */
+    font-weight: bold;
+    font-size: 1.8em; /* Tamaño del texto del título */
+    color: #333;
+    vertical-align: middle;
 }
 
- /* Estilos para el enlace del logo/nombre */
-.site-branding a {
-    text-decoration: none; /* Quita el subrayado por defecto */
+/* Sección de la Barra de Búsqueda */
+.header-search {
+    flex-grow: 1;
+    max-width: 400px; /* Ancho máximo */
+    display: flex;
+    justify-content: center;
+    position: relative; /* *** NECESARIO para posicionar el dropdown de sugerencias *** */
 }
 
-
-/* Estilos para la barra de búsqueda */
-.header-search input[type="text"] {
-    padding: 8px;
+/* Input de Búsqueda */
+.header-search .search-input {
+    padding: 10px 15px; /* Espacio interno del input */
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Estilos para la sección de redes sociales */
-.header-social a {
-    margin-left: 10px; /* Espacio entre enlaces de redes */
+/* Sección de Redes Sociales */
+.header-social {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre enlaces */
+}
+
+/* Enlaces de Redes Sociales */
+.header-social .social-link {
+    color: #555;
     text-decoration: none;
-    color: #333; /* Color de los enlaces de redes */
+    font-size: 1em;
+    transition: color 0.2s ease-in-out;
+}
+.header-social .social-link:hover {
+    color: #000;
 }
 
+/* ============================================================== */
+/* Estilos para las Sugerencias de Búsqueda (Dropdown) - Paso 10.9 */
+/* ============================================================== */
 
-/* Estilos para la fila inferior (Navegación Principal) */
-.header-bottom-row {
-    background-color: #333; /* Fondo oscuro para la barra de navegación */
-    padding: 0 20px; /* Padding horizontal, el vertical lo controlamos en los li */
-}
-
-/* Estilos para la lista principal del menú */
-.main-navigation ul {
-    list-style: none; /* Quita las viñetas */
+/* Contenedor del dropdown de sugerencias */
+.header-search .search-suggestions-dropdown {
+    position: absolute;
+    top: 100%; /* Justo debajo del input/form */
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none; /* Para que se pegue al input */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    max-height: 300px; /* Altura máxima con scroll */
+    overflow-y: auto;
+    list-style: none;
     padding: 0;
     margin: 0;
-    display: flex; /* Para que los elementos li estén en fila */
 }
 
-/* Estilos para los elementos de lista del menú principal */
-.main-navigation li {
-    margin-right: 20px; /* Espacio entre elementos del menú */
-    padding: 10px 0; /* Padding vertical para dar altura al menú */
-    position: relative; /* Importante para posicionar el submenú absolutamente */
-    /* Alineación de items si el padding vertical no es uniforme, aunque con padding 10px 0 suele bastar */
-    /* display: flex; /* Opcional: si necesitas alinear verticalmente items complejos */
-    /* align-items: center; /* Opcional: si necesitas alinear verticalmente items complejos */
-}
-
- /* Estilos para el último elemento li (Contacto) para empujarlo a la derecha si usas marginLeft: auto */
-.main-navigation li:last-child {
-     margin-left: auto; /* Empuja el último elemento al final */
-     margin-right: 0; /* Asegura que no tenga margen a la derecha */
-}
-
-/* Estilos para los enlaces dentro del menú principal */
-.main-navigation a {
-    color: #fff; /* Color del texto del menú */
-    text-decoration: none; /* Quita el subrayado */
-    display: block; /* Para que el padding/margen funcione en toda el área del li */
-    /* padding: 10px 0; /* Podrías poner el padding vertical aquí en lugar del li, si prefieres */
-}
-
- /* Estilos para los enlaces de submenú (display: block y padding para que sean áreas clicables) */
-.main-navigation .sub-menu a {
-    padding: 8px 20px; /* Padding interior de los enlaces de submenú */
-}
-
-
-/* *** ESTILOS PARA LOS SUBMENÚS DESPLEGABLES *** */
-
-/* Por defecto, los submenús están ocultos */
-.main-navigation .sub-menu {
-    list-style: none; /* Quita las viñetas del submenú */
-    padding: 10px 0; /* Padding interior del submenú */
+/* UL dentro del dropdown */
+.header-search .search-suggestions-dropdown ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    position: absolute; /* Posicionamiento absoluto respecto al li padre (relative) */
-    top: 100%; /* Lo coloca justo debajo del borde inferior del li padre */
-    left: 0; /* Lo alinea con el borde izquierdo del li padre */
-    background-color: #444; /* Fondo oscuro para el submenú */
-    min-width: 200px; /* Ancho mínimo para el submenú */
-    z-index: 100; /* Asegura que esté por encima de otros contenidos */
-    border-radius: 0 0 4px 4px; /* Bordes redondeados abajo */
-
-    /* *** ESTA ES LA CLAVE: Inicialmente oculto *** */
-    display: none;
-    /* Opcional: transiciones para que la aparición sea suave */
-    /* transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; */
-    /* opacity: 0; */
-    /* visibility: hidden; */
 }
 
-/* *** ESTA ES LA REGLA MÁGICA: Muestra el submenú cuando se pasa el ratón por encima del LI padre *** */
-.main-navigation li.menu-item-has-children:hover > .sub-menu {
-    /* *** Cambia display: none a block (o flex, grid) *** */
+/* Cada item individual de sugerencia */
+.header-search .search-suggestion-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex; /* Alinea imagen y texto */
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Estilo hover para los items de sugerencia */
+.header-search .search-suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilo para la imagen pequeña de la sugerencia */
+.search-suggestion-item .suggestion-image {
+    height: 30px; /* TAMAÑO PEQUEÑO */
+    width: auto;
+    margin-right: 10px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Estilo para el nombre del producto en la sugerencia */
+.search-suggestion-item .suggestion-name {
+    font-size: 1em;
+    color: #333;
+    flex-grow: 1; /* Ocupa espacio restante */
+    /* text-overflow: ellipsis; */ /* Opcional: añadir si los nombres son muy largos */
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+}
+
+/* Estilos para el mensaje de carga o sin resultados */
+.header-search .search-loading,
+.header-search .no-results {
+    padding: 10px 15px;
+    text-align: center;
+    color: #555;
+    font-style: italic;
+}
+
+
+/* ============================================================== */
+/* Fila Inferior del Header: Navegación Principal */
+/* ============================================================== */
+.header-bottom-row {
+    background-color: #333;
+    padding: 0 30px; /* Padding lateral */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Contenedor de la navegación principal */
+.main-navigation {
+    max-width: 1200px; /* Ancho máximo */
+    margin: 0 auto; /* Centra */
+}
+
+/* Lista principal de navegación (ul) */
+.main-navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: 30px; /* Espacio entre LI */
+    align-items: center;
+}
+
+/* Elemento de lista (li) */
+.main-navigation ul li {
+    padding: 15px 0; /* Padding vertical (altura de la fila) */
+    position: relative; /* Para submenús */
+}
+
+/* Enlaces de navegación principal */
+.main-navigation ul li .nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: normal;
     display: block;
-    /* Si usas opacity/visibility para transiciones: */
-    /* opacity: 1; */
-    /* visibility: visible; */
+    transition: color 0.2s ease-in-out;
+}
+.main-navigation ul li .nav-link:hover {
+    color: #b5d2c5;
 }
 
- /* Estilos para los li dentro del submenú (sin margen a la derecha, son una lista vertical) */
- .main-navigation .sub-menu li {
-     margin-right: 0;
-     padding: 0; /* El padding está en el enlace a */
- }
+/* Item de Contacto al final */
+.main-navigation ul li.nav-contact-item {
+     margin-left: auto; /* Empuja a la derecha */
+}
 
-/* Opcional: Estilo al pasar el ratón por encima de los enlaces de submenú */
-.main-navigation .sub-menu a:hover {
-    background-color: #555; /* Cambia el fondo al pasar el ratón por el enlace */
+/* ============================================================== */
+/* Submenús (Desplegables) */
+/* ============================================================== */
+
+/* Contenedor del submenú */
+.main-navigation ul li .sub-menu {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #444;
+    min-width: 220px; /* Ancho mínimo */
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none; /* Inicialmente oculto */
+    /* border-radius: 0 0 4px 4px; */
+}
+
+/* Mostrar submenú al pasar el ratón */
+.main-navigation ul li.menu-item-has-children:hover > .sub-menu {
+    display: block;
+}
+
+/* Elementos de lista (li) dentro del submenú */
+.main-navigation ul li .sub-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Enlaces dentro del submenú */
+.main-navigation ul li .sub-menu li .sub-menu-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 20px; /* Espacio interno del enlace */
+    display: block;
+    font-size: 1em;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.main-navigation ul li .sub-menu li .sub-menu-link:hover {
+    background-color: #555;
+    color: #b5d2c5;
+}
+
+
+/* ============================================================== */
+/* Media Queries para Responsividad */
+/* ============================================================== */
+
+/* En pantallas más pequeñas */
+@media (max-width: 768px) {
+    /* Apila la fila superior */
+    .header-top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    /* Logo y Título centrado en móviles */
+    .site-branding {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Búsqueda ocupa todo el ancho */
+    .header-search {
+        width: 100%;
+        max-width: none;
+    }
+
+    /* Redes Sociales centradas en móviles */
+    .header-social {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Navegación apilada (menú hamburguesa con JS necesario para toggling) */
+    .main-navigation ul {
+         flex-direction: column;
+         gap: 0;
+         text-align: center;
+         width: 100%;
+    }
+
+     .main-navigation ul li {
+         width: 100%;
+         margin-right: 0;
+         padding: 10px 0;
+     }
+
+     /* Elimina margen-left-auto del item de contacto en móviles */
+     .main-navigation ul li.nav-contact-item {
+         margin-left: 0;
+     }
+
+     /* Submenús en móviles (posición estática) */
+     .main-navigation ul li .sub-menu {
+         position: static;
+         top: auto;
+         left: auto;
+         min-width: auto;
+         width: 100%;
+         background-color: #555;
+         box-shadow: none;
+         padding: 5px 0;
+         /* Display: none inicial y mostrar con JS */
+     }
+
+      .main-navigation ul li .sub-menu li .sub-menu-link {
+          padding: 8px 10px;
+      }
 }

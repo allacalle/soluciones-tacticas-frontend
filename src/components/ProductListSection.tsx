@@ -36,84 +36,84 @@ function ProductListSection({ title, subtitle, type, categoryId, productIds, pro
             setError(null);
 
             try {
-                let productsData: Product[] = []; // Array donde guardaremos los productos del resultado
-
-                // *** Lógica para LLAMAR a getProducts basándose en el 'type' de la prop ***
-                // Aquí es donde usamos las props type, categoryId, productIds, productsPerPage
+                let productsData: Product[] = [];
+                let result;
+    
+                // Lógica para LLAMAR a getProducts basándose en el 'type' de la prop
+                // Recordatorio de la firma de getProducts (9 parámetros):
+                // getProducts(page, per_page, category, search, orderby, order, on_sale, featured, includeIds)
                 switch (type) {
-                    case 'latest':{
+                    case 'latest': {
                         // Cargar los últimos productos: ordenar por fecha descendente
-                        // getProducts(page, per_page, categoryId, orderby, order, on_sale, featured, includeIds)
-                        const latestResult = await getProducts(1, productsPerPage, undefined, 'date', 'desc');
-                        productsData = latestResult.products; // Tomamos solo el array de productos
+                        result = await getProducts(1, productsPerPage, undefined, undefined, 'date', 'desc', undefined, undefined, undefined); // 9 argumentos
+                        productsData = result.products;
                         break;
                     }
-
+    
                     case 'popular': {
-                         // Cargar los productos más populares: ordenar por popularidad descendente
-                         const popularResult = await getProducts(1, productsPerPage, undefined, 'popularity', 'desc');
-                         productsData = popularResult.products;
+                        // Cargar los productos más populares: ordenar por popularidad descendente
+                        result = await getProducts(1, productsPerPage, undefined, undefined, 'popularity', 'desc', undefined, undefined, undefined); // 9 argumentos
+                        productsData = result.products;
                         break;
                     }
-
-                    case 'sale':{
-                         // Cargar productos en oferta: usar el filtro on_sale=true
-                         // getProducts(page, per_page, categoryId, orderby, order, on_sale, featured, includeIds)
-                         const saleResult = await getProducts(1, productsPerPage, undefined, undefined, undefined, true); // el 6º argumento es on_sale
-                         productsData = saleResult.products;
-                         break;
-                        }
-
+    
+                    case 'sale': {
+                        // Cargar productos en oferta: usar el filtro on_sale=true, ordenar por fecha descendente (opcional)
+                        result = await getProducts(1, productsPerPage, undefined, undefined, 'date', 'desc', true, undefined, undefined); // Pasa 'true' al 7º argumento (on_sale), 9 argumentos en total
+                        productsData = result.products;
+                        break;
+                    }
+    
                     case 'featured': {
-                         // Cargar productos destacados: usar el filtro featured=true
-                         // getProducts(page, per_page, categoryId, orderby, order, on_sale, featured, includeIds)
-                         const featuredResult = await getProducts(1, productsPerPage, undefined, undefined, undefined, undefined, true); // el 7º argumento es featured
-                         productsData = featuredResult.products;
-                         break;
-                        }
-
-                    case 'category':
-                        if (categoryId !== undefined) { // Validamos que se haya pasado un categoryId si type es 'category'
-                           // Cargar productos de una categoría específica
-                           const categoryResult = await getProducts(1, productsPerPage, categoryId); // el 3er argumento es categoryId
-                           productsData = categoryResult.products;
+                        // Cargar productos destacados: usar el filtro featured=true
+                        result = await getProducts(1, productsPerPage, undefined, undefined, undefined, undefined, undefined, true, undefined); // Pasa 'true' al 8º argumento (featured), 9 argumentos en total
+                        productsData = result.products;
+                        break;
+                    }
+    
+                    case 'category': {
+                        if (categoryId !== undefined) {
+                            // Cargar productos de una categoría específica (usando category - 3er argumento)
+                            result = await getProducts(1, productsPerPage, categoryId, undefined, undefined, undefined, undefined, undefined, undefined); // Pasa categoryId al 3er argumento, 9 argumentos
+                            productsData = result.products;
                         } else {
-                           // Lanzamos un error si no se cumple la condición
-                           throw new Error(`El componente ProductListSection con type='category' requiere la prop 'categoryId'. Título: ${title}`);
+                            throw new Error(`El componente ProductListSection con type='category' requiere la prop 'categoryId'. Título: ${title}`);
                         }
                         break;
-
-                    case 'ids':
-                         if (productIds && productIds.length > 0) { // Validamos que se haya pasado un array con IDs
-                             // Cargar productos por IDs específicos: usar el parámetro includeIds
-                             // getProducts(page, per_page, categoryId, orderby, order, on_sale, featured, includeIds)
-                             const idsResult = await getProducts(1, undefined, undefined, undefined, undefined, undefined, undefined, productIds); // el 8º argumento es includeIds
-                             productsData = idsResult.products;
-                         } else {
-                            // Lanzamos un error si no se cumple la condición
-                             // Podrías manejar esto sin lanzar error, solo mostrando 0 productos, tú decides la convención
-                            throw new Error(`El componente ProductListSection con type='ids' requiere la prop 'productIds' con IDs válidos. Título: ${title}`);
-                         }
-                         break;
-
-                    default:
-                         // Lanzamos un error si el 'type' de la prop no es reconocido
-                         throw new Error(`Tipo de lista de productos desconocido en ProductListSection: '${type}'. Título: ${title}`);
-                }
-
-                // *** Después del switch, actualiza el estado 'products' con los datos que obtuvimos ***
+                    }
+    
+                    case 'ids': {
+                        if (productIds && productIds.length > 0) {
+                            // Cargar productos por IDs específicos: usar el parámetro includeIds (9º argumento)
+                            result = await getProducts(1, productsPerPage, undefined, undefined, undefined, undefined, undefined, undefined, productIds); // 9 argumentos
+                            productsData = result.products;
+                        } else {
+                            console.warn(`[ProductListSection] Componente con type='ids' pero sin 'productIds'. Título: ${title}`);
+                            productsData = [];
+                        }
+                        break;
+                    }
+    
+                    default: {
+                        throw new Error(`Tipo de lista de productos desconocido en ProductListSection: '${type}'. Título: ${title}`);
+                    }
+                } // Fin del switch
+    
                 setProducts(productsData);
-
+    
             } catch (caughtError: unknown) {
-                // Captura errores de getProducts o de las validaciones/lógica dentro del try
+                // ... (manejo de error como antes) ...
                 const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
                 console.error(`[ProductListSection] Error al cargar productos para tipo '${type}' (Título: ${title}):`, error);
-                setError(error); // Guarda el error en el estado local
-                setProducts([]); // Limpia la lista de productos en caso de error
+                setError(error);
+                setProducts([]);
             } finally {
-                 // Marca el final de la carga, ocurra un éxito o un error
-                 setLoading(false);
+                // ... (final de carga como antes) ...
+                setLoading(false);
             }
+
+           
+          
         };
 
         // Llama a la función de carga cuando el componente se monta o las dependencias cambian
