@@ -7,8 +7,9 @@ import { Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/HomePage'; // <-- Asegúrate que la ruta sea correcta
 import ProductListPage from './pages/ProductListPage'; // <-- Asegúrate que la ruta sea correcta
-import ProductDetailPage from './pages/ProductDetailPage'; // <-- Asegúrate que la ruta sea correcta
 import Header from './components/Header'; // <-- Asegúrate que la ruta sea correcta
+import ProductPage from './pages/ProductPage';
+import Footer from './components/Footer';
 
 
 // Define una interfaz para tipar los datos de producto que esperamos de la API de WooCommerce
@@ -27,8 +28,8 @@ function App() {
           {/* Rutas definidas */}
           <Route path="/" element={<HomePage />} />
           {/* Mantén las rutas de productos y detalle */}
+          <Route path="/producto/:productSlug" element={<ProductPage />} />
           <Route path="/productos/:categorySlug" element={<ProductListPage />} />
-          <Route path="/producto/:productId" element={<ProductDetailPage />} />
           {/* *** Opcional: Si tienes una página de Contacto, define su ruta aquí *** */}
           {/* <Route path="/contacto" element={<ContactPage />} /> */}
           {/* Ruta 404 */}
@@ -37,9 +38,7 @@ function App() {
       </main>
 
       {/* Pie de página (persistente en todas las rutas) */}
-      <footer style={{ marginTop: '20px', borderTop: '1px solid #ccc', padding: '10px', textAlign: 'center' }}>
-        © 2025 Mi Escaparate
-      </footer>
+      <Footer /> {/* <-- Aquí va tu nuevo componente Footer */}
     </div>
   );
 }

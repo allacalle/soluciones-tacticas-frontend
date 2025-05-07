@@ -93,7 +93,7 @@ function Header() {
             setSearchTerm('');
             setSearchResults([]);
             // Navegamos a la página individual del producto usando su slug
-            navigate(`/productos/${productSlug}`); // *** Asegúrate de que tu ruta de producto individual usa /productos/:slug ***
+            navigate(`/producto/${productSlug}`); 
         };
 
     return (
@@ -176,113 +176,137 @@ function Header() {
 
 {/* Fila Inferior del Header: Navegación Principal */}
         <div className="header-bottom-row"> {/* Clase para estilizar esta fila */}
-        <nav className="main-navigation"> {/* Clase para la navegación */}
-        <ul> {/* Lista principal de navegación */}
+        <nav className="main-navigation">
+	<ul>
+		{/* ... Enlace Inicio ... */}
 
-            <li> {/* Elemento de lista */}
-                <Link to="/" className="nav-link">Inicio</Link> {/* Clase para enlaces de navegación */}
-            </li>
+		{/* Categoría Principal: Equipación */}
+		<li className="menu-item-has-children">
+			{/* Si "equipacion" es el slug correcto para la categoría padre en WooCommerce (count 0), este link está bien */}
+			<Link to="/productos/equipacion" className="nav-link">Equipación</Link>
+			<ul className="sub-menu">
+				{/* Iluminación: Slug es iluminacion (Count 2) -> este link está bien */}
+				<li><Link to="/productos/iluminacion" className="sub-menu-link">Iluminación</Link></li>
+				{/* Equipo sanitario: Slug en WooCommerce es equipo_sanitario -> CORREGIR */}
+				<li><Link to="/productos/equipo_sanitario" className="sub-menu-link">Equipo sanitario</Link></li> {/* *** CORREGIDO *** */}
+				{/* Pouches chaleco/cinturón: Slug en WooCommerce es pouches_chaleco_cinturon -> CORREGIR */}
+				<li><Link to="/productos/pouches_chaleco_cinturon" className="sub-menu-link">Pouches chaleco/cinturón</Link></li> {/* *** CORREGIDO *** */}
+				{/* Mochilas/bolsas: Slug en WooCommerce es mochilas_bolsas -> CORREGIR */}
+				<li><Link to="/productos/mochilas_bolsas" className="sub-menu-link">Mochilas/bolsas</Link></li> {/* *** CORREGIDO *** */}
+				{/* Equipo protección: Slug en WooCommerce es equipo_proteccion -> CORREGIR */}
+				<li><Link to="/productos/equipo_proteccion" className="sub-menu-link">Equipo protección</Link></li> {/* *** CORREGIDO *** */}
+				{/* Guantes: Slug en WooCommerce es guantes -> este link está bien */}
+				<li><Link to="/productos/guantes" className="sub-menu-link">Guantes</Link></li>
+				{/* Navajas/cuchillos: Slug en WooCommerce es navajas_cuchillos -> CORREGIR */}
+				<li><Link to="/productos/navajas_cuchillos" className="sub-menu-link">Navajas/cuchillos</Link></li> {/* *** CORREGIDO *** */}
+				{/* Entrenamiento: Slug en WooCommerce es entrenamiento -> este link está bien */}
+				<li><Link to="/productos/entrenamiento" className="sub-menu-link">Entrenamiento</Link></li>
+				{/* Fundas complementos: Slug en WooCommerce es fundas_complementos -> CORREGIR */}
+				<li><Link to="/productos/fundas_complementos" className="sub-menu-link">Fundas complementos</Link></li> {/* *** CORREGIDO *** */}
+			</ul>
+		</li>
 
- {/* *** ESTRUCTURA DE CATEGORÍAS Y SUBCATEGORÍAS *** */}
+		{/* Categoría Principal: Armería */}
+		<li className="menu-item-has-children">
+			{/* Si "armeria" es el slug correcto para el padre (count 0), este link está bien */}
+			<Link to="/productos/armeria" className="nav-link">Armería</Link>
+			<ul className="sub-menu">
+				{/* Spray de defensa: Slug en WooCommerce es spray_de_defensa -> CORREGIR */}
+				<li><Link to="/productos/spray_de_defensa" className="sub-menu-link">Spray de defensa</Link></li> {/* *** CORREGIDO *** */}
+				{/* Complementos armas: Slug en WooCommerce es complementos_armas -> CORREGIR */}
+				<li><Link to="/productos/complementos_armas" className="sub-menu-link">Complementos armas</Link></li> {/* *** CORREGIDO *** */}
+				{/* Armas: Slug en WooCommerce es armas -> este link está bien */}
+				<li><Link to="/productos/armas" className="sub-menu-link">Armas</Link></li>
+				{/* Defensas (bajo Armería): Slug en WooCommerce es defensas -> este link está bien */}
+				<li><Link to="/productos/defensas" className="sub-menu-link">Defensas</Link></li>
+				{/* Limpieza armas: Slug en WooCommerce es limpieza_armas -> CORREGIR */}
+				<li><Link to="/productos/limpieza_armas" className="sub-menu-link">Limpieza armas</Link></li> {/* *** CORREGIDO *** */}
+				{/* Grilletes (bajo Armería): Slug en WooCommerce es grilletes -> este link está bien */}
+				<li><Link to="/productos/grilletes" className="sub-menu-link">Grilletes</Link></li>
+				{/* Fundas arma: Slug en WooCommerce es fundas_arma -> CORREGIR */}
+				<li><Link to="/productos/fundas_arma" className="sub-menu-link">Fundas arma</Link></li> {/* *** CORREGIDO *** */}
+				{/* Cargadores: Slug en WooCommerce es cargadores -> este link está bien */}
+				<li><Link to="/productos/cargadores" className="sub-menu-link">Cargadores</Link></li>
+			</ul>
+		</li>
 
-{/* Categoría Principal: Equipación */}
-            <li className="menu-item-has-children"> {/* Clase para items con submenú */}
-                <Link to="/productos/equipacion" className="nav-link">Equipación</Link> {/* Enlace categoría padre */}
-            {/* Submenú Desplegable de Equipación */}
-                         <ul className="sub-menu"> {/* Clase para el submenú */}
-                                <li><Link to="/productos/iluminacion" className="sub-menu-link">Iluminación</Link></li> {/* Clase para enlaces de submenú */}
-                                <li><Link to="/productos/equipo-sanitario" className="sub-menu-link">Equipo sanitario</Link></li>
-                                <li><Link to="/productos/pouches-chaleco-cinturon" className="sub-menu-link">Pouches chaleco/cinturón</Link></li>
-                                <li><Link to="/productos/mochilas-bolsas" className="sub-menu-link">Mochilas/bolsas</Link></li>
-                                <li><Link to="/productos/equipo-proteccion" className="sub-menu-link">Equipo protección</Link></li>
-                                <li><Link to="/productos/guantes" className="sub-menu-link">Guantes</Link></li>
-                                <li><Link to="/productos/navajas-cuchillos" className="sub-menu-link">Navajas/cuchillos</Link></li>
-                                <li><Link to="/productos/entrenamiento" className="sub-menu-link">Entrenamiento</Link></li>
-                                <li><Link to="/productos/fundas-complementos" className="sub-menu-link">Fundas complementos</Link></li>
-                            </ul>
-                         </li>
+		{/* Categoria Vestuario */}
+		<li className="menu-item-has-children">
+			{/* Si "vestuario" es el slug correcto para el padre (count 0), este link está bien */}
+			<Link to="/productos/vestuario" className="nav-link">Vestuario</Link>
+			<ul className="sub-menu">
+				{/* Pantalones: Slug en WooCommerce es pantalones -> este link está bien */}
+				<li><Link to="/productos/pantalones" className="sub-menu-link">Pantalones</Link></li>
+				{/* Botas: Slug en WooCommerce es botas -> este link está bien */}
+				<li><Link to="/productos/botas" className="sub-menu-link">Botas</Link></li>
+				{/* Chaquetas: Slug en WooCommerce es chaquetas -> este link está bien */}
+				<li><Link to="/productos/chaquetas" className="sub-menu-link">Chaquetas</Link></li>
+				{/* Cabeza: Slug en WooCommerce es cabeza -> este link está bien */}
+				<li><Link to="/productos/cabeza" className="sub-menu-link">Cabeza</Link></li>
+			</ul>
+		</li>
 
-                    {/* Categoría Principal: Armería */}
-                         <li className="menu-item-has-children"> {/* Clase para items con submenú */}
-                             <Link to="/productos/armeria" className="nav-link">Armería</Link> {/* Enlace categoría padre */}
-                         {/* Submenú Desplegable de Armería */}
-                            <ul className="sub-menu"> {/* Clase para el submenú */}
-                                <li><Link to="/productos/spray-defensa" className="sub-menu-link">Spray de defensa</Link></li>
-                                <li><Link to="/productos/complementos-armas" className="sub-menu-link">Complementos armas</Link></li>
-                                <li><Link to="/productos/armas" className="sub-menu-link">Armas</Link></li>
-                                <li><Link to="/productos/defensas" className="sub-menu-link">Defensas</Link></li>
-                                <li><Link to="/productos/limpieza-armas" className="sub-menu-link">Limpieza armas</Link></li>
-                                <li><Link to="/productos/grilletes" className="sub-menu-link">Grilletes</Link></li>
-                                <li><Link to="/productos/fundas-arma" className="sub-menu-link">Fundas arma</Link></li>
-                                <li><Link to="/productos/cargadores" className="sub-menu-link">Cargadores</Link></li>
-                            </ul>
-                        </li>
+		{/* Outdoor/Bushcraft */}
+		<li className="menu-item-has-children">
+			{/* Outdoor/Bushcraft: Slug en WooCommerce es outdoor_bushcraft -> CORREGIR */}
+			<Link to="/productos/outdoor_bushcraft" className="nav-link">Outdoor/Bushcraft</Link> {/* *** CORREGIDO *** */}
+			<ul className="sub-menu">
+				{/* Iluminación (Outdoor): Slug en WooCommerce es iluminacion-outdoor_bushcraft -> CORREGIR */}
+				<li><Link to="/productos/iluminacion-outdoor_bushcraft" className="sub-menu-link">Iluminación</Link></li> {/* *** CORREGIDO *** */}
+				{/* Cuchillos (Outdoor): Slug en WooCommerce es navajas_cuchillos_outdoor -> CORREGIR */}
+				<li><Link to="/productos/navajas_cuchillos_outdoor" className="sub-menu-link">Cuchillos</Link></li> {/* *** CORREGIDO *** */}
+				{/* Pedernales: Slug en WooCommerce es pedernales -> este link está bien */}
+				<li><Link to="/productos/pedernales" className="sub-menu-link">Pedernales</Link></li>
+				{/* Utensilios (Outdoor): Slug en WooCommerce es utensilios -> CORREGIR */}
+				<li><Link to="/productos/utensilios" className="sub-menu-link">Utensilios</Link></li> {/* *** CORREGIDO *** */}
+				{/* Varios (Outdoor): Slug en WooCommerce es varios -> CORREGIR */}
+				<li><Link to="/productos/varios" className="sub-menu-link">Varios</Link></li> {/* *** CORREGIDO *** */}
+			</ul>
+		</li>
 
-                         {/* Categoría Principal: Vestuario */}
-                         <li className="menu-item-has-children"> {/* Clase para items con submenú */}
-                         <Link to="/productos/vestuario" className="nav-link">Vestuario</Link> {/* Enlace categoría padre */}
-                         {/* Submenú Desplegable de Vestuario */}
-                             <ul className="sub-menu"> {/* Clase para el submenú */}
-                                <li><Link to="/productos/pantalones" className="sub-menu-link">Pantalones</Link></li>
-                                <li><Link to="/productos/botas" className="sub-menu-link">Botas</Link></li>
-                                <li><Link to="/productos/chaquetas" className="sub-menu-link">Chaquetas</Link></li>
-                                <li><Link to="/productos/cabeza" className="sub-menu-link">Cabeza</Link></li>
-                            </ul>
-                        </li>
+		{/* Militar */}
+		<li className="menu-item-has-children">
+			{/* Militar: Slug en WooCommerce es militar -> este link está bien */}
+			<Link to="/productos/militar" className="nav-link">Militar</Link>
+			<ul className="sub-menu">
+				{/* Pouches (Militar): Slug en WooCommerce es pouches -> CORREGIR */}
+				<li><Link to="/productos/pouches" className="sub-menu-link">Pouches</Link></li> {/* *** CORREGIDO *** */}
+				{/* Primera línea: Slug en WooCommerce es primera_linea -> CORREGIR */}
+				<li><Link to="/productos/primera_linea" className="sub-menu-link">Primera línea</Link></li> {/* *** CORREGIDO *** */}
+				{/* Complementos (Militar): Slug en WooCommerce es complementos -> CORREGIR */}
+				<li><Link to="/productos/complementos" className="sub-menu-link">Complementos</Link></li> {/* *** CORREGIDO *** */}
+				{/* Acceso Cefot: Slug en WooCommerce es acceso_cefot -> CORREGIR */}
+				<li><Link to="/productos/acceso_cefot" className="sub-menu-link">Acceso Cefot</Link></li> {/* *** CORREGIDO *** */}
+			</ul>
+		</li>
 
-                        {/* Categoría Principal: Outdoor/Bushcraft */}
-                         <li className="menu-item-has-children"> {/* Clase para items con submenú */}
-                             <Link to="/productos/outdoor-bushcraft" className="nav-link">Outdoor/Bushcraft</Link> {/* Enlace categoría padre */}
-                             {/* Submenú Desplegable */}
-                             <ul className="sub-menu"> {/* Clase para el submenú */}
-                                <li><Link to="/productos/cuchillos-outdoor" className="sub-menu-link">Cuchillos</Link></li>
-                                <li><Link to="/productos/pedernales" className="sub-menu-link">Pedernales</Link></li>
-                                <li><Link to="/productos/utensilios-outdoor" className="sub-menu-link">Utensilios</Link></li>
-                                <li><Link to="/productos/iluminacion-outdoor" className="sub-menu-link">Iluminación</Link></li>
-                                <li><Link to="/productos/varios-outdoor" className="sub-menu-link">Varios</Link></li>
-                            </ul>
-                         </li>
+		{/* Policial/Vigilante */}
+		<li className="menu-item-has-children">
+			{/* Policial/Vigilante: Slug en WooCommerce es policial_vigilante -> CORREGIR */}
+			<Link to="/productos/policial_vigilante" className="nav-link">Policial/Vigilante</Link> {/* *** CORREGIDO *** */}
+			<ul className="sub-menu">
+				{/* Protección anticorte: Slug en WooCommerce es proteccion_anticorte -> CORREGIR */}
+				<li><Link to="/productos/proteccion_anticorte" className="sub-menu-link">Protección anticorte</Link></li> {/* *** CORREGIDO *** */}
+				{/* Grilletes (Policial): Slug en WooCommerce es grilletes-policial_vigilante -> CORREGIR */}
+				<li><Link to="/productos/grilletes-policial_vigilante" className="sub-menu-link">Grilletes</Link></li> {/* *** CORREGIDO *** */}
+				{/* Acceso academia: Slug en WooCommerce es acceso_academia -> CORREGIR */}
+				<li><Link to="/productos/acceso_academia" className="sub-menu-link">Acceso academia</Link></li> {/* *** CORREGIDO *** */}
+				{/* Defensas (Policial): Slug en WooCommerce es defensas-policial_vigilante -> CORREGIR */}
+				<li><Link to="/productos/defensas-policial_vigilante" className="sub-menu-link">Defensas</Link></li> {/* *** CORREGIDO *** */}
+			</ul>
+		</li>
 
-                             {/* Categoría Principal: Militar */}
-                        <li className="menu-item-has-children"> {/* Clase para items con submenú */}
-                         <Link to="/productos/militar" className="nav-link">Militar</Link> {/* Enlace categoría padre */}
-                        {/* Submenú Desplegable */}
-                         <ul className="sub-menu"> {/* Clase para el submenú */}
-                            <li><Link to="/productos/pouches-militar" className="sub-menu-link">Pouches</Link></li>
-                            <li><Link to="/productos/primera-linea" className="sub-menu-link">Primera línea</Link></li>
-                            <li><Link to="/productos/complementos-militar" className="sub-menu-link">Complementos</Link></li>
-                            <li><Link to="/productos/acceso-cefot" className="sub-menu-link">Acceso Cefot</Link></li>
-                        </ul>
-                    </li>
+		{/* Gala y regalos */}
+		{/* Gala y regalos: Slug en WooCommerce es gala_y_regalos -> CORREGIR */}
+		<li><Link to="/productos/gala_y_regalos" className="nav-link">Gala y regalos</Link></li> {/* *** CORREGIDO *** */}
 
-                        {/* Categoría Principal: Policial/Vigilante */}
-                        <li className="menu-item-has-children"> {/* Clase para items con submenú */}
-                            <Link to="/productos/policial-vigilante" className="nav-link">Policial/Vigilante</Link> {/* Enlace categoría padre */}
-                         {/* Submenú Desplegable */}
-                             <ul className="sub-menu"> {/* Clase para el submenú */}
-                                <li><Link to="/productos/proteccion-anticorte" className="sub-menu-link">Protección anticorte</Link></li>
-                                <li><Link to="/productos/grilletes-policial" className="sub-menu-link">Grilletes</Link></li>
-                                <li><Link to="/productos/acceso-academia" className="sub-menu-link">Acceso academia</Link></li>
-                                <li><Link to="/productos/defensas-policial" className="sub-menu-link">Defensas</Link></li>
-                            </ul>
-                        </li>
+		{/* Enlace a Contacto */}
+		{/* Este link a /contacto está bien si tienes esa ruta */}
+		<li className="nav-contact-item"><Link to="/contacto" className="nav-link">Contacto</Link></li>
 
-
-                        {/* Categoría Principal: Gala y regalos */}
-                        {/* Asumiendo que esta no tiene submenú, es un enlace directo */}
-                        <li> {/* Elemento de lista */}
-                             <Link to="/productos/gala-regalos" className="nav-link">Gala y regalos</Link> {/* Clase para enlace */}
-                        </li>
-
-
-                        {/* Enlace a Contacto (asumiendo una ruta /contacto) */}
-                        {/* Usamos marginLeft: 'auto' para empujarlo a la derecha si el flexbox lo permite */}
-                        <li className="nav-contact-item"> {/* Clase para el item de contacto */}
-                         <Link to="/contacto" className="nav-link">Contacto</Link> {/* Clase para enlace */}
-                        </li>
-
-                    </ul>
-                </nav>
+	</ul>
+</nav>
+        
              </div>
          </header>
     );

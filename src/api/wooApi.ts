@@ -1,5 +1,4 @@
- import { Product } from "../types";
- import { Brand } from "../types"; // Asegúrate de que la ruta es correcta según tu estructura de carpetas
+ import { Product, Brand, Category } from "../types";
 
  // ** ============================================================== **
   // ** CONFIGURACIÓN DE CONEXIÓN - ¡MODIFICA ESTO!         **
@@ -10,111 +9,235 @@
   // ** ============================================================== **
   const base64Credentials = btoa(`${CONSUMER_KEY}:${CONSUMER_SECRET}`);
 
+
+// Función para obtener el ID de una categoría dado su slug
+export const getCategoryIdBySlug = async (slug: string): Promise<number | null> => {
+	const apiUrl = `${SITEURL}/wp-json/wc/v3/products/categories?slug=${encodeURIComponent(slug)}&consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
+  
+	try {
+	  const response = await fetch(apiUrl, {
+		method: 'GET',
+		headers: {
+		  'Authorization': `Basic ${base64Credentials}`,
+		  'User-Agent': 'ArmeriaFrontend/1.0'
+		}
+	  });
+  
+	  if (!response.ok) {
+		const errorBody = await response.text();
+		let errorMessage = `Error HTTP! Estado: ${response.status}`;
+		try {
+		  const errorJson = JSON.parse(errorBody);
+		  if (errorJson.message) {
+			errorMessage += ` - Mensaje: ${errorJson.message}`;
+		  } else if (errorJson.code) {
+			errorMessage += ` - Código: ${errorJson.code}`;
+		  }
+		} catch (errorParsingJson) {
+		  console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
+		  errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+		}
+		console.error("API Error Response Body (Category by Slug):", errorBody);
+		throw new Error(errorMessage);
+	  }
+  
+	  const categoriesData: Category[] = await response.json();
+	  if (categoriesData.length > 0) {
+		return categoriesData[0].id;
+	  } else {
+		return null;
+	  }
+	} catch (caughtError: unknown) {
+	  const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+	  console.error("Error al obtener ID de categoría desde wooApi:", error);
+	  throw error;
+	}
+  };
+
 // Función para obtener productos, ahora acepta parámetros de paginación y retorna un objeto con totales
 // Función getProducts: Acepta paginación, categoría, orden, filtros y lista de IDs
 // *** FUNCIÓN getProducts CON 9 PARÁMETROS Y CONSTRUCCIÓN DE URL CORREGIDA ***
 export const getProducts = async (
 	page: number = 1,
 	per_page: number = 10,
-	category?: string | number, // *** 3º PARÁMETRO: Acepta string (slug) o number (ID) ***
-	search?: string, // *** 4º PARÁMETRO ***
-	orderby: string = 'date', // *** 5º PARÁMETRO ***
-	order: 'asc' | 'desc' = 'desc', // *** 6º PARÁMETRO ***
-	on_sale?: boolean, // *** 7º PARÁMETRO ***
-	featured?: boolean, // *** 8º PARÁMETRO ***
-	includeIds?: number[] // *** 9º PARÁMETRO ***
-): Promise<{ products: Product[], total: number, totalPages: number }> => {
-
-	// Construye la URL base con la autenticación inicial
+	category?: string | number,
+	search?: string,
+	orderby: string = 'date',
+	order: 'asc' | 'desc' = 'desc',
+	on_sale?: boolean,
+	featured?: boolean,
+	includeIds?: number[]
+  ): Promise<{ products: Product[], total: number, totalPages: number }> => {
+  
+	let categoryId: number | undefined;
+  
+	if (category !== undefined) {
+	  if (typeof category === 'string') {
+		// Obtener el ID de la categoría a partir del slug
+		const fetchedCategoryId = await getCategoryIdBySlug(category);
+		if (fetchedCategoryId === null) {
+		  console.warn(`Categoría con slug "${category}" no encontrada.`);
+		  return { products: [], total: 0, totalPages: 0 };
+		}
+		categoryId = fetchedCategoryId;
+	  } else {
+		categoryId = category;
+	  }
+	}
+  
 	let apiUrl = `${SITEURL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
-
-	// Añadir parámetros de consulta (TODOS una única vez)
-
-	// Añadir paginación
-	apiUrl += `&page=${page}`;
-	apiUrl += `&per_page=${per_page}`;
-
-	// Añadir filtro por categoría (slug o ID) si se proporciona el 3er parámetro
-	if (category !== undefined) { // Verificar si category tiene un valor
-		apiUrl += `&category=${encodeURIComponent(category)}`;
+	apiUrl += `&page=${page}&per_page=${per_page}`;
+  
+	if (categoryId !== undefined) {
+	  apiUrl += `&category=${categoryId}`;
 	}
-
-	if (search) { // Si se proporciona término de búsqueda (4º parámetro)
-		apiUrl += `&search=${encodeURIComponent(search)}`;
+  
+	if (search) {
+	  apiUrl += `&search=${encodeURIComponent(search)}`;
 	}
-
-	// Añadir filtros booleanos si están explícitamente definidos (7º y 8º parámetros)
+  
 	if (on_sale !== undefined) {
-		apiUrl += `&on_sale=${on_sale}`;
+	  apiUrl += `&on_sale=${on_sale}`;
 	}
-
+  
 	if (featured !== undefined) {
-		apiUrl += `&featured=${featured}`;
+	  apiUrl += `&featured=${featured}`;
 	}
-
-	// Añadir parámetro 'include' si se proporcionan IDs (9º parámetro)
+  
 	if (includeIds && includeIds.length > 0) {
-		apiUrl += `&include=${includeIds.join(',')}`;
+	  apiUrl += `&include=${includeIds.join(',')}`;
+	}
+  
+	if (orderby) {
+	  apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
+	  apiUrl += `&order=${encodeURIComponent(order)}`;
+	}
+  
+	console.log("Calling API for Products with URL:", apiUrl);
+  
+	try {
+	  const response = await fetch(apiUrl, {
+		method: 'GET',
+		headers: {
+		  'Authorization': `Basic ${base64Credentials}`,
+		  'User-Agent': 'ArmeriaFrontend/1.0'
+		}
+	  });
+  
+	  if (!response.ok) {
+		const errorBody = await response.text();
+		let errorMessage = `Error HTTP! Estado: ${response.status}`;
+		try {
+		  const errorJson = JSON.parse(errorBody);
+		  if (errorJson.message) {
+			errorMessage += ` - Mensaje: ${errorJson.message}`;
+		  } else if (errorJson.code) {
+			errorMessage += ` - Código: ${errorJson.code}`;
+		  }
+		} catch (errorParsingJson) {
+		  console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
+		  errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+		}
+		console.error("API Error Response Body (Products):", errorBody);
+		throw new Error(errorMessage);
+	  }
+  
+	  const totalProductsHeader = response.headers.get('X-WP-Total');
+	  const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+  
+	  const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
+	  const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
+  
+	  const productsData: Product[] = await response.json();
+  
+	  return {
+		products: productsData,
+		total: totalProducts,
+		totalPages: totalPages,
+	  };
+  
+	} catch (caughtError: unknown) {
+	  const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+	  console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
+	  throw error;
+	}
+  };
+
+// ======================================================================
+// *** Función para obtener un solo producto por ID o Slug ***
+// ======================================================================
+// Usa el endpoint /products/<id> o /products?slug=<slug>
+export const getProductByIdOrSlug = async (identifier: string | number): Promise<Product | null> => {
+	let apiUrl = `${SITEURL}/wp-json/wc/v3/products`;
+	let isSlugSearch = false; // Bandera para saber si buscamos por slug
+
+	if (typeof identifier === 'number') {
+		// Si el identificador es un número, intentamos obtener por ID directo (/products/<id>)
+		apiUrl += `/${identifier}?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
+	} else {
+		// Si el identificador es una cadena (asumimos que es el slug), intentamos buscar por slug (/products?slug=<slug>)
+		apiUrl += `?slug=${encodeURIComponent(identifier)}&consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
+		isSlugSearch = true; // Marcamos que es búsqueda por slug
 	}
 
-	// Añadir ordenación (5º y 6º parámetros)
-	// orderby tiene un valor por defecto 'date', order tiene 'desc'
-	// Se envían siempre a menos que pases undefined explícitamente a orderby
-	if (orderby) { // Solo añade orderby si se especifica (o usa el defecto)
-		apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
-		// order tiene por defecto 'desc', se añadirá si orderby está presente
-		apiUrl += `&order=${encodeURIComponent(order)}`;
-	}
-
-
-	console.log("Calling API for Products with URL:", apiUrl); // Log para depuración
+	console.log(`[WooApi] Calling API for single product with identifier ${identifier}:`, apiUrl); // Log de la URL
 
 	try {
 		const response = await fetch(apiUrl, {
 			method: 'GET',
 			headers: {
-				'Authorization': `Basic ${base64Credentials}`,
-				'User-Agent': 'ArmeriaFrontend/1.0'
+				'Authorization': `Basic ${base64Credentials}`, // Autenticación
+				'User-Agent': 'ArmeriaFrontend/1.0' // User-Agent
 			}
 		});
 
 		if (!response.ok) {
 			const errorBody = await response.text();
-			// ... (manejo de error HTTP como antes) ...
 			let errorMessage = `Error HTTP! Estado: ${response.status}`;
-             try {
-                 const errorJson = JSON.parse(errorBody);
-                 if (errorJson.message) {
-                     errorMessage += ` - Mensaje: ${errorJson.message}`;
-                 } else if (errorJson.code) {
-                     errorMessage += ` - Código: ${errorJson.code}`;
-                 }
-             } catch (errorParsingJson) {
-                 console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
-                 errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
-             }
-             console.error("API Error Response Body (Products):", errorBody);
-             throw new Error(errorMessage);
+			try {
+				const errorJson = JSON.parse(errorBody);
+				if (errorJson.message) {
+					errorMessage += ` - Mensaje: ${errorJson.message}`;
+				} else if (errorJson.code) {
+					errorMessage += ` - Código: ${errorJson.code}`;
+				}
+			} catch (errorParsingJson) {
+				console.error("[WooApi] Error al parsear cuerpo del error como JSON (Single Product):", errorParsingJson);
+				errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+			}
+			console.error("[WooApi] API Error Response Body (Single Product):", errorBody);
+			// Si es un error 404 (No Encontrado) y estábamos buscando por slug, probablemente el producto no existe con ese slug.
+			if (response.status === 404 && isSlugSearch) {
+				console.warn(`[WooApi] Product with slug "${identifier}" not found (404).`);
+				return null; // Devolvemos null si no se encuentra por slug
+			}
+			// Para otros errores (400, 500, etc.), lanzamos una excepción
+			throw new Error(errorMessage);
 		}
 
-		const totalProductsHeader = response.headers.get('X-WP-Total');
-		const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+		const productData: Product | Product[] = await response.json();
 
-		const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
-		const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
+		if (isSlugSearch) {
+			// Cuando buscas por slug (/products?slug=...), la API devuelve un array, incluso si solo hay un resultado
+			if (Array.isArray(productData) && productData.length > 0) {
+				console.log("[WooApi] Single product fetched successfully by slug:", productData[0]);
+				return productData[0]; // Devolvemos el primer (y único) producto del array
+			} else {
+				// Si el array está vacío, significa que no se encontró el producto con ese slug
+				console.warn(`[WooApi] Product with slug "${identifier}" not found in API search results (array empty).`);
+				return null;
+			}
+		} else {
+			// Cuando buscas por ID directo (/products/<id>), la API devuelve un solo objeto de producto
+			console.log("[WooApi] Single product fetched successfully by ID:", productData);
+			return productData as Product; // Casteamos a Product
+		}
 
-		const productsData: Product[] = await response.json();
-
-		return {
-			products: productsData,
-			total: totalProducts,
-			totalPages: totalPages,
-		};
 
 	} catch (caughtError: unknown) {
 		const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-		console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
-		throw error;
+		console.error(`[WooApi] Error fetching single product with identifier ${identifier}:`, error);
+		throw error; // Re-lanzamos el error para que el componente que llama (ProductPage) lo maneje
 	}
 };
 
@@ -201,3 +324,88 @@ export const getBrands = async (
          throw error; // Re-lanzamos el error para que el componente lo maneje
      }
 };
+
+
+// ======================================================================
+export const getCategories = async (
+	page: number = 1,
+	per_page: number = 100, // Aumenta si tienes muchas categorías para no paginar el menú
+	search?: string, // Opcional: buscar categorías por nombre
+	parent?: number // Opcional: filtrar por categoría padre (ej: 0 para solo categorías de nivel superior)
+	// Otros parámetros que la API de categorías acepte y que necesites (orderby, order, include, exclude, slug, hide_empty, product)
+): Promise<{ categories: Category[], total: number, totalPages: number }> => {
+
+	// *** URL del endpoint de CATEGORÍAS v3 ***
+	let apiUrl = `${SITEURL}/wp-json/wc/v3/products/categories?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&page=${page}&per_page=${per_page}`;
+
+	// Añadir parámetros de filtrado/orden si se proporcionan
+	if (search) {
+		apiUrl += `&search=${encodeURIComponent(search)}`;
+	}
+	if (parent !== undefined) { // Asegúrate de que 0 también se envíe si quieres categorías padre
+		apiUrl += `&parent=${parent}`;
+	}
+	// Si quieres ocultar categorías vacías (que tienen count = 0), podrías añadir &hide_empty=true
+	// Esto podría ser útil para no mostrar categorías del menú que no tienen productos
+	// apiUrl += `&hide_empty=true`; // <-- Opcional, descomenta si quieres
+
+
+	console.log("Calling API for Categories with URL:", apiUrl); // Log para depuración
+
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Basic ${base64Credentials}`, // Autenticación
+				'User-Agent': 'ArmeriaFrontend/1.0' // User-Agent
+			}
+		});
+
+		if (!response.ok) {
+			const errorBody = await response.text();
+			let errorMessage = `Error HTTP! Estado: ${response.status}`;
+			try {
+				const errorJson = JSON.parse(errorBody);
+				if (errorJson.message) {
+					errorMessage += ` - Mensaje: ${errorJson.message}`;
+				} else if (errorJson.code) {
+					errorMessage += ` - Código: ${errorJson.code}`;
+				}
+			} catch (errorParsingJson) {
+				console.error("[WooApi] Error al parsear cuerpo del error como JSON (Categories):", errorParsingJson);
+				errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+			}
+			console.error("API Error Response Body (Categories):", errorBody);
+			throw new Error(errorMessage); // Lanza un error si la respuesta HTTP no es OK
+		}
+
+		// *** LEER LAS CABECERAS PARA LA PAGINACIÓN DE CATEGORÍAS ***
+		const totalCategoriesHeader = response.headers.get('X-WP-Total');
+		const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+
+		const totalCategories = totalCategoriesHeader ? parseInt(totalCategoriesHeader, 10) : 0;
+		const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
+
+
+		// La respuesta exitosa es un array de objetos de Categoría
+		const categoriesData: Category[] = await response.json();
+
+		console.log("[WooApi] Categories fetched successfully:", categoriesData.length, "categories"); // Log de categorías cargadas
+		// console.log("API Response Data (Categories - Partial):", categoriesData.slice(0, 2)); // Log de las primeras 2 categorías
+		// console.log("API Response Totals (Categories):", { totalCategories, totalPages }); // Log de los totales
+
+
+		// *** RETURN FINAL ***
+		return {
+			categories: categoriesData, // Devolvemos el array de categorías
+			total: totalCategories,
+			totalPages: totalPages,
+		};
+
+	} catch (caughtError: unknown) {
+		const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+		console.error("Error al obtener categorías desde wooApi (fetch fallido o error inesperado):", error);
+		throw error; // Re-lanzamos el error para que el componente lo maneje
+	}
+};
+

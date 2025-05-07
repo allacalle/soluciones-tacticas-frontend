@@ -4,12 +4,15 @@
 export interface Product {
     id: number;
     name: string;
-    slug: string; // *** AÑADE ESTA LÍNEA ***
+    slug: string; 
+    type: string; // *** Añadido: Tipo de producto (simple, variable, etc.) ***
     price: string; // O number, dependiendo de cómo la API la devuelva y cómo la uses
     description: string;
     short_description: string; // O descripción completa si la usas
     images: Array<{
+        id: number; // *** Añadido: ID de la imagen ***
         src: string;
+        name: string; // *** Añadido: Nombre del archivo de la imagen ***
         alt: string; // Opcional, puede que no siempre venga
     }>;
     // Añade otros campos que te interesen de la API de WooCommerce (stock, categories, etc.)

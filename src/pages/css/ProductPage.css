@@ -1,0 +1,242 @@
+/* src/pages/css/ProductPage.css - Estilos para la página de producto individual */
+
+/* Contenedor principal de la página */
+.product-page-container {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: 20px auto; /* Espacio arriba/abajo y centrado */
+    padding: 0 20px; /* Padding lateral en pantallas grandes */
+    box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+/* Estilos para el mensaje de carga o error */
+.product-page-loading,
+.product-page-error,
+.product-page-not-found {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 50px 0; /* Espacio vertical */
+    padding: 20px;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.product-page-error {
+    color: #d32f2f; /* Rojo */
+    border-color: #d32f2f;
+    background-color: #ffebee; /* Rojo muy claro */
+}
+
+.product-page-not-found {
+    color: #ff9800; /* Naranja */
+    border-color: #ff9800;
+    background-color: #fff3e0; /* Naranja muy claro */
+}
+
+
+/* Estilos para el nombre del producto (H1) */
+.product-page-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.2em; /* Tamaño del título del producto */
+    color: #333; /* Color del título */
+    word-break: break-word; /* Rompe palabras largas */
+}
+
+/* Contenedor principal de detalles (imagen e información) */
+.product-details-main {
+    display: flex; /* Usa Flexbox para colocar imagen e info lado a lado */
+    gap: 40px; /* Espacio entre las columnas */
+    margin-bottom: 40px; /* Espacio debajo de esta sección */
+    flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+    align-items: flex-start; /* Alinea columnas en la parte superior */
+}
+
+/* Sección de imágenes del producto */
+.product-images {
+    flex: 1 1 450px; /* Permite crecer/encoger, con un ancho base generoso */
+    max-width: 550px; /* Ancho máximo en desktop */
+    /* Centra el bloque de imágenes si no ocupa todo el ancho */
+    margin: 0 auto;
+}
+
+/* Imagen principal del producto */
+.product-images .product-main-image {
+    display: block; /* Elimina espacio extra */
+    width: 100%; /* Ocupa el ancho de su contenedor */
+    height: auto; /* Mantiene aspecto */
+    border-radius: 8px; /* Esquinas redondeadas */
+    /* Puedes añadir un borde, sombra, etc. */
+     border: 1px solid #eee;
+     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Mensaje si no hay imagen */
+.product-images .no-product-image {
+     text-align: center;
+     border: 1px dashed #ccc;
+     padding: 50px 20px;
+     color: #777;
+     font-size: 1.1em;
+     background-color: #f0f0f0;
+     border-radius: 8px;
+}
+
+
+/* Sección de información del producto (precio, añadir al carrito, descripción breve) */
+.product-info {
+    flex: 1 1 350px; /* Permite crecer/encoger, con un ancho base */
+    max-width: 500px; /* Ancho máximo en desktop */
+    /* Para que en móvil no se centre todo si product-images está centrado */
+    margin: 0 auto;
+    display: flex; /* Usa flexbox para organizar el contenido verticalmente */
+    flex-direction: column;
+}
+
+/* Precio del producto */
+.product-info .product-price {
+    font-size: 2em; /* Tamaño del precio */
+    font-weight: bold;
+    color: #4b5320; /* Color de marca */
+    margin-bottom: 25px; /* Espacio debajo del precio */
+    flex-shrink: 0; /* Evita que el precio se encoja */
+}
+
+/* Botón de añadir al carrito (estilos básicos) */
+.product-info .add-to-cart-button {
+    display: block;
+    width: 100%; /* Ocupa todo el ancho */
+    background-color: #4b5320;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.2em; /* Tamaño de fuente del botón */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    margin-bottom: 30px; /* Espacio debajo del botón */
+    text-align: center;
+}
+
+.product-info .add-to-cart-button:hover {
+    background-color: #3a4218;
+}
+
+/* Estilo para botón deshabilitado (ej: sin stock) */
+.product-info .add-to-cart-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+/* Estilos para la descripción breve */
+.product-info .product-short-description {
+     margin-top: 20px; /* Espacio encima de la descripción breve */
+     flex-grow: 1; /* Permite que la descripción breve ocupe espacio si es necesario */
+}
+
+.product-info .product-short-description h3 {
+    font-size: 1.3em; /* Tamaño del título "Descripción Breve" */
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Asegura que el contenido HTML dentro de la descripción breve se vea bien */
+.product-info .product-short-description p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+
+/* Sección de descripción completa */
+.product-full-description {
+    margin-top: 40px; /* Espacio encima de la descripción completa */
+    margin-bottom: 40px; /* Espacio debajo */
+}
+
+.product-full-description h3 {
+    font-size: 1.6em; /* Tamaño del título "Descripción Completa" */
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee; /* Línea separadora */
+    padding-bottom: 8px;
+}
+
+/* Estilos para el contenido HTML dentro de la descripción completa */
+.product-full-description p,
+.product-full-description ul,
+.product-full-description ol,
+.product-full-description table {
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+.product-full-description ul,
+.product-full-description ol {
+    padding-left: 20px;
+}
+
+
+/* ============================================================== */
+/* Media Queries para Responsividad */
+/* ============================================================== */
+
+/* En pantallas más pequeñas (ej: tabletas y móviles) */
+@media (max-width: 768px) {
+    .product-page-container {
+        padding: 0 15px; /* Ajusta padding lateral en móviles */
+    }
+
+    /* Apila la sección de imágenes e información */
+    .product-details-main {
+        flex-direction: column; /* Apila verticalmente */
+        gap: 30px; /* Espacio entre secciones apiladas */
+        align-items: center; /* Centra las columnas apiladas */
+    }
+
+    /* Imágenes e info ocupan todo el ancho */
+    .product-images,
+    .product-info {
+        flex-basis: auto; /* Permite que Flexbox determine el tamaño */
+        max-width: 100%; /* Ocupa todo el ancho */
+        /* text-align: center; */ /* Decide si centrar o alinear a la izquierda en móviles */
+    }
+
+     /* Centra la imagen principal en móviles y limita su tamaño si es necesario */
+     .product-images .product-main-image {
+         max-width: 300px; /* Limita el tamaño de la imagen en móviles si es demasiado grande */
+         margin: 0 auto; /* Centra la imagen */
+     }
+
+    /* Ajusta la alineación del texto en móviles si lo deseas */
+    .product-info {
+        text-align: left; /* Alinea texto de info a la izquierda */
+    }
+
+    .product-info .product-price,
+    .product-info .add-to-cart-button {
+        /* Mantener display: block; width: 100%; para botón y precio si lo quieres así */
+        text-align: center; /* Centra el precio y botón si el contenedor info está centrado */
+    }
+
+
+    /* Ajusta otros paddings/márgenes en móviles si es necesario */
+    .product-page-container h1 {
+        font-size: 1.8em;
+    }
+
+    .product-info .product-price {
+         font-size: 1.6em;
+    }
+
+    .product-info .add-to-cart-button {
+         padding: 12px 15px;
+         font-size: 1.1em;
+    }
+
+    .product-full-description h3 {
+        font-size: 1.4em;
+    }
+}

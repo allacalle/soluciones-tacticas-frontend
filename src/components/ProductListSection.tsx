@@ -2,7 +2,7 @@
 
 import './css/ProductListSection.css'
 import  { useEffect, useState } from 'react'; // *** Asegúrate de importar useEffect y useState ***
-
+import { Link } from 'react-router-dom'; // *** ASEGÚRATE DE IMPORTAR Link ***
 // Importa la función para obtener productos y la interfaz Product
 // *** Asegúrate de importar getProducts desde la ruta correcta (debe ser '../api/wooApi') ***
 import { getProducts } from '../api/wooApi';
@@ -152,31 +152,37 @@ return (
              {/* Renderizado de la lista de productos (map) */}
              {!loading && !error && products.length > 0 && (
                  products.map((product) => (
-                     <div key={product.id} className="product-item"> {/* Tarjeta */}
+                    					// *** ENVUELVE el item con el componente Link ***
+					// Usa la clave en el Link, no en el div interior si el Link es el elemento más externo mapeado
+					<Link key={product.id} to={`/producto/${product.slug}`} className="product-item-link"> {/* Añadimos una clase al Link para poder estilizarlo */}
+                    <div className="product-item"> {/* Esta es la tarjeta visual del producto */}
                         {/* Imagen del Producto o Placeholder */}
-                         {product.images && product.images.length > 0 ? (
-                             <img
-                                 src={product.images[0].src}
-                                 alt={product.images[0].alt || product.name}
-                                 // *** ELIMINA ESTA PROP style={...} ***
-                                 // style={{ width: '100%', height: '180px', objectFit: 'cover', marginBottom: '10px', borderRadius: '4px' }}
-                             />
-                         ) : (
-                             // Placeholder
-                              <div className="no-image-placeholder"> {/* *** ELIMINA ESTA PROP style={...} *** */}
-                                  Sin Imagen
-                              </div>
-                         )}
+                        {product.images && product.images.length > 0 ? (
+                            <img
+                                src={product.images[0].src}
+                                alt={product.images[0].alt || product.name}
+                                className="product-image" // Asegúrate de tener esta clase en tu CSS
+                            />
+                        ) : (
+                            <div className="no-image-placeholder"> {/* Asegúrate de tener esta clase en tu CSS */}
+                                Sin Imagen
+                            </div>
+                        )}
 
-                         {/* Nombre ... */}
-                         <h3>{product.name}</h3>
+                        {/* Nombre del Producto */}
+                        <h3 className="product-title">{product.name}</h3> {/* Asegúrate de tener esta clase en tu CSS */}
 
-                         {/* Precio ... */}
-                         <p>{product.price} €</p>
+                        {/* Precio del Producto */}
+                        <p className="product-price">{product.price} €</p> {/* Asegúrate de tener esta clase en tu CSS */}
 
-                     </div>
-                 ))
-             )}
+                        {/* Puedes añadir la descripción breve aquí si quieres que aparezca en la lista */}
+                        {/* {product.short_description && <div dangerouslySetInnerHTML={{ __html: product.short_description }} />} */}
+
+                    </div> {/* Cierre de product-item */}
+                </Link> // *** Cierre del Link ***
+            ))
+        )}
+                     
 
         </div> {/* Cierre de products-display-area */}
     </section> // Cierre de product-list-section
