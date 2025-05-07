@@ -1,57 +1,69 @@
-/* src/components/SloganCard.css - Estilos refinados para la tarjeta de eslogan */
+/* src/components/css/SloganCard.css - Estilos refinados para la tarjeta de eslogan */
 
 /* Estilos para el contenedor de la tarjeta individual */
 .slogan-card {
-    border: 1px solid #ddd; /* Borde sutil */
-    padding: 25px; /* Más padding interno para dar más aire */
-    text-align: center; /* Centrar contenido (imagen, título, eslogan) */
-    width: 320px; /* Quizás un poco más ancho para acomodar más texto (ajusta si quieres) */
-    /* margin: 10px; */ /* El margen entre tarjetas lo maneja el 'gap' en .slogan-cards-container */
-    border-radius: 8px; /* Esquinas redondeadas */
-    background-color: #fff; /* Fondo blanco para destacar */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* *** AÑADE SOMBRA para que parezca flotar *** */
+	/* Borde sutil - Usamos variable de color neutro medio */
+	border: 1px solid var(--color-neutral-medium, #ddd); /* Usamos variable, con fallback */
+	/* Más padding interno para dar más aire - Usamos variable de espaciado large */
+	padding: var(--spacing-large, 25px); /* Usamos variable, con fallback (original era 25px) */
+	text-align: center; /* Centrar contenido (imagen, título, eslogan) */
+	width: 320px; /* Quizás un poco más ancho para acomodar más texto (ajusta si quieres) - Manteniendo original */
+	/* margin: 10px; */ /* El margen entre tarjetas lo maneja el 'gap' en .slogan-cards-container */
+	border-radius: 8px; /* Esquinas redondeadas - Manteniendo original */
+	/* Fondo blanco para destacar - Usamos variable de fondo claro */
+	background-color: var(--color-background-light, #fff); /* Usamos variable, con fallback */
+	/* Sombra para que parezca flotar - Manteniendo original */
+	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 
-    /* *** AÑADIMOS FLEXBOX para controlar la disposición interna (icono, título, eslogan) *** */
-    display: flex;
-    flex-direction: column; /* Apila el contenido verticalmente */
-    align-items: center; /* Centra el contenido (icono, título, eslogan) horizontalmente */
-    /* justify-content: space-between; */ /* No es necesario si usamos márgenes para el espacio entre elementos */
+	/* *** AÑADIMOS FLEXBOX para controlar la disposición interna (icono, título, eslogan) *** */
+	display: flex;
+	flex-direction: column; /* Apila el contenido verticalmente */
+	align-items: center; /* Centra el contenido (icono, título, eslogan) horizontalmente */
+	/* justify-content: space-between; */
 
-    /* Opcional: asegurar una altura mínima si quieres que todas se alineen un poco mejor */
-    /* min-height: 250px; */ /* Ajusta si es necesario */
+	/* Opcional: asegurar una altura mínima si quieres que todas se alineen un poco mejor */
+	/* min-height: 250px; */
 }
 
 /* Estilos para el área del Icono */
 .slogan-card-icon {
-    font-size: 3.5em; /* Icono un poco más grande */
-    color: #4b5320; /* Color de marca (o tu color de icono) */
-    margin-bottom: 15px; /* Espacio debajo del icono */
+	font-size: 3.5em; /* Icono un poco más grande - Manteniendo original */
+	/* Color de marca (o tu color de icono) - Usamos variable de color primario oscuro */
+	color: var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback */
+	/* Espacio debajo del icono - Usamos variable de espaciado medio */
+	margin-bottom: var(--spacing-medium, 15px); /* Usamos variable, con fallback */
 }
 
 /* Estilos para el Título de la tarjeta */
 .slogan-card-title {
-    font-size: 1.4em; /* Título más grande y legible */
-    color: #333; /* Color oscuro */
-    margin: 0 0 12px 0; /* Más espacio debajo del título */
-    font-weight: bold; /* Título en negrita */
-    /* Asegura que el texto se centre si hay saltos de línea */
-    text-align: center;
+	font-size: 1.4em; /* Título más grande y legible - Manteniendo original */
+	/* Color oscuro - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	/* Más espacio debajo del título - Manteniendo original, o usa variable */
+	margin: 0 0 12px 0; /* 12px está entre small y medium */
+	/* Título en negrita - Usamos variable bold */
+	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
+	/* Asegura que el texto se centre si hay saltos de línea */
+	text-align: center;
 }
 
 /* Estilos para el Texto del eslogan */
 .slogan-card-slogan {
-    font-size: 1em; /* Tamaño de fuente estándar (1em = tamaño base del body) */
-    color: #555; /* Color gris para el texto */
-    margin: 0; /* Quitar margen por defecto del párrafo */
-    line-height: 1.6; /* *** MEJORA LA LEGIBILIDAD con más espacio entre líneas *** */
-    /* Asegura que el texto se centre */
-    text-align: center;
+	font-size: 1.2em; /* Tamaño de fuente estándar - Manteniendo original */
+	/* Color gris para el texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
+	margin: 0; /* Quitar margen por defecto del párrafo */
+	line-height: 1.6; /* MEJORA LA LEGIBILIDAD con más espacio entre líneas - Manteniendo original */
+	/* Asegura que el texto se centre */
+	text-align: center;
+	/* Podrías añadir un margen superior si no usaste margin-bottom en el título */
+	/* margin-top: var(--spacing-small); */
 }
 
 /* Opcional: Estilo al pasar el ratón por encima de la tarjeta */
 .slogan-card:hover {
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Sombra un poco más intensa */
-    transform: translateY(-3px); /* Ligeramente levantado */
-    transition: all 0.3s ease-in-out; /* Transición suave */
-    cursor: pointer; /* Indica que es interactiva (aunque no le hemos añadido click aún) */
+	box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Sombra un poco más intensa - Manteniendo original */
+	transform: translateY(-3px); /* Ligeramente levantado - Manteniendo original */
+	transition: all 0.3s ease-in-out; /* Transición suave - Manteniendo original */
+	cursor: pointer; /* Indica que es interactiva */
 }

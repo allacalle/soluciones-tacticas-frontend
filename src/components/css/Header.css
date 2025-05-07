@@ -4,163 +4,188 @@
 /* Estilos Generales del Header */
 /* ============================================================== */
 .site-header {
-    width: 100%;
-    box-sizing: border-box;
-    /* border-bottom: 1px solid #ccc; */ /* Opcional: borde inferior */
+	width: 100%;
+	box-sizing: border-box;
+	/* Opcional: borde inferior - Usamos variable de color neutro medio */
+	/* border-bottom: 1px solid var(--color-neutral-medium, #ccc); */
 }
 
 /* ============================================================== */
 /* Fila Superior del Header (Logo, Búsqueda, Redes) */
 /* ============================================================== */
 .header-top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f8f8;
-    padding: 15px 30px; /* Espacio interno de la fila superior */
-    flex-wrap: wrap; /* Permite salto de línea */
-    gap: 20px; /* Espacio entre columnas */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	/* Fondo de la fila superior - Lo cambiamos a blanco */
+	background-color: var(--color-background-light, #fff); /* Usamos variable de fondo claro, con fallback */
+	/* Espacio interno de la fila superior - Ajustamos padding vertical para altura */
+	padding: var(--spacing-large, 24px) 30px; /* Usamos variable, con fallback (original era 15px) */
+	flex-wrap: wrap; /* Permite salto de línea en móviles */
+	/* Espacio entre columnas - Usamos variable de espaciado grande */
+	gap: var(--spacing-large, 20px); /* Usamos variable, con fallback (original era 20px) */
+	/* El color del texto general en esta fila heredará del body (oscuro por defecto) */
 }
 
 /* Sección del Logo y Nombre */
 .site-branding {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0; /* No se encoge */
+	display: flex;
+	align-items: center;
+	flex-shrink: 0; /* No se encoge */
 }
 
 /* Enlace del Logo y/o Título */
 .site-branding .site-title-link {
-   text-decoration: none;
-   color: #333;
-   display: flex;
-   align-items: center;
+	text-decoration: none;
+	/* Color del enlace/texto (si usas texto) - Lo cambiamos a oscuro para el fondo blanco */
+	color: var(--color-text-dark, #333); /* Usamos variable de texto oscuro, con fallback */
+	display: flex;
+	align-items: center;
 }
 
 /* Imagen del Logo */
 .site-branding .site-logo {
-   height: 50px; /* Altura del logo */
-   max-height: 60px;
-   width: auto;
-   margin-right: 15px; /* Espacio a la derecha del logo */
-   vertical-align: middle;
+	height: 50px; /* Altura del logo - Manteniendo original, puedes ajustar */
+	max-height: 60px; /* Máx altura - Manteniendo original */
+	width: auto;
+	/* Espacio a la derecha del logo - Usamos variable de espaciado medio */
+	margin-right: var(--spacing-medium, 15px); /* Usamos variable, con fallback */
+	vertical-align: middle;
 }
 
-/* Título del Sitio (texto junto al logo) */
+/* Título del Sitio (texto junto al logo) - Si lo usas */
 .site-branding .site-title {
-    font-weight: bold;
-    font-size: 1.8em; /* Tamaño del texto del título */
-    color: #333;
-    vertical-align: middle;
+	/* Grosor de fuente - Usamos variable bold */
+	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
+	font-size: 1.8em; /* Tamaño del texto del título - Manteniendo original */
+	/* Color del texto del título - Lo cambiamos a oscuro para el fondo blanco */
+	color: var(--color-text-dark, #333); /* Usamos variable de texto oscuro, con fallback */
+	vertical-align: middle;
 }
 
 /* Sección de la Barra de Búsqueda */
 .header-search {
-    flex-grow: 1;
-    max-width: 400px; /* Ancho máximo */
-    display: flex;
-    justify-content: center;
-    position: relative; /* *** NECESARIO para posicionar el dropdown de sugerencias *** */
+	flex-grow: 1;
+	max-width: 400px; /* Ancho máximo - Manteniendo original */
+	display: flex;
+	justify-content: center; /* Centra el formulario de búsqueda si no ocupa el ancho total */
+	position: relative; /* NECESARIO para posicionar el dropdown de sugerencias */
 }
 
 /* Input de Búsqueda */
 .header-search .search-input {
-    padding: 10px 15px; /* Espacio interno del input */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-    width: 100%;
-    box-sizing: border-box;
+	/* Espacio interno del input - Usamos variables de espaciado */
+	padding: var(--spacing-small, 10px) var(--spacing-medium, 15px); /* Usamos variables, con fallback */
+	/* Borde del input - Usamos variable de color neutro medio */
+	border: 1px solid var(--color-neutral-medium, #ccc); /* Usamos variable, con fallback */
+	border-radius: 4px; /* Radio de borde - Manteniendo original */
+	font-size: 1em; /* Tamaño de fuente - Manteniendo original */
+	width: 100%;
+	box-sizing: border-box;
+	/* Color del texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	/* Color de fondo - Usamos variable de fondo claro */
+	background-color: var(--color-background-light, #fff); /* Usamos variable, con fallback */
 }
 
-/* Sección de Redes Sociales */
-.header-social {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Espacio entre enlaces */
-}
-
-/* Enlaces de Redes Sociales */
-.header-social .social-link {
-    color: #555;
-    text-decoration: none;
-    font-size: 1em;
-    transition: color 0.2s ease-in-out;
-}
-.header-social .social-link:hover {
-    color: #000;
-}
-
-/* ============================================================== */
-/* Estilos para las Sugerencias de Búsqueda (Dropdown) - Paso 10.9 */
-/* ============================================================== */
-
-/* Contenedor del dropdown de sugerencias */
+/* Estilos para Sugerencias de Búsqueda (Dropdown) */
 .header-search .search-suggestions-dropdown {
-    position: absolute;
-    top: 100%; /* Justo debajo del input/form */
-    left: 0;
-    right: 0;
-    z-index: 200;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none; /* Para que se pegue al input */
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-    max-height: 300px; /* Altura máxima con scroll */
-    overflow-y: auto;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+	position: absolute;
+	top: 100%; /* Justo debajo del input/form */
+	left: 0;
+	right: 0;
+	z-index: 200; /* Para que esté por encima de otros elementos */
+	/* Fondo del dropdown - Usamos variable de fondo claro */
+	background-color: var(--color-background-light, #fff); /* Usamos variable, con fallback */
+	/* Borde del dropdown - Usamos variable de color neutro medio */
+	border: 1px solid var(--color-neutral-medium, #ccc); /* Usamos variable, con fallback */
+	border-top: none; /* Para que se pegue al input */
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Sombra - Manteniendo original */
+	max-height: 300px; /* Altura máxima con scroll - Manteniendo original */
+	overflow-y: auto; /* Permite scroll vertical */
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 /* UL dentro del dropdown */
 .header-search .search-suggestions-dropdown ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 /* Cada item individual de sugerencia */
 .header-search .search-suggestion-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-    display: flex; /* Alinea imagen y texto */
-    align-items: center;
-    transition: background-color 0.2s ease-in-out;
+	/* Espacio interno - Usamos variables de espaciado */
+	padding: var(--spacing-small, 10px) var(--spacing-medium, 15px); /* Usamos variables, con fallback */
+	/* Borde inferior - Usamos variable de color neutro claro */
+	border-bottom: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+	cursor: pointer;
+	display: flex; /* Alinea imagen y texto */
+	align-items: center;
+	transition: background-color 0.2s ease-in-out;
 }
 
 /* Estilo hover para los items de sugerencia */
 .header-search .search-suggestion-item:hover {
-    background-color: #f0f0f0;
+	/* Fondo en hover - Usamos variable de color neutro claro */
+	background-color: var(--color-neutral-light, #f0f0f0); /* Usamos variable, con fallback */
 }
 
 /* Estilo para la imagen pequeña de la sugerencia */
 .search-suggestion-item .suggestion-image {
-    height: 30px; /* TAMAÑO PEQUEÑO */
-    width: auto;
-    margin-right: 10px;
-    object-fit: contain;
-    flex-shrink: 0;
+	height: 30px; /* TAMAÑO PEQUEÑO - Manteniendo original */
+	width: auto;
+	/* Espacio a la derecha - Usamos variable de espaciado pequeño */
+	margin-right: var(--spacing-small, 10px); /* Usamos variable, con fallback */
+	object-fit: contain;
+	flex-shrink: 0;
 }
 
 /* Estilo para el nombre del producto en la sugerencia */
 .search-suggestion-item .suggestion-name {
-    font-size: 1em;
-    color: #333;
-    flex-grow: 1; /* Ocupa espacio restante */
-    /* text-overflow: ellipsis; */ /* Opcional: añadir si los nombres son muy largos */
-    /* white-space: nowrap; */
-    /* overflow: hidden; */
+	font-size: 1em; /* Tamaño de fuente - Manteniendo original */
+	/* Color del texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	flex-grow: 1; /* Ocupa espacio restante */
+	/* text-overflow: ellipsis; */
+	/* white-space: nowrap; */
+	/* overflow: hidden; */
 }
 
 /* Estilos para el mensaje de carga o sin resultados */
 .header-search .search-loading,
 .header-search .no-results {
-    padding: 10px 15px;
-    text-align: center;
-    color: #555;
-    font-style: italic;
+	/* Espacio interno - Usamos variables de espaciado */
+	padding: var(--spacing-small, 10px) var(--spacing-medium, 15px); /* Usamos variables, con fallback */
+	text-align: center;
+	/* Color del texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
+	font-style: italic;
+}
+
+/* Sección de Redes Sociales */
+.header-social {
+	display: flex;
+	align-items: center;
+	/* Espacio entre enlaces - Usamos variable de espaciado medio */
+	gap: var(--spacing-medium, 15px); /* Usamos variable, con fallback */
+	/* Color de los enlaces - Lo cambiamos a oscuro para el fondo blanco */
+	/* color: var(--color-text-dark, #555); */ /* No se aplica a los enlaces, solo al contenedor */
+}
+
+/* Enlaces de Redes Sociales */
+.header-social .social-link {
+	/* Color del enlace - Lo cambiamos a oscuro para el fondo blanco */
+	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
+	text-decoration: none;
+	font-size: 1em; /* Tamaño de fuente - Manteniendo original */
+	transition: color 0.2s ease-in-out;
+}
+.header-social .social-link:hover {
+	/* Color en hover - Usamos variable de color primario oscuro */
+	color: var(--color-primary-dark, #000); /* Usamos variable, con fallback */
 }
 
 
@@ -168,51 +193,61 @@
 /* Fila Inferior del Header: Navegación Principal */
 /* ============================================================== */
 .header-bottom-row {
-    background-color: #333;
-    padding: 0 30px; /* Padding lateral */
-    box-sizing: border-box;
-    width: 100%;
+	/* Fondo de la fila inferior (navegación) - Usamos variable de color primario oscuro (verde) */
+	background-color: var(--color-primary-dark, #333); /* Usamos variable, con fallback */
+	/* Padding lateral - Manteniendo original 30px o usa variable */
+	padding: 0 30px;
+	box-sizing: border-box;
+	width: 100%;
+	/* Puedes añadir borde superior si quieres separar visualmente de la fila de arriba, aunque ahora ambas son oscuras */
+	/* border-top: 1px solid rgba(var(--color-text-light-rgb), 0.1); */
 }
 
 /* Contenedor de la navegación principal */
 .main-navigation {
-    max-width: 1200px; /* Ancho máximo */
-    margin: 0 auto; /* Centra */
+	max-width: 1200px; /* Ancho máximo - Manteniendo original */
+	margin: 0 auto; /* Centra */
 }
 
 /* Lista principal de navegación (ul) */
 .main-navigation ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    /* flex-wrap: wrap; */
-    gap: 30px; /* Espacio entre LI */
-    align-items: center;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	/* flex-wrap: wrap; */
+	/* Espacio entre LI - Manteniendo original 30px o usa variable */
+	gap: 30px;
+	align-items: center;
 }
 
 /* Elemento de lista (li) */
 .main-navigation ul li {
-    padding: 15px 0; /* Padding vertical (altura de la fila) */
-    position: relative; /* Para submenús */
+	/* Padding vertical (altura de la fila) - Usamos variable de espaciado grande */
+	padding: var(--spacing-large, 24px) 0; /* Usamos variable, con fallback */
+	position: relative; /* Para submenús */
 }
 
 /* Enlaces de navegación principal */
 .main-navigation ul li .nav-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.1em;
-    font-weight: normal;
-    display: block;
-    transition: color 0.2s ease-in-out;
+	/* Color del enlace - Usamos variable de texto claro */
+	color: var(--color-text-light, #fff); /* Usamos variable, con fallback */
+	text-decoration: none;
+	/* TAMAÑO DE FUENTE - Aumentamos para que no se vea pequeño */
+	font-size: 1.4em; /* Original: 1.1em - Aumentado a 1.2em */
+	/* Grosor de fuente - Usamos variable regular */
+	font-weight: var(--font-weight-regular, normal); /* Usamos variable, con fallback */
+	display: block;
+	transition: color 0.2s ease-in-out;
 }
 .main-navigation ul li .nav-link:hover {
-    color: #b5d2c5;
+	/* Color en hover - Usamos variable de color primario claro */
+	color: var(--color-primary-light, #b5d2c5); /* Usamos variable, con fallback */
 }
 
 /* Item de Contacto al final */
 .main-navigation ul li.nav-contact-item {
-     margin-left: auto; /* Empuja a la derecha */
+	margin-left: auto; /* Empuja a la derecha */
 }
 
 /* ============================================================== */
@@ -221,43 +256,50 @@
 
 /* Contenedor del submenú */
 .main-navigation ul li .sub-menu {
-    list-style: none;
-    padding: 10px 0;
-    margin: 0;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #444;
-    min-width: 220px; /* Ancho mínimo */
-    z-index: 100;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    display: none; /* Inicialmente oculto */
-    /* border-radius: 0 0 4px 4px; */
+	list-style: none;
+	/* Espacio interno - Usamos variables de espaciado */
+	padding: var(--spacing-small, 10px) 0; /* Usamos variable, con fallback */
+	margin: 0;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	/* Fondo del submenú - Usamos variable de color neutro oscuro */
+	background-color: var(--color-neutral-dark, #444); /* Usamos variable, con fallback */
+	min-width: 220px; /* Ancho mínimo - Manteniendo original */
+	z-index: 100;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra - Manteniendo original */
+	display: none; /* Inicialmente oculto */
+	/* border-radius: 0 0 4px 4px; */
 }
 
 /* Mostrar submenú al pasar el ratón */
 .main-navigation ul li.menu-item-has-children:hover > .sub-menu {
-    display: block;
+	display: block;
 }
 
 /* Elementos de lista (li) dentro del submenú */
 .main-navigation ul li .sub-menu li {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 /* Enlaces dentro del submenú */
 .main-navigation ul li .sub-menu li .sub-menu-link {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 20px; /* Espacio interno del enlace */
-    display: block;
-    font-size: 1em;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+	/* Color del enlace - Usamos variable de texto claro */
+	color: var(--color-text-light, #fff); /* Usamos variable, con fallback */
+	text-decoration: none;
+	/* Espacio interno - Usamos variables de espaciado */
+	padding: var(--spacing-small, 8px) var(--spacing-large, 20px); /* Usamos variables, con fallback */
+	/* TAMAÑO DE FUENTE - Aumentamos para que no se vea pequeño */
+	font-size: 1.3em; /* Original: 1em - Aumentado a 1.1em */
+	display: block;
+	transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 .main-navigation ul li .sub-menu li .sub-menu-link:hover {
-    background-color: #555;
-    color: #b5d2c5;
+	/* Fondo en hover - Usamos variable de color primario claro (igual que nav link hover) */
+	background-color: var(--color-primary-light, #555); /* Usamos variable, con fallback */
+	/* Color en hover - Usamos variable de color primario claro (igual que nav link hover) */
+	color: var(--color-primary-light, #b5d2c5); /* Usamos variable, con fallback */
 }
 
 
@@ -267,65 +309,71 @@
 
 /* En pantallas más pequeñas */
 @media (max-width: 768px) {
-    /* Apila la fila superior */
-    .header-top-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-        padding: 15px 20px;
-    }
+	/* Apila la fila superior */
+	.header-top-row {
+		flex-direction: column;
+		align-items: flex-start;
+		/* Espacio entre elementos - Usamos variable de espaciado medio */
+		gap: var(--spacing-medium, 15px); /* Usamos variable, con fallback */
+		/* Espacio interno - Usamos variables de espaciado */
+		padding: var(--spacing-medium, 15px) var(--spacing-large, 20px); /* Usamos variables, con fallback */
+	}
 
-    /* Logo y Título centrado en móviles */
-    .site-branding {
-        width: 100%;
-        justify-content: center;
-    }
+	/* Logo y Título centrado en móviles */
+	.site-branding {
+		width: 100%;
+		justify-content: center;
+	}
 
-    /* Búsqueda ocupa todo el ancho */
-    .header-search {
-        width: 100%;
-        max-width: none;
-    }
+	/* Búsqueda ocupa todo el ancho */
+	.header-search {
+		width: 100%;
+		max-width: none;
+	}
 
-    /* Redes Sociales centradas en móviles */
-    .header-social {
-        width: 100%;
-        justify-content: center;
-    }
+	/* Redes Sociales centradas en móviles */
+	.header-social {
+		width: 100%;
+		justify-content: center;
+	}
 
-    /* Navegación apilada (menú hamburguesa con JS necesario para toggling) */
-    .main-navigation ul {
-         flex-direction: column;
-         gap: 0;
-         text-align: center;
-         width: 100%;
-    }
+	/* Navegación apilada (menú hamburguesa con JS necesario para toggling) */
+	.main-navigation ul {
+		flex-direction: column;
+		gap: 0; /* Sin espacio entre items apilados */
+		text-align: center;
+		width: 100%;
+	}
 
-     .main-navigation ul li {
-         width: 100%;
-         margin-right: 0;
-         padding: 10px 0;
-     }
+	.main-navigation ul li {
+		width: 100%;
+		margin-right: 0;
+		/* Espacio interno - Usamos variable de espaciado pequeño */
+		padding: var(--spacing-small, 10px) 0; /* Usamos variable, con fallback */
+	}
 
-     /* Elimina margen-left-auto del item de contacto en móviles */
-     .main-navigation ul li.nav-contact-item {
-         margin-left: 0;
-     }
+	/* Elimina margen-left-auto del item de contacto en móviles */
+	.main-navigation ul li.nav-contact-item {
+		margin-left: 0;
+	}
 
-     /* Submenús en móviles (posición estática) */
-     .main-navigation ul li .sub-menu {
-         position: static;
-         top: auto;
-         left: auto;
-         min-width: auto;
-         width: 100%;
-         background-color: #555;
-         box-shadow: none;
-         padding: 5px 0;
-         /* Display: none inicial y mostrar con JS */
-     }
+	/* Submenús en móviles (posición estática) */
+	.main-navigation ul li .sub-menu {
+		position: static;
+		top: auto;
+		left: auto;
+		min-width: auto;
+		width: 100%;
+		/* Fondo del submenú en móviles - Usamos variable de color neutro oscuro */
+		background-color: var(--color-neutral-dark, #555); /* Usamos variable, con fallback */
+		box-shadow: none;
+		/* Espacio interno - Usamos variable de espaciado pequeño */
+		padding: var(--spacing-small, 5px) 0; /* Usamos variable, con fallback */
+		/* Display: none inicial y mostrar con JS */
+	}
 
-      .main-navigation ul li .sub-menu li .sub-menu-link {
-          padding: 8px 10px;
-      }
+	.main-navigation ul li .sub-menu li .sub-menu-link {
+		/* Espacio interno - Usamos variables de espaciado pequeño */
+		padding: var(--spacing-small, 8px) var(--spacing-small, 10px); /* Usamos variables, con fallback */
+	}
 }

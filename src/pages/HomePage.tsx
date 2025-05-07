@@ -11,7 +11,6 @@ import ProductListSection from '../components/ProductListSection';
 import SloganSection from '../components/SloganSection'; 
 import ReviewCarousel from '../components/ReviewCarousel'; 
 import BrandCarousel from '../components/BrandCarousel'; // *** Importa el componente ***
-import Footer from '../components/Footer';
 
 
 
@@ -89,10 +88,6 @@ function HomePage() {
         />
 
       
-          {/* ============================================================== */}
-          {/* *** SECCIÓN DE PIE DE PÁGINA (Footer) *** */}
-          {/* ============================================================== */}
-          <Footer />
 
        
 

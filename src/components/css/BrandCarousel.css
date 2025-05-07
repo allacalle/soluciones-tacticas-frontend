@@ -2,139 +2,145 @@
 
 /* Contenedor principal de la sección de marcas */
 .brand-carousel-section {
-     margin: 40px 0;
-     padding: 40px 20px;
-     background-color: #f8f8f8; /* Fondo diferente */
-     text-align: center; /* Centrar contenido */
- }
- 
- /* Título de la sección */
- .brand-carousel-section h2 {
-     margin-bottom: 30px;
-     color: #333;
-     font-size: 2em;
- }
- 
- /* ============================================================== */
- /* ESTILOS PARA REACT-SLICK (Específicos de este carrusel) */
- /* ============================================================== */
- 
- /* Contenedor principal del Slider (dentro de la sección de marcas) */
- .brand-carousel-section .slick-slider {
-      max-width: 1200px; /* Limita el ancho */
-      margin: 0 auto; /* Centra */
-      outline: none !important; /* Eliminar outlines */
- }
- 
- /* Contenedor de la lista de diapositivas (dentro de la sección de marcas) */
- .brand-carousel-section .slick-list {
-      padding: 0 !important; /* Elimina padding por defecto si lo hay */
-      outline: none !important; /* Eliminar outlines */
- }
- 
- /* Contenedor del track (dentro de la sección de marcas) */
- .brand-carousel-section .slick-track {
-     /* Slick lo maneja */
- }
- 
- 
- /* Cada diapositiva individual (dentro de la sección de marcas) */
- .brand-carousel-section .slick-slide {
-      /* float: left; */ /* Slick lo usa */
-      /* height: 100%; */ /* Slick lo usa para igualar alturas */
-      height: auto; /* Permitir altura auto */
-      min-height: auto; /* Eliminar min-height conflictivo */
-      margin-bottom: 0; /* Eliminar margen inferior */
- 
-      /* *** SE ELIMINA EL PADDING DE AQUÍ (VA EN .brand-slide) *** */
-      /* padding: 0 10px; */
- 
-      outline: none !important; /* Eliminar outlines */
- }
- 
- /* El div que envuelve cada imagen de logo (dentro de la sección de marcas) */
- .brand-carousel-section .brand-slide {
-      display: flex; /* Flexbox para centrar imagen */
-      justify-content: center; /* Centrar horizontalmente */
-      align-items: center; /* Centra verticalmente */
- 
-      /* *** DEFINE ALTURA DEL CONTENEDOR DEL LOGO Y AÑADE EL PADDING AQUÍ *** */
-      height: 80px; /* Altura del contenedor del logo */
-      padding: 0 10px; /* *** PADDING AQUÍ para crear el gap entre logos *** */
- 
- 
-      /* Opcional: border, background, etc. para el contenedor si lo quieres */
-      /* border: 1px solid #ccc; */
-      /* background-color: white; */
-      /* border-radius: 5px; */
- }
- 
- /* La imagen del logo real (dentro del contenedor .brand-slide) */
- .brand-carousel-section .brand-slide .brand-logo {
-      max-width: 100%; /* Ajustar al ancho del contenedor */
-      max-height: 100%; /* Ajustar a la altura del contenedor */
-      display: block; /* Quita espacio extra */
-      object-fit: contain; /* Escalar sin cortar */
- 
-      /* Opcional: Fondo para la imagen si es PNG transparente */
-      /* background-color: white; */
- }
- 
- 
- /* Eliminar estilos de flechas y puntos por defecto */
- .brand-carousel-section .slick-prev,
- .brand-carousel-section .slick-next,
- .brand-carousel-section .slick-dots {
-     display: none !important; /* Oculta navegación por defecto */
- }
- 
- /* Eliminar outlines de foco adicionales */
- .brand-carousel-section .slick-slide:focus {
-      outline: none !important;
- }
+	margin: 40px 0;
+	padding: 40px 20px;
+	/* Fondo diferente - Usamos variable de fondo claro */
+	background-color: var(--color-neutral-light, #f4f4f4); /* Usamos variable, con fallback */
+	text-align: center; /* Centrar contenido */
+}
 
- /* src/components/css/BrandCarousel.css */
+/* Título de la sección */
+.brand-carousel-section h2 {
+	margin-bottom: 30px;
+	/* Color del título - Usamos variable de color de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	font-size: 2em;
+}
+
+/* ============================================================== */
+/* ESTILOS PARA REACT-SLICK (Específicos de este carrusel) */
+/* ============================================================== */
+
+/* Contenedor principal del Slider (dentro de la sección de marcas) */
+.brand-carousel-section .slick-slider {
+	max-width: 1200px; /* Limita el ancho */
+	margin: 0 auto; /* Centra */
+	outline: none !important; /* Eliminar outlines */
+}
+
+/* Contenedor de la lista de diapositivas (dentro de la sección de marcas) */
+.brand-carousel-section .slick-list {
+	padding: 0 !important; /* Elimina padding por defecto si lo hay */
+	outline: none !important; /* Eliminar outlines */
+}
+
+
+
+/* Cada diapositiva individual (dentro de la sección de marcas) */
+.brand-carousel-section .slick-slide {
+	/* float: left; */ /* Slick lo usa */
+	/* height: 100%; */ /* Slick lo usa para igualar alturas */
+	height: auto; /* Permitir altura auto */
+	min-height: auto; /* Eliminar min-height conflictivo */
+	margin-bottom: 0; /* Eliminar margen inferior */
+
+	/* *** SE ELIMINA EL PADDING DE AQUÍ (VA EN .brand-slide) *** */
+	/* padding: 0 10px; */
+
+	outline: none !important; /* Eliminar outlines */
+}
+
+/* El div que envuelve cada imagen de logo (dentro de la sección de marcas) */
+.brand-carousel-section .brand-slide {
+	display: flex; /* Flexbox para centrar imagen */
+	justify-content: center; /* Centrar horizontalmente */
+	align-items: center; /* Centra verticalmente */
+
+	/* *** DEFINE ALTURA DEL CONTENEDOR DEL LOGO Y AÑADE EL PADDING AQUÍ *** */
+	height: 80px; /* Altura del contenedor del logo */
+	/* PADDING AQUÍ para crear el gap entre logos - Usamos variable de espaciado */
+	padding: 0 var(--spacing-small, 10px); /* Usamos variable, con fallback */
+
+
+	/* Opcional: border, background, etc. para el contenedor si lo quieres */
+	/* border: 1px solid var(--color-neutral-medium, #ccc); */ /* Usamos variable, con fallback */
+	/* background-color: var(--color-neutral-lightest, white); */ /* Usamos variable, con fallback */
+	/* border-radius: 5px; */
+}
+
+/* La imagen del logo real (dentro del contenedor .brand-slide) */
+.brand-carousel-section .brand-slide .brand-logo {
+	max-width: 100%; /* Ajustar al ancho del contenedor */
+	max-height: 100%; /* Ajustar a la altura del contenedor */
+	display: block; /* Quita espacio extra */
+	object-fit: contain; /* Escalar sin cortar */
+
+	/* Opcional: Fondo para la imagen si es PNG transparente */
+	/* background-color: var(--color-neutral-lightest, white); */ /* Usamos variable, con fallback */
+}
+
+
+/* Eliminar estilos de flechas y puntos por defecto */
+.brand-carousel-section .slick-prev,
+.brand-carousel-section .slick-next,
+.brand-carousel-section .slick-dots {
+	display: none !important; /* Oculta navegación por defecto */
+}
+
+/* Eliminar outlines de foco adicionales */
+.brand-carousel-section .slick-slide:focus {
+	outline: none !important;
+}
+
+/* --- INICIO SEGUNDA PARTE DEL CÓDIGO ORIGINAL --- */
+/* Esta parte parece definir un banner de título separado, que es una buena idea */
 
 /* ... Estilos para .brand-carousel-section ... */
+/* NOTA: Esta regla está duplicada con la de arriba en el código original.
+         Mantendremos las variables de color en ambas como pediste. */
 .brand-carousel-section {
-     margin: 40px 0;
-     padding: 40px 20px; /* Padding de la sección. El banner tendrá su propio padding */
-     background-color: #f8f8f8;
-     text-align: center; /* Centra el carrusel, no el texto del banner (el banner se centrará por sí solo) */
- }
- 
- /* *** ELIMINAR LA REGLA ANTERIOR PARA EL H2 AQUÍ *** */
- /* .brand-carousel-section h2 { ... } */
- 
- 
- /* ============================================================== */
- /* *** ESTILOS PARA EL BANNER DEL TÍTULO DE LA SECCIÓN DE MARCAS *** */
- /* ============================================================== */
- .brand-section-title-container { /* Nuevo contenedor para el título */
-      background-color: #4b5320; /* *** Color de fondo del banner (similar a tu banner de productos) *** */
-      color: #fff; /* *** Color del texto del banner *** */
-      padding: 15px 20px; /* *** Espacio interno del banner *** */
-      text-align: center; /* *** Centrar el texto dentro del banner *** */
-      margin-bottom: 30px; /* Espacio debajo del banner y antes del carrusel */
-      width: 100%; /* Asegura que el banner ocupa el ancho de la sección */
-      box-sizing: border-box; /* Asegura que el padding no aumenta el ancho */
- 
-      /* Puedes añadir border-radius si quieres esquinas redondeadas para el banner */
-      /* border-radius: 5px; */
- }
- 
- /* Estilos para el H2 dentro del contenedor del banner */
- .brand-section-title-container h2 {
-     margin: 0; /* Quita el margen por defecto del h2 para que el padding del contenedor lo controle */
-     font-size: 1.8em; /* Tamaño del título (ajusta si es necesario) */
-     font-weight: bold; /* Grosor del título */
-     color: inherit; /* Hereda el color blanco del contenedor */
- }
- 
- 
- /* ... El resto de los estilos de BrandCarousel.css (para Slick, logos, etc.) ... */
- 
- /* ============================================================== */
- /* ESTILOS PARA REACT-SLICK */
- /* ============================================================== */
- /* ... etc. ... */
+	margin: 40px 0;
+	/* Padding de la sección. El banner tendrá su propio padding */
+	padding: 40px 20px; /* Manteniendo el padding original aquí */
+	/* Usamos variable de fondo claro */
+	background-color: var(--color-neutral-light, #f8f8f8); /* Usamos variable, con fallback */
+	/* Centra el carrusel, no el texto del banner (el banner se centrará por sí solo) */
+	text-align: center;
+}
+
+/* *** ELIMINAR LA REGLA ANTERIOR PARA EL H2 AQUÍ *** */
+/* .brand-carousel-section h2 { ... } */
+/* NOTA: Este comentario sugiere eliminar la regla h2 de arriba, pero la mantendremos como estaba en tu original */
+
+
+/* ============================================================== */
+/* *** ESTILOS PARA EL BANNER DEL TÍTULO DE LA SECCIÓN DE MARCAS *** */
+/* ============================================================== */
+.brand-section-title-container { /* Nuevo contenedor para el título */
+	/* Color de fondo del banner (similar a tu banner de productos) - Usamos variable de color primario oscuro */
+	background-color: var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback */
+	/* Color del texto del banner - Usamos variable de texto claro */
+	color: var(--color-text-light, #fff); /* Usamos variable, con fallback */
+	/* Espacio interno del banner - Manteniendo valores originales */
+	padding: 15px 20px;
+	/* Centrar el texto dentro del banner */
+	text-align: center;
+	/* Espacio debajo del banner y antes del carrusel - Manteniendo valor original */
+	margin-bottom: 30px;
+	/* Asegura que el banner ocupa el ancho de la sección */
+	width: 100%;
+	/* Asegura que el padding no aumenta el ancho */
+	box-sizing: border-box;
+
+	/* Puedes añadir border-radius si quieres esquinas redondeadas para el banner */
+	/* border-radius: 5px; */
+}
+
+/* Estilos para el H2 dentro del contenedor del banner */
+.brand-section-title-container h2 {
+	margin: 0; /* Quita el margen por defecto del h2 para que el padding del contenedor lo controle */
+	font-size: 1.8em; /* Tamaño del título (ajusta si es necesario) */
+	font-weight: var(--font-weight-bold, bold); /* Usamos variable de grosor de fuente, con fallback */
+	color: inherit; /* Hereda el color blanco del contenedor */
+}
+/* --- FIN SEGUNDA PARTE DEL CÓDIGO ORIGINAL --- */

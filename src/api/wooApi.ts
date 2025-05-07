@@ -58,123 +58,109 @@ export const getCategoryIdBySlug = async (slug: string): Promise<number | null> 
 // Función getProducts: Acepta paginación, categoría, orden, filtros y lista de IDs
 // *** FUNCIÓN getProducts CON 9 PARÁMETROS Y CONSTRUCCIÓN DE URL CORREGIDA ***
 export const getProducts = async (
-	page: number = 1,
-	per_page: number = 10,
-	category?: string | number, // Ahora puede ser string (slug o lista de IDs) o number (ID)
-	search?: string,
-	orderby: string = 'date',
-	order: 'asc' | 'desc' = 'desc',
-	on_sale?: boolean,
-	featured?: boolean,
-	includeIds?: number[]
+    page: number = 1,
+    per_page: number = 10,
+    // 'category' siempre será una cadena de IDs (ej: "47" o "47,52") o undefined,
+    // proveniente de categoryIdsString en ProductListPage.tsx
+    categoryIdsString?: string,
+    search?: string,
+    orderby: string = 'date',
+    order: 'asc' | 'desc' = 'desc',
+    on_sale?: boolean,
+    featured?: boolean,
+    includeIds?: number[]
 ): Promise<{ products: Product[], total: number, totalPages: number }> => {
 
-	let categoryQueryParam = ''; // Variable para almacenar el parámetro '&category=' que añadiremos a la URL
+    let categoryQueryParam = '';
 
-	if (category !== undefined && category !== null) { // Asegurarse de que category tiene un valor
-		if (typeof category === 'string') {
-			// Si es un string, verificamos si es una lista de IDs separada por comas
-			if (category.includes(',')) {
-				// Si contiene comas, asumimos que es una lista de IDs y la usamos directamente
-				categoryQueryParam = `&category=${encodeURIComponent(category)}`;
-			} else {
-				// Si es un string sin comas, asumimos que es un slug y obtenemos su ID primero
-				const fetchedCategoryId = await getCategoryIdBySlug(category);
-				if (fetchedCategoryId !== null) {
-					categoryQueryParam = `&category=${fetchedCategoryId}`;
-				} else {
-					console.warn(`Categoría con slug "${category}" no encontrada. No se aplicará filtro por categoría.`);
-					// Si el slug no se encuentra, no añadimos el filtro de categoría
-				}
-			}
-		} else if (typeof category === 'number') {
-			// Si es un número, asumimos que es un ID y lo usamos directamente
-			categoryQueryParam = `&category=${category}`;
-		}
-		// Si 'category' es de otro tipo, simplemente no añadimos el parámetro de categoría.
-	}
+    // Si se proporciona una cadena de IDs de categoría y no está vacía, la usamos directamente.
+    // ProductListPage.tsx ya ha resuelto los slugs a IDs y los ha agrupado.
+    if (categoryIdsString && categoryIdsString.trim().length > 0) {
+        // No importa si es "47" o "47,52", la API de WooCommerce lo maneja.
+        categoryQueryParam = `&category=${encodeURIComponent(categoryIdsString.trim())}`;
+    } else {
+        // Opcional: log si no se aplica filtro de categoría
+        console.log('[WooApi getProducts] No se proporcionó categoryIdsString o está vacío. No se aplicará filtro de categoría por esta vía.');
+    }
 
+    let apiUrl = `${SITEURL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
+    apiUrl += `&page=${page}&per_page=${per_page}`;
 
-	let apiUrl = `${SITEURL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
-	apiUrl += `&page=${page}&per_page=${per_page}`;
+    // Añadimos el parámetro de categoría solo si se generó categoryQueryParam
+    if (categoryQueryParam) {
+        apiUrl += categoryQueryParam;
+    }
 
-	// Añadimos el parámetro de categoría solo si se generó categoryQueryParam
-	if (categoryQueryParam) {
-		apiUrl += categoryQueryParam;
-	}
-
-	// ... (Resto de parámetros como search, orderby, order, on_sale, featured, includeIds - MANTENLOS IGUAL) ...
-
-	if (search) {
-		apiUrl += `&search=${encodeURIComponent(search)}`;
-	}
-
-	if (on_sale !== undefined) {
-		apiUrl += `&on_sale=${on_sale}`;
-	}
-
-	if (featured !== undefined) {
-		apiUrl += `&featured=${featured}`;
-	}
-
-	if (includeIds && includeIds.length > 0) {
-		apiUrl += `&include=${includeIds.join(',')}`;
-	}
-
-	if (orderby) {
-		apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
-		apiUrl += `&order=${encodeURIComponent(order)}`;
-	}
+    // El resto de tu lógica para añadir search, on_sale, featured, includeIds, orderby, order está bien
+    if (search) {
+        apiUrl += `&search=${encodeURIComponent(search)}`;
+    }
+    if (on_sale !== undefined) {
+        apiUrl += `&on_sale=${on_sale}`;
+    }
+    if (featured !== undefined) {
+        apiUrl += `&featured=${featured}`;
+    }
+    if (includeIds && includeIds.length > 0) {
+        apiUrl += `&include=${includeIds.join(',')}`;
+    }
+    // Es importante que orderby y order se añadan después de otros filtros
+    // si así lo requiere tu lógica, o si orderby tiene un valor por defecto
+    // que quieres que siempre se aplique.
+    if (orderby) { // Asegúrate que orderby y order se aplican siempre si tienen valor
+        apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
+        apiUrl += `&order=${encodeURIComponent(order)}`;
+    }
 
 
-	console.log("Calling API for Products with URL:", apiUrl);
+    console.log("Calling API for Products with URL:", apiUrl);
 
-	try {
-		const response = await fetch(apiUrl, {
-			method: 'GET',
-			headers: {
-				'Authorization': `Basic ${base64Credentials}`,
-				'User-Agent': 'ArmeriaFrontend/1.0'
-			}
-		});
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Basic ${base64Credentials}`,
+                'User-Agent': 'ArmeriaFrontend/1.0'
+            }
+        });
 
-		if (!response.ok) {
-			const errorBody = await response.text();
-			let errorMessage = `Error HTTP! Estado: ${response.status}`;
-			try {
-				const errorJson = JSON.parse(errorBody);
-				if (errorJson.message) {
-					errorMessage += ` - Mensaje: ${errorJson.message}`;
-				} else if (errorJson.code) {
-					errorMessage += ` - Código: ${errorJson.code}`;
-				}
-			} catch (errorParsingJson) {
-				console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
-				errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
-			}
-			console.error("API Error Response Body (Products):", errorBody);
-			throw new Error(errorMessage);
-		}
+        if (!response.ok) {
+            const errorBody = await response.text();
+            let errorMessage = `Error HTTP! Estado: ${response.status}`;
+            try {
+                const errorJson = JSON.parse(errorBody);
+                if (errorJson.message) {
+                    errorMessage += ` - Mensaje: ${errorJson.message}`;
+                } else if (errorJson.code) {
+                    errorMessage += ` - Código: ${errorJson.code}`;
+                }
+            } catch (errorParsingJson) {
+                console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
+                errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+            }
+            console.error("API Error Response Body (Products):", errorBody);
+            throw new Error(errorMessage);
+        }
 
-		const totalProductsHeader = response.headers.get('X-WP-Total');
-		const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+        const totalProductsHeader = response.headers.get('X-WP-Total');
+        const totalPagesHeader = response.headers.get('X-WP-TotalPages');
 
-		const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
-		const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
+        const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
+        const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
 
-		const productsData: Product[] = await response.json();
+        const productsData: Product[] = await response.json();
 
-		return {
-			products: productsData,
-			total: totalProducts,
-			totalPages: totalPages,
-		};
+        return {
+            products: productsData,
+            total: totalProducts,
+            totalPages: totalPages,
+        };
 
-	} catch (caughtError: unknown) {
-		const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-		console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
-		throw error;
-	}
+    } catch (caughtError: unknown) {
+        const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+        console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
+        throw error;
+    }
 };
 
 // ======================================================================

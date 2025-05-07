@@ -1,78 +1,101 @@
-/* src/components/ReviewCard.css - Estilos refinados y profesionales para la tarjeta de reseña */
+/* src/components/css/ReviewCard.css - Estilos refinados y profesionales para la tarjeta de reseña */
 
 /* Contenedor principal de la tarjeta de reseña */
 .review-card {
-    border: 1px solid #ddd;
-    border-top: 5px solid #4b5320; /* Borde superior verde */
-    padding: 25px;
-    border-radius: 8px;
-    background-color: #b5d2c5; /* Fondo verde suave de la tarjeta */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	/* Borde general - Usamos variable de color neutro medio */
+	border: 1px solid var(--color-neutral-medium, #ddd); /* Usamos variable, con fallback */
+	/* Borde superior verde - Usamos variable de color primario oscuro */
+	border-top: 5px solid var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback. 5px es un grosor fijo. */
+	/* Espacio interno - Usamos variable de espaciado large */
+	padding: var(--spacing-large, 25px); /* Usamos variable, con fallback (original era 25px) */
+	/* Radio de borde - Manteniendo original, o usa variable */
+	border-radius: 8px;
+	/* Fondo verde suave de la tarjeta - Usamos variable o define una nueva */
+	/* Nota: #b5d2c5 es un verde específico. Puedes usar var(--color-primary-light)
+             si te gusta, o definir una variable nueva como --color-background-review-card */
+	background-color: var(--color-primary-light, #b5d2c5); /* Usamos variable primaria clara, con fallback */
+	/* O si quieres un fondo blanco/claro y que el color venga del borde/texto: */
+	/* background-color: var(--color-background-light, #fff); */
 
-    /* *** MODIFICADO PARA ASEGURAR ALTURA CONSISTENTE Y FLEXIBILIDAD *** */
-    width: 100%; /* Ocupa el 100% del ancho de su contenedor (.slick-slide > div) */
-    height: 100%; /* *** Asegura que estira su altura al 100% del contenedor *** */
-    min-height: 240px; /* Mantén un min-height como respaldo, ajusta si es necesario */
-    min-width: none;
+	/* Sombra - Manteniendo original */
+	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	/* *** MODIFICADO PARA ASEGURAR ALTURA CONSISTENTE Y FLEXIBILIDAD *** */
+	width: 100%; /* Ocupa el 100% del ancho de su contenedor (.slick-slide > div) */
+	height: 100%; /* *** Asegura que estira su altura al 100% del contenedor *** */
+	min-height: 240px; /* Mantén un min-height como respaldo, ajusta si es necesario */
+	min-width: none;
 
-    /* margin-top: auto; en .reviewer-name ya ayuda a empujar el nombre hacia abajo */
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-    position: relative;
+	/* margin-top: auto; en .reviewer-name ya ayuda a empujar el nombre hacia abajo */
+
+	position: relative;
 }
 
 /* Estilos para el icono de comillas o rating (opcional) */
 /* .review-icon, .review-rating {
-    margin-bottom: 15px;
-    color: #4b5320; // Color de marca
-    font-size: 2em;
+    // Espacio debajo - Usamos variable de espaciado medio
+    margin-bottom: var(--spacing-medium, 15px); // Usamos variable, con fallback
+    // Color de marca - Usamos variable de color primario oscuro
+    color: var(--color-primary-dark, #4b5320); // Usamos variable, con fallback
+    font-size: 2em; // Tamaño de fuente - Manteniendo original
 } */
 
 
 /* Estilos para el Texto de la reseña */
 .review-text {
-    font-size: 1.25em;
-    font-style: italic;
-    font-weight: 1000;
-    color: #555;
-    margin: 0 0 15px 0;
-    line-height: 1.6;
-    text-align: center;
+	font-size: 1.25em; /* Tamaño de fuente - Manteniendo original */
+	font-style: italic; /* Estilo de fuente - Manteniendo original */
+	/* Grosor de fuente - Usamos variable bold (original era 1000, puede que no se soporte) */
+	font-weight: var(--font-weight-bold, 700); /* Usamos variable bold, con fallback (original era 1000) */
+	/* Color del texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
+	/* Espacio debajo - Usamos variable de espaciado medio */
+	margin: 0 0 var(--spacing-medium, 15px) 0; /* Usamos variable, con fallback */
+	line-height: 1.6; /* Espaciado entre líneas - Manteniendo original */
+	text-align: center;
 
-    /* *** PROPIEDADES PARA LIMITAR TEXTO A 4 LÍNEAS (verifica que están aquí) *** */
-    display: -webkit-box;
-    -webkit-line-clamp: 4; /* Límite de 4 líneas para Webkit */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-clamp: 4;
-
-
-    /* Asegura que el texto no fuerce un alto mayor si la limitación de líneas falla */
-    /* Esto puede ayudar a la altura consistente si el text-overflow funciona */
-    /* max-height: calc(1.6em * 4); */ /* Altura máx basada en line-height * líneas */
+	/* *** PROPIEDADES PARA LIMITAR TEXTO A 4 LÍNEAS (verifica que están aquí) *** */
+	display: -webkit-box;
+	-webkit-line-clamp: 4; /* Límite de 4 líneas para Webkit */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-clamp: 4;
 
 
-    /* ... (otras propiedades) ... */
+	/* Asegura que el texto no fuerce un alto mayor si la limitación de líneas falla */
+	/* max-height: calc(1.6em * 4); */
+
+
+	/* ... (otras propiedades) ... */
 }
 
 /* Estilos para el Nombre del cliente */
 .reviewer-name {
-    font-size: 0.9em;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-    margin: 0;
-    margin-top: auto; /* Empuja el nombre al final del contenedor flex (.review-card) */
+	font-size: 0.9em; /* Tamaño de fuente - Manteniendo original */
+	/* Grosor de fuente - Usamos variable bold */
+	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
+	text-align: center;
+	/* Color del nombre - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	margin: 0;
+	margin-top: auto; /* Empuja el nombre al final del contenedor flex (.review-card) */
 }
+
 /* Opcional: Estilo al pasar el ratón */
 .review-card:hover {
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    transform: translateY(-3px);
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
+	/* Sombra - Manteniendo original */
+	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+	/* Transform - Manteniendo original */
+	transform: translateY(-3px);
+	/* Transición - Manteniendo original */
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+	/* Puedes añadir un borde o outline al pasar el ratón */
+	/* outline: 2px solid var(--color-accent); */
 }

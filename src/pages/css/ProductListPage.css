@@ -1,0 +1,268 @@
+/* src/pages/css/ProductListPage.css - Estilos para la página de lista de productos */
+
+/* Contenedor principal de la página de lista de productos */
+.product-list-page-container {
+	max-width: 1200px; /* Ancho máximo del contenido - Igual que otras páginas */
+	/* Espacio arriba/abajo y centrado - Usamos variable de espaciado large */
+	margin: var(--spacing-large, 20px) auto; /* Usamos variable, con fallback */
+	/* Padding lateral - Usamos variable de espaciado large */
+	padding: 0 var(--spacing-large, 20px); /* Usamos variable, con fallback */
+	box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+
+/* Estilos para el mensaje de carga o error/no encontrado (reutilizados de ProductPage.css) */
+.product-page-loading,
+.product-page-error,
+.product-page-not-found {
+	text-align: center;
+	font-size: 1.2em;
+	/* Espacio vertical - Manteniendo original 50px, o usa variable grande */
+	margin: 50px 0; /* O var(--spacing-extra-large, 50px) si defines */
+	/* Espacio interno - Usamos variable de espaciado large */
+	padding: var(--spacing-large, 20px); /* Usamos variable, con fallback */
+	/* Borde - Usamos variable de color neutro claro */
+	border: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+	/* Fondo - Usamos variable de color neutro claro */
+	background-color: var(--color-neutral-light, #f9f9f9); /* Usamos variable, con fallback */
+	border-radius: 5px;
+}
+
+.product-page-error {
+	/* Color - Color de error, mantengo fijo con comentario */
+	color: #d32f2f; /* Rojo - Considera variable --color-error */
+	/* Color de borde - Color de error, mantengo fijo con comentario */
+	border-color: #d32f2f; /* Considera variable --color-error */
+	/* Color de fondo - Fondo de error, mantengo fijo con comentario */
+	background-color: #ffebee; /* Rojo muy claro - Considera variable --color-background-error */
+}
+
+.product-page-not-found {
+	/* Color - Color de advertencia/no encontrado, mantengo fijo con comentario */
+	color: #ff9800; /* Naranja - Considera variable --color-warning */
+	/* Color de borde - Color de advertencia/no encontrado, mantengo fijo con comentario */
+	border-color: #ff9800; /* Considera variable --color-warning */
+	/* Color de fondo - Fondo de advertencia, mantengo fijo con comentario */
+	background-color: #fff3e0; /* Naranja muy claro - Considera variable --color-background-warning */
+}
+
+
+/* Estilos para el título de la categoría (H2) */
+.product-list-page-container h2 {
+	text-align: center;
+	/* Espacio debajo del título - Usamos variable de espaciado large */
+	margin-bottom: var(--spacing-large, 20px); /* Usamos variable, con fallback */
+	font-size: 2em; /* Tamaño del título de categoría */
+	/* Color del título - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	/* Grosor de fuente - Podrías usar variable bold */
+	/* font-weight: var(--font-weight-bold); */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+}
+
+/* Estilos para la información de paginación */
+.pagination-info {
+	text-align: center;
+	/* Espacio debajo - Usamos variable de espaciado large */
+	margin-bottom: var(--spacing-large, 20px); /* Usamos variable, con fallback */
+	/* Borde inferior - Usamos variable de color neutro claro */
+	border-bottom: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+	/* Espacio interno inferior - Usamos variable de espaciado pequeño */
+	padding-bottom: var(--spacing-small, 10px); /* Usamos variable, con fallback */
+	/* Color del texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+}
+
+.pagination-info p {
+	margin: 5px 0; /* Pequeño margen entre párrafos de info */
+}
+
+
+/* Estilos para el contenedor de la cuadrícula de productos */
+/* *** IMPORTANTE: Usamos Grid aquí en lugar de Flexbox para una cuadrícula *** */
+.products-display-area {
+	/* Quitamos overflow-x: auto; y justify-content: space-around; de la versión carrusel */
+	display: grid; /* CAMBIADO a Grid */
+	/* Define las columnas: repite automáticamente columnas de un ancho mínimo de 250px y máximo 1fr (ajusta 250px) */
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Puedes ajustar el ancho mínimo (250px) */
+	/* Espacio entre elementos de la cuadrícula (tanto filas como columnas) - Usamos variable de espaciado large */
+	gap: var(--spacing-large, 20px); /* Usamos variable, con fallback */
+	/* Puedes añadir padding lateral si no lo manejas en el contenedor principal */
+	/* padding: 0 var(--spacing-medium); */
+
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí para los items */
+	/* font-family: var(--font-family-base); */
+}
+
+/* Estilos para los botones de paginación (debajo de la lista de productos) */
+.pagination-buttons {
+	/* Espacio superior - Usamos variable de espaciado large */
+	margin-top: var(--spacing-large, 20px); /* Usamos variable, con fallback */
+	text-align: center; /* Centra los botones */
+}
+
+.pagination-buttons button {
+	/* Puedes añadir estilos específicos para los botones de paginación si difieren de los botones globales */
+	/* Por ahora, heredarán los estilos de button definidos en index.css */
+	/* Espacio a la derecha del botón "Anterior" y a la izquierda del botón "Siguiente" */
+	margin: 0 var(--spacing-small, 10px); /* Usamos variable de espaciado pequeño */
+	/* Añadimos padding para que el botón tenga tamaño (ESTO ES NUEVO/AJUSTADO) */
+	padding: var(--spacing-small, 8px) var(--spacing-medium, 15px); /* Usamos variables, con fallback */
+	/* Transición para efectos hover/active */
+	transition: all 0.3s ease;
+}
+
+.pagination-buttons button:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+/* ============================================================== */
+/* ESTILOS DE LAS TARJETAS DE PRODUCTO INDIVIDUALES (REUTILIZADOS DE ProductListSection.css) */
+/* ============================================================== */
+/* Nota: Copiamos las reglas que ya refinamos para .product-item y sus elementos internos */
+
+/* Estilos para cada tarjeta individual de producto */
+.product-item {
+	/* flex-shrink: 0; */ /* No necesario en Grid */
+	/* width: 220px; */ /* No necesario en Grid, el ancho lo maneja la cuadrícula (minmax) */
+	text-align: center;
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	padding: var(--spacing-medium, 15px);
+	border-radius: 8px;
+	background-color: var(--color-background-light, #fff);
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	/* Asegura que la altura sea consistente */
+	min-height: 300px; /* Manteniendo original */
+
+	/* Añadimos transición para el hover si no está en el .product-item-link */
+	transition: all 0.3s ease-in-out;
+}
+
+/* Estilos para el enlace que envuelve la tarjeta de producto */
+.product-item-link {
+	text-decoration: none; /* Quita el subrayado de todo el contenido */
+	color: inherit; /* Hereda el color de texto del padre (.products-display-area o body) */
+	display: block; /* El enlace debe ser de bloque para envolver la tarjeta correctamente */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+}
+
+
+/* Estilos para la imagen dentro de la tarjeta */
+.product-item img {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	margin-bottom: var(--spacing-medium, 15px);
+	border-radius: 4px;
+}
+
+/* Estilos para el placeholder de imagen */
+.product-item .no-image-placeholder {
+	width: 100%;
+	height: 180px;
+	background-color: var(--color-neutral-medium, #ccc);
+	margin-bottom: var(--spacing-medium, 15px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	color: var(--color-text-dark, #555);
+	font-size: 0.9em;
+}
+
+/* Estilos para el nombre del producto (H3) */
+.product-item h3 {
+	font-size: 1.1em;
+	margin: 0 0 var(--spacing-small, 8px) 0;
+	font-weight: var(--font-weight-bold, bold);
+	color: var(--color-text-dark, #333);
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Estilos para el precio del producto (P) */
+.product-item p {
+	font-size: 2em; /* Tu tamaño actual (2em) */
+	color: var(--color-accent, #007bff); /* Usa la variable que prefieras */
+
+	margin: 0;
+	font-weight: var(--font-weight-bold, bold);
+	margin-top: auto;
+
+	/* Propiedades para el cuadrito fino alrededor */
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	padding: var(--spacing-small, 8px);
+	border-radius: 4px;
+	display: inline-block;
+
+	/* text-decoration: none; */ /* Se quita en el enlace padre */
+
+	/* transition: all 0.2s ease-in-out; */
+}
+
+/* Opcional: Estilo al pasar el ratón por encima de la tarjeta */
+/* Aplicamos el hover al enlace .product-item-link */
+.product-item-link:hover .product-item { /* Aplica el estilo al div .product-item cuando el enlace .product-item-link tiene hover */
+	box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+	transform: translateY(-4px);
+	/* La transición está definida en .product-item */
+}
+
+
+/* ============================================================== */
+/* Media Queries para Responsividad */
+/* ============================================================== */
+
+/* Ajustes de padding en pantallas pequeñas */
+@media (max-width: 768px) {
+	.product-list-page-container {
+		/* Ajusta padding lateral en móviles - Manteniendo original 15px, o usa variable medio */
+		padding: 0 15px; /* O var(--spacing-medium, 15px); */
+	}
+
+	/* Ajusta el número de columnas en la cuadrícula en pantallas pequeñas */
+	/* Por ejemplo, solo 1 o 2 columnas */
+	.products-display-area {
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ejemplo: mínimo 150px, 2 o 3 columnas en tablets */
+		/* O si quieres una columna en móviles y dos en tablets: */
+		/* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */ /* Ejemplo: mínimo 280px para una columna en móviles */
+	}
+
+	/* Ajusta tamaños de fuente si es necesario en móviles */
+	.product-list-page-container h2 {
+		font-size: 1.8em; /* Un poco más pequeño en móviles */
+	}
+
+	/* Ajusta espaciado de paginación si es necesario */
+	.pagination-info {
+		margin-bottom: var(--spacing-medium, 15px); /* Un poco menos espacio */
+		padding-bottom: var(--spacing-small, 8px);
+	}
+
+	.pagination-buttons {
+		margin-top: var(--spacing-medium, 15px); /* Un poco menos espacio */
+	}
+
+	/* Puedes ajustar el tamaño de fuente del precio en la tarjeta si 2em es demasiado grande en móviles */
+	.product-item p {
+		font-size: 1.6em; /* Ejemplo: reducir tamaño del precio en móviles */
+	}
+}
+
+/* Media Query adicional para tabletas si quieres 2 o 3 columnas antes de una */
+/* @media (min-width: 480px) and (max-width: 768px) {
+    .products-display-area {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+} */

@@ -2,38 +2,53 @@
 
 /* Estilos para el contenedor principal de la sección de eslóganes */
 .slogan-section {
-    margin: 40px 0; /* Espacio arriba y abajo para separar */
-    padding: 40px 20px; /* Más padding interno para dar aire */
-    /* background-color: #e9ecef; */ /* Puedes comentar o quitar el color de fondo sólido */
+	/* Espacio arriba y abajo para separar - Manteniendo original, o usa variable */
+	margin: 40px 0;
+	/* Más padding interno para dar aire - Manteniendo original, o usa variable */
+	padding: 40px 20px;
+	/* Puedes comentar o quitar el color de fondo sólido */
+	/* background-color: var(--color-neutral-light, #e9ecef); */ /* Usamos variable neutro claro, con fallback */
 
-    /* *** ESTAS SON LAS PROPIEDADES PARA LA IMAGEN DE FONDO *** */
-    background-image: url('/images/fondoSlogan.jpg'); /* *** CAMBIA 'fondo-slogan.jpg' por el nombre de tu archivo *** */
-    background-size: cover; /* Hace que la imagen cubra toda el área sin distorsionarse */
-    background-position: center; /* Centra la imagen en el área */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+	/* *** ESTAS SON LAS PROPIEDADES PARA LA IMAGEN DE FONDO - MANTENIENDO ORIGINALES *** */
+	background-image: url('/images/fondoSlogan.jpg'); /* *** CAMBIA 'fondoSlogan.jpg' por el nombre de tu archivo si es diferente *** */
+	background-size: cover; /* Hace que la imagen cubra toda el área sin distorsionarse */
+	background-position: center; /* Centra la imagen en el área */
+	background-repeat: no-repeat; /* Evita que la imagen se repita */
+	/* Opcional: añadir un color de fondo de fallback si la imagen no carga */
+	/* background-color: var(--color-primary-dark); */
 
-    text-align: center; /* Centrar el contenido (si tuviera un título principal) */
-    /* Opcional: Añadir un borde o sombra si quieres más separación */
-    /* border-bottom: 1px solid #ccc; */
+	text-align: center; /* Centrar el contenido (si tuviera un título principal) */
+	/* Opcional: Añadir un borde o sombra si quieres más separación */
+	/* border-bottom: 1px solid var(--color-neutral-medium, #ccc); */ /* Usamos variable neutro medio, con fallback */
 }
 
 /* Estilos para el contenedor de las tarjetas individuales (Flexbox) */
 .slogan-cards-container {
-    display: flex;
-    justify-content: space-evenly; /* O center, space-around... decide cómo distribuir el espacio extra */
-    flex-wrap: nowrap; /* Asegura que se quedan en una línea */
+	display: flex;
+	/* Cómo distribuir el espacio extra - Manteniendo original */
+	justify-content: space-evenly; /* O center, space-around... */
+	flex-wrap: nowrap; /* Asegura que se quedan en una línea */
 
-    /* *** AUMENTA EL VALOR DEL GAP NUEVAMENTE *** */
-    gap: 5%; /* Espacio entre las tarjetas - Aumentado a 80px */
-    margin: 0 auto; /* Centra el contenedor de tarjetas */
+	/* Espacio entre las tarjetas - Manteniendo original 5% */
+	gap: 5%; /* Puedes usar un valor fijo como var(--spacing-large) si prefieres px */
+	margin: 0 auto; /* Centra el contenedor de tarjetas */
 
-    /* Opcional: overflow-x si no quieres que se aplasten en ventanas muy estrechas */
+	/* Opcional: overflow-x si no quieres que se aplasten en ventanas muy estrechas */
+	/* overflow-x: auto; */
+	/* Opcional: limitar ancho máximo del contenedor de tarjetas */
+	/* max-width: 1200px; */
+	/* Opcional: añadir padding horizontal si overflow-x es auto */
+	/* padding: 0 var(--spacing-large); */
 }
 
 
 /* Opcional: Estilos para el título principal de la sección si lo añades */
 /* .slogan-section h2 {
-    margin-bottom: 30px;
-    font-size: 2em;
-    color: #333;
+    // Espacio debajo - Manteniendo original, o usa variable large
+    margin-bottom: 30px; // O var(--spacing-large, 30px);
+    font-size: 2em; // Manteniendo original
+    // Color del título - Usamos variable de texto oscuro
+    color: var(--color-text-dark, #333); // Usamos variable, con fallback
+    // Grosor de fuente - Podrías usar variable bold
+    // font-weight: var(--font-weight-bold);
 } */

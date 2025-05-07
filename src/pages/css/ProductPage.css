@@ -2,166 +2,225 @@
 
 /* Contenedor principal de la página */
 .product-page-container {
-    max-width: 1200px; /* Ancho máximo del contenido */
-    margin: 20px auto; /* Espacio arriba/abajo y centrado */
-    padding: 0 20px; /* Padding lateral en pantallas grandes */
-    box-sizing: border-box; /* Incluye padding en el ancho */
+	max-width: 1200px; /* Ancho máximo del contenido - Manteniendo original */
+	/* Espacio arriba/abajo y centrado - Usamos variable de espaciado large */
+	margin: var(--spacing-large, 20px) auto; /* Usamos variable, con fallback (original era 20px) */
+	/* Padding lateral en pantallas grandes - Usamos variable de espaciado large */
+	padding: 0 var(--spacing-large, 20px); /* Usamos variable, con fallback (original era 20px) */
+	box-sizing: border-box; /* Incluye padding en el ancho */
 }
 
-/* Estilos para el mensaje de carga o error */
+/* Estilos para el mensaje de carga o error/no encontrado */
 .product-page-loading,
 .product-page-error,
 .product-page-not-found {
-    text-align: center;
-    font-size: 1.2em;
-    margin: 50px 0; /* Espacio vertical */
-    padding: 20px;
-    border: 1px solid #eee;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+	text-align: center;
+	font-size: 1.2em; /* Manteniendo original */
+	/* Espacio vertical - Manteniendo original 50px, o usa variable grande */
+	margin: 50px 0; /* O var(--spacing-extra-large, 50px) si defines */
+	/* Espacio interno - Usamos variable de espaciado large */
+	padding: var(--spacing-large, 20px); /* Usamos variable, con fallback (original era 20px) */
+	/* Borde - Usamos variable de color neutro claro */
+	border: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+	/* Fondo - Usamos variable de color neutro claro */
+	background-color: var(--color-neutral-light, #f9f9f9); /* Usamos variable, con fallback */
+	border-radius: 5px; /* Manteniendo original */
 }
 
 .product-page-error {
-    color: #d32f2f; /* Rojo */
-    border-color: #d32f2f;
-    background-color: #ffebee; /* Rojo muy claro */
+	/* Color - Color de error, mantengo fijo con comentario */
+	color: #d32f2f; /* Rojo - Considera variable --color-error */
+	/* Color de borde - Color de error, mantengo fijo con comentario */
+	border-color: #d32f2f; /* Considera variable --color-error */
+	/* Color de fondo - Fondo de error, mantengo fijo con comentario */
+	background-color: #ffebee; /* Rojo muy claro - Considera variable --color-background-error */
 }
 
 .product-page-not-found {
-    color: #ff9800; /* Naranja */
-    border-color: #ff9800;
-    background-color: #fff3e0; /* Naranja muy claro */
+	/* Color - Color de advertencia/no encontrado, mantengo fijo con comentario */
+	color: #ff9800; /* Naranja - Considera variable --color-warning */
+	/* Color de borde - Color de advertencia/no encontrado, mantengo fijo con comentario */
+	border-color: #ff9800; /* Considera variable --color-warning */
+	/* Color de fondo - Fondo de advertencia, mantengo fijo con comentario */
+	background-color: #fff3e0; /* Naranja muy claro - Considera variable --color-background-warning */
 }
 
 
 /* Estilos para el nombre del producto (H1) */
 .product-page-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2.2em; /* Tamaño del título del producto */
-    color: #333; /* Color del título */
-    word-break: break-word; /* Rompe palabras largas */
+	text-align: center;
+	/* Espacio debajo - Usamos variable de espaciado large */
+	margin-bottom: var(--spacing-large, 20px); /* Usamos variable, con fallback (original era 20px) */
+	font-size: 2.2em; /* Tamaño del título del producto - Manteniendo original */
+	/* Color del título - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	/* Grosor de fuente - Podrías usar variable bold */
+	/* font-weight: var(--font-weight-bold); */
+	word-break: break-word; /* Rompe palabras largas */
 }
 
 /* Contenedor principal de detalles (imagen e información) */
 .product-details-main {
-    display: flex; /* Usa Flexbox para colocar imagen e info lado a lado */
-    gap: 40px; /* Espacio entre las columnas */
-    margin-bottom: 40px; /* Espacio debajo de esta sección */
-    flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
-    align-items: flex-start; /* Alinea columnas en la parte superior */
+	display: flex; /* Usa Flexbox para colocar imagen e info lado a lado */
+	/* Espacio entre las columnas - Manteniendo original 40px, o usa variable grande */
+	gap: 40px; /* O var(--spacing-extra-large, 40px) si defines */
+	/* Espacio debajo de esta sección - Manteniendo original 40px, o usa variable grande */
+	margin-bottom: 40px; /* O var(--spacing-extra-large, 40px) si defines */
+	flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+	align-items: flex-start; /* Alinea columnas en la parte superior */
 }
 
 /* Sección de imágenes del producto */
 .product-images {
-    flex: 1 1 450px; /* Permite crecer/encoger, con un ancho base generoso */
-    max-width: 550px; /* Ancho máximo en desktop */
-    /* Centra el bloque de imágenes si no ocupa todo el ancho */
-    margin: 0 auto;
+	flex: 1 1 450px; /* Manteniendo original */
+	max-width: 550px; /* Ancho máximo en desktop - Manteniendo original */
+	/* Centra el bloque de imágenes si no ocupa todo el ancho */
+	margin: 0 auto;
 }
 
 /* Imagen principal del producto */
 .product-images .product-main-image {
-    display: block; /* Elimina espacio extra */
-    width: 100%; /* Ocupa el ancho de su contenedor */
-    height: auto; /* Mantiene aspecto */
-    border-radius: 8px; /* Esquinas redondeadas */
-    /* Puedes añadir un borde, sombra, etc. */
-     border: 1px solid #eee;
-     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	display: block; /* Elimina espacio extra */
+	width: 100%; /* Ocupa el ancho de su contenedor */
+	height: auto; /* Mantiene aspecto */
+	border-radius: 8px; /* Esquinas redondeadas - Manteniendo original */
+	/* Borde - Usamos variable de color neutro claro */
+	border: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+	/* Sombra - Manteniendo original */
+	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* Mensaje si no hay imagen */
 .product-images .no-product-image {
-     text-align: center;
-     border: 1px dashed #ccc;
-     padding: 50px 20px;
-     color: #777;
-     font-size: 1.1em;
-     background-color: #f0f0f0;
-     border-radius: 8px;
+	text-align: center;
+	/* Borde - Usamos variable de color neutro medio con dashed */
+	border: 1px dashed var(--color-neutral-medium, #ccc); /* Usamos variable, con fallback */
+	/* Espacio interno - Manteniendo original, o usa variables */
+	padding: 50px 20px; /* O var(--spacing-extra-large, 50px) var(--spacing-large, 20px); */
+	/* Color del texto - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #777); /* Usamos variable, con fallback */
+	font-size: 1.1em; /* Manteniendo original */
+	/* Fondo - Usamos variable de color neutro claro */
+	background-color: var(--color-neutral-light, #f0f0f0); /* Usamos variable, con fallback */
+	border-radius: 8px; /* Manteniendo original */
 }
 
 
 /* Sección de información del producto (precio, añadir al carrito, descripción breve) */
 .product-info {
-    flex: 1 1 350px; /* Permite crecer/encoger, con un ancho base */
-    max-width: 500px; /* Ancho máximo en desktop */
-    /* Para que en móvil no se centre todo si product-images está centrado */
-    margin: 0 auto;
-    display: flex; /* Usa flexbox para organizar el contenido verticalmente */
-    flex-direction: column;
+	flex: 1 1 350px; /* Manteniendo original */
+	max-width: 500px; /* Ancho máximo en desktop - Manteniendo original */
+	margin: 0 auto;
+	display: flex; /* Usa flexbox para organizar el contenido verticalmente */
+	flex-direction: column;
 }
 
 /* Precio del producto */
 .product-info .product-price {
-    font-size: 2em; /* Tamaño del precio */
-    font-weight: bold;
-    color: #4b5320; /* Color de marca */
-    margin-bottom: 25px; /* Espacio debajo del precio */
-    flex-shrink: 0; /* Evita que el precio se encoja */
+	font-size: 2em; /* Tamaño del precio - Manteniendo original */
+	/* Grosor de fuente - Usamos variable bold */
+	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
+	/* Color de marca - Usamos variable de color primario oscuro */
+	color: var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback */
+	/* Espacio debajo del precio - Usamos variable de espaciado large */
+	margin-bottom: var(--spacing-large, 25px); /* Usamos variable, con fallback (original era 25px) */
+	flex-shrink: 0; /* Evita que el precio se encoja */
 }
 
 /* Botón de añadir al carrito (estilos básicos) */
 .product-info .add-to-cart-button {
-    display: block;
-    width: 100%; /* Ocupa todo el ancho */
-    background-color: #4b5320;
-    color: white;
-    border: none;
-    padding: 15px 20px;
-    font-size: 1.2em; /* Tamaño de fuente del botón */
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-    margin-bottom: 30px; /* Espacio debajo del botón */
-    text-align: center;
+	display: block;
+	width: 100%; /* Ocupa todo el ancho */
+	/* Fondo - Usamos variable de color primario oscuro */
+	background-color: var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback */
+	/* Color del texto - Usamos variable de texto claro */
+	color: var(--color-text-light, white); /* Usamos variable, con fallback */
+	border: none;
+	/* Espacio interno - Usamos variables de espaciado */
+	padding: var(--spacing-medium, 15px) var(--spacing-large, 20px); /* Usamos variables, con fallback */
+	font-size: 1.2em; /* Tamaño de fuente del botón - Manteniendo original */
+	/* Grosor de fuente - Usamos variable bold */
+	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
+	border-radius: 5px; /* Manteniendo original */
+	cursor: pointer;
+	transition: background-color 0.3s ease, opacity 0.3s ease;
+	/* Espacio debajo del botón - Manteniendo original 30px, o usa variable grande */
+	margin-bottom: 30px; /* O var(--spacing-large-plus, 30px) si defines */
+	text-align: center;
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
 }
 
 .product-info .add-to-cart-button:hover {
-    background-color: #3a4218;
+	/* Fondo en hover - Usamos variable de color primario claro (o define una variable hover) */
+	background-color: var(--color-primary-light, #3a4218); /* Usamos variable, con fallback (original era #3a4218) */
 }
 
 /* Estilo para botón deshabilitado (ej: sin stock) */
 .product-info .add-to-cart-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    opacity: 0.7;
+	/* Fondo - Usamos variable de color neutro medio */
+	background-color: var(--color-neutral-medium, #ccc); /* Usamos variable, con fallback */
+	cursor: not-allowed;
+	opacity: 0.7;
 }
 
 
 /* Estilos para la descripción breve */
 .product-info .product-short-description {
-     margin-top: 20px; /* Espacio encima de la descripción breve */
-     flex-grow: 1; /* Permite que la descripción breve ocupe espacio si es necesario */
+	/* Espacio encima - Usamos variable de espaciado large */
+	margin-top: var(--spacing-large, 20px); /* Usamos variable, con fallback (original era 20px) */
+	flex-grow: 1; /* Permite que la descripción breve ocupe espacio si es necesario */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+	/* Color del texto - Podría heredar del padre, o usar variable de texto oscuro */
+	/* color: var(--color-text-dark); */
 }
 
 .product-info .product-short-description h3 {
-    font-size: 1.3em; /* Tamaño del título "Descripción Breve" */
-    margin-bottom: 10px;
-    color: #555;
+	font-size: 1.3em; /* Tamaño del título "Descripción Breve" - Manteniendo original */
+	/* Espacio debajo - Usamos variable de espaciado pequeño */
+	margin-bottom: var(--spacing-small, 10px); /* Usamos variable, con fallback (original era 10px) */
+	/* Color del título - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
+	/* Grosor de fuente - Podrías usar variable bold */
+	/* font-weight: var(--font-weight-bold); */
 }
 
 /* Asegura que el contenido HTML dentro de la descripción breve se vea bien */
 .product-info .product-short-description p {
-    margin-bottom: 10px;
-    line-height: 1.6;
+	/* Espacio debajo - Usamos variable de espaciado pequeño */
+	margin-bottom: var(--spacing-small, 10px); /* Usamos variable, con fallback (original era 10px) */
+	line-height: 1.6; /* Manteniendo original */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+	/* Color del texto - Podría heredar del padre, o usar variable de texto oscuro */
+	/* color: var(--color-text-dark); */
 }
 
 
 /* Sección de descripción completa */
 .product-full-description {
-    margin-top: 40px; /* Espacio encima de la descripción completa */
-    margin-bottom: 40px; /* Espacio debajo */
+	/* Espacio encima y debajo - Manteniendo original 40px, o usa variable grande */
+	margin-top: 40px; /* O var(--spacing-extra-large, 40px) */
+	margin-bottom: 40px; /* O var(--spacing-extra-large, 40px) */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+	/* Color del texto - Podría heredar del body, o usar variable de texto oscuro */
+	/* color: var(--color-text-dark); */
 }
 
 .product-full-description h3 {
-    font-size: 1.6em; /* Tamaño del título "Descripción Completa" */
-    margin-bottom: 15px;
-    color: #333;
-    border-bottom: 1px solid #eee; /* Línea separadora */
-    padding-bottom: 8px;
+	font-size: 1.6em; /* Tamaño del título "Descripción Completa" - Manteniendo original */
+	/* Espacio debajo - Usamos variable de espaciado medio */
+	margin-bottom: var(--spacing-medium, 15px); /* Usamos variable, con fallback (original era 15px) */
+	/* Color del título - Usamos variable de texto oscuro */
+	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	/* Grosor de fuente - Podrías usar variable bold */
+	/* font-weight: var(--font-weight-bold); */
+	/* Línea separadora - Usamos variable de color neutro claro */
+	border-bottom: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+	/* Espacio debajo de la línea - Usamos variable de espaciado pequeño */
+	padding-bottom: var(--spacing-small, 8px); /* Usamos variable, con fallback (original era 8px) */
 }
 
 /* Estilos para el contenido HTML dentro de la descripción completa */
@@ -169,13 +228,19 @@
 .product-full-description ul,
 .product-full-description ol,
 .product-full-description table {
-    margin-bottom: 15px;
-    line-height: 1.7;
+	/* Espacio debajo - Usamos variable de espaciado medio */
+	margin-bottom: var(--spacing-medium, 15px); /* Usamos variable, con fallback (original era 15px) */
+	line-height: 1.7; /* Manteniendo original */
+	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
+	/* font-family: var(--font-family-base); */
+	/* Color del texto - Podría heredar del padre, o usar variable de texto oscuro */
+	/* color: var(--color-text-dark); */
 }
 
 .product-full-description ul,
 .product-full-description ol {
-    padding-left: 20px;
+	/* Padding a la izquierda - Usamos variable de espaciado large */
+	padding-left: var(--spacing-large, 20px); /* Usamos variable, con fallback (original era 20px) */
 }
 
 
@@ -185,58 +250,65 @@
 
 /* En pantallas más pequeñas (ej: tabletas y móviles) */
 @media (max-width: 768px) {
-    .product-page-container {
-        padding: 0 15px; /* Ajusta padding lateral en móviles */
-    }
+	.product-page-container {
+		/* Ajusta padding lateral en móviles - Manteniendo original 15px, o usa variable medio */
+		padding: 0 15px; /* O var(--spacing-medium, 15px); */
+	}
 
-    /* Apila la sección de imágenes e información */
-    .product-details-main {
-        flex-direction: column; /* Apila verticalmente */
-        gap: 30px; /* Espacio entre secciones apiladas */
-        align-items: center; /* Centra las columnas apiladas */
-    }
+	/* Apila la sección de imágenes e información */
+	.product-details-main {
+		flex-direction: column; /* Apila verticalmente */
+		/* Espacio entre secciones apiladas - Manteniendo original 30px, o usa variable */
+		gap: 30px; /* O var(--spacing-large-plus, 30px) */
+		align-items: center; /* Centra las columnas apiladas */
+	}
 
-    /* Imágenes e info ocupan todo el ancho */
-    .product-images,
-    .product-info {
-        flex-basis: auto; /* Permite que Flexbox determine el tamaño */
-        max-width: 100%; /* Ocupa todo el ancho */
-        /* text-align: center; */ /* Decide si centrar o alinear a la izquierda en móviles */
-    }
+	/* Imágenes e info ocupan todo el ancho */
+	.product-images,
+	.product-info {
+		flex-basis: auto; /* Permite que Flexbox determine el tamaño */
+		max-width: 100%; /* Ocupa todo el ancho */
+		/* text-align: center; */ /* Decide si centrar o alinear a la izquierda en móviles */
+	}
 
-     /* Centra la imagen principal en móviles y limita su tamaño si es necesario */
-     .product-images .product-main-image {
-         max-width: 300px; /* Limita el tamaño de la imagen en móviles si es demasiado grande */
-         margin: 0 auto; /* Centra la imagen */
-     }
+	/* Centra la imagen principal en móviles y limita su tamaño si es necesario */
+	.product-images .product-main-image {
+		max-width: 300px; /* Limita el tamaño de la imagen en móviles si es demasiado grande - Manteniendo original */
+		margin: 0 auto; /* Centra la imagen */
+	}
 
-    /* Ajusta la alineación del texto en móviles si lo deseas */
-    .product-info {
-        text-align: left; /* Alinea texto de info a la izquierda */
-    }
+	/* Ajusta la alineación del texto en móviles si lo deseas */
+	.product-info {
+		text-align: left; /* Alinea texto de info a la izquierda - Manteniendo original */
+	}
 
-    .product-info .product-price,
-    .product-info .add-to-cart-button {
-        /* Mantener display: block; width: 100%; para botón y precio si lo quieres así */
-        text-align: center; /* Centra el precio y botón si el contenedor info está centrado */
-    }
+	/* Ajusta alineación de precio y botón si se apilan */
+	.product-info .product-price,
+	.product-info .add-to-cart-button {
+		/* Mantener display: block; width: 100%; para botón y precio si lo quieres así */
+		/* Si el contenedor info está alineado a la izquierda, puedes querer centrar estos */
+		/* text-align: center; */
+		/* margin-left: auto; */
+		/* margin-right: auto; */
+	}
 
 
-    /* Ajusta otros paddings/márgenes en móviles si es necesario */
-    .product-page-container h1 {
-        font-size: 1.8em;
-    }
+	/* Ajusta otros paddings/márgenes y tamaños de fuente en móviles si es necesario */
+	.product-page-container h1 {
+		font-size: 1.8em; /* Manteniendo original */
+	}
 
-    .product-info .product-price {
-         font-size: 1.6em;
-    }
+	.product-info .product-price {
+		font-size: 1.6em; /* Manteniendo original */
+	}
 
-    .product-info .add-to-cart-button {
-         padding: 12px 15px;
-         font-size: 1.1em;
-    }
+	.product-info .add-to-cart-button {
+		/* Espacio interno - Manteniendo original, o usa variables pequeñas */
+		padding: 12px 15px; /* O var(--spacing-small-medium, 12px) var(--spacing-medium, 15px); */
+		font-size: 1.1em; /* Manteniendo original */
+	}
 
-    .product-full-description h3 {
-        font-size: 1.4em;
-    }
+	.product-full-description h3 {
+		font-size: 1.4em; /* Manteniendo original */
+	}
 }
