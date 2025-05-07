@@ -60,108 +60,122 @@ export const getCategoryIdBySlug = async (slug: string): Promise<number | null> 
 export const getProducts = async (
 	page: number = 1,
 	per_page: number = 10,
-	category?: string | number,
+	category?: string | number, // Ahora puede ser string (slug o lista de IDs) o number (ID)
 	search?: string,
 	orderby: string = 'date',
 	order: 'asc' | 'desc' = 'desc',
 	on_sale?: boolean,
 	featured?: boolean,
 	includeIds?: number[]
-  ): Promise<{ products: Product[], total: number, totalPages: number }> => {
-  
-	let categoryId: number | undefined;
-  
-	if (category !== undefined) {
-	  if (typeof category === 'string') {
-		// Obtener el ID de la categoría a partir del slug
-		const fetchedCategoryId = await getCategoryIdBySlug(category);
-		if (fetchedCategoryId === null) {
-		  console.warn(`Categoría con slug "${category}" no encontrada.`);
-		  return { products: [], total: 0, totalPages: 0 };
+): Promise<{ products: Product[], total: number, totalPages: number }> => {
+
+	let categoryQueryParam = ''; // Variable para almacenar el parámetro '&category=' que añadiremos a la URL
+
+	if (category !== undefined && category !== null) { // Asegurarse de que category tiene un valor
+		if (typeof category === 'string') {
+			// Si es un string, verificamos si es una lista de IDs separada por comas
+			if (category.includes(',')) {
+				// Si contiene comas, asumimos que es una lista de IDs y la usamos directamente
+				categoryQueryParam = `&category=${encodeURIComponent(category)}`;
+			} else {
+				// Si es un string sin comas, asumimos que es un slug y obtenemos su ID primero
+				const fetchedCategoryId = await getCategoryIdBySlug(category);
+				if (fetchedCategoryId !== null) {
+					categoryQueryParam = `&category=${fetchedCategoryId}`;
+				} else {
+					console.warn(`Categoría con slug "${category}" no encontrada. No se aplicará filtro por categoría.`);
+					// Si el slug no se encuentra, no añadimos el filtro de categoría
+				}
+			}
+		} else if (typeof category === 'number') {
+			// Si es un número, asumimos que es un ID y lo usamos directamente
+			categoryQueryParam = `&category=${category}`;
 		}
-		categoryId = fetchedCategoryId;
-	  } else {
-		categoryId = category;
-	  }
+		// Si 'category' es de otro tipo, simplemente no añadimos el parámetro de categoría.
 	}
-  
+
+
 	let apiUrl = `${SITEURL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
 	apiUrl += `&page=${page}&per_page=${per_page}`;
-  
-	if (categoryId !== undefined) {
-	  apiUrl += `&category=${categoryId}`;
+
+	// Añadimos el parámetro de categoría solo si se generó categoryQueryParam
+	if (categoryQueryParam) {
+		apiUrl += categoryQueryParam;
 	}
-  
+
+	// ... (Resto de parámetros como search, orderby, order, on_sale, featured, includeIds - MANTENLOS IGUAL) ...
+
 	if (search) {
-	  apiUrl += `&search=${encodeURIComponent(search)}`;
+		apiUrl += `&search=${encodeURIComponent(search)}`;
 	}
-  
+
 	if (on_sale !== undefined) {
-	  apiUrl += `&on_sale=${on_sale}`;
+		apiUrl += `&on_sale=${on_sale}`;
 	}
-  
+
 	if (featured !== undefined) {
-	  apiUrl += `&featured=${featured}`;
+		apiUrl += `&featured=${featured}`;
 	}
-  
+
 	if (includeIds && includeIds.length > 0) {
-	  apiUrl += `&include=${includeIds.join(',')}`;
+		apiUrl += `&include=${includeIds.join(',')}`;
 	}
-  
+
 	if (orderby) {
-	  apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
-	  apiUrl += `&order=${encodeURIComponent(order)}`;
+		apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
+		apiUrl += `&order=${encodeURIComponent(order)}`;
 	}
-  
+
+
 	console.log("Calling API for Products with URL:", apiUrl);
-  
+
 	try {
-	  const response = await fetch(apiUrl, {
-		method: 'GET',
-		headers: {
-		  'Authorization': `Basic ${base64Credentials}`,
-		  'User-Agent': 'ArmeriaFrontend/1.0'
+		const response = await fetch(apiUrl, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Basic ${base64Credentials}`,
+				'User-Agent': 'ArmeriaFrontend/1.0'
+			}
+		});
+
+		if (!response.ok) {
+			const errorBody = await response.text();
+			let errorMessage = `Error HTTP! Estado: ${response.status}`;
+			try {
+				const errorJson = JSON.parse(errorBody);
+				if (errorJson.message) {
+					errorMessage += ` - Mensaje: ${errorJson.message}`;
+				} else if (errorJson.code) {
+					errorMessage += ` - Código: ${errorJson.code}`;
+				}
+			} catch (errorParsingJson) {
+				console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
+				errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+			}
+			console.error("API Error Response Body (Products):", errorBody);
+			throw new Error(errorMessage);
 		}
-	  });
-  
-	  if (!response.ok) {
-		const errorBody = await response.text();
-		let errorMessage = `Error HTTP! Estado: ${response.status}`;
-		try {
-		  const errorJson = JSON.parse(errorBody);
-		  if (errorJson.message) {
-			errorMessage += ` - Mensaje: ${errorJson.message}`;
-		  } else if (errorJson.code) {
-			errorMessage += ` - Código: ${errorJson.code}`;
-		  }
-		} catch (errorParsingJson) {
-		  console.error("Error al parsear cuerpo del error como JSON:", errorParsingJson);
-		  errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
-		}
-		console.error("API Error Response Body (Products):", errorBody);
-		throw new Error(errorMessage);
-	  }
-  
-	  const totalProductsHeader = response.headers.get('X-WP-Total');
-	  const totalPagesHeader = response.headers.get('X-WP-TotalPages');
-  
-	  const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
-	  const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
-  
-	  const productsData: Product[] = await response.json();
-  
-	  return {
-		products: productsData,
-		total: totalProducts,
-		totalPages: totalPages,
-	  };
-  
+
+		const totalProductsHeader = response.headers.get('X-WP-Total');
+		const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+
+		const totalProducts = totalProductsHeader ? parseInt(totalProductsHeader, 10) : 0;
+		const totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 0;
+
+		const productsData: Product[] = await response.json();
+
+		return {
+			products: productsData,
+			total: totalProducts,
+			totalPages: totalPages,
+		};
+
 	} catch (caughtError: unknown) {
-	  const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-	  console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
-	  throw error;
+		const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+		console.error("Error al obtener productos desde wooApi (fetch fallido o error inesperado):", error);
+		throw error;
 	}
-  };
+};
 
 // ======================================================================
 // *** Función para obtener un solo producto por ID o Slug ***

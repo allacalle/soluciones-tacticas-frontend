@@ -1,16 +1,16 @@
 // src/pages/ProductListPage.tsx
 
-import { useEffect, useState, useMemo } from 'react'; // *** Importa useMemo ***
+import { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-// *** Importa las funciones y interfaces necesarias ***
+// Importa las funciones y interfaces necesarias
 import { getProducts, getCategories } from '../api/wooApi';
 import { Product , Category} from '../types';
 
 
 function ProductListPage() {
-	// *** TODOS LOS HOOKS VAN AQUÍ ARRIBA, SIN CONDICIONES ***
+	// TODOS LOS HOOKS VAN AQUÍ ARRIBA, SIN CONDICIONES
 
 	// Leemos el parámetro 'categorySlug' de la URL
 	const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -31,66 +31,17 @@ function ProductListPage() {
 	const [totalPages, setTotalPages] = useState<number>(0);
 
 	// Productos por página
-	const productsPerPage = 10; // O 100 si lo tenías así
-
-	// *** useEffect para cargar los PRODUCTOS DE LA CATEGORÍA ACTUAL ***
-	// Este hook usa categorySlug y currentPage como dependencias.
-	useEffect(() => {
-		// Opcional: Validar si categorySlug existe (la ruta lo garantiza, pero buena práctica)
-		if (!categorySlug) {
-			setError(new Error("No se especificó una categoría en la URL."));
-			setLoading(false);
-			setProducts([]); // Asegurar que la lista esté vacía si no hay slug
-			setTotalProducts(0);
-			setTotalPages(0);
-			return;
-		}
-
-		// No reseteamos currentPage a 1 aquí si el slug cambia, para evitar doble fetch
-		// La dependencia en categorySlug asegura que se vuelve a pedir la pág 1 si cambias de cat
-		// Si quieres resetear la página a 1 al cambiar de categoría, la lógica de reset (comentada antes) iría aquí, pero manejada cuidadosamente.
-		// Por simplicidad, la dependencia en categorySlug ya pide la página 1 cuando el slug *cambia* (porque currentPage inicialmente es 1)
-
-
-		const fetchProducts = async () => {
-			setLoading(true);
-			setError(null);
-
-			console.log(`[ProductListPage] Fetching products for category slug: ${categorySlug} (Page ${currentPage})`);
-
-			try {
-				const result = await getProducts(currentPage, productsPerPage, categorySlug, undefined, undefined, undefined, undefined, undefined, undefined);
-
-				setProducts(result.products);
-				setTotalProducts(result.total);
-				setTotalPages(result.totalPages);
-
-			} catch (caughtError: unknown) {
-				const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-				console.error(`[ProductListPage] Error al cargar productos para categoría '${categorySlug}':`, error);
-				setError(error);
-				setProducts([]);
-				setTotalProducts(0);
-				setTotalPages(0);
-			} finally {
-				setLoading(false);
-				console.log(`[ProductListPage] Finished fetching products for category slug: ${categorySlug}`);
-			}
-		};
-
-		fetchProducts();
-
-	}, [categorySlug, currentPage, productsPerPage]); // Dependencias: categorySlug, currentPage, productsPerPage
-
+	const productsPerPage = 10; // Ajusta según necesites
 
 	// *** useEffect para cargar la lista COMPLETA DE CATEGORÍAS (UNA VEZ) ***
-	// Este hook no tiene dependencias.
+	// Este hook se ejecuta solo una vez al montar el componente.
 	useEffect(() => {
 		const fetchCategories = async () => {
 			setLoadingCategories(true);
 			setErrorCategories(null);
 			try {
-				const result = await getCategories(1, 100); // Ajusta per_page si tienes muchas categorías
+				// Pedimos TODAS las categorías (con una cantidad por página alta)
+				const result = await getCategories(1, 100); // Puedes ajustar per_page si tienes muchísimas categorías
 				setCategories(result.categories);
 			} catch (caughtError: unknown) {
 				const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
@@ -113,27 +64,115 @@ function ProductListPage() {
 		if (!categories.length || !categorySlug) {
 			return undefined; // No hemos cargado categorías o no hay slug en la URL
 		}
+		// Busca la categoría en la lista por el slug de la URL
 		return categories.find(cat => cat.slug === categorySlug);
 	}, [categories, categorySlug]); // Dependencias: categories (la lista), categorySlug (de la URL)
 
 
-	// *** Lógica de Renderizado Condicional (VIENE DESPUÉS DE TODOS LOS HOOKS Y useMemo) ***
+	// *** useEffect para cargar los PRODUCTOS, agrupando por nombre de categoría ***
+	// Este hook depende del slug de la URL, la página actual, la cantidad por página, Y la lista de categorías cargada.
+	useEffect(() => {
+		// *** Comprobación inicial: Esperar a que las categorías estén cargadas y que tengamos un categorySlug ***
+		if (!categories.length || loadingCategories || !categorySlug) {
+			console.log("[ProductListPage] Waiting for categories to load or categorySlug to be defined...");
+			// Limpiar estados de productos mientras esperamos
+			setProducts([]);
+			setTotalProducts(0);
+			setTotalPages(0);
+			setLoading(true); // Indicamos que estamos esperando (estado de carga)
+			setError(null); // Limpiamos errores previos
+			return; // Salimos del efecto hasta que las dependencias estén listas
+		}
+
+		// *** Si llegamos aquí, significa que las categorías están cargadas y tenemos el categorySlug ***
+
+		// 1. Encontrar la categoría "primaria" usando el slug de la URL
+		const primaryCategory = categories.find(cat => cat.slug === categorySlug);
+
+		// Si la categoría primaria no fue encontrada por el slug (a pesar de tener la lista cargada)
+		if (!primaryCategory) {
+			console.warn(`[ProductListPage] Primary category not found for slug: ${categorySlug}`);
+			setProducts([]); setTotalProducts(0); setTotalPages(0); setLoading(false); setError(new Error(`La categoría con slug "${categorySlug}" no fue encontrada.`));
+			return; // Salimos, no podemos buscar productos sin una categoría válida
+		}
+
+		// 2. Encontrar TODAS las categorías (en toda la lista 'categories') que tienen el MISMO NOMBRE que la categoría primaria
+		const matchingCategoryIds = categories
+			.filter(cat => cat.name === primaryCategory.name) // Filtramos: solo categorías con el mismo Nombre EXACTO
+			.map(cat => cat.id); // Mapeamos: obtenemos solo sus IDs
+
+		console.log(`[ProductListPage] Found ${matchingCategoryIds.length} categories with name "${primaryCategory.name}". IDs:`, matchingCategoryIds);
+
+		// Si no encontramos IDs coincidentes (debería encontrar al menos la de la URL)
+		if (matchingCategoryIds.length === 0) {
+			console.warn(`[ProductListPage] No matching categories found by name for slug: ${categorySlug}`);
+			setProducts([]); setTotalProducts(0); setTotalPages(0); setLoading(false); setError(new Error(`No se encontraron categorías con el nombre "${primaryCategory.name}".`));
+			return; // Salimos, no hay IDs de categorías para buscar productos
+		}
+
+		// 3. Convertir la lista de IDs a una cadena separada por comas para la llamada a la API
+		const categoryIdsString = matchingCategoryIds.join(',');
+		console.log("[ProductListPage] Fetching products for category IDs:", categoryIdsString);
+
+
+		// *** Definición de la función asíncrona fetchProducts para llamar a la API ***
+		const fetchProducts = async () => {
+			setLoading(true); // Empezamos a cargar productos
+			setError(null); // Limpiamos errores previos
+
+			try {
+				// *** LLAMADA A getProducts - PASANDO LA CADENA DE IDs COMBINADOS ***
+				// getProducts(page, per_page, category, search, orderby, order, on_sale, featured, includeIds)
+				// Le pasamos la cadena categoryIdsString (ej: "15,22,30") al 3er argumento 'category'
+				const result = await getProducts(currentPage, productsPerPage, categoryIdsString, undefined, undefined, undefined, undefined, undefined, undefined);
+
+				setProducts(result.products);
+				setTotalProducts(result.total);
+				setTotalPages(result.totalPages);
+				console.log(`[ProductListPage] Fetched ${result.products.length} products. Total: ${result.total}, Pages: ${result.totalPages}`);
+
+			} catch (caughtError: unknown) {
+				const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+				console.error(`[ProductListPage] Error al cargar productos para categoría(s) '${categoryIdsString}':`, error);
+				setError(error);
+				setProducts([]);
+				setTotalProducts(0);
+				setTotalPages(0);
+			} finally {
+				setLoading(false); // La carga de productos ha terminado
+				console.log(`[ProductListPage] Finished fetching products for category IDs: ${categoryIdsString}`);
+			}
+		};
+
+		// *** Llamar a la función fetchProducts para iniciar la carga ***
+		fetchProducts();
+
+		// Función de limpieza (si no tienes timeouts o cosas que limpiar aquí, puedes dejarla vacía o eliminar el return)
+		return () => {
+			// Lógica de limpieza si es necesaria (ej: cancelar una petición fetch si fuera posible)
+		};
+
+	}, [categorySlug, currentPage, productsPerPage, categories, loadingCategories]); // <-- Dependencias finales: se re-ejecuta si cambia el slug, página, por_página, o si la lista de categorías termina de cargar.
+
+
+	// *** Lógica de Renderizado Condicional (Debe estar después de todos los hooks y useMemo) ***
 
 	// Muestra mensaje de carga si cualquiera de las cargas está activa
+	// Mantenemos loadingCategories aquí para el mensaje inicial "Cargando..."
 	if (loading || loadingCategories) {
-		// Puedes mostrar un mensaje más específico si quieres, pero con un solo loading es suficiente
 		return <div>Cargando...</div>; // O un spinner global
 	}
 
 	// Muestra mensaje de error si hay error en productos o categorías
 	if (error || errorCategories) {
+		// Si errorCategories ocurre, el currentCategory useMemo puede ser undefined, así que mostramos solo el error.
+		// Si solo hay error de productos (y currentCategory sí se encontró), podríamos ser más específicos.
 		return <div>Error: {error?.message || errorCategories?.message}</div>;
 	}
 
-	// Si no se encontró la categoría por el slug de la URL (y no hay error de carga)
+	// Si no se encontró la categoría por el slug de la URL (y ya terminamos de cargar categorías sin error)
 	// Esto maneja el caso de un slug inválido en la URL
-	if (!currentCategory && !loadingCategories) {
-		// Solo mostramos este mensaje si terminamos de cargar categorías Y no encontramos el slug
+	if (!currentCategory) { // No necesitamos !loadingCategories aquí porque ya salimos arriba si loadingCategories es true
 		return <div>Categoría "{categorySlug}" no encontrada.</div>;
 	}
 
@@ -143,7 +182,7 @@ function ProductListPage() {
 		<div>
 			{/* *** Título dinámico usando el nombre real de la categoría encontrada *** */}
 			{/* currentCategory ya no es undefined aquí debido a la comprobación anterior */}
-			<h2>Productos de la categoría "{currentCategory?.name}"</h2> {/* Usamos ?.name por seguridad, aunque no debería ser undefined aquí */}
+			<h2>Productos de la categoría "{currentCategory.name}"</h2>
 
 
 			{/* Información de paginación */}
@@ -151,20 +190,18 @@ function ProductListPage() {
 				<p>Total de productos encontrados: {totalProducts}</p>
 				{/* Solo mostramos info de paginación si hay productos o si el totalProducts es > 0 */}
 				{totalProducts > 0 && <p>Mostrando página {currentPage} de {totalPages}</p>}
-				{totalProducts === 0 && !loading && !error && <p>No se encontraron productos en esta categoría.</p>} {/* Mensaje si totalProducts es 0 */}
+				{totalProducts === 0 && !loading && !error && <p>No se encontraron productos en esta categoría.</p>}
 			</div>
 
 			{/* Lista de productos - Solo si products.length > 0 */}
 			{products.length > 0 && (
 				// *** Clase para aplicar estilos de cuadrícula (asegúrate de que esté en tu CSS) ***
-				// Asegúrate de tener los estilos para products-display-area, product-item-link, product-item, etc. en tu ProductListPage.css
-				<div className="products-display-area">
+				<div className="products-display-area"> {/* Asegúrate de tener esta clase en tu CSS */}
 					{products.map((product) => (
 						// *** Link a la página de producto individual (usa /producto/) ***
-						// Asegúrate de tener la importación: import { Link } from 'react-router-dom';
-						<Link key={product.id} to={`/producto/${product.slug}`} className="product-item-link"> {/* CORREGIDO a /producto/ */}
+						<Link key={product.id} to={`/producto/${product.slug}`} className="product-item-link"> {/* Clase para el enlace */}
 							{/* Contenedor del item de producto (tarjeta) */}
-							<div className="product-item">
+							<div className="product-item"> {/* Clase para la tarjeta de producto individual */}
 								{/* Imagen */}
 								{product.images && product.images.length > 0 ? (
 									<img
@@ -182,6 +219,11 @@ function ProductListPage() {
 						</Link> // Fin Link
 					))}
 				</div> // Fin products-display-area
+			)}
+
+			{/* Mensaje si no hay productos Y no estamos cargando Y no hay error */}
+			{products.length === 0 && !loading && !error && totalProducts === 0 && (
+				<p>No se encontraron productos en esta categoría.</p>
 			)}
 
 
