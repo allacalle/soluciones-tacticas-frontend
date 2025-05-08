@@ -4,6 +4,11 @@
 // *** Importa los componentes de React Router DOM ***
 import { Routes, Route } from 'react-router-dom';
 
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage'; // Importa la nueva página
+import CookiesPolicyPage from './pages/CookiesPolicyPage'; // Importa la nueva página
+import ContactPage from './pages/ContactPage'; // Importa la nueva página
+
 
 import HomePage from './pages/HomePage'; // <-- Asegúrate que la ruta sea correcta
 import ProductListPage from './pages/ProductListPage'; // <-- Asegúrate que la ruta sea correcta
@@ -33,6 +38,12 @@ function App() {
           {/* *** Opcional: Si tienes una página de Contacto, define su ruta aquí *** */}
           {/* <Route path="/contacto" element={<ContactPage />} /> */}
           {/* Ruta 404 */}
+          {/* !!! NUEVA RUTA PARA LA PÁGINA DE POLÍTICA DE PRIVACIDAD !!! */}
+					<Route path="/politica-privacidad" element={<PrivacyPolicyPage />} />
+          <Route path="/terminos-condiciones" element={<TermsAndConditionsPage />} />
+					{/* Ruta para la página de Política de Cookies (la crearemos después) */}
+          <Route path="/politica-cookies" element={<CookiesPolicyPage />} />
+          <Route path="/contacto" element={<ContactPage />} />
           <Route path="*" element={<div>Página No Encontrada (404)</div>} />
         </Routes>
       </main>

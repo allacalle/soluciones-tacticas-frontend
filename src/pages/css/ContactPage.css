@@ -1,0 +1,234 @@
+/* src/pages/css/ContactPage.css */
+
+/* Contenedor principal de la página de Contacto */
+.contact-page-container {
+	/* Usa el mismo ancho máximo que tu contenedor principal de contenido */
+	/* Asegúrate de que --max-width-content está definido en tu index.css o App.css */
+	max-width: var(--max-width-content, 1200px);
+	/* Centra el contenedor y añade margen vertical usando variables */
+	margin: var(--spacing-large, 20px) auto;
+	/* Añade padding lateral para evitar que el contenido toque los bordes en móviles usando variables */
+	padding: 0 var(--spacing-large, 20px);
+	box-sizing: border-box; /* Incluye padding en el ancho total */
+
+	/* El color de texto principal y la fuente base deberían heredarse del body (index.css) */
+	/* color: var(--color-text-dark, #333); */
+	/* font-family: var(--font-family-base); */
+}
+
+/* Título principal de la página */
+.contact-page-container h1 {
+	text-align: center;
+	margin-bottom: var(--spacing-large, 20px);
+	color: var(--color-primary-dark, #556B2F); /* Usa la variable de color primario oscuro */
+	/* font-size: 2.5em; */ /* Debería heredar de index.css */
+	/* font-weight: var(--font-weight-bold); */ /* Debería heredar de index.css */
+}
+
+/* Sección de introducción (Subtítulo "Hablemos" y párrafo) */
+.contact-intro {
+	text-align: center;
+	margin-bottom: var(--spacing-large, 20px);
+	/* Estilo para el subtítulo "Hablemos" */
+}
+
+.contact-intro h2 {
+	color: var(--color-neutral-dark, #333333); /* Usa un gris oscuro o color de acento */
+	margin-top: 0; /* Quita el margen superior si está dentro de .contact-intro */
+	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del subtítulo */
+	/* font-size: 2em; */ /* Debería heredar de index.css */
+}
+
+.contact-intro p {
+	/* margin-bottom: var(--spacing-medium, 15px); */ /* Ya definido en .contact-content p */
+	max-width: 800px; /* Limita el ancho del párrafo intro para mejor lectura */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* Contenedor principal de dos columnas */
+.contact-content-main {
+	display: flex; /* Usa flexbox para crear las columnas */
+	flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+	gap: var(--spacing-large, 20px); /* Espacio entre las columnas */
+	/* Asegura que las columnas se distribuyen el espacio */
+	justify-content: space-between; /* Distribuye el espacio entre las columnas */
+	align-items: flex-start; /* Alinea las columnas arriba */
+}
+
+/* Estilos base para las columnas */
+.contact-form-col,
+.contact-info-map-col {
+	flex-grow: 1; /* Permite que crezcan */
+	flex-shrink: 0; /* Evita que se encojan demasiado */
+	/* Define un ancho base para controlar la distribución */
+	flex-basis: 45%; /* Intentamos que cada columna ocupe cerca del 45% del ancho */
+	min-width: 300px; /* Pero que no se hagan más estrechas de 300px antes de apilarse */
+	/* Añade padding o margen interno si es necesario */
+	/* padding: var(--spacing-medium); */
+	/* background-color: var(--color-background-light); */ /* Opcional: fondo para las columnas */
+}
+
+/* Ajustes específicos si necesitas que alguna columna sea más ancha que otra */
+/* .contact-form-col { flex-basis: 55%; } */
+/* .contact-info-map-col { flex-basis: 40%; } */
+
+
+/* Estilos para los títulos dentro de las columnas (h3) */
+.contact-content-main h3 {
+	color: var(--color-neutral-dark, #333333); /* Color de los títulos de columna */
+	margin-top: 0; /* Quita el margen superior del primer h3 en la columna */
+	margin-bottom: var(--spacing-medium, 15px);
+	/* font-size: 1.5em; */ /* Debería heredar de index.css */
+}
+
+
+/* Estilos para el formulario de contacto */
+.contact-form {
+	display: flex;
+	flex-direction: column; /* Apila los elementos del formulario verticalmente */
+	gap: var(--spacing-medium, 15px); /* Espacio entre los grupos de formulario */
+}
+
+.contact-form .form-group {
+	display: flex;
+	flex-direction: column; /* Apila etiqueta e input/textarea */
+	/* No hay gap aquí, el margen del label o input controla el espacio */
+}
+
+.contact-form label {
+	font-weight: var(--font-weight-medium, 500); /* Texto de etiqueta en negrita media */
+	margin-bottom: var(--spacing-small, 8px); /* Espacio entre la etiqueta y el campo */
+	color: var(--color-text-dark, #333); /* Color de la etiqueta */
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+	padding: var(--spacing-small, 8px) var(--spacing-medium, 15px); /* Espaciado interno */
+	border: 1px solid var(--color-neutral-medium, #cccccc); /* Borde */
+	border-radius: 4px; /* Bordes redondeados */
+	font-size: 1em; /* Tamaño de fuente */
+	font-family: var(--font-family-base); /* Hereda la fuente */
+	color: var(--color-text-dark, #333); /* Color del texto escrito */
+	background-color: var(--color-background-light, #ffffff); /* Fondo del campo */
+	width: 100%; /* Hace que los campos ocupen todo el ancho disponible en su contenedor */
+	box-sizing: border-box; /* Incluye padding y borde en el ancho */
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+	outline: 2px solid var(--color-accent, #90EE90); /* Resaltar en foco */
+	border-color: transparent; /* Quitar borde original en foco si el outline lo reemplaza */
+}
+
+.contact-form textarea {
+	resize: vertical; /* Permite solo redimensionar verticalmente */
+}
+
+.contact-form .btn-submit {
+	/* Estilos del botón de index.css ya se aplican a <button> */
+	/* Si quieres estilos específicos para este botón, ponlos aquí */
+	margin-top: var(--spacing-medium, 15px); /* Espacio arriba del botón */
+	align-self: flex-start; /* Alinea el botón a la izquierda */
+	/* Si quieres que el botón sea ancho como los campos: */
+	/* width: 100%; */
+}
+
+/* Estilos para la información de contacto detallada */
+.contact-details p {
+	margin-bottom: var(--spacing-medium, 15px); /* Espacio entre párrafos de detalle */
+	/* font-size: 1em; */ /* Debería heredar de index.css */
+	/* line-height: 1.6; */ /* Debería heredar de index.css */
+}
+
+.contact-details strong {
+	color: var(--color-text-dark, #333); /* Color para los títulos "Dirección:", etc. */
+	font-weight: var(--font-weight-bold, 700); /* Negrita */
+}
+
+.contact-details a {
+	/* Estilos de enlace heredados de index.css y .contact-page-container a */
+	color: var(--color-primary-dark, #556B2F); /* Color del enlace */
+	text-decoration: none; /* Quita subrayado por defecto */
+	transition: color 0.3s ease;
+}
+
+.contact-details a:hover {
+	color: var(--color-accent, #90EE90); /* Color al pasar el ratón */
+	text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+
+
+/* Estilos para el contenedor del mapa */
+.contact-map {
+	margin-top: var(--spacing-large, 20px); /* Espacio entre la info de contacto y el mapa */
+	/* Opcional: Añadir borde o sombra alrededor del mapa */
+	/* border: 1px solid var(--color-neutral-medium); */
+	/* box-shadow: 2px 2px 5px rgba(0,0,0,0.1); */
+	/* Asegura que el iframe ocupe todo el ancho disponible */
+	width: 100%;
+	/* Controla la relación de aspecto si es necesario, pero height del iframe es clave */
+	/* aspect-ratio: 16/9; */
+}
+
+.contact-map iframe {
+	display: block; /* Asegura que el iframe no tenga espacio extra debajo */
+	max-width: 100%; /* Evita que el iframe se desborde en contenedores responsive */
+	/* La altura está definida en el JSX o aquí si prefieres control total */
+	/* height: 400px; */ /* Ejemplo de altura fija */
+}
+
+
+/* ============================================================== */
+/* Media Queries para Responsividad de la Página de Contacto */
+/* ============================================================== */
+
+/* Apilar columnas en pantallas pequeñas */
+@media (max-width: 768px) {
+	.contact-content-main {
+		flex-direction: column; /* Apila las columnas verticalmente */
+		align-items: center; /* Centra los elementos apilados */
+	}
+
+	/* Hacer que las columnas ocupen todo el ancho en móvil */
+	.contact-form-col,
+	.contact-info-map-col {
+		flex-basis: auto; /* Vuelven a ancho automático */
+		width: 100%; /* Ocupan todo el ancho */
+		min-width: 0; /* Ignoramos el min-width fijo */
+		/* Opcional: Centrar texto en columnas si no lo heredan */
+		/* text-align: center; */
+	}
+
+	/* Ajustes de espaciado en móvil */
+	.contact-page-container {
+		padding: 0 var(--spacing-medium, 15px); /* Menos padding lateral */
+	}
+
+	.contact-content-main {
+		gap: var(--spacing-medium, 15px); /* Menos espacio entre secciones apiladas */
+	}
+
+	.contact-intro h2 {
+		margin-bottom: var(--spacing-small, 8px);
+	}
+
+	.contact-intro p {
+		margin-bottom: var(--spacing-medium, 15px);
+	}
+
+	.contact-content-main h3 {
+		margin-bottom: var(--spacing-medium, 15px);
+	}
+
+	.contact-details {
+		/* Si el texto de detalles no se centra automáticamente al apilar, forzar aquí */
+		/* text-align: center; */
+	}
+
+	.contact-map {
+		margin-top: var(--spacing-medium, 15px); /* Menos espacio antes del mapa en móvil */
+	}
+}

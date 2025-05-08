@@ -56,7 +56,7 @@ export default function ProductListPage() { // Usamos export default en la decla
 
 		fetchCategories();
 
-	}, []); // <--- Array de dependencias vacío: []
+	}, []); 
 
 
 	// *** useMemo para encontrar la categoría ACTUAL por slug (basado en la lista cargada) ***

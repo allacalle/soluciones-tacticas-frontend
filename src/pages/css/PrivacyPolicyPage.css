@@ -1,0 +1,94 @@
+/* src/pages/css/PrivacyPolicyPage.css */
+
+/* Estilos para el contenedor principal de la página de Política de Privacidad */
+.privacy-policy-page-container {
+	/* Usa el mismo ancho máximo que tu contenedor principal de contenido */
+	/* Asegúrate de que --max-width-content está definido en tu index.css o App.css */
+	max-width: var(--max-width-content, 1200px);
+	/* Centra el contenedor y añade margen vertical usando variables */
+	margin: var(--spacing-large, 20px) auto;
+	/* Añade padding lateral para evitar que el contenido toque los bordes en móviles usando variables */
+	padding: 0 var(--spacing-large, 20px);
+	box-sizing: border-box; /* Incluye padding en el ancho total */
+
+	/* El color de texto principal y la fuente base deberían heredarse del body (index.css) */
+	/* Si no heredan bien, descomenta y usa las variables aquí: */
+	/* color: var(--color-text-dark, #333); */
+	/* font-family: var(--font-family-base); */
+}
+
+/* Estilos para el título principal de la página (h1) */
+.privacy-policy-page-container h1 {
+	text-align: center; /* Centra el título */
+	margin-bottom: var(--spacing-large, 20px); /* Espacio debajo del título usando variable */
+	/* El color del título puede heredarse de h1 en index.css o definirlo aquí con una variable */
+	color: var(--color-primary-dark, #556B2F); /* Usar la variable de color primario oscuro */
+	/* El tamaño y grosor de fuente deberían heredar de h1 en index.css */
+	/* font-size: 2.5em; */
+	/* font-weight: var(--font-weight-bold); */
+}
+
+/* Estilos para el contenedor del texto de la política (si necesitas aplicar un fondo o borde a todo el bloque de texto) */
+.privacy-policy-content {
+	/* El espaciado de línea y tamaño de fuente base deberían heredar de body (index.css) */
+	/* line-height: 1.6; */
+	/* font-size: 1em; */
+}
+
+/* Espacio entre párrafos dentro del contenido usando variable */
+/* Nota: Esto podría entrar en conflicto si ya tienes reglas p{} en index.css, revisa cual tiene más especificidad */
+.privacy-policy-content p {
+	margin-bottom: var(--spacing-medium, 15px); /* Usa la variable de espaciado */
+}
+
+/* Estilos para sub-títulos dentro del contenido (h2, h3) */
+/* Nota: Los márgenes top/bottom y tamaños de fuente deberían heredar de h2, h3 en index.css */
+.privacy-policy-content h2,
+.privacy-policy-content h3 {
+	/* Usa variables si no heredas los márgenes correctamente de index.css */
+	margin-top: var(--spacing-large, 20px);
+	margin-bottom: var(--spacing-medium, 15px);
+	/* Define el color de los sub-títulos usando una variable existente */
+	color: var(--color-neutral-dark, #333333); /* Usar un gris oscuro o el color de acento */
+	/* Si necesitas ajustar el tamaño específicamente para esta página y no heredar: */
+	/* font-size: 1.5em; */ /* para h2 */
+	/* font-size: 1.2em; */ /* para h3 */
+}
+
+/* Estilos básicos para listas dentro del contenido (ul) */
+/* Nota: Los márgenes y padding left deberían heredar de ul/ol en index.css */
+.privacy-policy-content ul {
+	margin-bottom: var(--spacing-medium, 15px); /* Usa la variable de espaciado si no heredas */
+	padding-left: var(--spacing-large, 20px); /* Usa la variable de espaciado si no heredas */
+	/* El estilo de viñeta (list-style-type) debería heredar de index.css */
+	/* list-style-type: disc; */
+}
+
+/* Espacio entre elementos de la lista (li) */
+/* Nota: Esto podría entrar en conflicto si ya tienes reglas li{} */
+.privacy-policy-content li {
+	margin-bottom: var(--spacing-small, 8px); /* Usa la variable de espaciado */
+}
+
+
+/* Estilos para enlaces dentro del contenido */
+/* Nota: El color y subrayado deberían heredar de a{} en index.css */
+.privacy-policy-content a {
+	/* Usa la variable de color definida para enlaces en index.css */
+	color: var(--color-primary-dark, #556B2F); /* O var(--color-link); si la definiste */
+	text-decoration: underline; /* Asegura el subrayado si no está por defecto en index.css */
+}
+
+.privacy-policy-content a:hover {
+	/* Usa la variable de color de acento o de hover definida en index.css */
+	color: var(--color-accent, #90EE90); /* O var(--color-link-hover); si la definiste */
+	/* text-decoration: underline; */ /* Asegura el subrayado en hover */
+}
+
+
+/* Media Query para ajustar el padding en pantallas pequeñas usando variable */
+@media (max-width: 768px) {
+	.privacy-policy-page-container {
+		padding: 0 var(--spacing-medium, 15px); /* Usa la variable de espaciado */
+	}
+}

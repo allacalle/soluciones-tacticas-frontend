@@ -74,7 +74,7 @@ function ProductListSection({ title, subtitle, type, categoryId, productIds, pro
                     case 'category': {
                         if (categoryId !== undefined) {
                             // Cargar productos de una categoría específica (usando category - 3er argumento)
-                            result = await getProducts(1, productsPerPage, categoryId, undefined, undefined, undefined, undefined, undefined, undefined); // Pasa categoryId al 3er argumento, 9 argumentos
+                            result = await getProducts(1, productsPerPage, categoryId.toString(), undefined, undefined, undefined, undefined, undefined, undefined); // Pasa categoryId al 3er argumento, 9 argumentos
                             productsData = result.products;
                         } else {
                             throw new Error(`El componente ProductListSection con type='category' requiere la prop 'categoryId'. Título: ${title}`);

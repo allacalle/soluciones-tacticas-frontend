@@ -1,0 +1,40 @@
+/* src/components/css/ProductGrid.css */
+
+/* Contenedor principal de la cuadrícula de productos */
+.products-grid {
+	display: grid; /* Usa CSS Grid para crear la cuadrícula */
+	/* Define las columnas: repite automáticamente, con ancho mínimo y máximo de 1fr */
+	/* Ajusta el minmax() según el tamaño que quieres para tus tarjetas en pantallas grandes. */
+	/* 1fr asegura que las columnas intenten ocupar el espacio disponible. */
+	/* *** Puedes experimentar con el valor mínimo (ej: 200px en lugar de 220px) si el grid desborda *** */
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* <-- Revertido: sin padding aquí */
+	/* Espacio entre los elementos de la cuadrícula (gap) */
+	/* *** Puedes experimentar con este valor de gap si los ítems están muy juntos o si causa desbordamiento *** */
+	gap: var(--spacing-large, 24px); /* <-- Mantenemos o ajustamos el gap entre ítems */
+
+	/* *** Quitamos el padding lateral de aquí. El padding debe venir del contenedor padre. *** */
+	padding: 0; /* <--- Asegurar que el padding lateral es 0 aquí */
+
+
+	/* Asegúrate de que la cuadrícula ocupa el ancho disponible de su padre */
+	width: 100%; /* Debería ocupar el ancho completo de su contenedor padre */
+	/* box-sizing: border-box; */ /* Generalmente buena práctica, pero aquí el padding ya está dentro por diseño */
+
+
+	/* Si la barra de scroll persiste a pesar de ajustar minmax y gap, puedes probar overflow-x: hidden; */
+	/* Es menos ideal que solucionar la causa raíz, pero puede servir para ocultar la barra. */
+	/* overflow-x: hidden; */
+}
+
+/* ... rest of ProductGrid.css (product-item-link, product-item, etc.) ... */
+
+/* Media Query para ajustar la cuadrícula en pantallas más pequeñas si es necesario */
+@media (max-width: 768px) { /* Usar 768px que es un punto de ruptura común */
+	.products-grid {
+		/* En pantallas pequeñas, ajustamos el gap si es necesario */
+		gap: var(--spacing-medium, 15px); /* Menor gap en móvil */
+		/* El padding lateral en móvil debería venir del contenedor de la página (.main-content-area o similar) */
+		padding: 0; /* <--- Asegurar que el padding lateral es 0 en móvil también */
+		/* grid-template-columns: 1fr; */ /* Si quieres una sola columna en móviles muy estrechos */
+	}
+}
