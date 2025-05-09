@@ -1,7 +1,10 @@
 // src/components/ProductGrid.tsx
 
 import { Link } from 'react-router-dom'; // Necesitamos Link para enlazar a la página de producto individual
-import './css/ProductGrid.css'; // Importa los estilos para la cuadrícula y los items
+
+// *** Importa los estilos CSS del ITEM. ESTO ES CLAVE. ***
+import	'./css/ProductGrid.css';
+
 
 import { Product } from '../types'; // Importa la interfaz Product
 
@@ -12,21 +15,22 @@ interface ProductGridProps {
 
 function ProductGrid({ products }: ProductGridProps) {
 
-	// Si no hay productos (ej: lista vacía después de cargar, o error manejado por el padre)
-	// El componente padre que llama a ProductGrid debería manejar el estado de carga/error/vacío
+	// Si no hay productos, devuelve null (el padre maneja el mensaje de lista vacía)
 	if (!products || products.length === 0) {
-		// Puedes devolver null, un mensaje, o lo que sea apropiado si la lista está vacía.
-		// Aquí devolvemos null, asumiendo que el padre mostrará un mensaje "No se encontraron productos".
-		return null;
+		return	null;
 	}
 
+	// !!! ProductGrid AHORA SOLO RENDERIZA LA ESTRUCTURA HTML CON CLASES. !!!
+	// Los estilos de ITEM (apariencia) están en ProductGrid.css y se aplican porque este archivo lo importa.
+	// Los estilos de LAYOUT (flex/grid) estarán en el CSS de los componentes padre (ProductListSection.css, ProductListPage.css).
+
 	return (
-		// Contenedor de la cuadrícula de productos. Usaremos esta clase en el CSS.
-		<div className="products-grid">
+		<> {/* Usamos Fragment para no añadir un div extra innecesario si no se necesita un wrapper */}
 			{/* Mapeamos sobre la lista de productos para mostrar cada uno */}
 			{products.map(product => (
-				// Cada ítem de la cuadrícula es un enlace a la página del producto individual
+				// Cada ítem es un enlace a la página del producto individual
 				// Usamos el slug del producto para la URL
+				// Las clases product-item-link y product-item se mantienen para que ProductGrid.css pueda estilizar
 				<Link key={product.id} to={`/producto/${product.slug}`} className="product-item-link">
 					{/* Contenedor de la tarjeta individual del producto */}
 					<div className="product-item">
@@ -35,28 +39,26 @@ function ProductGrid({ products }: ProductGridProps) {
 							<img
 								src={product.images[0].src}
 								alt={product.images[0].alt || product.name}
-								className="product-image" // Clase para estilizar la imagen
+								className="product-image" // Clase para que ProductGrid.css pueda estilizar
 							/>
 						) : (
-							<div className="no-image-placeholder"> {/* Clase para el placeholder sin imagen */}
+							<div className="no-image-placeholder"> {/* Clase para que ProductGrid.css pueda estilizar */}
 								Sin Imagen
 							</div>
 						)}
 
 						{/* Nombre del Producto */}
-						<h3 className="product-title">{product.name}</h3> {/* Clase para el título */}
+						<h3 className="product-title">{product.name}</h3> {/* Clase para que ProductGrid.css pueda estilizar */}
 
 						{/* Precio del Producto */}
-						{/* Asegúrate de manejar si price es null o undefined si tu API lo permite */}
-						<p className="product-price">{product.price ? `${product.price} €` : 'Consultar precio'}</p> {/* Clase para el precio */}
+						<p className="product-price">{product.price ? `${product.price} €` : 'Consultar precio'}</p> {/* Clase para que ProductGrid.css pueda estilizar */}
 
-						{/* Puedes añadir aquí otros detalles como una descripción corta, botón "Añadir al carrito" (si lo implementas) */}
-						{/* {product.short_description && <div dangerouslySetInnerHTML={{ __html: product.short_description }} />} */}
+						{/* Puedes añadir aquí otros detalles si los necesitas en la tarjeta */}
 
 					</div> {/* Cierre de product-item */}
 				</Link> // Cierre del Link
 			))}
-		</div> // Cierre de products-grid
+		</> // Cierre del Fragment
 	);
 }
 

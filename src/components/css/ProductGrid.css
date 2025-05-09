@@ -1,40 +1,135 @@
-/* src/components/css/ProductGrid.css */
+/* src/components/css/ProductGrid.css - Estilos para cada ítem de producto individual (.product-item) */
 
-/* Contenedor principal de la cuadrícula de productos */
-.products-grid {
-	display: grid; /* Usa CSS Grid para crear la cuadrícula */
-	/* Define las columnas: repite automáticamente, con ancho mínimo y máximo de 1fr */
-	/* Ajusta el minmax() según el tamaño que quieres para tus tarjetas en pantallas grandes. */
-	/* 1fr asegura que las columnas intenten ocupar el espacio disponible. */
-	/* *** Puedes experimentar con el valor mínimo (ej: 200px en lugar de 220px) si el grid desborda *** */
-	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* <-- Revertido: sin padding aquí */
-	/* Espacio entre los elementos de la cuadrícula (gap) */
-	/* *** Puedes experimentar con este valor de gap si los ítems están muy juntos o si causa desbordamiento *** */
-	gap: var(--spacing-large, 24px); /* <-- Mantenemos o ajustamos el gap entre ítems */
+/* Estilos para cada tarjeta individual de producto */
+.product-item {
+	/* Layout interno del item */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between; /* Distribuye espacio entre imagen/título y precio */
+	align-items: center; /* Centra contenido horizontalmente */
+	text-align: center; /* Centra texto y contenido en línea */
 
-	/* *** Quitamos el padding lateral de aquí. El padding debe venir del contenedor padre. *** */
-	padding: 0; /* <--- Asegurar que el padding lateral es 0 aquí */
+	/* Tamaño y espaciado */
+	width: 100%; /* Ocupa todo el ancho disponible en su celda (Grid) */
+	min-height: 300px; /* Altura mínima para consistencia (ajusta si es necesario) */
+	box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
+	padding: var(--spacing-medium, 15px); /* Padding interno */
+
+	/* === PROPIEDADES ÚTILES PARA LAYOUT FLEXBOX (como en la homepage) === */
+	/* Ayuda a que los ítems tengan un tamaño base y no se encojan en el scroll horizontal */
+	flex-shrink: 0; /* Evita que se encoja */
+	flex-basis: 220px; /* Define un ancho base preferido en contextos flex (ajusta si 220px no es tu tamaño ideal) */
 
 
-	/* Asegúrate de que la cuadrícula ocupa el ancho disponible de su padre */
-	width: 100%; /* Debería ocupar el ancho completo de su contenedor padre */
-	/* box-sizing: border-box; */ /* Generalmente buena práctica, pero aquí el padding ya está dentro por diseño */
+	/* Apariencia visual */
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	border-radius: 8px; /* Bordes redondeados */
+	background-color: var(--color-background-light, #fff); /* Fondo blanco/claro */
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra suave por defecto */
 
-
-	/* Si la barra de scroll persiste a pesar de ajustar minmax y gap, puedes probar overflow-x: hidden; */
-	/* Es menos ideal que solucionar la causa raíz, pero puede servir para ocultar la barra. */
-	/* overflow-x: hidden; */
+	/* Transiciones para efectos suaves */
+	transition: all 0.3s ease-in-out;
 }
 
-/* ... rest of ProductGrid.css (product-item-link, product-item, etc.) ... */
+/* Estilos para el enlace que envuelve la tarjeta de producto */
+.product-item-link {
+	text-decoration: none; /* Quita el subrayado por defecto */
+	color: inherit; /* Hereda el color de texto del padre */
+	display: block; /* Hace que el enlace ocupe todo el espacio de la tarjeta */
+	width: 100%; /* Asegura que el enlace ocupa el ancho del item */
+	height: 100%; /* Asegura que el enlace ocupa la altura del item */
+}
 
-/* Media Query para ajustar la cuadrícula en pantallas más pequeñas si es necesario */
-@media (max-width: 768px) { /* Usar 768px que es un punto de ruptura común */
-	.products-grid {
-		/* En pantallas pequeñas, ajustamos el gap si es necesario */
-		gap: var(--spacing-medium, 15px); /* Menor gap en móvil */
-		/* El padding lateral en móvil debería venir del contenedor de la página (.main-content-area o similar) */
-		padding: 0; /* <--- Asegurar que el padding lateral es 0 en móvil también */
-		/* grid-template-columns: 1fr; */ /* Si quieres una sola columna en móviles muy estrechos */
+/* Efecto hover en la tarjeta entera (aplicado al .product-item cuando el enlace tiene hover) */
+.product-item-link:hover .product-item {
+	box-shadow: 0 6px 15px rgba(0,0,0,0.25); /* Sombra más pronunciada al pasar el ratón */
+	transform: translateY(-4px); /* Levanta un poco la tarjeta */
+	border-color: var(--color-primary, #556B2F); /* Cambia borde al color primario */
+}
+
+
+/* Estilos para la imagen dentro de la tarjeta */
+.product-item img {
+	width: 100%; /* Imagen ocupa todo el ancho del contenedor de imagen */
+	height: 180px; /* Altura fija para consistencia (ajusta si es necesario) */
+	object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo de la imagen */
+	border-radius: 4px; /* Bordes ligeramente redondeados */
+}
+
+/* Estilos para el placeholder cuando no hay imagen de producto */
+.product-item .no-image-placeholder {
+	width: 100%;
+	height: 180px; /* Misma altura que la imagen */
+	background-color: var(--color-neutral-light, #ccc); /* Fondo gris */
+	margin-bottom: var(--spacing-medium, 15px);
+	display: flex; /* Centrar contenido dentro del placeholder */
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	color: var(--color-text-dark, #555); /* Color de texto */
+	font-size: 0.9em;
+	text-align: center;
+	padding: var(--spacing-small, 10px); /* Añadir padding si el nombre es largo */
+	box-sizing: border-box; /* Incluir padding en el tamaño */
+}
+
+/* Estilos para el nombre del producto (H3) */
+.product-item h3 {
+	font-size: 1.1em;
+	margin: 0 0 var(--spacing-small, 8px) 0; /* Margen inferior */
+	font-weight: var(--font-weight-bold, bold);
+	color: var(--color-text-dark, #333);
+	/* Estilos para limitar líneas si es necesario */
+	display: -webkit-box;
+	line-clamp: 2; /* Limita a 2 líneas (Webkit) */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis; /* Añade puntos suspensivos */
+	width: 100%; /* Ocupa todo el ancho disponible */
+	text-align: center; /* Centra el texto */
+}
+
+/* Estilos para el precio del producto (P) */
+.product-item p {
+	font-size: 1.6em; /* Tamaño del precio (ajustado un poco) */
+	color: var(--color-accent, #007bff); /* Color de acento (azul) */
+	margin: var(--spacing-small, 8px) 0 0 0; /* Espacio arriba del precio */
+	font-weight: var(--font-weight-bold, bold);
+	margin-top: auto; /* Empuja el precio al final si el contenido de arriba varía en altura */
+
+	/* Estilos opcionales si quieres borde/fondo para el precio */
+	/* border: 1px solid var(--color-neutral-medium, #ddd); */
+	/* padding: var(--spacing-small, 8px); */
+	/* border-radius: 4px; */
+	/* background-color: var(--color-background-light, #f9f9f9); */
+	/* display: inline-block; */ /* Si le pones border/padding */
+}
+
+
+/* Media Queries para ajustes en móviles */
+@media (max-width: 768px) {
+	.product-item {
+		padding: var(--spacing-small, 10px);
+		min-height: 250px; /* Ajustar altura mínima */
+	}
+
+	.product-item img {
+		height: 150px; /* Altura de imagen más pequeña en móviles */
+		margin-bottom: var(--spacing-small, 10px);
+	}
+
+	.product-item .no-image-placeholder {
+		height: 150px; /* Altura de placeholder igual que imagen */
+		margin-bottom: var(--spacing-small, 10px);
+	}
+
+	.product-item h3 {
+		font-size: 1em;
+	}
+
+	.product-item p {
+		font-size: 1.4em; /* Ajustar tamaño del precio */
+		margin-top: var(--spacing-small, 5px);
 	}
 }

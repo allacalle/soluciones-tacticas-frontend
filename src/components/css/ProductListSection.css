@@ -1,16 +1,13 @@
-/* src/components/css/ProductListSection.css - Estilos optimizados */
-
 /* Estilos para el contenedor principal de la sección */
 .product-list-section {
 	margin: 30px 0;
-	/* Ajustamos el padding de la sección - Usamos variable de espaciado medio */
-	padding: var(--spacing-medium, 16px) 0; /* Ajustamos el padding, puedes modificar */
+	padding: var(--spacing-medium, 16px) 0;
 	background-color: var(--color-neutral-light, #f8f8f8);
 	border-top: 1px solid var(--color-neutral-light, #eee);
 	border-bottom: 1px solid var(--color-neutral-light, #eee);
 }
 
-/* Estilos para el banner de título/subtítulo */
+/* Estilos para el banner de título/subtítulo de la sección */
 .section-banner {
 	background-color: var(--color-primary-dark, #4b5320);
 	color: var(--color-text-light, #fff);
@@ -23,6 +20,8 @@
 	margin: 0 0 var(--spacing-small, 5px) 0;
 	font-size: 1.8em;
 	font-weight: var(--font-weight-bold, bold);
+	/* Asegúrate de que este h2 no tenga márgenes grandes que lo desajusten del banner */
+	/* Si tienes estilos h2 generales en index.css, quizás necesites sobrescribirlos aquí si quieres un estilo diferente */
 }
 
 .section-banner p {
@@ -31,24 +30,49 @@
 	opacity: 0.9;
 }
 
-/* Estilos para el área que contiene las tarjetas de producto */
-.products-display-area {
-	padding: 0 var(--spacing-large, 20px) var(--spacing-large, 20px) var(--spacing-large, 20px);
-	display: flex;
-	overflow-x: auto;
-	gap: var(--spacing-large, 20px);
-	justify-content: space-around;
-	scrollbar-width: thin;
-	scrollbar-color: var(--color-primary-dark, #4b5320) var(--color-neutral-light, #f8f8f8);
+/* === Estilos para el área que contiene las tarjetas de producto (CONTENEDOR FLEXBOX) === */
+.products-display-area { /* Contenedor Flexbox para scroll horizontal */
+	display: flex; /* Usa Flexbox */
+	overflow-x: auto; /* Habilita scroll horizontal si los ítems exceden el ancho */
+	gap: var(--spacing-large, 20px); /* Espacio entre ítems */
+
+	/* --- Asegurar alineación y distribución en Flexbox --- */
+	align-items: stretch; /* Asegura que los ítems se estiren verticalmente (normalmente deseado) */
+
+	/* Decide la alineación horizontal: */
+	/* justify-content: flex-start; /* <-- Estándar para scroll horizontal (alinea al inicio) */
+	/* justify-content: center; /* Centra ítems si NO llenan el contenedor (menos común para scroll) */
+	justify-content: space-evenly; /* <-- Distribuye el espacio (puedes probar este si quieres más espacio alrededor) */
+
+	/* Ajusta el padding para el espacio a los lados del scroll */
+	padding-left: var(--spacing-large, 20px);
+	padding-right: var(--spacing-large, 20px);
+	padding-bottom: var(--spacing-small, 10px); /* Espacio inferior para scrollbar */
+
+	/* Margen inferior si es necesario */
+	margin-bottom: var(--spacing-large, 20px);
+
+	/* !!! NO DEBERÍA HABER REGLAS .product-item NI SUS HIJOS AQUÍ !!! */
+}
+
+/* Estilos específicos del scrollbar (pueden quedarse aquí) */
+.products-display-area::-webkit-scrollbar { /* Chrome, Safari */
+	height: 8px; /* Altura del scrollbar */
 }
 
 .products-display-area::-webkit-scrollbar-thumb {
-	background-color: var(--color-primary-dark, #4b5320);
+	background-color: var(--color-primary-dark, #4b5320); /* Color del "dedo" del scrollbar */
 	border-radius: 10px;
 }
 
 .products-display-area::-webkit-scrollbar-track {
-	background: var(--color-neutral-light, #f8f8f8);
+	background: var(--color-neutral-light, #f8f8f8); /* Color del "riel" del scrollbar */
+	/* display: none; /* Oculta el track del scrollbar si no quieres verlo */
+}
+
+.products-display-area { /* IE, Edge */
+	-ms-overflow-style: none;
+	scrollbar-width: none; /* Firefox */
 }
 
 /* Estilos para cada tarjeta individual de producto */
@@ -149,4 +173,30 @@
 .product-item {
 	/* ... otras propiedades ... */
 	transition: all 0.3s ease-in-out; /* <-- Añade o verifica que esta línea está aquí */
+}
+
+
+/* === Estilos ESPECÍFICOS de Flexbox para el área de productos (.products-display-area) dentro de la sección === */
+.product-list-section .products-display-area { /* <<< Selector más específico */
+    display: flex;
+    overflow-x: auto;
+    gap: var(--spacing-large, 20px); /* Gap común (también en pageLayout.css, pero la especificidad del selector general es menor) */
+
+    /* --- Asegurar alineación y distribución en Flexbox --- */
+    align-items: stretch;
+
+    /* Decide la alineación horizontal: */
+    justify-content: flex-start; /* Estándar para scroll */
+    /* justify-content: center; */
+    /* justify-content: space-evenly; */
+
+    /* Ajusta el padding A LOS LADOS para el espacio a los lados del scroll */
+    padding-left: var(--spacing-large, 20px);
+    padding-right: var(--spacing-large, 20px);
+    padding-bottom: var(--spacing-small, 10px); /* Padding inferior para scrollbar */
+
+    /* Margen inferior (común, pero puedes dejarlo aquí si prefieres que el específico gane) */
+    /* margin-bottom: var(--spacing-large, 20px); */
+
+    /* ... estilos de scrollbar si no están en pageLayout.css ... */
 }

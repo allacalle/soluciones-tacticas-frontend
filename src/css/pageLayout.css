@@ -1,0 +1,80 @@
+/* src/css/pageLayout.css - Estilos para elementos de layout comunes en las páginas */
+
+
+
+/* === Estilos para el Contenedor Principal de la Mayoría de las Páginas === */
+/* Consolida las reglas que antes estaban en .all-products-page-container, .product-list-page-container, etc. */
+.page-container {
+	max-width: var(--max-width-content, 1200px); /* Ancho máximo definido por variable */
+	margin: var(--spacing-large, 20px) auto; /* Centra el contenedor y da margen vertical */
+	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
+	box-sizing: border-box; /* Incluye padding y borde en el tamaño */
+	/* Otros estilos generales de contenedor si son comunes (ej: color de texto base si no está en body) */
+	color: var(--color-text-dark, #333);
+	font-family: var(--font-family-base);
+}
+
+
+/* === Estilos para el bloque del Título (el "cartelito") - Usado en varias páginas === */
+.page-title-block {
+	background-color: var(--color-primary-dark, #556B2F); /* Fondo verde oscuro */
+	padding: var(--spacing-medium, 15px) 0; /* Padding vertical, 0 horizontal */
+	margin-bottom: var(--spacing-large, 30px); /* Espacio debajo del bloque */
+	text-align: center; /* Centra el contenido */
+	width: 100%; /* Asegura que el bloque ocupe todo el ancho */
+	box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+/* Estilos para la etiqueta H2 dentro del bloque del título */
+.page-title-block h2 {
+	font-size: 2.2em; /* Tamaño del título */
+	color: var(--color-text-light, #fff); /* Color del texto blanco */
+	margin: 0; /* Elimina márgenes por defecto */
+	line-height: 1.2; /* Ajusta altura de línea */
+	/* Cualquier otro estilo consistente para h2s dentro de este bloque */
+}
+
+/* === Estilos para Áreas de Paginación (si son consistentes) === */
+/* Si .pagination-info y .pagination-buttons son iguales en todas partes, muévelos aquí */
+.pagination-info {
+	text-align: center;
+	margin-top: var(--spacing-large, 20px);
+	margin-bottom: var(--spacing-medium, 15px);
+	color: var(--color-text-dark, #333);
+}
+
+.pagination-info p {
+	margin: 5px 0;
+}
+
+.pagination-buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--spacing-medium, 15px);
+	margin-top: var(--spacing-medium, 15px);
+	margin-bottom: var(--spacing-large, 20px);
+}
+
+/* Asegúrate de que los estilos base de botón en index.css o global.css cubren el estilo general */
+/* .pagination-buttons button { ... } */
+/* .pagination-buttons span { ... } */
+
+
+/* Ajustes en media queries para estilos de layout */
+@media (max-width: 768px) {
+	.page-container {
+		padding: 0 var(--spacing-medium, 15px); /* Ajusta padding lateral en móviles */
+	}
+
+	.page-title-block {
+		padding: var(--spacing-small, 10px) 0;
+		margin-bottom: var(--spacing-medium, 20px);
+	}
+	.page-title-block h2 {
+		font-size: 1.8em;
+	}
+
+	/* Ajustes para paginación en móviles si se movió aquí */
+	/* .pagination-buttons { gap: ... } */
+}

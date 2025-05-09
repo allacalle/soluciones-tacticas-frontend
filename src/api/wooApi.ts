@@ -68,7 +68,9 @@ export const getProducts = async (
     order: 'asc' | 'desc' = 'desc',
     on_sale?: boolean,
     featured?: boolean,
-    includeIds?: number[]
+    includeIds?: number[],
+	brandId?: number // Nuevo parámetro para filtrar por ID de marca
+
 ): Promise<{ products: Product[], total: number, totalPages: number }> => {
 
     let categoryQueryParam = '';
@@ -111,6 +113,11 @@ export const getProducts = async (
         apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
         apiUrl += `&order=${encodeURIComponent(order)}`;
     }
+
+	// *** Añadir el filtro por ID de marca si se proporciona ***
+	if (brandId) {
+		apiUrl += `&brand=${brandId}`; // <-- Probar con este formato
+	}
 
 
     console.log("Calling API for Products with URL:", apiUrl);
@@ -323,6 +330,45 @@ export const getBrands = async (
          console.error("Error al obtener marcas desde wooApi (fetch fallido o error inesperado):", error);
          throw error; // Re-lanzamos el error para que el componente lo maneje
      }
+};
+
+export const getBrandBySlug = async (slug: string): Promise<Brand | null> => {
+	// La URL exacta y cómo filtrar por slug depende de tu implementación de marcas en WooCommerce
+	// Ejemplo asumiendo un parámetro 'slug' en el endpoint /brands:
+	// Corregido: usar const para apiUrl y remover escapes innecesarios
+	const	apiUrl = `${SITEURL}/wp-json/wc/v2/products/brands?slug=${slug}&consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}`;
+
+	try {
+		const response = await fetch(apiUrl, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Basic ${base64Credentials}`, // Asegúrate de que base64Credentials está definido y es correcto
+				'User-Agent': 'YourAppName/1.0' // Usa un User-Agent descriptivo
+			}
+		});
+
+		if (!response.ok) {
+			const errorBody = await response.text();
+			console.error(`API Error Response Body (getBrandBySlug ${slug}):`, errorBody);
+			if (response.status === 404) {
+				return null; // Marca no encontrada
+			}
+			throw new Error(`Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+		}
+
+		const data: Brand[] = await response.json();
+
+		if (data.length > 0) {
+			return data[0]; // Devuelve el primer (y debería ser único) resultado
+		} else {
+			return null; // No se encontró la marca con ese slug
+		}
+
+	} catch (caughtError: unknown) {
+		const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+		console.error(`Error fetching brand by slug (${slug}) from wooApi:`, error);
+		throw error; // Re-lanzamos el error para que el componente lo maneje (ej: mostrar mensaje de error)
+	}
 };
 
 

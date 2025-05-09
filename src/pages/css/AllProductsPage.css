@@ -1,0 +1,202 @@
+/* src/pages/css/AllProductsPage.css - Estilos para la página "Todos los Productos" */
+
+/* Contenedor principal de la página "Todos los Productos" */
+.all-products-page-container { /* Cambiado a una clase específica */
+	max-width: var(--max-width-content, 1200px); /* Usamos variable */
+	margin: var(--spacing-large, 20px) auto; /* Usamos variable */
+	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
+	box-sizing: border-box;
+	color: var(--color-text-dark, #333); /* Usamos variable */
+	font-family: var(--font-family-base); /* Usamos variable */
+}
+
+/* Estilos para los mensajes de estado (Cargando, Error, Vacío) */
+/* Reutilizamos las clases genéricas, pero puedes ajustar el prefijo si quieres */
+.all-products-page-loading, /* Clase específica */
+.all-products-page-error, /* Clase específica */
+.all-products-page-not-found { /* Clase específica */
+	text-align: center;
+	font-size: 1.2em;
+	padding: var(--spacing-large, 20px); /* Usamos variable */
+}
+
+/* Estilos para el título de la página (H2) */
+.all-products-page-container h2 { /* Selector adaptado */
+	text-align: center;
+	margin-bottom: var(--spacing-large, 20px); /* Usamos variable */
+	font-size: 2em;
+	color: var(--color-primary-dark, #556B2F); /* Usamos variable */
+}
+
+/* Estilos para la información de paginación */
+.pagination-info {
+	text-align: center;
+	margin-top: var(--spacing-large, 20px); /* Usamos variable */
+	margin-bottom: var(--spacing-medium, 15px); /* Usamos variable */
+	border-bottom: 1px solid var(--color-neutral-light, #eee); /* Usamos variable */
+	padding-bottom: var(--spacing-small, 10px); /* Usamos variable */
+	color: var(--color-text-dark, #333); /* Usamos variable */
+}
+
+.pagination-info p {
+	margin: 5px 0; /* Pequeño margen entre párrafos de info */
+}
+
+
+/* Estilos para el contenedor de la cuadrícula de productos */
+/* *** Usamos Grid aquí para una cuadrícula con wrap *** */
+/* *** Los estilos de ITEM están duplicados aquí por ahora, según tu decisión *** */
+.products-display-area { /* Mantener esta clase para compatibilidad con ProductGrid */
+	display: grid; /* Usa Grid */
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Columnas responsive */
+	gap: var(--spacing-large, 24px); /* Espacio entre ítems */
+
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0; /* Padding lateral manejado por el contenedor principal */
+	overflow-x: visible; /* No scroll horizontal aquí */
+}
+
+
+/* Estilos para los botones de paginación */
+.pagination-buttons {
+	margin-top: var(--spacing-large, 20px); /* Espacio superior */
+	text-align: center; /* Centra los botones */
+}
+
+.pagination-buttons button {
+	margin: 0 var(--spacing-small, 10px); /* Espacio lateral entre botones */
+	padding: var(--spacing-small, 8px) var(--spacing-medium, 15px); /* Padding */
+	transition: all 0.3s ease;
+}
+
+.pagination-buttons button:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+/* ============================================================== */
+/* ESTILOS DE LAS TARJETAS DE PRODUCTO INDIVIDUALES (DUPLICADOS DE ProductListPage.css y ProductListSection.css) */
+/* ============================================================== */
+/* Nota: Copiamos las reglas del ítem aquí por ahora, según tu decisión de refactorizar CSS más adelante */
+
+/* Estilos para cada tarjeta individual de producto */
+.product-item { /* Mantener esta clase para compatibilidad con ProductGrid */
+	/* flex-shrink: 0; */ /* No necesario en Grid */
+	/* flex-basis: 220px; */ /* No necesario en Grid */
+	width: 100%; /* Asegura que el item ocupe el 100% de la celda */
+	text-align: center;
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	padding: var(--spacing-medium, 15px);
+	border-radius: 8px;
+	background-color: var(--color-background-light, #fff);
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 300px;
+	box-sizing: border-box;
+	transition: all 0.3s ease-in-out;
+}
+
+/* Estilos para el enlace que envuelve la tarjeta de producto */
+.product-item-link { /* Mantener esta clase para compatibilidad con ProductGrid */
+	text-decoration: none; /* Quita el subrayado */
+	color: inherit; /* Hereda el color de texto */
+	display: block; /* El enlace debe ser de bloque */
+}
+
+
+/* Estilos para la imagen dentro de la tarjeta */
+.product-item img { /* Selector dentro del ítem */
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	margin-bottom: var(--spacing-medium, 15px);
+	border-radius: 4px;
+}
+
+/* Estilos para el placeholder de imagen */
+.product-item .no-image-placeholder { /* Selector dentro del ítem */
+	width: 100%;
+	height: 180px;
+	background-color: var(--color-neutral-medium, #ccc);
+	margin-bottom: var(--spacing-medium, 15px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	color: var(--color-text-dark, #555);
+	font-size: 0.9em;
+}
+
+/* Estilos para el nombre del producto (H3) */
+.product-item h3 { /* Selector dentro del ítem */
+	font-size: 1.1em;
+	margin: 0 0 var(--spacing-small, 8px) 0;
+	font-weight: var(--font-weight-bold, bold);
+	color: var(--color-text-dark, #333);
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Estilos para el precio del producto (P) */
+.product-item p { /* Selector dentro del ítem */
+	font-size: 2em;
+	color: var(--color-accent, #007bff);
+	margin: 0;
+	font-weight: var(--font-weight-bold, bold);
+	margin-top: auto;
+
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	padding: var(--spacing-small, 8px);
+	border-radius: 4px;
+	display: inline-block;
+}
+
+/* Opcional: Estilo al pasar el ratón por encima de la tarjeta */
+.product-item-link:hover .product-item { /* Aplica el estilo al div .product-item cuando el enlace .product-item-link tiene hover */
+	box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+	transform: translateY(-4px);
+	border-color: var(--color-accent, #90EE90);
+}
+
+
+/* ============================================================== */
+/* Media Queries para Responsividad */
+/* ============================================================== */
+
+/* Ajustes de padding en pantallas pequeñas */
+@media (max-width: 768px) {
+	.all-products-page-container { /* Selector adaptado */
+		padding: 0 var(--spacing-medium, 15px); /* Ajusta padding lateral en móviles */
+	}
+
+	/* Ajusta el número de columnas en la cuadrícula en pantallas pequeñas */
+	.products-display-area { /* Mantener esta clase */
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ejemplo: mínimo 150px */
+	}
+
+	/* Ajusta tamaños de fuente si es necesario en móviles */
+	.all-products-page-container h2 { /* Selector adaptado */
+		font-size: 1.8em; /* Un poco más pequeño en móviles */
+	}
+
+	/* Ajusta espaciado de paginación si es necesario */
+	.pagination-info { /* Mantener esta clase */
+		margin-bottom: var(--spacing-medium, 15px);
+		padding-bottom: var(--spacing-small, 8px);
+	}
+
+	.pagination-buttons { /* Mantener esta clase */
+		margin-top: var(--spacing-medium, 15px);
+	}
+
+	/* Puedes ajustar el tamaño de fuente del precio en la tarjeta si 2em es demasiado grande en móviles */
+	.product-item p { /* Selector dentro del ítem */
+		font-size: 1.6em; /* Ejemplo: reducir tamaño del precio en móviles */
+	}
+}

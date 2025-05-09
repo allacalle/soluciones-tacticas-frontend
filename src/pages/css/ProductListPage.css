@@ -81,20 +81,26 @@
 }
 
 
-/* Estilos para el contenedor de la cuadrícula de productos */
-/* *** IMPORTANTE: Usamos Grid aquí en lugar de Flexbox para una cuadrícula *** */
-.products-display-area {
-	/* Quitamos overflow-x: auto; y justify-content: space-around; de la versión carrusel */
-	display: grid; /* CAMBIADO a Grid */
-	/* Define las columnas: repite automáticamente columnas de un ancho mínimo de 250px y máximo 1fr (ajusta 250px) */
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Puedes ajustar el ancho mínimo (250px) */
-	/* Espacio entre elementos de la cuadrícula (tanto filas como columnas) - Usamos variable de espaciado large */
-	gap: var(--spacing-large, 20px); /* Usamos variable, con fallback */
-	/* Puedes añadir padding lateral si no lo manejas en el contenedor principal */
-	/* padding: 0 var(--spacing-medium); */
+.products-display-area { /* Contenedor Grid para cuadrícula con wrap */
+	display: grid; /* Usa Grid */
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Columnas responsive */
+	gap: var(--spacing-large, 24px); /* Espacio entre ítems */
 
-	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí para los items */
-	/* font-family: var(--font-family-base); */
+	width: 100%; /* Asegura que el Grid ocupa todo el ancho disponible */
+	box-sizing: border-box;
+	padding: 0;
+	overflow-x: visible; /* No scroll horizontal aquí */
+	margin-bottom: var(--spacing-large, 20px);
+
+	/* --- Asegurar alineación y distribución en Grid --- */
+	justify-content: space-evenly; /* <--- Distribuye el espacio entre/alrededor de las columnas si no llenan la fila */
+	/* Opcional: justify-content: center; (centra el grupo de items en la fila) */
+
+	justify-items: center; /* <--- Centra CADA ÍTEM individualmente dentro de su celda Grid */
+	align-items: stretch; /* Asegura que los ítems se estiren verticalmente dentro de su celda */
+
+	/* Limpia CUALQUIER estilo de .product-item y sus hijos de este archivo */
+	/* Solo deja reglas de layout para el contenedor Grid */
 }
 
 /* Estilos para los botones de paginación (debajo de la lista de productos) */

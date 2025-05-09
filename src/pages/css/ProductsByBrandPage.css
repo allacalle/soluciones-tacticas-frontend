@@ -1,0 +1,177 @@
+/* src/pages/css/ProductsByBrandPage.css - Estilos para la página de productos por marca */
+
+/* Contenedor principal de la página de productos por marca */
+.products-by-brand-container {
+	max-width: var(--max-width-content, 1200px);
+	margin: var(--spacing-large, 20px) auto;
+	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
+	box-sizing: border-box;
+	color: var(--color-text-dark, #333);
+	font-family: var(--font-family-base);
+}
+
+/* Estilos para los mensajes de estado específicos de esta página */
+.products-by-brand-loading,
+.products-by-brand-error,
+.products-by-brand-not-found {
+	text-align: center;
+	font-size: 1.2em;
+	padding: var(--spacing-large, 20px);
+}
+
+
+/* === Sección de Información de la Marca en la Parte Superior === */
+.brand-info-header {
+	text-align: center;
+	margin-bottom: var(--spacing-extra-large, 40px); /* Espacio debajo de la info de marca */
+	padding-bottom: var(--spacing-large, 20px); /* Padding inferior */
+	border-bottom: 2px solid var(--color-neutral-medium, #ddd); /* Separador */
+}
+
+/* Estilo para la imagen/icono de la marca en la cabecera */
+.brand-info-image {
+	max-width: 150px; /* Ajusta el tamaño máximo del logo en la cabecera */
+	height: auto;
+	object-fit: contain;
+	margin-bottom: var(--spacing-medium, 15px);
+}
+
+/* Estilo para el placeholder de imagen en la cabecera */
+.no-brand-info-image-placeholder {
+	width: 100px; /* Ajusta tamaño del placeholder */
+	height: 100px;
+	background-color: var(--color-neutral-light, #f0f0f0);
+	color: var(--color-text-dark, #555);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	font-size: 3em; /* Tamaño de la letra */
+	font-weight: var(--font-weight-bold, bold);
+	margin: 0 auto var(--spacing-medium, 15px) auto; /* Centra y da espacio abajo */
+}
+
+
+/* Estilo para el nombre de la marca en la cabecera (H2) */
+.brand-info-header h2 {
+	font-size: 2.5em; /* Título más grande para el nombre de la marca */
+	margin: 0 0 var(--spacing-small, 10px) 0;
+	color: var(--color-primary-dark, #556B2F);
+}
+
+/* Estilo para la descripción de la marca en la cabecera */
+.brand-info-description {
+	font-size: 1em;
+	color: var(--color-text-medium, #555);
+	line-height: 1.6;
+	max-width: 800px; /* Limita el ancho de la descripción */
+	margin: 0 auto; /* Centra la descripción */
+}
+
+
+/* === Reutilización de Estilos de Layout de Productos (Grid y Paginación) === */
+/* Estas clases deberían ser consistentes con ProductListPage.css o AllProductsPage.css */
+
+/* Área donde se mostrarán los productos en una cuadrícula/lista */
+.products-display-area {
+	display: grid; /* Usa Grid */
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Columnas responsive */
+	gap: var(--spacing-large, 24px); /* Espacio entre ítems */
+
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0;
+	overflow-x: visible;
+	margin-bottom: var(--spacing-large, 20px); /* Espacio debajo del grid */
+
+	/* === NUEVA REGLA PARA ALINEAR ITEMS CUANDO HAY POCOS === */
+	/* Esto ayuda a centrar o distribuir ítems si no llenan una fila completa */
+	/* justify-content: center; */ /* Puedes probar a centrar todos los items en el espacio disponible */
+	justify-content: space-evenly; /* <--- O distribuye el espacio equitativamente entre/alrededor de los ítems */
+
+	/* Si justifty-content no es suficiente, quizás necesites justificar items */
+	/* justify-items: center; */ /* Opcional: centra cada ítem dentro de su propia celda (si el item no ocupa el 100% del ancho de la celda) */
+}
+
+
+/* Información de paginación */
+.pagination-info {
+	text-align: center;
+	margin-top: var(--spacing-large, 20px);
+	margin-bottom: var(--spacing-medium, 15px);
+	/* border-bottom: 1px solid var(--color-neutral-light, #eee);  Quizás no necesario si ya hay borde en info de marca */
+	/* padding-bottom: var(--spacing-small, 10px); */
+	color: var(--color-text-dark, #333);
+}
+
+.pagination-info p {
+	margin: 5px 0;
+}
+
+
+/* Contenedor de los botones de paginación */
+.pagination-buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--spacing-medium, 15px);
+	margin-top: var(--spacing-medium, 15px);
+	margin-bottom: var(--spacing-large, 20px);
+}
+
+.pagination-buttons button {
+	padding: var(--spacing-small, 8px) var(--spacing-medium, 15px);
+	font-size: 1em;
+	transition: all 0.3s ease;
+}
+
+.pagination-buttons button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.pagination-buttons span {
+	font-weight: var(--font-weight-medium, 500);
+	color: var(--color-text-dark, #333);
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+	.products-by-brand-container {
+		padding: 0 var(--spacing-medium, 15px); /* Ajusta padding lateral */
+	}
+
+	.brand-info-header {
+		margin-bottom: var(--spacing-large, 30px);
+		padding-bottom: var(--spacing-medium, 15px);
+	}
+
+	.brand-info-image {
+		max-width: 100px; /* Logos más pequeños en móvil */
+	}
+
+	.no-brand-info-image-placeholder {
+		width: 80px;
+		height: 80px;
+		font-size: 2.5em;
+	}
+
+	.brand-info-header h2 {
+		font-size: 2em;
+	}
+
+	.brand-info-description {
+		font-size: 0.95em;
+	}
+
+	.products-display-area {
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Menos columnas en móvil */
+		gap: var(--spacing-medium, 15px);
+		/* Ajustar justificación si es necesario en móviles */
+		justify-content: center; /* Opcional: centrar en móviles */
+	}
+
+	.pagination-buttons {
+		gap: var(--spacing-small, 10px);
+	}
+}

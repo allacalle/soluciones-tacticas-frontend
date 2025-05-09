@@ -1,0 +1,203 @@
+/* src/pages/css/CategoriesPage.css - Estilos para la página de lista/árbol de categorías */
+
+/* Contenedor principal de la página de lista de categorías */
+.categories-page-container {
+	max-width: var(--max-width-content, 900px); /* Quizás un poco más estrecho para una lista */
+	margin: var(--spacing-large, 20px) auto;
+	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
+	box-sizing: border-box;
+	color: var(--color-text-dark, #333);
+	font-family: var(--font-family-base);
+}
+
+/* Estilos para los mensajes de estado (Cargando, Error, Vacío) */
+.categories-page-loading,
+.categories-page-error,
+.categories-page-not-found {
+	text-align: center;
+	font-size: 1.2em;
+	padding: var(--spacing-large, 20px);
+}
+
+/* Estilos para el título de la página (H2) */
+.categories-page-container h2 {
+	text-align: center;
+	margin-bottom: var(--spacing-large, 30px);
+	font-size: 2.2em;
+	color: var(--color-primary-dark, #556B2F);
+}
+
+
+/* === Estilos para la Lista Jerárquica de Categorías === */
+
+/* Contenedor principal de la lista (ul en el TSX) */
+.categories-tree-list {
+	list-style: none; /* Quita los puntos por defecto de la lista */
+	padding: 0; /* Quita el padding por defecto de la lista */
+	margin: 0;
+}
+
+/* Estilo para cada ítem de la lista (li en el TSX) */
+.category-list-item {
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	margin-bottom: var(--spacing-small, 10px); /* Espacio entre ítems principales */
+	border-radius: 5px;
+	background-color: var(--color-background-light, #fff);
+	overflow: hidden; /* Asegura que el borde redondeado se vea bien */
+}
+
+/* Estilo para el contenedor de la cabecera del ítem (nombre y toggle) */
+.category-item-header {
+	display: flex; /* Usa flexbox para alinear el toggle y el nombre */
+	align-items: center;
+	padding: var(--spacing-medium, 15px); /* Padding interno */
+	background-color: var(--color-neutral-light, #f8f8f8); /* Fondo sutil para la cabecera */
+	border-bottom: 1px solid var(--color-neutral-medium, #ddd); /* Separador de la cabecera */
+}
+
+/* Estilo para el botón de expandir/colapsar */
+.expand-toggle {
+	background: none;
+	border: 1px solid var(--color-neutral-medium, #ccc);
+	border-radius: 3px;
+	width: 25px; /* Ancho fijo para el botón */
+	height: 25px; /* Alto fijo para el botón */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	cursor: pointer;
+	margin-right: var(--spacing-small, 10px); /* Espacio entre el toggle y el nombre */
+	color: var(--color-text-dark, #333);
+	transition: background-color 0.2s ease;
+}
+
+.expand-toggle:hover {
+	background-color: var(--color-neutral-medium, #eee);
+}
+
+.expand-toggle:active {
+	background-color: var(--color-neutral-dark, #ccc);
+}
+
+/* Estilo para el placeholder de espacio cuando no hay toggle */
+.expand-toggle-placeholder {
+	width: 25px; /* Mismo ancho que el botón para alinear */
+	margin-right: var(--spacing-small, 10px);
+}
+
+
+/* Estilo para el enlace del nombre de la categoría */
+.category-name-link {
+	text-decoration: none;
+	color: var(--color-text-dark, #333);
+	font-size: 1.1em;
+	font-weight: var(--font-weight-bold, bold);
+	flex-grow: 1; /* Permite que el enlace ocupe el espacio restante */
+	transition: color 0.2s ease;
+}
+
+.category-name-link:hover {
+	color: var(--color-primary, #556B2F); /* Cambia color al pasar el ratón */
+	text-decoration: underline; /* Añade subrayado al pasar el ratón */
+}
+
+
+/* Estilo para la descripción de la categoría */
+.category-description {
+	padding: var(--spacing-medium, 15px);
+	font-size: 0.95em;
+	color: var(--color-text-medium, #555);
+	line-height: 1.5;
+	/* margin-top: var(--spacing-small, 10px); */ /* Espacio arriba si no hay imagen */
+}
+
+/* Estilo para la lista de subcategorías */
+.subcategories-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border-top: 1px solid var(--color-neutral-medium, #ddd); /* Separador de la lista de subcategorías */
+	/* Aplica padding al ítem padre si quieres sangría en la lista de hijos */
+	/* padding-left: var(--spacing-large, 30px); */ /* Ejemplo de sangría para subcategorías */
+}
+
+/* Estilo para los ítems dentro de la lista de subcategorías */
+.subcategories-list .category-list-item {
+	/* Ajusta márgenes, padding, o bordes para diferenciar subcategorías */
+	margin-bottom: 0; /* Quita margen entre subcategorías si no lo quieres */
+	border: none; /* Quita bordes individuales si quieres que la lista se vea como un bloque */
+	border-bottom: 1px dashed var(--color-neutral-light, #eee); /* Borde sutil entre subcategorías */
+	border-radius: 0; /* Quita bordes redondeados */
+	background-color: transparent; /* Fondo transparente */
+}
+
+/* Último ítem de subcategoría no tiene borde inferior */
+.subcategories-list .category-list-item:last-child {
+	border-bottom: none;
+}
+
+
+/* Estilo para la imagen de categoría dentro de la lista jerárquica */
+/* Puede que no uses imágenes en este layout, pero si sí, estilízalas aquí */
+.category-image {
+	max-width: 100%;
+	height: auto; /* Altura automática para no forzar tamaño */
+	margin-bottom: var(--spacing-small, 10px);
+	border-radius: 4px;
+}
+
+/* Estilo para el placeholder de imagen dentro de la lista jerárquica */
+.no-category-image-placeholder {
+	width: 100%; /* O el ancho que prefieras */
+	height: 80px; /* Altura para el placeholder sin imagen */
+	background-color: var(--color-neutral-light, #f0f0f0);
+	color: var(--color-text-dark, #555);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	margin-bottom: var(--spacing-small, 10px);
+	font-size: 0.9em;
+}
+
+/* Estilo para el número de productos - Opcional */
+.category-count {
+	font-size: 0.9em;
+	color: var(--color-text-medium, #666);
+	margin-top: 5px;
+}
+
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+	.categories-page-container {
+		padding: 0 var(--spacing-medium, 15px);
+	}
+
+	.category-item-header {
+		padding: var(--spacing-small, 10px);
+	}
+
+	.expand-toggle {
+		width: 20px;
+		height: 20px;
+		font-size: 1em;
+		margin-right: var(--spacing-small, 5px);
+	}
+
+	.expand-toggle-placeholder {
+		width: 20px;
+		margin-right: var(--spacing-small, 5px);
+	}
+
+	.category-name-link {
+		font-size: 1em;
+	}
+
+	.category-description {
+		padding: var(--spacing-small, 10px);
+		font-size: 0.9em;
+	}
+}

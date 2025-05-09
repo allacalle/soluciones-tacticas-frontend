@@ -49,8 +49,8 @@ function Footer() {
 						<h3>Tienda</h3>
 						<ul>
 							<li><a href="/productos">Todos los Productos</a></li>
-							<li><a href="/productos/categorias">Categorías</a></li>
-							<li><a href="/productos/marcas">Marcas</a></li> {/* Enlaza a la página de marcas si la creas */}
+							<li><a href="/categorias">Categorías</a></li>
+							<li><a href="/marcas">Marcas</a></li> {/* Enlaza a la página de marcas si la creas */}
 							<li><a href="/ofertas">Ofertas</a></li> 
 						</ul>
 					</div>

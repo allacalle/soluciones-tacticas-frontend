@@ -33,6 +33,7 @@ export interface Category {
         alt: string; // Opcional
     };
     parent: number; // ID de la categoría padre (0 para categorías principales)
+    description?: string; // Descripción de la categoría (opcional)
     // Puedes añadir más campos de categoría si los usas (description, display, menu_order, etc.)
 }
 

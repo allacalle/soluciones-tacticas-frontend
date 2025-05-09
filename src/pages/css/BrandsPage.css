@@ -1,0 +1,165 @@
+/* src/pages/css/BrandsPage.css - Estilos para la página de lista de marcas */
+
+/* Contenedor principal de la página de lista de marcas */
+.brands-page-container {
+	max-width: var(--max-width-content, 1200px);
+	margin: var(--spacing-large, 20px) auto;
+	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
+	box-sizing: border-box;
+	color: var(--color-text-dark, #333);
+	font-family: var(--font-family-base);
+}
+
+/* Estilos para los mensajes de estado (Cargando, Error, Vacío) */
+.brands-page-loading,
+.brands-page-error,
+.brands-page-not-found {
+	text-align: center;
+	font-size: 1.2em;
+	padding: var(--spacing-large, 20px);
+}
+
+/* Estilos para el título de la página (H2) */
+.brands-page-container h2 {
+	text-align: center;
+	margin-bottom: var(--spacing-large, 30px);
+	font-size: 2.2em;
+	color: var(--color-primary-dark, #556B2F);
+}
+
+
+/* Área donde se mostrarán las marcas en una cuadrícula/lista */
+/* *** Usamos Grid aquí para una cuadrícula de marcas *** */
+.brands-list-area {
+	display: grid; /* Usa Grid */
+	/* Define las columnas: repite automáticamente, con ancho mínimo para la tarjeta de marca */
+	/* Puedes ajustar el minmax basado en el tamaño deseado para el logo/tarjeta de marca */
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* <--- Define las columnas responsive */
+	/* Espacio entre los elementos de la cuadrícula (gap) */
+	gap: var(--spacing-medium, 20px); /* <--- Espacio entre ítems del grid */
+
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0; /* Padding lateral manejado por el contenedor principal */
+}
+
+
+/* Estilo del enlace que envuelve cada ítem de marca */
+.brand-item-link {
+	text-decoration: none; /* Quita el subrayado */
+	color: inherit; /* Hereda color de texto */
+	display: block; /* Importante para que el enlace ocupe el espacio de la tarjeta */
+	height: 100%; /* Ayuda a que todas las tarjetas tengan la misma altura si el contenido varía */
+}
+
+
+/* Estilo de la tarjeta individual de marca */
+.brand-item {
+	display: flex; /* Usa Flexbox INTERNAMENTE para apilar contenido */
+	flex-direction: column;
+	align-items: center; /* Centra contenido horizontalmente */
+	text-align: center;
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	border-radius: 8px;
+	background-color: var(--color-background-light, #fff);
+	padding: var(--spacing-medium, 15px);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	height: 100%; /* Hace que la tarjeta ocupe toda la altura de la celda Grid */
+	box-sizing: border-box;
+	justify-content: center; /* Centra contenido verticalmente */
+}
+
+/* Efecto hover en la tarjeta de marca */
+.brand-item-link:hover .brand-item {
+	transform: translateY(-2px);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	border-color: var(--color-primary, #8FBC8F); /* Cambia borde al color primario */
+}
+
+
+/* Estilo de la imagen/icono de marca */
+.brand-image {
+	max-width: 100%;
+	max-height: 80px; /* Altura máxima para los logos (ajusta según necesites) */
+	width: auto; /* Ancho automático para mantener proporción */
+	height: auto; /* Alto automático para mantener proporción */
+	object-fit: contain; /* Asegura que la imagen completa sea visible sin cortarse */
+	margin-bottom: var(--spacing-small, 10px); /* Espacio debajo del logo */
+}
+
+/* Estilo para el placeholder cuando no hay imagen de marca */
+.no-brand-image-placeholder {
+	width: 80px; /* Ancho del placeholder (ajusta) */
+	height: 80px; /* Altura del placeholder (ajusta) */
+	background-color: var(--color-neutral-light, #f0f0f0);
+	color: var(--color-text-dark, #555);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%; /* Opcional: placeholder circular */
+	font-size: 2em; /* Tamaño de la letra en el placeholder */
+	font-weight: var(--font-weight-bold, bold);
+	margin-bottom: var(--spacing-small, 10px);
+}
+
+/* Estilo para el nombre de la marca (H3) */
+.brand-name {
+	font-size: 1em; /* Tamaño de fuente para el nombre de la marca */
+	margin: 0;
+	font-weight: var(--font-weight-bold, bold);
+	color: var(--color-text-dark, #333);
+	/* Si quieres que el nombre ocupe todo el ancho disponible: */
+	/* width: 100%; */
+	/* text-overflow: ellipsis; */
+	/* overflow: hidden; */
+	/* white-space: nowrap; */
+}
+
+/* Estilo para la descripción de la marca - Opcional */
+/*
+.brand-description {
+	font-size: 0.85em;
+	color: var(--color-text-medium, #666);
+	margin-top: 5px;
+}
+*/
+
+/* Estilo para el número de productos - Opcional */
+/*
+.brand-count {
+	font-size: 0.85em;
+	color: var(--color-text-medium, #666);
+	margin-top: 5px;
+}
+*/
+
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+	.brands-page-container {
+		padding: 0 var(--spacing-medium, 15px);
+	}
+
+	.brands-list-area {
+		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Un poco más estrecho en móviles/tablets */
+		gap: var(--spacing-small, 15px); /* Menos espacio entre ítems */
+	}
+
+	.brands-page-container h2 {
+		font-size: 2em;
+	}
+
+	.brand-image {
+		max-height: 60px; /* Logos un poco más pequeños en móviles */
+	}
+
+	.no-brand-image-placeholder {
+		width: 60px;
+		height: 60px;
+		font-size: 1.8em;
+	}
+
+	.brand-item {
+		padding: var(--spacing-small, 10px);
+	}
+}
