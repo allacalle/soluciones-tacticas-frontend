@@ -86,7 +86,7 @@ function Footer() {
 						<p>
 							{/* Dirección */}
 							Sta. María de Trassierra, 41<br/>
-							14011 Córdoba, Spain
+							14011 Córdoba, España
 						</p>
 						<p>
 							{/* Teléfonos - Añadimos el prefijo +34 para enlaces tel: */}

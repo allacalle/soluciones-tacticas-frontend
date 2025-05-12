@@ -106,6 +106,56 @@
 	/* display: inline-block; */ /* Si le pones border/padding */
 }
 
+/* Estilos para el CONTENEDOR de los precios */
+.product-item .product-price-container {
+	/* Propiedades de Layout para poner precios en l\u00EDnea con espacio */
+	display: flex; /* Usa flexbox para los spans internos */
+	justify-content: center; /* Centra los precios horizontalmente */
+	align-items: baseline; /* Alinea las bases de los textos de los precios */
+	gap: var(--spacing-small, 8px); /* Espacio entre el precio original y el de oferta */
+
+	/* Propiedades de Apariencia */
+	font-size: 1.6em; /* Tama\u00F1o base para los precios (los spans internos usar\u00E1n em relativo a esto) */
+	font-weight: var(--font-weight-bold, bold); /* Peso de fuente por defecto */
+	margin-top: auto; /* Empuja los precios al final del flex container .product-item */
+	margin: var(--spacing-small, 8px) 0 0 0; /* Margen arriba si margin-top: auto no es suficiente o si quieres espacio inferior */
+}
+
+/* Estilos para el precio normal (el que se tacha cuando hay oferta) */
+.product-item .product-price-container .regular-price {
+	text-decoration: line-through; /* Aplica el tachado */
+	color: var(--color-text-medium, #666); /* Un color menos prominente (ej: gris) */
+	font-size: 0.8em; /* Tama\u00F1o un poco m\u00E1s peque\u00F1o que el tama\u00F1o base */
+	font-weight: var(--font-weight-regular, 400); /* Fuente normal, no negrita */
+}
+
+/* Estilos para el precio actual (el que se muestra prominentemente) */
+.product-item .product-price-container .current-price {
+	color: var(--color-accent, #007bff); /* Color por defecto para precios (tu azul de acento) */
+	/* font-size: 1em; */ /* Usar 1em aqu\u00ED significa que hereda el 1.6em del padre .product-price-container */
+	/* font-weight: var(--font-weight-bold, bold); */ /* Ya definido en el padre, pero se puede sobrescribir */
+}
+
+/* Estilos para el precio actual ESPECÍFICAMENTE cuando es el precio de oferta */
+.product-item .product-price-container .current-price.sale {
+	color: var(--color-call-to-action, #d9534f); /* Color rojo para el precio de oferta (tu color CTA) */
+	/* Puedes ajustar el font-size o weight aqu\u00ED si quieres que el precio de oferta destaque a\u00FAn m\u00E1s */
+	/* font-size: 1.1em; */
+}
+
+
+/* ... media queries si es necesario ajustar el layout o tama\u00F1os de fuente de precio en m\u00F3viles ... */
+
+@media (max-width: 768px) {
+    /* Ajusta el tama\u00F1o base del contenedor de precio en m\u00F3viles si es necesario */
+    .product-item .product-price-container {
+        font-size: 1.4em; /* Ejemplo: un poco m\u00E1s peque\u00F1o en m\u00F3viles */
+        gap: var(--spacing-small, 6px); /* Ajusta el espacio si es necesario */
+    }
+    /* Los spans internos (.regular-price, .current-price, .current-price.sale)
+       se ajustar\u00E1n autom\u00E1ticamente porque usan tama\u00F1os 'em' relativos. */
+}
+
 
 /* Media Queries para ajustes en móviles */
 @media (max-width: 768px) {

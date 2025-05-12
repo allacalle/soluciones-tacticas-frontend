@@ -47,19 +47,6 @@
 }
 
 
-/* Estilos para el título de la categoría (H2) */
-.product-list-page-container h2 {
-	text-align: center;
-	/* Espacio debajo del título - Usamos variable de espaciado large */
-	margin-bottom: var(--spacing-large, 20px); /* Usamos variable, con fallback */
-	font-size: 2em; /* Tamaño del título de categoría */
-	/* Color del título - Usamos variable de texto oscuro */
-	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
-	/* Grosor de fuente - Podrías usar variable bold */
-	/* font-weight: var(--font-weight-bold); */
-	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
-	/* font-family: var(--font-family-base); */
-}
 
 /* Estilos para la información de paginación */
 .pagination-info {

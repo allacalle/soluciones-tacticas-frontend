@@ -7,6 +7,8 @@ export interface Product {
     slug: string; 
     type: string; // *** Añadido: Tipo de producto (simple, variable, etc.) ***
     price: string; // O number, dependiendo de cómo la API la devuelva y cómo la uses
+    regular_price: string; // <<< A\u00F1ade esta l\u00EDnea: Precio original
+    sale_price: string; // <<< A\u00F1ade esta l\u00EDnea: Precio de oferta (vac\u00EDo si no hay oferta)
     description: string;
     short_description: string; // O descripción completa si la usas
     images: Array<{

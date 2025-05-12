@@ -1,0 +1,69 @@
+/* src/pages/css/OffersPage.css - Estilos para la Página de Ofertas */
+
+/* Importa variables si es necesario y si este archivo no se carga después de index.css */
+/* @import '../css/variables.css'; */ /* Descomenta si aplica */
+
+
+/* === Estilos específicos de la página === */
+/* Si tienes estilos para elementos únicos de esta página (más allá de los de layout y productos), añádelos aquí */
+/* Por ejemplo, estilos para los mensajes de estado (carga, error, vacío) si no están manejados globalmente */
+.page-loading,
+.page-error,
+.page-empty {
+	text-align: center;
+	font-size: 1.2em;
+	padding: var(--spacing-medium, 15px);
+	color: var(--color-text-dark, #333); /* O un color específico para errores */
+}
+
+/* Puedes añadir aquí estilos adicionales para el h2 o p dentro de .page-title-block si necesitas *sobrescribir* algo de pageLayout.css */
+/* .page-title-block h2 { ... } */
+
+
+/* === Estilos para el área que contiene las tarjetas de producto (CONTENEDOR GRID) === */
+/* Estas son las reglas específicas de Grid para .products-display-area */
+/* Las reglas COMUNES (gap, width, box-sizing, etc.) están en pageLayout.css */
+.products-display-area {
+	display: grid; /* Usa Grid para layout de cuadrícula */
+	/* Define columnas responsive: se auto-rellenan con items de minmax(220px, 1fr) */
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	/* El espacio entre ítems (gap) es una regla común definida en pageLayout.css,
+	   no necesitas duplicarla aquí a menos que quieras un gap DIFERENTE solo en esta página. */
+	/* gap: var(--spacing-large, 20px); */
+
+	overflow-x: visible; /* No hay scroll horizontal para layouts Grid con auto-fill */
+
+	/* --- Asegurar alineación y distribución en Grid --- */
+	/* justify-content: space-evenly; /* Distribuye el espacio alrededor de las columnas/items */
+	/* justify-content: center; /* Centra la cuadrícula si no llena el contenedor */
+
+	justify-items: center; /* Centra CADA ítem de la cuadrícula dentro de su celda */
+	align-items: stretch; /* Los ítems se estiran verticalmente para llenar su celda por defecto */
+
+
+	/* El padding lateral del contenedor de productos es manejado por el padding del .page-container,
+	   a menos que necesites un padding interno adicional aquí. */
+	/* padding: ...; */
+	/* El margen inferior es una regla común en pageLayout.css. */
+	/* margin-bottom: ...; */
+
+
+	/* !!! RECUERDA: Los estilos de cada TARJETA INDIVIDUAL (.product-item y sus hijos)
+	   DEBEN estar SOLAMENTE en ProductGrid.css. NO los dupliques aquí. !!! */
+}
+
+
+/* Media Queries para ajustes de responsividad específicos de la página de Ofertas */
+@media (max-width: 768px) {
+	/* Ajusta el ancho mínimo de las columnas Grid para pantallas pequeñas */
+	.products-display-area {
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ejemplo: mínimo 150px en móviles */
+		/* Ajusta gap o padding si es diferente en móviles */
+		/* gap: var(--spacing-medium, 15px); */
+	}
+	/* Otros ajustes específicos para móviles si los necesitas en esta página */
+
+	/* Si usas las clases genéricas para mensajes de estado,
+	   puedes ajustarlas aquí para móviles si necesitas que se vean diferente */
+	/* .page-loading, .page-error, .page-empty { font-size: ...; } */
+}

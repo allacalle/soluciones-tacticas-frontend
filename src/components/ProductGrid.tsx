@@ -51,7 +51,15 @@ function ProductGrid({ products }: ProductGridProps) {
 						<h3 className="product-title">{product.name}</h3> {/* Clase para que ProductGrid.css pueda estilizar */}
 
 						{/* Precio del Producto */}
-						<p className="product-price">{product.price ? `${product.price} €` : 'Consultar precio'}</p> {/* Clase para que ProductGrid.css pueda estilizar */}
+						<p className="product-price-container">
+							{/* Muestra el precio original SOLO si est\u00E1 en oferta */}
+							{product.on_sale && (
+								<span className="regular-price">{product.regular_price}€</span>
+							)}
+							{/* Muestra el precio actual (ser\u00E1 el de oferta si on_sale es true, o el regular si es false) */}
+							{/* A\u00F1adimos una clase 'sale' si est\u00E1 en oferta para estilizarlo diferente si queremos */}
+							<span className={`current-price ${product.on_sale ? 'sale' : ''}`}>{product.price}€</span>
+						</p>
 
 						{/* Puedes añadir aquí otros detalles si los necesitas en la tarjeta */}
 

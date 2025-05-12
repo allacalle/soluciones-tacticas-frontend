@@ -49,7 +49,7 @@
 
 /* Estilos para el Texto del eslogan */
 .slogan-card-slogan {
-	font-size: 1.2em; /* Tamaño de fuente estándar - Manteniendo original */
+	font-size: 1em; /* Tamaño de fuente estándar - Manteniendo original */
 	/* Color gris para el texto - Usamos variable de texto oscuro */
 	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
 	margin: 0; /* Quitar margen por defecto del párrafo */

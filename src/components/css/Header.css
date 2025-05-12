@@ -194,7 +194,9 @@
 /* ============================================================== */
 .header-bottom-row {
 	/* Fondo de la fila inferior (navegación) - Usamos variable de color primario oscuro (verde) */
-	background-color: var(--color-primary-dark, #333); /* Usamos variable, con fallback */
+	background-color: var(--color-neutral-dark); /* O var(--color-neutral-darkest) o var(--color-neutral-dark) si prefieres usar una variable para el negro */
+
+
 	/* Padding lateral - Manteniendo original 30px o usa variable */
 	padding: 0 30px;
 	box-sizing: border-box;
@@ -234,7 +236,7 @@
 	color: var(--color-text-light, #fff); /* Usamos variable, con fallback */
 	text-decoration: none;
 	/* TAMAÑO DE FUENTE - Aumentamos para que no se vea pequeño */
-	font-size: 1.4em; /* Original: 1.1em - Aumentado a 1.2em */
+	font-size: 1.2em; /* Original: 1.1em - Aumentado a 1.2em */
 	/* Grosor de fuente - Usamos variable regular */
 	font-weight: var(--font-weight-regular, normal); /* Usamos variable, con fallback */
 	display: block;
@@ -242,8 +244,8 @@
 }
 .main-navigation ul li .nav-link:hover {
 	/* Color en hover - Usamos variable de color primario claro */
-	color: var(--color-primary-light, #b5d2c5); /* Usamos variable, con fallback */
-}
+	color: var(--color-text-light, #eee); /* Opción 1: Usar color de texto claro */
+	}
 
 /* Item de Contacto al final */
 .main-navigation ul li.nav-contact-item {
@@ -299,7 +301,7 @@
 	/* Fondo en hover - Usamos variable de color primario claro (igual que nav link hover) */
 	background-color: var(--color-primary-light, #555); /* Usamos variable, con fallback */
 	/* Color en hover - Usamos variable de color primario claro (igual que nav link hover) */
-	color: var(--color-primary-light, #b5d2c5); /* Usamos variable, con fallback */
+    color: var(--color-text-dark, #333); /* Opción 1: Usar color de texto oscuro */
 }
 
 

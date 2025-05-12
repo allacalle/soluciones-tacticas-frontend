@@ -5,7 +5,7 @@
 	/* Paleta de Colores */
 	--color-primary-dark: #556B2F; /* Verde oliva oscuro, como el fondo del header */
 	--color-primary-light: #8FBC8F; /* Un verde un poco más claro, puedes ajustarlo */
-	--color-accent: #90EE90; /* Un verde claro o amarillo-verdoso para acentos, puedes ajustarlo */
+	--color-accent: #007bff; /* <-- Cambia el valor de accent al azul */
 	--color-text-dark: #213547; /* Color de texto oscuro para fondos claros */
 	--color-text-light: #ffffff; /* Color de texto claro para fondos oscuros */
 	--color-background-light: #ffffff; /* Fondo principal claro */

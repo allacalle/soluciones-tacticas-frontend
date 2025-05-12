@@ -1,5 +1,7 @@
 /* src/css/pageLayout.css - Estilos para elementos de layout comunes en las páginas */
 
+/* Asegúrate de importar tus variables CSS si pageLayout.css no está importado después de variables.css */
+/* Si tus variables están en index.css y lo importas antes en App.tsx, esta línea no es estrictamente necesaria */
 
 
 /* === Estilos para el Contenedor Principal de la Mayoría de las Páginas === */
@@ -32,10 +34,56 @@
 	margin: 0; /* Elimina márgenes por defecto */
 	line-height: 1.2; /* Ajusta altura de línea */
 	/* Cualquier otro estilo consistente para h2s dentro de este bloque */
+	font-weight: var(--font-weight-bold, bold); /* Añadido para consistencia con títulos */
 }
 
+
+/* === Estilos para un título de página/sección común (texto centrado verde oscuro) === */
+/* Usado en páginas donde el estilo de banner (.page-title-block) no es necesario */
+.page-title {
+	text-align: center;
+	margin-bottom: var(--spacing-large, 20px);
+	font-size: 2em; /* Ajusta si quieres un tamaño diferente para este tipo de título */
+	color: var(--color-primary-dark, #556B2F); /* Color verde oscuro */
+	/* Puedes añadir font-weight u otras propiedades comunes si son parte de este estilo */
+	font-weight: var(--font-weight-bold, bold);
+}
+
+
+/* === Estilos COMUNES para el área que contiene las tarjetas de producto (.products-display-area) === */
+/* Estas reglas se aplicarán a TODOS los elementos con esta clase (tanto Flexbox como Grid) */
+/* Las propiedades de display, grid-template-columns, overflow-x, y alineación específica irán en los CSS individuales */
+.products-display-area {
+	gap: var(--spacing-large, 20px); /* Espacio entre ítems (común a flex y grid) */
+	width: 100%;
+	box-sizing: border-box;
+	/* Padding lateral es manejado por el .page-container o la sección padre */
+	padding: 0;
+	margin-bottom: var(--spacing-large, 20px); /* Margen debajo del bloque de productos */
+
+	/* Estilos de scrollbar (si son consistentes en todos los lugares con scroll/overflow) */
+	-ms-overflow-style: none; /* IE, Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+/* Estilos de scrollbar webkit (si son consistentes) */
+.products-display-area::-webkit-scrollbar { /* Chrome, Safari */
+	height: 8px; /* Altura del scrollbar */
+}
+
+.products-display-area::-webkit-scrollbar-thumb {
+	background-color: var(--color-primary-dark, #4b5320); /* Color del "dedo" del scrollbar */
+	border-radius: 10px;
+}
+
+.products-display-area::-webkit-scrollbar-track {
+	background: var(--color-neutral-light, #f8f8f8); /* Color del "riel" del scrollbar */
+}
+
+
 /* === Estilos para Áreas de Paginación (si son consistentes) === */
-/* Si .pagination-info y .pagination-buttons son iguales en todas partes, muévelos aquí */
+/* Mover aquí si los estilos de paginación son iguales en todas las páginas con paginación */
+/* (Incluye .pagination-info y .pagination-buttons y sus hijos) */
 .pagination-info {
 	text-align: center;
 	margin-top: var(--spacing-large, 20px);
@@ -56,25 +104,4 @@
 	margin-bottom: var(--spacing-large, 20px);
 }
 
-/* Asegúrate de que los estilos base de botón en index.css o global.css cubren el estilo general */
-/* .pagination-buttons button { ... } */
-/* .pagination-buttons span { ... } */
-
-
-/* Ajustes en media queries para estilos de layout */
-@media (max-width: 768px) {
-	.page-container {
-		padding: 0 var(--spacing-medium, 15px); /* Ajusta padding lateral en móviles */
-	}
-
-	.page-title-block {
-		padding: var(--spacing-small, 10px) 0;
-		margin-bottom: var(--spacing-medium, 20px);
-	}
-	.page-title-block h2 {
-		font-size: 1.8em;
-	}
-
-	/* Ajustes para paginación en móviles si se movió aquí */
-	/* .pagination-buttons { gap: ... } */
-}
+/* Asegúrate de que los estilos base de botón

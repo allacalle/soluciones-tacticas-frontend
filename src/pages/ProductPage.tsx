@@ -122,8 +122,8 @@ function ProductPage() { // Este componente no necesita props por ahora
              {/* <Header /> */}
              {/* <Footer /> */}
 
-
-             <h1>{product.name}</h1> {/* Nombre del producto */}
+                <h1>{product.name}</h1> {/* Nombre del producto */}
+            
 
              <div className="product-details-main"> {/* Contenedor para imagen e info principal */}
 

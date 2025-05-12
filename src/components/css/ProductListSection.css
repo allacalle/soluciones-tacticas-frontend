@@ -20,6 +20,7 @@
 	margin: 0 0 var(--spacing-small, 5px) 0;
 	font-size: 1.8em;
 	font-weight: var(--font-weight-bold, bold);
+	color: var(--color-text-light, #fff);
 	/* Asegúrate de que este h2 no tenga márgenes grandes que lo desajusten del banner */
 	/* Si tienes estilos h2 generales en index.css, quizás necesites sobrescribirlos aquí si quieres un estilo diferente */
 }

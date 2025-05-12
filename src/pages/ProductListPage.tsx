@@ -3,6 +3,7 @@
 // Importa los estilos CSS (asegúrate de que la ruta es correcta)
 import	'./css/ProductListPage.css';
 
+
 import	{ useEffect, useState, useMemo } from 'react';
 import	{ useParams } from 'react-router-dom';
 // *** Elimina la importación de Link si ya no la usas directamente aquí ***
@@ -223,8 +224,9 @@ export default function ProductListPage() { // Usamos export default en la decla
 
 			{/* *** Título dinámico usando el nombre real de la categoría encontrada *** */}
 			{/* Solo muestra el título si currentCategory existe */}
-			{currentCategory && <h2>{currentCategory.name}</h2>}
-
+			<div className='page-title-block'>
+				{currentCategory && <h2>{currentCategory.name}</h2>}
+			</div>
 
 		
 

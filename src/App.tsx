@@ -13,6 +13,7 @@ import BrandsPage from './pages/BrandsPage'; // <-- Asegúrate que la ruta sea c
 import HomePage from './pages/HomePage'; // <-- Asegúrate que la ruta sea correcta
 import ProductListPage from './pages/ProductListPage'; // <-- Asegúrate que la ruta sea correcta
 import ProductsByBrandPage from './pages/ProductsByBrandPage'; // <-- Asegúrate que la ruta sea correct
+import OffersPage from './pages/OffersPage'; // <-- Asegúrate que la ruta sea correcta
 import Header from './components/Header'; // <-- Asegúrate que la ruta sea correcta
 import ProductPage from './pages/ProductPage';
 import Footer from './components/Footer';
@@ -44,7 +45,8 @@ function App() {
           <Route path="/contacto" element={<ContactPage />} />
           <Route path="/productos" element={<AllProductsPage />} /> 
           <Route path="/categorias" element={<CategoriesPage />} /> {/* O la ruta que prefieras, normalmente /categorias */}
-          
+          <Route path="/ofertas" element={<OffersPage />} />
+
           <Route path="/marcas" element={<BrandsPage />} /> {/* Ruta para la página de lista de marcas */}
           <Route path="/marca/:brandSlug" element={<ProductsByBrandPage />} />
 

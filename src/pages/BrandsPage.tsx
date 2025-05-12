@@ -108,7 +108,9 @@ export default function BrandsPage() { // Página para listar todas las marcas
 		<div className="brands-page-container">
 
 			{/* Título de la página */}
-			<h2>Nuestras Marcas</h2>
+			<div className='page-title-block'>
+				<h2>Nuestras Marcas</h2>
+			</div>
 
 			{/* Área donde se mostrarán las marcas en una cuadrícula/lista */}
 			{/* Este div .brands-list-area APLICARÁ el layout Grid o Flexbox */}
