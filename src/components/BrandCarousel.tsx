@@ -8,7 +8,7 @@ import { getBrands } from '../api/wooApi'; // Asegúrate de la ruta correcta a t
 // *** Importamos la interfaz Brand desde types.ts (como tú lo tienes configurado) ***
 // Asegúrate de que la interfaz Brand en tu archivo src/types.ts coincide con la estructura esperada de la API
 import { Brand } from '../types'; // *** Usaremos esta importación como prefieres ***
-
+import { Link } from 'react-router-dom'; // Importa Link para enlazar a las páginas de productos por marca
 
 // ======================================================================
 // *** Importaciones de react-slick ***
@@ -137,6 +137,7 @@ function BrandCarousel({ title, brandsToShow = 5, autoPlayInterval = 3000 }: Bra
                     {/* Mapea sobre la lista de marcas obtenida de la API */}
                     {brands.map((brand) => ( 
                          <div key={brand.id} className="brand-slide">
+                        <Link to={`/marca/${brand.slug}`} className="brand-slide-link"> {/* A\u00F1ade una clase para estilizar el enlace si es necesario */}
                              {brand.image?.src ? ( 
                                  <img
                                      src={brand.image.src} 
@@ -146,6 +147,7 @@ function BrandCarousel({ title, brandsToShow = 5, autoPlayInterval = 3000 }: Bra
                              ) : (
                                  <p>{brand.name}</p>
                              )}
+                        </Link> {/* <<< Cierra el Link >>> */}
                          </div> // Cierre del div brand-slide
                     ))} 
                  </Slider> // Cierre del componente Slider
