@@ -13,7 +13,7 @@ import './css/ProductPage.css';
 import { Product } from '../types';
 
 // Importar la función para obtener un producto específico desde la API
-import { getProductByIdOrSlug } from '../api/wooApi';
+import { getProductByIdOrSlug , getProducts} from '../api/wooApi';
 
 
 /*

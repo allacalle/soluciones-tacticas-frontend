@@ -161,7 +161,6 @@ export const getCategories = async (
 // *** Funciones para obtener informaci\u00F3n de Productos ***
 // ======================================================================
 
-// Funci\u00F3n para obtener productos, ahora acepta par\u00Eaacute;metros de paginaci\u00F3n y retorna un objeto con totales
 // Funci\u00F3n getProducts: Acepta paginaci\u00F3n, categor\u00EDa, orden, filtros y lista de IDs
 export const getProducts = async (
 	page: number = 1,
@@ -175,6 +174,7 @@ export const getProducts = async (
 	on_sale?: boolean,
 	featured?: boolean,
 	includeIds?: number[],
+	excludeIds?: number[], // Parameter to exclude specific product IDs
 	brandId?: number // Nuevo par\u00Eaacute;metro para filtrar por ID de marca
 
 ): Promise<{ products: Product[], total: number, totalPages: number }> => {
@@ -212,8 +212,12 @@ export const getProducts = async (
 	if (includeIds && includeIds.length > 0) {
 		apiUrl += `&include=${includeIds.join(',')}`; // La API espera una lista de IDs separada por comas
 	}
+
+	if (excludeIds && excludeIds.length > 0) {
+		apiUrl += `&exclude=${excludeIds.join(',')}`; // La API espera una lista de IDs separada por comas
+	}
+
 	// Es importante que orderby y order se a\u00F1adan despu\u00E9s de otros filtros
-	// si as\u00ED lo requiere tu l\u00F3gica, o si orderby tiene un valor por defecto
 	// que quieres que siempre se aplique.
 	if (orderby) { // Aseg\u00FArate que orderby y order se aplican siempre si tienen valor
 		apiUrl += `&orderby=${encodeURIComponent(orderby)}`;
