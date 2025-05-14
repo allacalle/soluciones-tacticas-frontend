@@ -1,0 +1,98 @@
+/* src/components/css/CategoryCarousel.css */
+
+/* Estilos para el contenedor principal de la sección del carrusel de categorías */
+.category-carousel-section {
+    margin-top: var(--spacing-large, 30px); /* Espacio encima de la secci\u00F3n */
+    margin-bottom: var(--spacing-large, 30px); /* Espacio debajo */
+}
+
+/* Estilos para el t\u00EDtulo de la secci\u00F3n (opcional) */
+.category-section-title-container {
+     margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del t\u00EDtulo */
+}
+
+.category-carousel-section h2 {
+    font-size: 1.8em;
+    color: var(--color-text-dark, #333);
+    text-align: center; /* Centra el t\u00EDtulo si quieres */
+}
+
+
+/* Estilos para cada ítem dentro del carrusel */
+.category-slide {
+    padding: 0 var(--spacing-extra-small, 5px); /* Espacio interior para que el gap del carrusel no pegue al borde */
+    box-sizing: border-box; /* Incluir padding en el tama\u00F1o */
+}
+
+.category-slide-link {
+    display: flex; /* Usa flexbox para organizar el contenido verticalmente */
+    flex-direction: column;
+    align-items: center; /* Centra contenido horizontalmente */
+    text-decoration: none; /* Quitar subrayado del enlace */
+    color: var(--color-text-dark, #333); /* Color de texto oscuro por defecto */
+    border: 1px solid var(--color-border-light, #eee); /* Borde ligero opcional */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+    overflow: hidden; /* Esconde contenido que se desborde */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave opcional */
+    transition: transform 0.2s ease-in-out; /* Transición suave */
+    background-color: #fff; /* Fondo blanco para los ítems */
+    height: 200px; /* Altura fija para cada slide, ajusta si es necesario */
+    justify-content: space-between; /* Distribuye espacio verticalmente */
+}
+
+.category-slide-link:hover {
+    transform: translateY(-3px); /* Ligeramente elevado */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra m\u00Eaacute;s pronunciada */
+    border-color: var(--color-border-medium, #ccc); /* Borde ligeramente m\u00Eaacute;s oscuro */
+}
+
+
+/* Estilos para la imagen del producto en el carrusel */
+.category-product-image {
+    display: block;
+    width: 100%; /* Ocupa todo el ancho del contenedor del item */
+    height: 120px; /* Altura fija para las im\u00Eaacute;genes. Ajusta. */
+    object-fit: cover; /* Recortar para cubrir */
+    /* margin-bottom: 10px; /* Espacio debajo de la imagen */
+}
+
+/* Estilos para el placeholder de imagen */
+.no-category-product-image {
+    width: 100%;
+    height: 120px; /* Misma altura que la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-background-light, #f0f0f0);
+    color: var(--color-text-medium, #666);
+    font-size: 0.9em;
+    text-align: center;
+    /* margin-bottom: 10px; */
+}
+
+
+/* Estilos para el nombre del producto en el carrusel */
+.category-product-name {
+    font-size: 1em;
+    text-align: center;
+    padding: 8px; /* Padding alrededor del nombre */
+    margin: 0;
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-text-dark, #333);
+    white-space: nowrap; /* No saltar l\u00EDnea */
+    overflow: hidden; /* Ocultar exceso */
+    text-overflow: ellipsis; /* Puntos suspensivos */
+    width: 100%; /* Asegurar que el ellipsis funcione */
+    box-sizing: border-box;
+}
+
+/* Estilos para mensajes de estado dentro del carrusel */
+.category-carousel-section p {
+    text-align: center;
+    padding: 15px;
+    font-style: italic;
+    color: var(--color-text-medium, #666);
+}
+
+/* Puedes añadir Media Queries aqu\u00ED para ajustar productsToShow seg\u00FAn el breakpoint */
+/* Las settings responsive en el componente .tsx tambi\u00E9n controlan esto */

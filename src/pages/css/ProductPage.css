@@ -7,52 +7,52 @@
 /* Estilos para el contenedor principal de la p\u00Eaacute;gina de producto */
 /* Usa tambi\u00E9n la clase page-container de pageLayout.css para el padding y max-width general */
 .product-page-container {
-	/* Las propiedades de max-width, margin auto y padding horizontal general suelen ir en la clase '.page-container' global. */
-	/* Aqu\u00ED a\u00F1adimos solo padding vertical espec\u00EDfico para esta p\u00Eaacute;gina. */
-	padding-top: var(--spacing-medium, 15px); /* A\u00F1adir un poco de padding superior dentro del contenedor de la p\u00Eaacute;gina */
-	padding-bottom: var(--spacing-medium, 15px); /* A\u00F1adir un poco de padding inferior */
-	/* box-sizing: border-box; */ /* Normalmente manejado globalmente o por .page-container */
+    /* Las propiedades de max-width, margin auto y padding horizontal general suelen ir en la clase '.page-container' global. */
+    /* Aqu\u00ED a\u00F1adimos solo padding vertical espec\u00EDfico para esta p\u00Eaacute;gina. */
+    padding-top: var(--spacing-medium, 15px); /* Añadir un poco de padding superior dentro del contenedor de la página */
+    padding-bottom: var(--spacing-medium, 15px); /* Añadir un poco de padding inferior */
+    /* box-sizing: border-box; */ /* Normalmente manejado globalmente o por .page-container */
 }
 
 /* Estilos para los mensajes de estado (Cargando, Error, Producto no encontrado) */
 .product-page-loading,
 .product-page-error,
 .product-page-not-found {
-	text-align: center; /* Centra el texto */
-	font-size: 1.5em; /* Tama\u00F1o de fuente aumentado para mejor visibilidad */
-	/* Espacio vertical */
-	margin: var(--spacing-extra-large, 50px) 0; /* Usamos variable grande */
-	/* Espacio interno */
-	padding: var(--spacing-large, 20px); /* Usamos variable */
-	/* Borde y Fondo */
-	border: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
-	background-color: var(--color-neutral-light, #f9f9f9); /* Usamos variable, con fallback */
-	border-radius: 5px;
+    text-align: center; /* Centra el texto */
+    font-size: 1.5em; /* Tamaño de fuente aumentado para mejor visibilidad */
+    /* Espacio vertical */
+    margin: var(--spacing-extra-large, 50px) 0; /* Usamos variable grande */
+    /* Espacio interno */
+    padding: var(--spacing-large, 20px); /* Usamos variable */
+    /* Borde y Fondo */
+    border: 1px solid var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
+    background-color: var(--color-neutral-light, #f9f9f9); /* Usamos variable, con fallback */
+    border-radius: 5px;
 }
 
 .product-page-error {
-	color: var(--color-error, #d32f2f); /* Color de error */
-	border-color: var(--color-error, #d32f2f);
-	background-color: var(--color-background-error, #ffebee); /* Fondo de error muy claro */
+    color: var(--color-error, #d32f2f); /* Color de error */
+    border-color: var(--color-error, #d32f2f);
+    background-color: var(--color-background-error, #ffebee); /* Fondo de error muy claro */
 }
 
 .product-page-not-found {
-	color: var(--color-warning, #ff9800); /* Color de advertencia/no encontrado */
-	border-color: var(--color-warning, #ff9800);
-	background-color: var(--color-background-warning, #fff3e0); /* Fondo de advertencia muy claro */
+    color: var(--color-warning, #ff9800); /* Color de advertencia/no encontrado */
+    border-color: var(--color-warning, #ff9800);
+    background-color: var(--color-background-warning, #fff3e0); /* Fondo de advertencia muy claro */
 }
 
 
 /* Estilos para el nombre del producto (H1) */
 /* Se coloca arriba para que ocupe todo el ancho antes del layout de 2 columnas. */
 .product-title-heading {
-	text-align: center;
-	font-size: 2.5em; /* Tama\u00F1o grande para el t\u00EDtulo */
-	margin-top: var(--spacing-large, 20px); /* Espacio arriba del t\u00EDtulo */
-	margin-bottom: var(--spacing-large, 20px); /* Espacio abajo del t\u00EDtulo */
-	color: var(--color-text-dark, #333); /* Color oscuro */
-	font-weight: var(--font-weight-bold, bold); /* Grosor de fuente negrita */
-	word-break: break-word; /* Rompe palabras largas para evitar desbordamiento */
+    text-align: center;
+    font-size: 2.5em; /* Tamaño grande para el t\u00EDtulo */
+    margin-top: var(--spacing-large, 20px); /* Espacio arriba del t\u00EDtulo */
+    margin-bottom: var(--spacing-large, 20px); /* Espacio abajo del t\u00EDtulo */
+    color: var(--color-text-dark, #333); /* Color oscuro */
+    font-weight: var(--font-weight-bold, bold); /* Grosor de fuente negrita */
+    word-break: break-word; /* Rompe palabras largas para evitar desbordamiento */
 }
 
 /*
@@ -60,174 +60,178 @@
  * Implementa layout de dos columnas con Flexbox.
  */
 .product-details-main {
-	display: flex; /* Usa Flexbox para colocar galer\u00EDa e info lado a lado */
-	gap: var(--spacing-extra-large, 40px); /* Espacio entre las columnas */
-	margin-bottom: var(--spacing-extra-large, 40px); /* Espacio debajo de esta secci\u00F3n principal */
-	flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas peque\u00F1as */
-	align-items: flex-start; /* Alinea columnas en la parte superior */
-	justify-content: center; /* Centra horizontalmente las columnas si no ocupan todo el ancho */
+    display: flex; /* Usa Flexbox para colocar galer\u00EDa e info lado a lado */
+    gap: var(--spacing-extra-large, 40px); /* Espacio entre las columnas */
+    margin-bottom: var(--spacing-extra-large, 40px); /* Espacio debajo de esta secci\u00F3n principal */
+    flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+    align-items: flex-start; /* Alinea columnas en la parte superior */
+    justify-content: center; /* Centra horizontalmente las columnas si no ocupan todo el ancho */
 }
 
 /*
- * Secci\u00F3n de im\u00Eaacute;genes (Galer\u00EDa).
+ * Sección de imágenes (Galería).
  * Es la columna izquierda. Contiene la imagen principal y las miniaturas.
  * Hemos renombrado de .product-images a .product-images-gallery para coincidir con el HTML.
  */
 .product-images-gallery {
-	/* Define c\u00F3mo esta columna se comporta en el layout flex */
-	flex: 1 1 400px; /* Flex-grow, Flex-shrink, Base-width. Ajustado para un buen equilibrio. */
-	max-width: 550px; /* Ancho m\u00Eaacute;ximo en desktop para la galer\u00EDa */
-	margin: 0 auto; /* Centra la columna de im\u00Eaacute;genes dentro del flex container si es m\u00Eaacute;s estrecha */
-	display: flex; /* Usa Flexbox para organizar imagen principal y miniaturas verticalmente */
-	flex-direction: column; /* Apila imagen principal y miniaturas */
-	gap: var(--spacing-medium, 15px); /* Espacio entre imagen principal y miniaturas */
+    /* Define c\u00F3mo esta columna se comporta en el layout flex */
+    flex: 1 1 400px; /* Flex-grow, Flex-shrink, Base-width. Ajustado para un buen equilibrio. */
+    max-width: 550px; /* Ancho máximo en desktop para la galería */
+    margin: 0 auto; /* Centra la columna de imágenes dentro del flex container si es más estrecha */
+    display: flex; /* Usa Flexbox para organizar imagen principal y miniaturas verticalmente */
+    flex-direction: column; /* Apila imagen principal y miniaturas */
+    gap: var(--spacing-medium, 15px); /* Espacio entre imagen principal y miniaturas */
 }
 
-/* Estilos para la imagen principal mostrada en la galer\u00EDa */
+/* Estilos para la imagen principal mostrada en la galería */
 .product-main-image {
-	display: block; /* Elimina espacio extra debajo de la imagen */
-	width: 100%; /* La imagen ocupa todo el ancho disponible de su contenedor (.product-images-gallery) */
-	height: auto; /* Mantiene la relaci\u00F3n de aspecto de la imagen */
-	object-fit: contain; /* Redimensiona la imagen para que encaje *dentro* del \u00Eaacute;rea, manteniendo proporci\u00F3n */
-	border-radius: 8px; /* Esquinas redondeadas */
-	border: 1px solid var(--color-border-light, #eee); /* Borde sutil */
-	box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil */
+    display: block; /* Elimina espacio extra debajo de la imagen */
+    width: 100%; /* La imagen ocupa todo el ancho disponible de su contenedor (.product-images-gallery) */
+    height: auto; /* Mantiene la relación de aspecto de la imagen */
+    object-fit: contain; /* Redimensiona la imagen para que encaje *dentro* del área, manteniendo proporción */
+    border-radius: 8px; /* Esquinas redondeadas */
+    border: 1px solid var(--color-border-light, #eee); /* Borde sutil */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil */
 }
 
-/* Estilos para el contenedor de las miniaturas de las im\u00Eaacute;genes */
+/* Estilos para el contenedor de las miniaturas de las imágenes */
 .product-thumbnails {
-	display: flex; /* Organiza las miniaturas en una fila */
-	gap: var(--spacing-small, 10px); /* Espacio horizontal entre cada miniatura */
-	overflow-x: auto; /* Permite desplazar horizontalmente si hay muchas miniaturas */
-	padding-bottom: var(--spacing-extra-small, 5px); /* A\u00F1ade un peque\u00F1o padding inferior si aparece la barra de scroll */
-	/* Estilos opcionales para scrollbar (Webkit) */
-	/* &::-webkit-scrollbar { height: 8px; } */
-	/* &::-webkit-scrollbar-thumb { background-color: var(--color-neutral-medium, #ccc); border-radius: 4px; } */
+    display: flex; /* Organiza las miniaturas en una fila */
+    gap: var(--spacing-small, 10px); /* Espacio horizontal entre cada miniatura */
+    overflow-x: auto; /* Permite desplazar horizontalmente si hay muchas miniaturas */
+    padding-bottom: var(--spacing-extra-small, 5px); /* Añade un pequeño padding inferior si aparece la barra de scroll */
+    /* Estilos opcionales para scrollbar (Webkit) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
+.product-thumbnails::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 
 /* Estilos individuales para cada miniatura de imagen */
 .product-thumbnail {
-	width: 70px; /* Ancho fijo */
-	height: 70px; /* Altura fija (las hace cuadradas) */
-	object-fit: cover; /* Redimensiona para *cubrir* el \u00Eaacute;rea */
-	cursor: pointer; /* Indica que es clickeable */
-	border: 2px solid transparent; /* Borde inicial transparente */
-	transition: border-color 0.2s ease; /* Transici\u00F3n suave para el borde */
-	border-radius: 3px; /* Bordes ligeramente redondeados */
+    width: 70px; /* Ancho fijo */
+    height: 70px; /* Altura fija (las hace cuadradas) */
+    object-fit: cover; /* Redimensiona para *cubrir* el área */
+    cursor: pointer; /* Indica que es clickeable */
+    border: 2px solid transparent; /* Borde inicial transparente */
+    transition: border-color 0.2s ease; /* Transición suave para el borde */
+    border-radius: 3px; /* Bordes ligeramente redondeados */
 }
 
 /* Estilo para la miniatura activa */
 .product-thumbnail.active {
-	border-color: var(--color-accent, #007bff); /* Borde de color de acento para la seleccionada */
+    border-color: var(--color-accent, #007bff); /* Borde de color de acento para la seleccionada */
 }
 
 /* Estilo hover para miniaturas */
 .product-thumbnail:hover {
-	border-color: var(--color-primary, #556B2F); /* Borde de color primario al pasar el rat\u00F3n */
+    border-color: var(--color-primary, #556B2F); /* Borde de color primario al pasar el rat\u00F3n */
 }
 
 /* Estilo para el mensaje de "Imagen no disponible" */
 .no-product-image {
-	width: 100%; /* Ocupa todo el ancho */
-	height: 400px; /* Altura fija (ajusta para que se alinee bien con la info) */
-	text-align: center;
-	border: 1px dashed var(--color-border-medium, #ccc); /* Borde punteado */
-	padding: var(--spacing-extra-large, 50px) var(--spacing-large, 20px); /* Espacio interno */
-	color: var(--color-text-medium, #777); /* Color de texto */
-	font-size: 1.1em;
-	background-color: var(--color-background-light, #f0f0f0); /* Fondo gris claro */
-	border-radius: 8px;
-	display: flex; /* Para centrar el texto */
-	justify-content: center; /* Centrado horizontal */
-	align-items: center; /* Centrado vertical */
+    width: 100%; /* Ocupa todo el ancho */
+    height: 400px; /* Altura fija (ajusta para que se alinee bien con la info) */
+    text-align: center;
+    border: 1px dashed var(--color-border-medium, #ccc); /* Borde punteado */
+    padding: var(--spacing-extra-large, 50px) var(--spacing-large, 20px); /* Espacio interno */
+    color: var(--color-text-medium, #777); /* Color de texto */
+    font-size: 1.1em;
+    background-color: var(--color-background-light, #f0f0f0); /* Fondo gris claro */
+    border-radius: 8px;
+    display: flex; /* Para centrar el texto */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
 }
 
 
 /*
- * Secci\u00F3n de informaci\u00F3n del producto (precio, metadatos, descripci\u00F3n breve).
+ * Sección de información del producto (precio, metadatos, descripción breve).
  * Es la columna derecha.
  */
 .product-info {
-	flex: 1 1 350px; /* Flex-grow, Flex-shrink, Base-width. Ajustado para un buen equilibrio. */
-	max-width: 500px; /* Ancho m\u00Eaacute;ximo en desktop para la columna de info */
-	margin: 0 auto; /* Centra la columna si es m\u00Eaacute;s estrecha */
-	display: flex; /* Usa flexbox para organizar el contenido verticalmente */
-	flex-direction: column;
-	gap: var(--spacing-medium, 15px); /* Espacio entre bloques de info (precio, metadatos, descripci\u00F3n breve) */
+    flex: 1 1 350px; /* Flex-grow, Flex-shrink, Base-width. Ajustado para un buen equilibrio. */
+    max-width: 500px; /* Ancho máximo en desktop para la columna de info */
+    margin: 0 auto; /* Centra la columna si es más estrecha */
+    display: flex; /* Usa flexbox para organizar el contenido verticalmente */
+    flex-direction: column;
+    gap: var(--spacing-medium, 15px); /* Espacio entre bloques de info (precio, metadatos, descripción breve) */
 }
 
 /*
- * *** ESTILOS PARA LA VISUALIZACI\u00D3N DE PRECIOS (Original vs Oferta) ***
+ * *** ESTILOS PARA LA VISUALIZACIÓN DE PRECIOS (Original vs Oferta) ***
  * Da formato al contenedor de precios y a los spans individuales.
  */
 .product-price-container {
-	display: flex; /* Muestra los spans de precio en l\u00EDnea */
-	align-items: baseline; /* Alinea la base del texto */
-	gap: var(--spacing-small, 8px); /* Espacio entre los precios */
-	font-size: 2.5em; /* Tama\u00F1o de fuente base para los precios */
-	font-weight: var(--font-weight-bold, bold); /* Texto negrita por defecto */
-	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del contenedor de precios. Ajustado. */
-	color: var(--color-text-dark, #333); /* Color de texto oscuro por defecto */
-	flex-shrink: 0; /* Evita que el bloque de precios se encoja */
+    display: flex; /* Muestra los spans de precio en l\u00EDnea */
+    align-items: baseline; /* Alinea la base del texto */
+    gap: var(--spacing-small, 8px); /* Espacio entre los precios */
+    font-size: 2.5em; /* Tamaño de fuente base para los precios */
+    font-weight: var(--font-weight-bold, bold); /* Texto negrita por defecto */
+    margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del contenedor de precios. Ajustado. */
+    color: var(--color-text-dark, #333); /* Color de texto oscuro por defecto */
+    flex-shrink: 0; /* Evita que el bloque de precios se encoja */
 }
 
 /* Estilo para el precio normal (mostrado solo cuando hay oferta y tachado) */
 .product-price-container .regular-price {
-	text-decoration: line-through; /* Aplica el efecto de tachado */
-	color: var(--color-text-medium, #666); /* Color gris para que sea menos prominente */
-	font-size: 0.6em; /* Tama\u00F1o m\u00Eaacute;s peque\u00F1o que el tama\u00F1o base */
-	font-weight: var(--font-weight-regular, 400); /* Fuente normal */
+    text-decoration: line-through; /* Aplica el efecto de tachado */
+    color: var(--color-text-medium, #666); /* Color gris para que sea menos prominente */
+    font-size: 0.6em; /* Tamaño más pequeño que el tamaño base */
+    font-weight: var(--font-weight-regular, 400); /* Fuente normal */
 }
 
 /* Estilo para el precio actual (siempre visible) */
 .product-price-container .current-price {
-	font-size: 1em; /* Tama\u00F1o normal en relaci\u00F3n al tama\u00F1o base */
-	font-weight: var(--font-weight-bold, bold); /* Negrita */
-	/* color: var(--color-text-dark, #333); */ /* Hereda del contenedor padre, o especifica si quieres */
+    font-size: 1em; /* Tamaño normal en relación al tamaño base */
+    font-weight: var(--font-weight-bold, bold); /* Negrita */
+    /* color: var(--color-text-dark, #333); */ /* Hereda del contenedor padre, o especifica si quieres */
 }
 
-/* Estilo adicional para el precio actual ESPEC\u00CDFICAMENTE cuando es el precio de oferta */
+/* Estilo adicional para el precio actual ESPECÍFICAMENTE cuando es el precio de oferta */
 .product-price-container .current-price.sale {
-	color: var(--color-call-to-action, #d9534f); /* Color rojo de acento para el precio de oferta */
-	font-size: 1.1em; /* Ligeramente m\u00Eaacute;s grande para destacarlo */
-	/* font-weight: var(--font-weight-extra-bold, 800); */ /* Opcional: a\u00FAn m\u00Eaacute;s negrita */
+    color: var(--color-call-to-action, #d9534f); /* Color rojo de acento para el precio de oferta */
+    font-size: 1.1em; /* Ligeramente más grande para destacarlo */
+    /* font-weight: var(--font-weight-extra-bold, 800); */ /* Opcional: a\u00FAn más negrita */
 }
 
 
 /*
- * *** ESTILOS PARA LA SECCI\u00D3N DE METADATOS ADICIONALES (.product-meta) ***
- * Da formato al contenedor de SKU, Stock, Categor\u00EDas, Marca.
+ * *** ESTILOS PARA LA SECCIÓN DE METADATOS ADICIONALES (.product-meta) ***
+ * Da formato al contenedor de SKU, Stock, Categorías, Marca.
  */
 .product-meta {
-	display: flex; /* Usa flexbox para apilar los elementos internos (p\u00Eaacute;rrafos) */
-	flex-direction: column; /* Apila los p\u00Eaacute;rrafos verticalmente */
-	gap: var(--spacing-extra-small, 5px); /* Espacio reducido entre las l\u00EDneas de metadatos */
-	font-size: 1em; /* Tama\u00F1o de fuente base para los metadatos */
-	color: var(--color-text-medium, #666); /* Color de texto general para los metadatos */
-	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del bloque de metadatos */
-	margin-top: var(--spacing-medium, 15px); /* Espacio encima si no hay precio u otros elementos justo arriba */
+    display: flex; /* Usa flexbox para apilar los elementos internos (p\u00Eaacute;rrafos) */
+    flex-direction: column; /* Apila los p\u00Eaacute;rrafos verticalmente */
+    gap: var(--spacing-extra-small, 5px); /* Espacio reducido entre las l\u00EDneas de metadatos */
+    font-size: 1em; /* Tamaño de fuente base para los metadatos */
+    color: var(--color-text-medium, #666); /* Color de texto general para los metadatos */
+    margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del bloque de metadatos */
+    margin-top: var(--spacing-medium, 15px); /* Espacio encima si no hay precio u otros elementos justo arriba */
 }
 
-/* Estilos espec\u00EDficos para los p\u00Eaacute;rrafos dentro de metadatos */
+/* Estilos específicos para los párrafos dentro de metadatos */
 .product-meta p {
-	margin: 0; /* Elimina el margen por defecto de los p\u00Eaacute;rrafos para controlar el espaciado con el gap del padre */
-	line-height: 1.5; /* Espaciado entre l\u00EDneas para metadatos */
+    margin: 0; /* Elimina el margen por defecto de los p\u00Eaacute;rrafos para controlar el espaciado con el gap del padre */
+    line-height: 1.5; /* Espaciado entre l\u00EDneas para metadatos */
 }
 
 /* Estilos para el texto en negrita dentro de los metadatos (ej: "SKU:", "Estado:", etc.) */
 .product-meta strong {
-	color: var(--color-text-dark, #333); /* Color m\u00Eaacute;s oscuro para las etiquetas */
-	font-weight: var(--font-weight-bold, bold); /* Asegura que la etiqueta est\u00Eaacute; en negrita */
+    color: var(--color-text-dark, #333); /* Color más oscuro para las etiquetas */
+    font-weight: var(--font-weight-bold, bold); /* Asegura que la etiqueta está en negrita */
 }
 
-/* Estilos espec\u00EDficos para el estado de stock */
+/* Estilos específicos para el estado de stock */
 .product-meta .stock-status.instock {
-	color: var(--color-success, green); /* Texto verde para "En Stock" */
+    color: var(--color-success, green); /* Texto verde para "En Stock" */
     font-weight: var(--font-weight-bold, bold); /* Negrita para destacar */
 }
 
 .product-meta .stock-status.outofstock {
-	color: var(--color-error, red); /* Texto rojo para "Agotado" */
+    color: var(--color-error, red); /* Texto rojo para "Agotado" */
     font-weight: var(--font-weight-bold, bold); /* Negrita para destacar */
 }
 
@@ -237,172 +241,364 @@
 }
 
 
-/* Estilos para los enlaces dentro de los metadatos (Categor\u00EDas y Marcas) */
+/* Estilos para los enlaces dentro de los metadatos (Categorías y Marcas) */
 .product-meta a {
-	color: var(--color-primary, #556B2F); /* Color de enlace (tu verde primario) */
-	text-decoration: none; /* Elimina el subrayado por defecto de los enlaces */
-	font-weight: var(--font-weight-medium, 500); /* Fuente semi-negrita */
-	/* display: inline-block; */ /* Puedes usar esto si quieres que los enlaces no se separen por comas en la misma l\u00EDnea de forma rara */
+    color: var(--color-primary, #556B2F); /* Color de enlace (tu verde primario) */
+    text-decoration: none; /* Elimina el subrayado por defecto de los enlaces */
+    font-weight: var(--font-weight-medium, 500); /* Fuente semi-negrita */
+    /* display: inline-block; */ /* Puedes usar esto si quieres que los enlaces no se separen por comas en la misma l\u00EDnea de forma rara */
 }
 
 /* Estilo hover para los enlaces en metadatos */
 .product-meta a:hover {
-	text-decoration: underline; /* Subraya al pasar el rat\u00F3n */
-	color: var(--color-primary-dark, #354A1E); /* Color m\u00Eaacute;s oscuro al pasar el rat\u00F3n */
+    text-decoration: underline; /* Subraya al pasar el rat\u00F3n */
+    color: var(--color-primary-dark, #354A1E); /* Color más oscuro al pasar el rat\u00F3n */
+}
+
+/* Estilo para la imagen de marca dentro de los metadatos */
+.product-meta .brand-logo-product-page {
+     max-height: 30px; /* Altura máxima */
+     max-width: 80px; /* Ancho máximo */
+     height: auto; /* Mantiene la proporción de la altura */
+     width: auto; /* Mantiene la proporción del ancho */
+     object-fit: contain; /* La imagen se ajusta dentro del tamaño máximo sin cortarse */
+     vertical-align: middle; /* Alinea la imagen con el texto circundante */
+     margin-right: 5px; /* Espacio entre el logo y el nombre de la marca */
 }
 
 
 /*
- * Estilos para la descripci\u00D3n breve.
- * Se encuentra dentro de la columna de informaci\u00F3n principal.
+ * Estilos para la descripción breve.
+ * Se encuentra dentro de la columna de información principal.
  */
 .product-short-description {
-	/* Espacio encima - Usamos variable de espaciado large */
-	margin-top: var(--spacing-large, 20px); /* Usamos variable */
-	flex-grow: 1; /* Permite que la descripci\u00F3n breve ocupe espacio restante */
-	line-height: 1.6;
-	color: var(--color-text-dark, #333);
+    /* Espacio encima - Usamos variable de espaciado large */
+    margin-top: var(--spacing-large, 20px); /* Usamos variable */
+    flex-grow: 1; /* Permite que la descripción breve ocupe espacio restante */
+    line-height: 1.6;
+    color: var(--color-text-dark, #333);
 }
 
 .product-short-description h3 {
-	font-size: 1.5em; /* Tama\u00F1o del subt\u00EDtulo "Descripci\u00F3n Breve" */
-	margin-top: 0; /* Elimina margen superior por defecto */
-	margin-bottom: var(--spacing-small, 10px); /* Espacio debajo del subt\u00EDtulo */
-	color: var(--color-text-dark, #555); /* Color del t\u00EDtulo */
-	/* L\u00EDnea separadora - Usamos variable de color neutro claro */
-	border-bottom: 1px solid var(--color-border-light, #eee); /* Usamos variable */
-	/* Espacio debajo de la l\u00EDnea - Usamos variable de espaciado peque\u00F1o */
-	padding-bottom: var(--spacing-extra-small, 5px); /* Usamos variable */
+    font-size: 1.5em; /* Tamaño del subt\u00EDtulo "Descripción Breve" */
+    margin-top: 0; /* Elimina margen superior por defecto */
+    margin-bottom: var(--spacing-small, 10px); /* Espacio debajo del subt\u00EDtulo */
+    color: var(--color-text-dark, #555); /* Color del t\u00EDtulo */
+    /* Línea separadora - Usamos variable de color neutro claro */
+    border-bottom: 1px solid var(--color-border-light, #eee); /* Usamos variable */
+    /* Espacio debajo de la línea - Usamos variable de espaciado pequeño */
+    padding-bottom: var(--spacing-extra-small, 5px); /* Usamos variable */
 }
 
-/* Asegura que el contenido HTML dentro de la descripci\u00F3n breve se vea bien */
-.product-short-description div p:last-child, /* Selecciona el \u00FAltimo p\u00Eaacute;rrafo dentro del div */
-.product-short-description div *:last-child { /* Intenta seleccionar el \u00FAltimo elemento en general dentro del div */
-	margin-bottom: 0; /* Elimina margen inferior del \u00FAltimo elemento para evitar doble espacio si el siguiente bloque tiene margin-top */
+/* Asegura que el contenido HTML dentro de la descripción breve se vea bien */
+.product-short-description div p:last-child, /* Selecciona el último p\u00Eaacute;rrafo dentro del div */
+.product-short-description div *:last-child { /* Intenta seleccionar el último elemento en general dentro del div */
+    margin-bottom: 0; /* Elimina margen inferior del último elemento para evitar doble espacio si el siguiente bloque tiene margin-top */
 }
 .product-short-description div p,
 .product-short-description div ul,
 .product-short-description div ol,
 .product-short-description div table {
-	margin-bottom: var(--spacing-small, 10px); /* Espacio debajo de los elementos HTML */
-	line-height: 1.6;
+    margin-bottom: var(--spacing-small, 10px); /* Espacio debajo de los elementos HTML */
+    line-height: 1.6;
 }
 
 
 /*
- * Secci\u00D3n de descripci\u00D3n completa.
- * Aparece debajo de la secci\u00F3n principal de 2 columnas y ocupa todo el ancho.
+ * Sección de descripción completa.
+ * Aparece debajo de la sección principal de 2 columnas y ocupa todo el ancho.
  */
 .product-full-description {
-	margin-top: var(--spacing-extra-large, 40px); /* Espacio encima para separarla de la secci\u00F3n principal */
-	margin-bottom: var(--spacing-extra-large, 40px); /* Espacio debajo */
-	line-height: 1.6;
-	color: var(--color-text-dark, #333);
+    margin-top: var(--spacing-extra-large, 40px); /* Espacio encima para separarla de la sección principal */
+    margin-bottom: var(--spacing-extra-large, 40px); /* Espacio debajo */
+    line-height: 1.6;
+    color: var(--color-text-dark, #333);
 }
 
 .product-full-description h3 {
-	font-size: 1.6em; /* Tama\u00F1o del subt\u00EDtulo "Descripci\u00F3n Completa" */
-	margin-top: 0; /* Elimina margen superior por defecto */
-	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del subt\u00EDtulo */
-	color: var(--color-text-dark, #333); /* Color oscuro */
-	border-bottom: 1px solid var(--color-border-light, #eee); /* L\u00EDnea sutil */
-	padding-bottom: var(--spacing-small, 8px); /* Espacio debajo de la l\u00EDnea */
+    font-size: 1.6em; /* Tamaño del subt\u00EDtulo "Descripción Completa" */
+    margin-top: 0; /* Elimina margen superior por defecto */
+    margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del subt\u00EDtulo */
+    color: var(--color-text-dark, #333); /* Color oscuro */
+    border-bottom: 1px solid var(--color-border-light, #eee); /* Línea sutil */
+    padding-bottom: var(--spacing-small, 8px); /* Espacio debajo de la línea */
 }
 
-/* Estilos para el contenido HTML dentro de la descripci\u00F3n completa */
+/* Estilos para el contenido HTML dentro de la descripción completa */
 .product-full-description div p,
 .product-full-description div ul,
 .product-full-description div ol,
 .product-full-description div table {
-	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo de los elementos HTML */
-	line-height: 1.7;
+    margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo de los elementos HTML */
+    line-height: 1.7;
 }
 
 .product-full-description div ul,
 .product-full-description div ol {
-	padding-left: var(--spacing-large, 20px); /* Padding a la izquierda para listas */
+    padding-left: var(--spacing-large, 20px); /* Padding a la izquierda para listas */
 }
 
-.brand-logo {
-    max-height: 30px; /* <--- ALTURA M\u00c1XIMA. Ajusta este valor. */
-    max-width: 80px; /* <--- ANCHO M\u00c1XIMO. Ajusta este valor. */
-    height: auto; /* Mantiene la proporci\u00F3n de la altura */
-    width: auto; /* Mantiene la proporci\u00F3n del ancho */
-    object-fit: contain; /* La imagen se ajusta dentro del tama\u00F1o m\u00Eaacute;ximo sin cortarse */
-    /* ... otros estilos ... */
+
+/*
+ * *** ESTILOS PARA LAS SECCIONES DE PRODUCTOS RELACIONADOS (SIMILARES Y MARCA) ***
+ * Contenedores generales para cada sección (t\u00EDtulo + lista).
+ */
+ .similar-products-section,
+ .brand-products-section {
+     margin-top: var(--spacing-extra-large, 40px); /* Espacio encima para separarlas de la secci\u00F3n anterior */
+     margin-bottom: var(--spacing-extra-large, 40px); /* Espacio debajo */
+ }
+
+ .similar-products-section h2,
+ .brand-products-section h2 {
+     font-size: 1.8em;
+     margin-bottom: var(--spacing-medium, 15px);
+     color: var(--color-text-dark, #333);
+     border-bottom: 1px solid var(--color-border-light, #eee);
+     padding-bottom: var(--spacing-small, 8px);
+ }
+
+
+/*
+ * *** ESTILOS PARA LOS CONTENEDORES DE LAS LISTAS DE PRODUCTOS (HORIZONTAL SCROLL) ***
+ * Aplica display: flex y overflow-x para crear la fila con scroll.
+ */
+.similar-products-list,
+.brand-products-list {
+    display: flex; /* Usar flexbox para alinear los items en una fila */
+    overflow-x: auto; /* Habilitar scroll horizontal si los items exceden el ancho del contenedor */
+    gap: var(--spacing-medium, 15px); /* Espacio entre los items */
+    padding-bottom: var(--spacing-medium, 15px); /* Añadir algo de padding en la parte inferior para el scrollbar (o simplemente espacio) */
+    padding-top: var(--spacing-extra-small, 5px); /* Un poco de espacio arriba si hay un t\u00EDtulo */
+    /* Opcional: ocultar el scrollbar nativo si prefieres estilos personalizados */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
+
+/* Ocultar scrollbar para navegadores Webkit (Chrome, Safari, etc.) */
+.similar-products-list::-webkit-scrollbar,
+.brand-products-list::-webkit-scrollbar {
+    display: none;
+}
+
+
+/*
+ * *** ESTILOS PARA CADA ÍTEM DE PRODUCTO DENTRO DE LAS LISTAS HORIZONTALES ***
+ * Define el tamaño y apariencia de cada "tarjeta" de producto en la fila.
+ */
+.similar-product-item,
+.brand-product-item {
+    flex: 0 0 auto; /* No crecer ni encogerse, basar el tamaño en el contenido/width */
+    /* Cálculo para que quepan 5 columnas. Ajusta el valor de 'calc' si cambias el gap. */
+    width: calc(20% - 12px); /* Ancho para 5 columnas (100% / 5 = 20%). Restamos el espacio del gap. */
+                              /* (5 items * gap) / 5 items = gap por item. (5 * 15px) / 5 = 15px. */
+                              /* Para 5 items con gap de 15px: 5 * (width + gap) = ContenedorWidth + gap. */
+                              /* 5*width + 5*gap = ContenedorWidth + gap => 5*width = ContenedorWidth - 4*gap => width = (ContenedorWidth - 4*gap) / 5 */
+                              /* (100% - 4*15px) / 5 = (100% - 60px) / 5 = 20% - 12px. ¡Gracias CSS calc! */
+
+    min-width: 160px; /* Anchura mínima para evitar que se hagan demasiado pequeños en pantallas muy estrechas. Ajusta si es necesario. */
+    max-width: 250px; /* Anchura máxima opcional para que no sean enormes en pantallas muy grandes */
+
+    display: flex;
+    flex-direction: column; /* Organizar contenido verticalmente */
+    align-items: center; /* Centrar contenido horizontalmente */
+    text-decoration: none; /* Quitar subrayado del enlace */
+    color: var(--color-text-dark, #333); /* Color de texto oscuro por defecto */
+    border: 1px solid var(--color-border-light, #eee); /* Borde ligero opcional */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+    overflow: hidden; /* Esconde cualquier contenido que se desborde (como la imagen si no usas object-fit) */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave opcional */
+    transition: transform 0.2s ease-in-out; /* Transición suave al pasar el ratón */
+    background-color: #fff; /* Fondo blanco para los ítems */
+}
+
+/* Efecto hover para los ítems */
+.similar-product-item:hover,
+.brand-product-item:hover {
+    transform: translateY(-3px); /* Ligeramente elevado */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra más pronunciada */
+    border-color: var(--color-border-medium, #ccc); /* Borde ligeramente más oscuro */
+}
+
+/* Estilos para las imágenes dentro de los ítems de la lista horizontal */
+.similar-product-image,
+.brand-product-image {
+    display: block; /* Asegurar que no haya espacio extra */
+    width: 100%; /* La imagen ocupa todo el ancho disponible del contenedor del item */
+    height: 120px; /* Altura fija para las imágenes para mantener consistencia. Ajusta si es necesario. */
+    object-fit: cover; /* Redimensiona la imagen para que cubra el espacio sin distorsionarse */
+    margin-bottom: 10px; /* Espacio debajo de la imagen */
+    /* border-bottom: 1px solid var(--color-border-light, #eee); /* Separador opcional */
+}
+
+/* Estilos para el placeholder de imagen dentro de los ítems */
+.no-similar-product-image,
+.no-brand-product-image {
+     width: 100%;
+     height: 120px; /* Misma altura que las imágenes */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: var(--color-background-light, #f0f0f0);
+     color: var(--color-text-medium, #666);
+     font-size: 0.9em;
+     text-align: center;
+     margin-bottom: 10px;
+     /* border-bottom: 1px solid var(--color-border-light, #eee); /* Separador opcional */
+}
+
+
+/* Estilos para el nombre del producto dentro de los ítems de la lista horizontal */
+.similar-product-name,
+.brand-product-name {
+    font-size: 1em;
+    text-align: center;
+    padding: 0 8px 8px 8px; /* Espacio interno alrededor del texto (arriba, lados, abajo) */
+    margin: 0; /* Eliminar m\u00Eaacute;rgenes por defecto del div */
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-text-dark, #333);
+    /* Opcional: limitar l\u00EDneas y a\u00F1adir puntos suspensivos si el nombre es muy largo */
+    white-space: nowrap; /* Evitar saltos de l\u00EDnea */
+    overflow: hidden; /* Ocultar texto que se desborde */
+    text-overflow: ellipsis; /* Mostrar puntos suspensivos */
+    width: 100%; /* Asegurar que el ellipsis funcione */
+    box-sizing: border-box; /* Incluir padding en el ancho */
+}
+
+
+/* Estilos para los mensajes de carga, error, etc. dentro de las secciones relacionadas */
+.similar-products-loading, .similar-products-error, .no-similar-products-found,
+.brand-products-loading, .brand-products-error, .no-brand-products-found {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: var(--color-text-medium, #666);
+    width: 100%; /* Asegura que estos mensajes ocupen todo el ancho disponible */
+}
+
+.similar-products-error, .brand-products-error {
+    color: var(--color-error, red);
+    font-weight: var(--font-weight-medium, 500);
+}
+
 
 /* ============================================================== */
 /* Media Queries para Responsividad */
 /* ============================================================== */
 
-/* En pantallas m\u00Eaacute;s peque\u00F1as (ej: tabletas y m\u00F3viles) */
+/* En pantallas más pequeñas (ej: tabletas y móviles) */
 @media (max-width: 768px) {
-	.product-page-container {
-		/* Ajusta padding lateral en m\u00F3viles. page-container tambi\u00E9n lo hace. */
-		/* Puedes quitar este si conf\u00EDas en el padding lateral de .page-container */
-		padding: 0 var(--spacing-medium, 15px); /* Usamos variable media */
-	}
+    .product-page-container {
+        /* Ajusta padding lateral en móviles. page-container también lo hace. */
+        /* Puedes quitar este si confías en el padding lateral de .page-container */
+        padding: 0 var(--spacing-medium, 15px); /* Usamos variable media */
+    }
 
-	/* Apila la secci\u00F3n de im\u00Eaacute;genes e informaci\u00F3n */
-	.product-details-main {
-		flex-direction: column; /* Apila verticalmente */
-		gap: var(--spacing-large, 30px); /* Espacio entre secciones apiladas. Ajustado. */
-		align-items: center; /* Centra las columnas apiladas */
-	}
+    /* Apila la sección de imágenes e información */
+    .product-details-main {
+        flex-direction: column; /* Apila verticalmente */
+        gap: var(--spacing-large, 30px); /* Espacio entre secciones apiladas. Ajustado. */
+        align-items: center; /* Centra las columnas apiladas */
+    }
 
-	/* Galer\u00EDa de im\u00Eaacute;genes ocupa todo el ancho en m\u00F3viles */
-	.product-images-gallery {
-		flex-basis: auto; /* Permite que Flexbox determine el tama\u00F1o */
-		max-width: 100%; /* Ocupa todo el ancho */
-		margin: 0; /* Elimina margen auto */
-	}
+    /* Galería de imágenes ocupa todo el ancho en móviles */
+    .product-images-gallery {
+        flex-basis: auto; /* Permite que Flexbox determine el tamaño */
+        max-width: 100%; /* Ocupa todo el ancho */
+        margin: 0; /* Elimina margen auto */
+    }
 
-	/* Secci\u00F3n de informaci\u00F3n ocupa todo el ancho en m\u00F3viles */
-	.product-info {
-		flex-basis: auto; /* Permite que Flexbox determine el tama\u00F1o */
-		max-width: 100%; /* Ocupa todo el ancho */
-		margin: 0; /* Elimina margen auto */
-		text-align: left; /* Alinea texto de info a la izquierda (ajusta si quieres centrar) */
-	}
+    /* Sección de información ocupa todo el ancho en móviles */
+    .product-info {
+        flex-basis: auto; /* Permite que Flexbox determine el tamaño */
+        max-width: 100%; /* Ocupa todo el ancho */
+        margin: 0; /* Elimina margen auto */
+        text-align: left; /* Alinea texto de info a la izquierda (ajusta si quieres centrar) */
+    }
 
-	/* Centra la imagen principal en m\u00F3viles y limita su tama\u00F1o */
-	.product-main-image {
-		max-width: 300px; /* Limita el tama\u00F1o de la imagen en m\u00F3viles si es demasiado grande */
-		margin: 0 auto; /* Centra la imagen */
-	}
+    /* Centra la imagen principal en móviles y limita su tamaño */
+    .product-main-image {
+        max-width: 300px; /* Limita el tamaño de la imagen en móviles si es demasiado grande */
+        margin: 0 auto; /* Centra la imagen */
+    }
 
-	/* Ajusta la altura del placeholder de imagen en m\u00F3viles */
-	.no-product-image {
-		height: 300px; /* Altura menor para m\u00F3viles */
-	}
+    /* Ajusta la altura del placeholder de imagen en móviles */
+    .no-product-image {
+        height: 300px; /* Altura menor para móviles */
+    }
 
-	/* Ajusta tama\u00F1os de fuente en m\u00F3viles */
-	.product-title-heading {
-		font-size: 2em; /* Tama\u00F1o del t\u00EDtulo */
-		margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo */
-	}
+    /* Ajusta tamaños de fuente en móviles */
+    .product-title-heading {
+        font-size: 2em; /* Tamaño del t\u00EDtulo */
+        margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo */
+    }
 
-	.product-price-container {
-		font-size: 2em; /* Tama\u00F1o base de precios */
-		margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo */
-	}
+    .product-price-container {
+        font-size: 2em; /* Tamaño base de precios */
+        margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo */
+    }
 
-	.product-short-description h3,
-	.product-full-description h3 {
-		font-size: 1.4em; /* Tama\u00F1o de subt\u00EDtulos de descripci\u00F3n */
-	}
+    .product-short-description h3,
+    .product-full-description h3,
+    .similar-products-section h2, /* Ajuste tambi\u00E9n los t\u00EDtulos de secciones relacionadas */
+    .brand-products-section h2 {
+        font-size: 1.4em; /* Tamaño de subt\u00EDtulos de descripci\u00F3n y t\u00EDtulos de secciones relacionadas */
+    }
 
-	/* Ajusta espaciado de las descripciones en m\u00F3viles */
-	.product-short-description,
-	.product-full-description {
-		margin-top: var(--spacing-large, 20px);
-		margin-bottom: var(--spacing-large, 20px);
-	}
+    /* Ajusta espaciado de las descripciones en móviles */
+    .product-short-description,
+    .product-full-description,
+    .similar-products-section, /* Ajuste tambi\u00E9n las secciones relacionadas */
+    .brand-products-section {
+        margin-top: var(--spacing-large, 20px);
+        margin-bottom: var(--spacing-large, 20px);
+    }
 
-	/* Ajusta espaciado del bloque de metadatos en m\u00F3viles */
-	.product-meta {
-		margin-top: var(--spacing-medium, 15px);
-		margin-bottom: var(--spacing-medium, 15px);
-	}
+    /* Ajusta espaciado del bloque de metadatos en móviles */
+    .product-meta {
+        margin-top: var(--spacing-medium, 15px);
+        margin-bottom: var(--spacing-medium, 15px);
+    }
+
+    /* En m\u00F3viles, los \u00EDtems de productos relacionados pueden ser un poco m\u00Eaacute;s anchos */
+     .similar-product-item,
+     .brand-product-item {
+         width: calc(50% - 10px); /* Para mostrar 2 por fila (100% / 2 = 50%). Ajusta si cambias el gap. */
+         min-width: 140px; /* Asegurar que no se hacen demasiado peque\u00F1os */
+     }
+
+     .similar-products-list,
+     .brand-products-list {
+        /* Asegurar que el gap se aplica correctamente si cambias el width */
+         gap: var(--spacing-medium, 15px);
+     }
+
+     /* Ajustar altura de imagen y placeholder en \u00EDtems de listas horizontales para m\u00F3viles */
+     .similar-product-image, .no-similar-product-image,
+     .brand-product-image, .no-brand-product-image {
+         height: 100px; /* Altura ligeramente menor en m\u00F3viles */
+     }
+
+}
+
+
+/* En pantallas muy pequeñas (ej: tel\u00E9fonos estrechos) */
+@media (max-width: 480px) {
+     /* Para mostrar 1.5 o 2 \u00EDtems por fila en pantallas muy estrechas */
+     .similar-product-item,
+     .brand-product-item {
+         width: calc(50% - 10px); /* Todavía 2 por fila si el ancho lo permite */
+         min-width: 130px; /* O incluso m\u00Eaacute;s peque\u00F1o si necesitas */
+     }
+
+      /* Puedes ajustar el tama\u00F1o de la fuente del t\u00EDtulo principal si es demasiado grande */
+     .product-title-heading {
+         font-size: 1.8em;
+     }
+      /* Ajustar a\u00FAn m\u00Eaacute;s la altura de la imagen/placeholder del \u00EDtem si es necesario */
+     .similar-product-image, .no-similar-product-image,
+     .brand-product-image, .no-brand-product-image {
+         height: 90px;
+     }
+
 }

@@ -11,7 +11,6 @@ export interface Product {
 	regular_price: string; // Precio normal del producto (formateado como cadena)
 	sale_price: string; // Precio de oferta del producto (cadena vac\u00EDa si no hay oferta)
 	on_sale: boolean; // Booleano que indica si el producto est\u00E1 en oferta
-
 	images: Array<{ // Array de objetos de imagen asociados al producto
 		id: number; // ID de la imagen
 		src: string; // URL de la imagen
