@@ -2,9 +2,9 @@
  // ** ============================================================== **
   // ** CONFIGURACIÓN DE CONEXIÓN - ¡MODIFICA ESTO!         **
   // ** ============================================================== **
-  const SITEURL = 'https://soluciones-tacticas-backend.local/'; // <<< REEMPLAZA
-  const CONSUMER_KEY = 'ck_9d43f2c0384942479d830cfcd97c439228229f3b'; // <<< REEMPLAZA
-  const CONSUMER_SECRET = 'cs_f86184898df714bba66059e17218348dd732e2e5'; // <<< REEMPLAZA
+const SITEURL = import.meta.env.VITE_SITE_URL || '';
+const CONSUMER_KEY = import.meta.env.VITE_WC_CONSUMER_KEY || '';
+const CONSUMER_SECRET = import.meta.env.VITE_WC_CONSUMER_SECRET || '';
 
 
 // Base64 de las credenciales para la cabecera de autorizaci\u00F3n (si usas Basic Auth)

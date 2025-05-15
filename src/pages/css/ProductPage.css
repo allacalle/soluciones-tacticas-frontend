@@ -482,9 +482,7 @@
 }
 
 
-/* ============================================================== */
-/* Media Queries para Responsividad */
-/* ============================================================== */
+
 
 /* En pantallas más pequeñas (ej: tabletas y móviles) */
 @media (max-width: 768px) {

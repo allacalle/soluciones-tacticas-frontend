@@ -1,0 +1,92 @@
+/* src/components/css/VariableAttributeSelector.css */
+
+/* Asegura que las variables de :root est\u00Eeacute;n disponibles.
+   Si index.css est\u00Eaacute; importado correctamente en tu punto de entrada (ej: main.tsx),
+   las variables globales estar\u00Eaacute;n disponibles aqu\u00ED.
+*/
+
+/* Estilos base para los botones de opci\u00F3n */
+.attribute-option-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px 12px;
+  margin: 5px;
+  /* Usar variables para bordes y fondo */
+  border: 1px solid var(--color-neutral-medium); /* Borde gris medio */
+  background-color: var(--color-background-light); /* Fondo blanco */
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
+  /* Usar variable para color de texto por defecto */
+  color: var(--color-text-dark); /* Texto oscuro por defecto */
+}
+
+/* Estilo hover para los botones */
+.attribute-option-button:hover {
+  border-color: var(--color-neutral-dark); /* Borde m\u00Eaacute;s oscuro al pasar el rat\u00F3n */
+  text-decoration: none;
+}
+
+
+/* === Estilo para el bot\u00F3n cuando est\u00Eaacute; seleccionado === */
+.attribute-option-button.selected {
+  /* Usar variables para borde y potencialmente fondo */
+  border-color: var(--color-accent); /* Usar el color de acento (azul) para el borde seleccionado */
+  background-color: #e9f5ff; /* Puedes mantener este color de fondo si no tienes una variable espec\u00EDfica de "acento claro" */
+  font-weight: bold;
+  /* Usar variable para color de texto en estado seleccionado */
+  color: var(--color-text-dark); /* Asegura que el texto sea oscuro en el fondo claro seleccionado */
+}
+
+/* Opcional: Estilo hover para el bot\u00F3n seleccionado */
+.attribute-option-button.selected:hover {
+  background-color: #d0e9ff; /* Mantener hover m\u00Eaacute;s claro si usas fondos claros para seleccionado */
+  border-color: var(--color-accent); /* Mantener borde de acento */
+}
+
+
+/* === Estilos para el swatch de color dentro del bot\u00F3n === */
+.attribute-option-button .color-swatch {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  /* Usar variable para el borde del swatch */
+  border: 1px solid var(--color-neutral-medium); /* Borde gris medio */
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* Estilo para el texto del color junto al swatch */
+.attribute-option-button .color-name {
+  margin-left: 5px;
+  color: inherit; /* Hereda el color del texto del bot\u00F3n (que ahora est\u00Eaacute; controlado por variables) */
+}
+
+
+/* === Estilos para el contenedor de las opciones de atributo (los botones) === */
+.attribute-options-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+
+/* *** SUGERENCIA DE AJUSTE CSS (usando :has) *** */
+/* Ejemplo usando :has() (verifica compatibilidad del navegador) */
+.attribute-option-button:has(.color-swatch) {
+  padding: 4px;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+/* Si la opci\u00F3n de color tiene texto ADEM\u00c1S del swatch */
+.attribute-option-button .color-swatch + .color-name { /* Usar la nueva clase .color-name */
+  margin-left: 5px;
+}

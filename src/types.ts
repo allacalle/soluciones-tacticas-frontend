@@ -1,90 +1,121 @@
 // src/types.ts
 
-// Interfaz para la estructura de un producto obtenida de la API de WooCommerce
+// Interfaz para la estructura de una imagen
+export interface Image {
+    id: number;
+    src: string;
+    alt: string;
+    name?: string; // Opcional, si la API lo da
+    position?: number; // Opcional, si la API lo da
+}
+
+// Define la estructura de un atributo de producto (ej: Color, Talla) para el producto padre
+export interface Attribute {
+    id: number; // ID del t\u00E9rmino de atributo global (si lo es), o 0 para personalizado
+    name: string; // Nombre del atributo (ej: "Color", "Talla")
+    options: string[]; // Array de strings con las opciones/t\u00E9rminos del atributo para ESTE producto
+    position: number;
+    visible: boolean;
+    variation: boolean; // Indica si este atributo se usa para crear variaciones
+    // taxonomy?: string; // Opcional
+}
+
+// Define la estructura de un atributo DENTRO de una variaci\u00F3n hija
+export interface VariationAttribute {
+    id: number; // ID del atributo (puede ser 0 para atributos personalizados o t\u00E9rmino global)
+    name: string; // El nombre del atributo (ej: "Color", "Talla")
+    option: string; // El valor seleccionado para esta variaci\u00F3n espec\u00EDfica (ej: "Negro", "M").
+}
+
+// Define la estructura de una variaci\u00F3n de producto (el "hijo" del producto variable)
+export interface Variation {
+    id: number;
+    sku?: string;
+    price: string; // El precio de esta variaci\u00F3n espec\u00EDfica (viene como string de la API)
+    regular_price: string;
+    sale_price: string;
+    on_sale: boolean;
+    stock_status: 'instock' | 'outofstock' | 'onbackorder' | string; // Usa string por flexibilidad si hay otros valores
+    stock_quantity: number | null;
+    image?: Image | null; // La imagen espec\u00EDfica para esta variaci\u00F3n (puede ser null)
+    attributes: VariationAttribute[]; // Los atributos que definen esta variaci\u00F3n (usando la interfaz definida arriba)
+    // Puedes a\u00F1adir aqu\u00ED otras propiedades de la API para variaciones si las usas (ej: dimensiones, peso, meta_data)
+    // dimensions?: { length: string; width: string; height: string; };
+    // weight?: string;
+    // meta_data?: Array<{ id: number; key: string; value: any }>; // Usa 'any' si la estructura es muy variable
+}
+
+// Interfaz para la estructura principal de un producto (padre)
 export interface Product {
-	id: number; // ID \u00FAnico del producto
-	name: string; // Nombre del producto
-	slug: string; // Slug para la URL amigable
-	description: string; // Descripci\u00F3n completa en HTML
-	short_description: string; // Descripci\u00F3n breve en HTML
-	price: string; // Precio actual del producto (formateado como cadena)
-	regular_price: string; // Precio normal del producto (formateado como cadena)
-	sale_price: string; // Precio de oferta del producto (cadena vac\u00EDa si no hay oferta)
-	on_sale: boolean; // Booleano que indica si el producto est\u00E1 en oferta
-	images: Array<{ // Array de objetos de imagen asociados al producto
-		id: number; // ID de la imagen
-		src: string; // URL de la imagen
-		name: string; // Nombre del archivo de imagen
-		alt: string; // Texto alternativo de la imagen
-		position: number; // Posici\u00F3n de la imagen (para ordenar)
-	}>;
+    id: number; // ID \u00FAnico del producto
+    name: string; // Nombre del producto
+    slug: string; // Slug para la URL amigable
+    type: 'simple' | 'variable' | 'grouped' | 'external' | string; // Tipo de producto (usa string por flexibilidad)
+    description: string; // Descripci\u00F3n completa en HTML
+    short_description: string; // Descripci\u00F3n breve en HTML
+    price: string; // Precio actual del producto (string). Para variables, es el precio m\u00EDnimo (o rango)
+    regular_price: string;
+    sale_price: string;
+    price_html: string; // HTML con el precio o rango de precio (para variables)
+    on_sale: boolean;
+    purchasable: boolean; // Indica si el producto se puede a\u00F1adir al carrito
+    stock_status: 'instock' | 'outofstock' | 'onbackorder' | string; // Estado del stock
+    stock_quantity: number | null; // Cantidad en stock (null si no se gestiona por cantidad)
+    // manage_stock?: boolean; // Opcional
+    sku?: string; // SKU (opcional)
 
-	// *** PROPIEDADES DE METADATOS A\u00D1ADIDAS PARA EL ESCAPARATE ***
-	sku?: string; // SKU del producto (opcional, no todos los productos tienen SKU)
-	stock_status?: 'instock' | 'outofstock' | 'onbackorder'; // Estado del stock (usamos string literal types si conocemos los posibles valores)
-	// stock_quantity?: number | null; // Cantidad en stock (opcional, si se gestiona por cantidad)
-	// manage_stock?: boolean; // Si el stock es gestionado (opcional)
+    images: Image[]; // Galeria de im\u00E1genes (usando la interfaz Image)
 
-	categories: Array<{ // Array de objetos de categor\u00EDa a las que pertenece el producto
-		id: number; // ID de la categor\u00EDa
-		name: string; // Nombre de la categor\u00EDa
-		slug: string; // Slug de la categoia
-	}>; // Nota: En la API de WC, las categor\u00EDas vienen en un array 'categories'.
+    categories: Array<{ // Array de objetos de categor\u00EDa a las que pertenece el producto
+        id: number; // ID de la categor\u00EDa
+        name: string; // Nombre de la categor\u00EDa
+        slug: string; // Slug de la categoia
+        // parent?: number; // Opcional
+        // description?: string; // Opcional
+        // image?: Image | null; // Opcional
+        // menu_order?: number; // Opcional
+        // count?: number; // Opcional
+    }>; // Nota: En la API de WC, las categor\u00EDas vienen en un array 'categories'.
 
-	// *** CORRECCI\u00D3N CRUCIAL AQU\u00CD ***
-	// La definici\u00F3n para la marca debe incluir la propiedad 'image' como opcional.
-	brand?: Array<{ // Definici\u00F3n para la marca como un array de t\u00E9rminos de taxonom\u00EDa
-		id: number;
-		name: string;
-		slug: string;
-		// *** PROPIEDAD IMAGE A\u00D1ADIDA AQU\u00CD (opcional) ***
-		image?: { // Propiedad opcional para la imagen del t\u00E9rmino de marca
-			id: number;
-			src: string;
-			alt: string;
-		};
-	}>; // Hacemos la propiedad 'brand' en el producto opcional (?)
+    // *** PROPIEDAD BRAND (Manteniendo tu estructura Array<{...}>) ***
+    // Ajusta si es necesario si tu API la devuelve diferente.
+    brand?: Array<{ // Definici\u00F3n para la marca como un array de t\u00E9rminos de taxonom\u00EDa
+        id: number;
+        name: string;
+        slug: string;
+        image?: Image; // Propiedad opcional para la imagen de la marca
+        // description?: string; // Opcional
+        // count?: number; // Opcional
+    }>; // Hacemos la propiedad 'brand' en el producto opcional (?)
 
-	// Eliminadas propiedades no usadas en ProductPage (type, status, etc., excepto las reci\u00E9n a\u00F1adidas y las esenciales)
-}
-// Interfaz para la estructura de una categoría obtenida de la API de WooCommerce
-export interface Category {
-	id: number;
-	name: string; // Nombre de la categor\u00EDa
-	slug: string; // Slug de la categoia para la URL
-	parent: number; // ID de la categoria padre (0 para ra\u00EDz)
-	description: string; // Descripcion de la categor\u00EDa
-	image: { // Objeto de imagen de la categor\u00EDa
-		id: number;
-		src: string;
-		alt: string;
-	} | null; // La imagen puede ser null
-	menu_order: number; // Orden en el men\u00FA
-	count: number; // Numero de productos en la categorria
+    attributes: Attribute[]; // Atributos del producto padre (usando la interfaz Attribute)
+
+    variations: number[]; // Array de IDs de las variaciones hijas (para productos variables). Opcional.
+
+    // === Otras propiedades que podr\u00EDas tener ===
+    // tags?: Array<{ id: number; name: string; slug: string; }>;
+    // related_ids?: number[];
+    // meta_data?: Array<{ id: number; key: string; value: any }>; // Usa 'any' si la estructura es muy variable
+    // parent_id?: number; // Si es una variaci\u00F3n, tendr\u00Eiacute;a el id del padre
+    // permalink?: string; // URL del producto
+    // status?: string; // 'publish', 'draft', etc.
+    // catalog_visibility?: string;
+    // featured?: boolean;
+    average_rating?: string; // Viene como string
+    rating_count?: number;
 }
 
-
-
-// *** INTERFAZ QUE NECESITAS AÑADIR (O ASEGURARTE QUE ESTÁ) ***
-// Interfaz para la estructura de un objeto de reseña en el archivo JSON (reviews.json)
+// Interfaz para la estructura de un objeto de reseña en el archivo JSON (reviews.json) - Mantenida
 export interface ReviewData {
-    id: number; // Opcional en tu JSON, pero útil. Podría ser string si no son solo números.
+    id?: number; // Opcional
     name: string; // Nombre del cliente
     text: string; // Texto de la reseña
-    // rating?: number; // Si añades 'rating' al JSON en el futuro, descomenta esto
-    // date?: string; // Si incluyes la fecha de la reseña
+    // rating?: number; // Si añades 'rating' al JSON
+    // date?: string; // Si incluyes la fecha
     // source?: string; // Ej: "Google", "Facebook"
+    // Posiblemente otras propiedades
 }
 
-export interface Brand {
-	id: number;
-	name: string;
-	slug: string;
-	description?: string; // Descripci\u00F3n opcional de la marca
-	image?: { // Objeto de imagen de la marca
-		id: number;
-		src: string;
-		alt: string;
-	};
-	count?: number;
-}
+
+// Exporta todas las interfaces necesarias
+// (Las interfaces ya están exportadas individualmente arriba)
