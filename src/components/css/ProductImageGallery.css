@@ -1,0 +1,55 @@
+/* src/components/css/ProductImageGallery.css */
+.product-images-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espacio entre imagen principal y miniaturas */
+  /* ... más estilos específicos de la galería ... */
+}
+
+.product-main-image {
+  width: 100%;
+  max-width: 500px; /* O el tamaño que desees */
+  height: auto;
+  object-fit: cover; /* o contain, según prefieras */
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.no-product-image {
+  width: 100%;
+  max-width: 500px;
+  height: 300px; /* O un alto fijo para el placeholder */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #777;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.product-thumbnails {
+  display: flex;
+  flex-wrap: wrap; /* Para que las miniaturas pasen a la siguiente línea si no caben */
+  gap: 0.5rem; /* Espacio entre miniaturas */
+  justify-content: center; /* O flex-start */
+}
+
+.product-thumbnail {
+  width: 80px; /* Tamaño de las miniaturas */
+  height: 80px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.product-thumbnail:hover {
+  border-color: #ccc;
+}
+
+.product-thumbnail.active {
+  border-color: var(--primary-color, #007bff); /* Color primario o un azul */
+}

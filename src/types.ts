@@ -45,63 +45,54 @@ export interface Variation {
     // meta_data?: Array<{ id: number; key: string; value: any }>; // Usa 'any' si la estructura es muy variable
 }
 
-// Interfaz para la estructura principal de un producto (padre)
+// NUEVO: Define y exporta Category
+export interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    parent?: number;
+    description?: string;
+    image?: Image | null; // Usa la interfaz Image
+    menu_order?: number;
+    count?: number;
+}
+
+// NUEVO: Define y exporta Brand
+export interface Brand {
+    id: number;
+    name: string;
+    slug: string;
+    image?: Image; // Usa la interfaz Image
+    description?: string;
+    count?: number;
+}
+
 export interface Product {
-    id: number; // ID \u00FAnico del producto
-    name: string; // Nombre del producto
-    slug: string; // Slug para la URL amigable
-    type: 'simple' | 'variable' | 'grouped' | 'external' | string; // Tipo de producto (usa string por flexibilidad)
-    description: string; // Descripci\u00F3n completa en HTML
-    short_description: string; // Descripci\u00F3n breve en HTML
-    price: string; // Precio actual del producto (string). Para variables, es el precio m\u00EDnimo (o rango)
+    id: number;
+    name: string;
+    slug: string;
+    type: 'simple' | 'variable' | 'grouped' | 'external' | string;
+    description: string;
+    short_description: string;
+    price: string;
     regular_price: string;
     sale_price: string;
-    price_html: string; // HTML con el precio o rango de precio (para variables)
+    price_html: string;
     on_sale: boolean;
-    purchasable: boolean; // Indica si el producto se puede a\u00F1adir al carrito
-    stock_status: 'instock' | 'outofstock' | 'onbackorder' | string; // Estado del stock
-    stock_quantity: number | null; // Cantidad en stock (null si no se gestiona por cantidad)
-    // manage_stock?: boolean; // Opcional
-    sku?: string; // SKU (opcional)
+    purchasable: boolean;
+    stock_status: 'instock' | 'outofstock' | 'onbackorder' | string;
+    stock_quantity: number | null;
+    sku?: string;
 
-    images: Image[]; // Galeria de im\u00E1genes (usando la interfaz Image)
+    images: Image[];
 
-    categories: Array<{ // Array de objetos de categor\u00EDa a las que pertenece el producto
-        id: number; // ID de la categor\u00EDa
-        name: string; // Nombre de la categor\u00EDa
-        slug: string; // Slug de la categoia
-        // parent?: number; // Opcional
-        // description?: string; // Opcional
-        // image?: Image | null; // Opcional
-        // menu_order?: number; // Opcional
-        // count?: number; // Opcional
-    }>; // Nota: En la API de WC, las categor\u00EDas vienen en un array 'categories'.
+    // MODIFICADO: Ahora usa las interfaces exportadas
+    categories: Category[]; // <--- USA LA INTERFAZ Category
+    brand?: Brand[];      // <--- USA LA INTERFAZ Brand
 
-    // *** PROPIEDAD BRAND (Manteniendo tu estructura Array<{...}>) ***
-    // Ajusta si es necesario si tu API la devuelve diferente.
-    brand?: Array<{ // Definici\u00F3n para la marca como un array de t\u00E9rminos de taxonom\u00EDa
-        id: number;
-        name: string;
-        slug: string;
-        image?: Image; // Propiedad opcional para la imagen de la marca
-        // description?: string; // Opcional
-        // count?: number; // Opcional
-    }>; // Hacemos la propiedad 'brand' en el producto opcional (?)
-
-    attributes: Attribute[]; // Atributos del producto padre (usando la interfaz Attribute)
-
-    variations: number[]; // Array de IDs de las variaciones hijas (para productos variables). Opcional.
-
-    // === Otras propiedades que podr\u00EDas tener ===
-    // tags?: Array<{ id: number; name: string; slug: string; }>;
-    // related_ids?: number[];
-    // meta_data?: Array<{ id: number; key: string; value: any }>; // Usa 'any' si la estructura es muy variable
-    // parent_id?: number; // Si es una variaci\u00F3n, tendr\u00Eiacute;a el id del padre
-    // permalink?: string; // URL del producto
-    // status?: string; // 'publish', 'draft', etc.
-    // catalog_visibility?: string;
-    // featured?: boolean;
-    average_rating?: string; // Viene como string
+    attributes: Attribute[];
+    variations: number[];
+    average_rating?: string;
     rating_count?: number;
 }
 

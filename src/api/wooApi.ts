@@ -20,7 +20,7 @@ if (!SITEURL || !CONSUMER_KEY || !CONSUMER_SECRET) {
 
 
 // Importa las interfaces necesarias
-import { Product, Category, Brand } from '../types'; // Aseg\u00FArate de que Product, Category y Brand est\u00Eaacute;n definidas
+import { Product, Category, Brand , Variation } from '../types'; // Aseg\u00FArate de que Product, Category y Brand est\u00Eaacute;n definidas
 
 
 // ======================================================================
@@ -551,4 +551,75 @@ export const getBrandBySlug = async (slug: string): Promise<Brand | null> => {
 		console.error(`Error fetching brand by slug (${slug}) from wooApi:`, error);
 		throw error; // Re-lanzamos el error para que el componente lo maneje (ej: mostrar mensaje de error)
 	}
+};
+
+// ======================================================================
+// *** Función para obtener las variaciones de un producto por su ID ***
+// ======================================================================
+export const getVariationsByProductId = async (productId: number): Promise<Variation[]> => {
+    if (!productId) {
+        console.error("[WooApi getVariationsByProductId] Error: Se requiere un ID de producto.");
+        // Podrías lanzar un error o devolver un array vacío según prefieras manejar esto
+        throw new Error("Se requiere un ID de producto para obtener variaciones.");
+        // return []; 
+    }
+
+    // El endpoint para las variaciones es /products/<product_id>/variations
+    const apiUrl = `${SITEURL}/wp-json/wc/v3/products/${productId}/variations?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&per_page=100`; // per_page alto para traer todas
+
+    console.log(`[WooApi] Calling API for variations of product ID ${productId}:`, apiUrl);
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                // 'Authorization': `Basic ${base64Credentials}`, // Si usaras Basic Auth
+                'User-Agent': 'ArmeriaFrontend/1.0'
+            }
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.text();
+            let errorMessage = `Error HTTP! Estado: ${response.status}`;
+            try {
+                const errorJson = JSON.parse(errorBody);
+                if (errorJson.message) {
+                    errorMessage += ` - Mensaje: ${errorJson.message}`;
+                } else if (errorJson.code) {
+                    errorMessage += ` - Código: ${errorJson.code}`;
+                }
+            } catch (errorParsingJson) {
+                console.error("[WooApi] Error al parsear cuerpo del error como JSON (Variations):", errorParsingJson);
+                errorMessage += ` - Respuesta: ${errorBody.substring(0, 150)}...`;
+            }
+            console.error(`[WooApi] API Error Response Body (Variations for product ${productId}):`, errorBody);
+            // Si es un error 404, podría significar que el producto no tiene variaciones o el producto no existe.
+            // La API devuelve un array vacío si no hay variaciones, un 404 si el producto padre no existe.
+            if (response.status === 404) {
+                 console.warn(`[WooApi] No se encontraron variaciones para el producto ID ${productId} (o el producto no existe). API devolvió 404.`);
+                 return []; // Devolver array vacío es un comportamiento común si no hay variaciones.
+            }
+            throw new Error(errorMessage);
+        }
+
+        // La respuesta exitosa es un array de objetos de Variación
+        const variationsData: Variation[] = await response.json();
+
+        if (variationsData.length === 0) {
+            console.log(`[WooApi] No se encontraron variaciones para el producto ID ${productId} (respuesta API fue array vacío).`);
+        } else {
+            console.log(`[WooApi] Variaciones para el producto ID ${productId} obtenidas exitosamente:`, variationsData.length, "variaciones");
+            // console.log("[WooApi] Sample variation data:", variationsData[0]); // Log de una variación de ejemplo
+        }
+        
+        return variationsData;
+
+    } catch (caughtError: unknown) {
+        const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+        console.error(`[WooApi] Error al obtener variaciones para el producto ID ${productId}:`, error);
+        // Considera si quieres que esto lance un error o devuelva un array vacío
+        // Si lanza un error, el hook `useProductDetails` lo capturará y lo pondrá en `variationsError`
+        throw error; 
+        // return []; // Si prefieres devolver un array vacío en caso de error de fetch
+    }
 };
