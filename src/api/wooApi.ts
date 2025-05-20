@@ -20,8 +20,20 @@ if (!SITEURL || !CONSUMER_KEY || !CONSUMER_SECRET) {
 
 
 // Importa las interfaces necesarias
-import { Product, Category, Brand , Variation } from '../types'; // Aseg\u00FArate de que Product, Category y Brand est\u00Eaacute;n definidas
+import { Product, Category, Brand , Variation  } from '../types'; // Aseg\u00FArate de que Product, Category y Brand est\u00Eaacute;n definidas
 
+// NUEVAS INTERFACES EXPORTADAS
+export interface GetProductsResult {
+    products: Product[];
+    total: number;
+    totalPages: number;
+}
+
+export interface GetCategoriesResult { // También para getCategories, ya que devuelve una estructura similar
+    categories: Category[];
+    total: number;
+    totalPages: number;
+}
 
 // ======================================================================
 // *** Funciones para obtener informaci\u00F3n de Categor\u00EDas ***
@@ -79,7 +91,7 @@ export const getCategories = async (
 	search?: string, // Opcional: buscar categor\u00EDas por nombre
 	parent?: number // Opcional: filtrar por categor\u00EDa padre (ej: 0 para solo categor\u00EDas de nivel superior)
 	// Otros par\u00Eaacute;metros que la API de categor\u00EDas acepte y que necesites (orderby, order, include, exclude, slug, hide_empty, product)
-): Promise<{ categories: Category[], total: number, totalPages: number }> => {
+): Promise<GetCategoriesResult> => {
 
 	// *** URL del endpoint de CATEGOR\u00CDAS v3 ***
 	let apiUrl = `${SITEURL}/wp-json/wc/v3/products/categories?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&page=${page}&per_page=${per_page}`;
@@ -144,7 +156,7 @@ export const getCategories = async (
 
 		// *** RETURN FINAL ***
 		return {
-			categories: categoriesData, // Devolvemos el array de categor\u00EDas
+			categories: categoriesData, 
 			total: totalCategories,
 			totalPages: totalPages,
 		};
@@ -177,7 +189,7 @@ export const getProducts = async (
 	excludeIds?: number[], // Parameter to exclude specific product IDs
 	brandId?: number // Nuevo par\u00Eaacute;metro para filtrar por ID de marca
 
-): Promise<{ products: Product[], total: number, totalPages: number }> => {
+): Promise<GetProductsResult> => {
 
 	let categoryQueryParam = '';
 

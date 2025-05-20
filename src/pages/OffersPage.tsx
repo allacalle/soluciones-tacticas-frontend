@@ -1,82 +1,91 @@
 // src/pages/OffersPage.tsx
+import './css/OffersPage.css'; // Importa los estilos específicos si los hay
+// Product y getProducts ya no se importan aquí directamente
+// ProductGrid se usa dentro de ProductListingLayout
 
-import  { useEffect, useState } from 'react';
-import './css/OffersPage.css'; // Importa los estilos para esta página
-import { Product } from '../types'; // Importa el tipo Product (asegúrate de que la ruta sea correcta)
-import ProductGrid from '../components/ProductGrid'; // Importa el componente ProductGrid (asegúrate de que la ruta sea correcta)
+// Componentes y Hooks
+import ProductListingLayout from '../components/ProductListingLayout';
+import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts'; // Importa el hook y las opciones
+import { useMemo } from 'react'; // Importa useMemo para las opciones del hook
 
-import { getProducts } from '../api/wooApi' // <<< Importa la funci\u00F3n getProducts
+// Configuración de productos por página para esta vista específica
+const PRODUCTS_PER_PAGE_OFFERS = 8; // O el valor que prefieras, podría ser el mismo que en otras listas
 
+export default function OffersPage() {
+    // 1. CONFIGURA LAS OPCIONES PARA usePaginatedProducts
+    // Usamos useMemo para asegurar que el objeto de opciones sea estable si no cambian sus dependencias
+    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
+        productsPerPage: PRODUCTS_PER_PAGE_OFFERS,
+        onSale: true, // <--- ¡CLAVE! Para obtener solo productos en oferta
+        // initialPage por defecto es 1 en el hook
+        // categoryId, searchTerm, etc., son undefined por defecto, lo cual está bien aquí
+    }), []); // El array de dependencias está vacío porque las opciones son estáticas para esta página
 
+    // 2. USA EL HOOK
+    const {
+        products,           // Estos son tus 'offerProducts'
+        loading,
+        error,
+        currentPage,
+        totalProducts,
+        totalPages,
+        setCurrentPage,     // Para la paginación
+    } = usePaginatedProducts(productFetcherOptions);
 
-function OffersPage() {
-	const [offerProducts, setOfferProducts] = useState<Product[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
+    // 3. MANEJO DE ESTADOS GLOBALES DE CARGA Y ERROR (antes de renderizar el layout)
+    // Muestra "Cargando..." solo en la carga inicial o si no hay productos aún y no hay error
+    if (loading && products.length === 0 && !error) {
+        // Puedes usar clases genéricas o las específicas de OffersPage si las tienes
+        return (
+            <div className="page-container">
+                <div className="page-title-block"><h2>Ofertas</h2></div>
+                <p className="page-loading offers-page-loading">Cargando ofertas...</p> 
+            </div>
+        );
+    }
 
-		useEffect(() => {
-		// *** Lógica CORREGIDA para cargar SOLO los productos en oferta usando getProducts ***
+    if (error) {
+        return (
+            <div className="page-container">
+                <div className="page-title-block"><h2>Ofertas</h2></div>
+                <p className="page-error offers-page-error">Error al cargar las ofertas: {error.message}</p>
+            </div>
+        );
+    }
+    
+    // 4. RENDERIZA USANDO ProductListingLayout
+    // El layout manejará internamente el mensaje de "no hay productos" si es necesario,
+    // o puedes personalizarlo aquí si el mensaje de "No hay ofertas disponibles..." es diferente.
+    
+    // Si después de cargar, no hay error, pero no hay productos y el total es cero
+    if (!loading && !error && products.length === 0 && totalProducts === 0) {
+        return (
+            <div className="page-container">
+                <div className="page-title-block">
+                    <h2>Ofertas</h2>
+                </div>
+                {/* Usa la clase que tengas definida para el mensaje de "no ofertas" 
+                    o una genérica como "page-empty" o "product-listing-not-found" 
+                    si ProductListingLayout no se ajusta perfectamente al mensaje que quieres.
+                    Para usar el mensaje exacto de tu versión original:
+                */}
+                <p className="page-empty offers-page-empty">No hay ofertas disponibles en este momento.</p>
+            </div>
+        );
+    }
 
-		const fetchOffers = async () => {
-			setLoading(true);
-			setError(null);
-			try {
-				// *** Llama directamente a tu funci\u00F3n getProducts de wooApi.ts ***
-				// *** P\u00E1sale el par\u00E1metro on_sale: true para obtener solo las ofertas ***
-				const data = await getProducts(1, 10, undefined, undefined, undefined, undefined, true); // Adjusted to match expected parameters
-
-				// getProducts ya devuelve el array de productos en data.products
-				setOfferProducts(data.products);
-
-				// TODO: Si quieres implementar paginaci\u00F3n, usa data.total y data.totalPages.
-
-			} catch (e: unknown) { // Manejo de errores robusto para 'unknown'
-				const error = e instanceof Error ? e : new Error(String(e));
-				console.error("Error al cargar ofertas:", error);
-				setError("No se pudieron cargar las ofertas."); // Mensaje de error amigable
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchOffers();
-
-	}, []); // Dependencias: s\u00F3lo se ejecuta al montar el componente.
-
-
-	return (
-		// Usamos el contenedor común de página definido en pageLayout.css
-        <div className="page-container">
-			{/* Bloque de Título de la Página (Estilo Banner Verde Oscuro) */}
-			{/* Usamos la clase page-title-block de pageLayout.css */}
-			<div className="page-title-block">
-				<h2>Ofertas</h2> {/* Título específico para la página de Ofertas */}
-			</div>
-
-			{/* Área de visualización de productos - Usará el layout Grid definido en OffersPage.css */}
-			{/* El componente ProductGrid renderizará las tarjetas individuales */}
-			{loading && <p className="page-loading">Cargando ofertas...</p>} {/* Clase genérica para mensaje de carga */}
-			{error && <p className="page-error">Error: {error}</p>} {/* Clase genérica para mensaje de error */}
-
-			{/* Muestra la cuadrícula de productos si no hay carga/error y hay productos */}
-			{!loading && !error && offerProducts.length > 0 && (
-				 // La clase products-display-area aplica el layout Grid desde OffersPage.css
-				<div className="products-display-area">
-					{/* Pasamos la lista de productos en oferta al componente ProductGrid */}
-					<ProductGrid products={offerProducts} />
-				</div>
-			)}
-
-			{/* Mensaje si no se encuentran ofertas */}
-			 {!loading && !error && offerProducts.length === 0 && (
-				<p className="page-empty">No hay ofertas disponibles en este momento.</p> 
-			)}
-
-			{/* TODO: Añadir Paginación aquí si esperas muchas ofertas */}
-			{/* La paginación requeriría lógica y estado adicional */}
-
-		</div> // Cierra page-container
-	);
+    return (
+        // El div "page-container" es el wrapper principal de la página
+        <div className="page-container"> 
+            <ProductListingLayout
+                title="Ofertas"
+                products={products}
+                loading={loading} // Para deshabilitar botones de paginación durante cargas
+                currentPage={currentPage}
+                totalProducts={totalProducts}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
+        </div>
+    );
 }
-
-export default OffersPage;

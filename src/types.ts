@@ -96,6 +96,8 @@ export interface Product {
     rating_count?: number;
 }
 
+
+
 // Interfaz para la estructura de un objeto de reseña en el archivo JSON (reviews.json) - Mantenida
 export interface ReviewData {
     id?: number; // Opcional
