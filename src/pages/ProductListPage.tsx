@@ -6,7 +6,6 @@ import { getCategories } from '../api/wooApi'; // getProducts ya no se importa a
 import { Category } from '../types'; // Product ya no se importa aquí directamente
 
 // Componentes y Hooks
-// ProductGrid se usa dentro de ProductListingLayout
 import ProductListingLayout from '../components/ProductListingLayout';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 
@@ -15,158 +14,181 @@ const PRODUCTS_PER_PAGE_CATEGORY = 8; // Configuración específica de esta pág
 export default function ProductListPage() {
     const { categorySlug } = useParams<{ categorySlug: string }>();
 
-    // 1. ESTADOS Y LÓGICA PARA CATEGORÍAS (se mantiene)
     const [categories, setCategories] = useState<Category[]>([]);
     const [loadingCategories, setLoadingCategories] = useState<boolean>(true);
-    const [categoryFetchError, setCategoryFetchError] = useState<Error | null>(null); // Error específico para categorías
+    const [categoryFetchError, setCategoryFetchError] = useState<Error | null>(null);
 
     useEffect(() => {
         const fetchCategoriesList = async () => {
             setLoadingCategories(true);
             setCategoryFetchError(null);
             try {
-                const result = await getCategories(1, 100);
+                // Esta llamada ya está corregida para usar el objeto de opciones
+                const result = await getCategories({ page: 1, per_page: 100 }); 
                 setCategories(result.categories);
+                console.log("[ProductListPage] Lista de todas las categorías cargada:", result.categories.length);
             } catch (err: unknown) {
-                console.error("[ProductListPage] Error al cargar categorías:", err);
+                console.error("[ProductListPage] Error al cargar la lista de categorías:", err);
                 setCategoryFetchError(err instanceof Error ? err : new Error(String(err)));
             } finally {
                 setLoadingCategories(false);
             }
         };
         fetchCategoriesList();
-    }, []); // Se ejecuta una vez
+    }, []); // Se ejecuta una vez para obtener todas las categorías
 
     const { currentCategory, categoryIdsStringForFilter } = useMemo(() => {
+        console.log("[ProductListPage] Recalculando currentCategory/categoryIdsStringForFilter. Slug:", categorySlug, "Categorías cargadas:", categories.length);
         if (!categories.length || !categorySlug) {
+            console.log("[ProductListPage] No hay categorías cargadas o no hay categorySlug.");
             return { currentCategory: undefined, categoryIdsStringForFilter: undefined };
         }
+        
         const primaryCat = categories.find(cat => cat.slug === categorySlug);
         if (!primaryCat) {
+            console.log(`[ProductListPage] No se encontró primaryCat para el slug: ${categorySlug}`);
             return { currentCategory: undefined, categoryIdsStringForFilter: undefined };
         }
-        // Tu lógica de agrupar por nombre
+        
+        console.log("[ProductListPage] primaryCat encontrada:", primaryCat.name, primaryCat.id);
+
+        // Lógica para agrupar categorías por nombre (si es relevante para tu caso)
         const nameToCats = categories.reduce((acc, cat) => {
             acc[cat.name] = acc[cat.name] || [];
             acc[cat.name].push(cat);
             return acc;
         }, {} as Record<string, Category[]>);
         
-        const matchingCats = nameToCats[primaryCat.name] || [];
-        const ids = matchingCats.map(cat => cat.id).join(',');
+        const matchingCatsByName = nameToCats[primaryCat.name] || [primaryCat]; // Fallback a solo primaryCat si la agrupación no da más
         
-        // Devuelve undefined si ids está vacío para que el hook usePaginatedProducts lo ignore si es necesario
-        return { currentCategory: primaryCat, categoryIdsStringForFilter: ids || undefined }; 
+        const idsArray = matchingCatsByName.map(cat => cat.id);
+        // Asegurarse de que idsString sea undefined si no hay IDs, en lugar de una cadena vacía.
+        const idsString = idsArray.length > 0 ? idsArray.join(',') : undefined; // <--- MODIFICADO
+        
+        console.log(`[ProductListPage] Categoria(s) para filtrar: ${idsString || 'ninguna (todos los productos)'}. currentCategory: ${primaryCat?.name}`);
+        return { currentCategory: primaryCat, categoryIdsStringForFilter: idsString }; 
     }, [categories, categorySlug]);
 
-
-    // 2. USA EL HOOK usePaginatedProducts
-    // Determinar si se debe saltar el fetch de productos:
-    // - Si las categorías aún están cargando.
-    // - Si hay un categorySlug pero categoryIdsStringForFilter aún no está listo (y no hay error de categoría)
-    //   (esto significa que o el slug no coincide, o la lógica de agrupación aún no se completa).
-    // - Si no hay categorySlug (aunque tu ruta debería proveerlo).
     const shouldSkipProductFetch = useMemo(() => {
-        if (loadingCategories) return true;
-        if (categorySlug && !categoryIdsStringForFilter && !categoryFetchError) return true;
-        if (!categorySlug && categories.length > 0) return true; // No hay slug, no fetchear
+        if (loadingCategories) {
+            console.log("[ProductListPage] shouldSkipProductFetch: true (cargando categorías)");
+            return true; // Esperar a que la lista completa de categorías se cargue
+        }
+        if (categorySlug && !categoryIdsStringForFilter && !categoryFetchError) {
+            // Hay un slug en la URL, pero aún no hemos resuelto los IDs de categoría
+            // (y no es porque hubo un error al cargar la lista de categorías).
+            // Esto puede pasar brevemente mientras `categories` y `categorySlug` se procesan en el useMemo anterior.
+            console.log("[ProductListPage] shouldSkipProductFetch: true (slug presente, pero categoryIdsStringForFilter aún no resuelto y sin error de categoría)");
+            return true; 
+        }
+        // Si no hay slug (página "todos los productos"), no queremos saltar el fetch.
+        // Si hay slug y YA tenemos categoryIdsStringForFilter (o hubo un error de categoría que se manejará aparte), no saltar.
+        console.log("[ProductListPage] shouldSkipProductFetch: false");
         return false;
-    }, [loadingCategories, categorySlug, categoryIdsStringForFilter, categories.length, categoryFetchError]);
+    }, [loadingCategories, categorySlug, categoryIdsStringForFilter, categoryFetchError]); // <--- AJUSTADO: eliminada categories.length como dependencia directa
 
-    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
-        productsPerPage: PRODUCTS_PER_PAGE_CATEGORY,
-        categoryId: categoryIdsStringForFilter, // Será undefined si aún no está listo o si no hay IDs
-        skip: shouldSkipProductFetch,
-        initialPage: 1, // El hook usePaginatedProducts ya resetea la página cuando categoryId cambia
-    }), [categoryIdsStringForFilter, shouldSkipProductFetch]);
+    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => {
+        const options: UsePaginatedProductsOptions = {
+            productsPerPage: PRODUCTS_PER_PAGE_CATEGORY,
+            // categoryId aquí será el string de IDs o undefined
+            categoryId: categoryIdsStringForFilter, 
+            skip: shouldSkipProductFetch,
+            initialPage: 1, 
+            // Podrías añadir otros filtros por defecto si quieres, ej:
+            // orderBy: 'date',
+            // order: 'desc',
+        };
+        console.log("[ProductListPage] productFetcherOptions generadas:", options);
+        return options;
+    }, [categoryIdsStringForFilter, shouldSkipProductFetch]);
 
     const {
         products,
-        loading: loadingProducts, // Renombrado para evitar colisión
-        error: productsError,     // Renombrado
+        loading: loadingProducts,
+        error: productsError,
         currentPage,
         totalProducts,
         totalPages,
-        setCurrentPage, // Función del hook para cambiar la página
+        setCurrentPage,
     } = usePaginatedProducts(productFetcherOptions);
 
-    // El useEffect que tenías para resetear currentPage cuando categorySlug cambia
-    // ya no es estrictamente necesario aquí porque el hook usePaginatedProducts
-    // tiene un efecto interno que resetea su `internalCurrentPage` a `initialPage` (que es 1)
-    // cuando sus filtros principales (como `categoryId`) cambian.
-    // useEffect(() => {
-    //  console.log("[ProductListPage] categorySlug changed. Hook's internal reset should handle page.");
-    //  // No necesitas llamar a setCurrentPage(1) aquí si el hook lo hace
-    // }, [categorySlug]);
+    // --- LÓGICA DE RENDERIZADO CONDICIONAL ---
+    // (Se mantiene bastante similar, pero revisa los mensajes y condiciones)
 
-
-    // 3. LÓGICA DE RENDERIZADO CONDICIONAL
-    if (loadingCategories) {
-        return <div className="product-page-loading">Cargando información de categoría...</div>;
+    if (loadingCategories && !categorySlug) { // Si es la página principal de productos y aún carga categorías
+        return <div className="product-page-loading">Cargando configuración inicial...</div>;
+    }
+    if (loadingCategories && categorySlug) { // Si es una página de categoría específica y aún carga la lista de categorías
+         return <div className="product-page-loading">Cargando información de la categoría...</div>;
     }
 
     if (categoryFetchError) {
-        return <div className="product-page-error">Error al cargar la categoría: {categoryFetchError.message}</div>;
+        return (
+            <div className="product-list-page-container">
+                <div className='page-title-block'><h2>Error de Categoría</h2></div>
+                <div className="product-page-error">No se pudo cargar la información de las categorías: {categoryFetchError.message}</div>
+            </div>
+        );
     }
 
-    // Si después de cargar categorías, el slug no encontró una categoría válida
+    // Si se proveyó un slug de categoría, pero no se encontró una categoría correspondiente
+    // (después de que la lista de categorías se cargó sin errores)
     if (categorySlug && !currentCategory && !loadingCategories) {
         return (
             <div className="product-list-page-container">
                  <div className='page-title-block'><h2>Categoría no encontrada</h2></div>
-                <div className="product-page-not-found">La categoría "{categorySlug}" no existe.</div>
+                <div className="product-page-not-found">La categoría "{categorySlug}" no parece existir.</div>
             </div>
         );
     }
     
-    // Si no hay slug en la URL (esto no debería pasar con tu configuración de rutas, pero es una guarda)
-    if (!categorySlug && categories.length > 0 && !loadingCategories) {
-         return (
+    // Si estamos en una página de categoría específica y aún estamos determinando los IDs o shouldSkip es true
+    // (y no es porque la carga de categorías aún esté pendiente, ya cubierto arriba)
+    if (categorySlug && shouldSkipProductFetch && !productsError && !categoryFetchError) {
+        return (
             <div className="product-list-page-container">
-                <div className='page-title-block'><h2>Error</h2></div>
-                <div className="product-page-error">No se especificó una categoría.</div>
+                {currentCategory && <div className='page-title-block'><h2>{currentCategory.name}</h2></div>}
+                <div className="product-page-loading">Procesando información de la categoría...</div>
             </div>
         );
     }
-
-    // Si estamos esperando que se resuelvan los IDs de categoría o saltando el fetch
-    if (shouldSkipProductFetch && !productsError && !categoryFetchError) {
-        // Podrías mostrar un loader más específico o simplemente el de categoría si es breve
-        return <div className="product-page-loading">Procesando categoría...</div>;
-    }
     
-    // Si el hook está cargando productos (y no es la carga inicial de categorías)
-    if (loadingProducts && products.length === 0 && !productsError) {
+    // Título principal de la página (ya sea "Todos los Productos" o el nombre de la categoría)
+    const pageDisplayTitle = currentCategory?.name || (categorySlug ? `Categoría: ${categorySlug}` : "Todos los Productos");
+
+    if (loadingProducts && products.length === 0) { // Cargando productos por primera vez para esta vista
         return (
              <div className="product-list-page-container">
-                {currentCategory && <div className='page-title-block'><h2>{currentCategory.name}</h2></div>}
-                <div className="product-page-loading">Cargando productos de la categoría...</div>
+                <div className='page-title-block'><h2>{pageDisplayTitle}</h2></div>
+                <div className="product-page-loading">Cargando productos...</div>
              </div>
         );
     }
 
-    // Si hubo un error al cargar productos (después de que la categoría se cargó bien)
     if (productsError) {
         return (
             <div className="product-list-page-container">
-                {currentCategory && <div className='page-title-block'><h2>{currentCategory.name}</h2></div>}
-                <div className="product-page-error">Error al cargar productos: {productsError.message}</div>
+                <div className='page-title-block'><h2>{pageDisplayTitle}</h2></div>
+                <div className="product-page-error">Error al cargar los productos: {productsError.message}</div>
             </div>
         );
     }
     
     // Si llegamos aquí, usamos ProductListingLayout.
-    // ProductListingLayout manejará el mensaje de "no hay productos" si products.length es 0.
+    // ProductListingLayout puede manejar internamente el mensaje de "no hay productos".
     return (
-        <div className="product-list-page-container"> {/* Contenedor principal de la PÁGINA */}
+        <div className="product-list-page-container">
             <ProductListingLayout
-                title={currentCategory?.name || "Productos de la Categoría"}
+                title={pageDisplayTitle}
                 products={products}
-                loading={loadingProducts} // Para deshabilitar botones durante el fetch de la siguiente página
+                loading={loadingProducts} // Para el loader mientras se cambia de página
                 currentPage={currentPage}
                 totalProducts={totalProducts}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
+                // Podrías pasar un mensaje explícito si products.length es 0, 
+                // o dejar que ProductListingLayout lo maneje.
+                // noProductsMessage={totalProducts === 0 ? "No se encontraron productos que coincidan con tu búsqueda." : undefined}
             />
         </div>
     );

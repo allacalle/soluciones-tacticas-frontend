@@ -1,0 +1,129 @@
+/* src/components/css/ProductCarousel.css */
+
+.product-carousel-section {
+    margin-bottom: 30px;
+    padding: 0 15px; /* Mantenemos un padding lateral opcional */
+}
+
+.product-carousel-section .section-title-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.product-carousel-section .section-title-container h2 {
+    font-size: 1.8rem; /* Tamaño de fuente para el título de la sección */
+    color: var(--color-text-dark); /* Color de texto oscuro principal */
+    font-weight: 600; /* Un poco más de peso para el título */
+}
+
+.product-carousel-section .product-slide {
+    padding: 0 10px; /* Espacio entre los slides */
+    box-sizing: border-box;
+    outline: none; /* Para quitar el borde azul en algunos navegadores al hacer clic */
+}
+
+.product-carousel-section .product-slide-link {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text-dark); /* Color de texto para el nombre del producto */
+    background-color: var(--color-background-light); /* Fondo claro para cada item */
+    border: 1px solid var(--color-neutral-medium); /* Borde gris medio */
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Para que la imagen respete el borde redondeado */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Transición para hover */
+}
+
+.product-carousel-section .product-slide-link:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada al pasar el ratón */
+    transform: translateY(-3px); /* Ligero efecto de elevación */
+}
+
+.product-carousel-section .product-image {
+    width: 100%;
+    height: 200px; /* Altura fija para las imágenes, ajústala según tu diseño */
+    object-fit: cover; /* 'cover' para llenar el espacio, 'contain' para mostrarla completa */
+    display: block;
+    border-bottom: 1px solid var(--color-neutral-light); /* Línea sutil debajo de la imagen */
+}
+
+.product-carousel-section .no-product-image {
+    width: 100%;
+    height: 200px; /* Misma altura que la imagen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-neutral-light); /* Fondo gris claro para placeholder */
+    color: var(--color-neutral-dark); /* Texto gris oscuro para placeholder */
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--color-neutral-light);
+}
+
+.product-carousel-section .product-name {
+    padding: 12px 10px; /* Más padding vertical para el nombre */
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500; /* Peso medio para el nombre */
+    color: var(--color-text-dark);
+    white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+    overflow: hidden; /* Oculta el texto que excede el contenedor */
+    text-overflow: ellipsis; /* Muestra "..." para texto largo */
+    min-height: 44px; /* Altura mínima para alinear nombres de 1 o 2 líneas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Opcional: Estilos para el precio (si decides añadirlo) */
+.product-carousel-section .product-price {
+    padding: 0 10px 15px; /* Padding para el precio */
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--color-accent); /* Color de acento (azul) para el precio */
+}
+
+/* Ajustes para las flechas de react-slick (puedes personalizarlos más) */
+.product-carousel-section .slick-prev,
+.product-carousel-section .slick-next {
+    z-index: 1; /* Para que estén sobre los slides */
+    width: 30px; /* Ancho de la flecha */
+    height: 30px; /* Alto de la flecha */
+}
+
+.product-carousel-section .slick-prev:before,
+.product-carousel-section .slick-next:before {
+    font-size: 25px; /* Tamaño del icono de la flecha */
+    color: var(--color-primary-dark); /* Color de las flechas */
+    opacity: 0.75; /* Opacidad para que no sean tan dominantes */
+    transition: opacity 0.3s ease;
+}
+
+.product-carousel-section .slick-prev:hover:before,
+.product-carousel-section .slick-next:hover:before {
+    opacity: 1; /* Opacidad completa al pasar el ratón */
+    color: var(--color-accent); /* Cambia a color de acento en hover */
+}
+
+/* Posicionamiento de las flechas (ajusta según tu preferencia) */
+.product-carousel-section .slick-prev {
+    left: -10px; /* Mueve la flecha izquierda un poco hacia afuera */
+}
+.product-carousel-section .slick-next {
+    right: -10px; /* Mueve la flecha derecha un poco hacia afuera */
+}
+
+/* Si las flechas quedan cortadas, puedes necesitar ajustar el overflow del contenedor padre de Slider
+   o el padding de .product-carousel-section */
+
+/* Estilos para los puntos (dots), si los habilitas */
+/*
+.product-carousel-section .slick-dots li button:before {
+    font-size: 10px;
+    color: var(--color-neutral-medium);
+    opacity: 0.5;
+}
+.product-carousel-section .slick-dots li.slick-active button:before {
+    color: var(--color-primary-dark);
+    opacity: 1;
+}
+*/

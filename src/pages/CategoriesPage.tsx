@@ -1,5 +1,6 @@
 // src/pages/CategoriesPage.tsx
 
+
 // Importa los estilos CSS específicos de esta página
 import	'./css/CategoriesPage.css';
 
@@ -36,9 +37,12 @@ const	buildCategoryTree = (categories: Category[]): HierarchicalCategory[] => {
 			topLevelCategories.push(cat);
 		} else {
 			// Es una subcategoría, encontrar a su padre y añadirla como hijo
-			const	parent = categoryMap[cat.parent];
-			if (parent) {
-				parent.children.push(cat);
+			const	parentId = typeof cat.parent === 'number' ? cat.parent : undefined;
+			if (parentId !== undefined) {
+				const parent = categoryMap[parentId];
+				if (parent) {
+					parent.children.push(cat);
+				}
 			}
 			// Si el padre no se encuentra en el mapa (ej: padre filtrado/excluido), la subcategoría no se añade
 		}
@@ -81,7 +85,14 @@ export default function CategoriesPage() {
 			try {
 				// !!! Llamada a getCategories - Fetching ALL categories (parent=undefined) !!!
 				// Usamos context='view' por si necesitamos la descripción completa
-				const	result = await getCategories(1, perPage);
+				 const result = await getCategories({ 
+                    page: 1, 
+                    per_page: perPage, // Usamos la variable perPage definida en el componente
+                    // Puedes añadir más opciones aquí si las necesitas, ej:
+                    // orderby: 'name',
+                    // order: 'asc',
+                    // hide_empty: true, // Para no mostrar categorías sin productos
+                });
 
 
 				// Nota: Aquí no filtramos por parent=0, obtenemos TODAS para construir la jerarquía

@@ -1,147 +1,134 @@
 // src/components/ProductListSection.tsx
 
-// Importa los estilos de la sección y el layout Flexbox (QUE TAMBIÉN TENDRÁN LOS ESTILOS DE ITEM)
 import './css/ProductListSection.css';
-
 import { useEffect, useState } from 'react';
-// *** Elimina la importación de Link si ya no la usas directamente aquí ***
-// ProductGrid lo usa internamente.
-// import { Link } from 'react-router-dom';
 
-
-// Importa la función para obtener productos y la interfaz Product
-import { getProducts } from '../api/wooApi';
+// Importa la función para obtener productos, la interfaz Product y GetProductsOptions
+import { getProducts, GetProductsOptions } from '../api/wooApi'; // <--- AÑADE GetProductsOptions
 import { Product } from '../types';
-// *** IMPORTA EL COMPONENTE ProductGrid ***
-import ProductGrid from './ProductGrid'; // Asegúrate de que la ruta de importación sea correcta
+import ProductGrid from './ProductGrid';
 
-
-// Define las propiedades que aceptará el componente
 interface ProductListSectionProps {
-	title: string;
-	subtitle?: string;
-	type: 'latest' | 'popular' | 'sale' | 'featured' | 'category' | 'ids';
-	categoryId?: number;
-	productIds?: number[];
-	productsPerPage?: number;
+    title: string;
+    subtitle?: string;
+    type: 'latest' | 'popular' | 'sale' | 'featured' | 'category' | 'ids';
+    categoryId?: number; // Para type 'category'
+    productIds?: number[]; // Para type 'ids'
+    productsPerPage?: number;
 }
 
-// Define el componente funcional
-function ProductListSection({ title, subtitle, type, categoryId, productIds, productsPerPage = 10 }: ProductListSectionProps) {
+function ProductListSection({
+    title,
+    subtitle,
+    type,
+    categoryId,
+    productIds,
+    productsPerPage = 6 // Ajustado a 6 como en tus logs, o el valor que prefieras
+}: ProductListSectionProps) {
 
-	// Estados locales para los productos y el estado de carga/error
-	const [products, setProducts] = useState<Product[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<Error | null>(null);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<Error | null>(null);
 
+    useEffect(() => {
+        const fetchSectionProducts = async () => {
+            setLoading(true);
+            setError(null);
+            setProducts([]); // Limpiar productos anteriores al iniciar una nueva carga
 
-	// *** useEffect para cargar los productos para ESTA sección ***
-	useEffect(() => {
-		const fetchProducts = async () => {
-			setLoading(true);
-			setError(null);
+            // Objeto base de opciones para getProducts
+            const options: GetProductsOptions = {
+                page: 1,
+                per_page: productsPerPage,
+                // Otros valores por defecto que quieras aplicar a todas las secciones
+            };
 
-			try {
-				let productsData: Product[] = [];
-				let result;
+            try {
+                // Lógica para construir el objeto 'options' basándose en 'type'
+                switch (type) {
+                    case 'latest':
+                        options.orderby = 'date';
+                        options.order = 'desc';
+                        break;
+                    case 'popular':
+                        options.orderby = 'popularity';
+                        options.order = 'desc';
+                        break;
+                    case 'sale':
+                        options.on_sale = true;
+                        options.orderby = 'date'; // Opcional: ordenar los de oferta por fecha
+                        options.order = 'desc';
+                        break;
+                    case 'featured':
+                        options.featured = true;
+                        // options.orderby = 'menu_order'; // Productos destacados a menudo se ordenan manualmente
+                        break;
+                    case 'category':
+                        if (categoryId !== undefined) {
+                            options.category = String(categoryId);
+                        } else {
+                            console.error(`[ProductListSection] Título: "${title}" - Tipo 'category' requiere 'categoryId'.`);
+                            throw new Error("ID de categoría no proporcionado para la sección de categoría.");
+                        }
+                        break;
+                    case 'ids':
+                        if (productIds && productIds.length > 0) {
+                            options.include = productIds;
+                            options.per_page = productIds.length; // Asegurarse de obtener todos los IDs especificados
+                            options.orderby = 'include'; // Ordenar por el orden de los IDs en 'include'
+                        } else {
+                            console.warn(`[ProductListSection] Título: "${title}" - Tipo 'ids' sin 'productIds' o array vacío.`);
+                            // No hacer fetch si no hay IDs, products se quedará vacío.
+                            setLoading(false); // Importante para no quedar en estado de carga infinito
+                            return; 
+                        }
+                        break;
+                    default:
+                        // Lanza un error o maneja el caso de tipo desconocido
+                        console.error(`[ProductListSection] Título: "${title}" - Tipo de sección desconocido: '${type}'.`);
+                        throw new Error(`Tipo de sección de productos desconocido: ${type}`);
+                }
+                
+                console.log(`[ProductListSection] Título: "${title}", Tipo: "${type}", Fetching with options:`, options);
+                const result = await getProducts(options); // <--- LLAMADA A LA NUEVA getProducts
+                setProducts(result.products);
 
-				// Lógica para LLAMAR a getProducts basándose en el 'type' de la prop
-				switch (type) {
-					case 'latest': {
-						result = await getProducts(1, productsPerPage, undefined, undefined, 'date', 'desc', undefined, undefined, undefined);
-						productsData = result.products;
-						break;
-					}
-					case 'popular': {
-						result = await getProducts(1, productsPerPage, undefined, undefined, 'popularity', 'desc', undefined, undefined, undefined);
-						productsData = result.products;
-						break;
-					}
-					case 'sale': {
-						result = await getProducts(1, productsPerPage, undefined, undefined, 'date', 'desc', true, undefined, undefined);
-						productsData = result.products;
-						break;
-					}
-					case 'featured': {
-						result = await getProducts(1, productsPerPage, undefined, undefined, undefined, undefined, undefined, true, undefined);
-						productsData = result.products;
-						break;
-					}
-					case 'category': {
-						if (categoryId !== undefined) {
-							// Convierte categoryId a string si la API lo espera
-							result = await getProducts(1, productsPerPage, categoryId.toString(), undefined, undefined, undefined, undefined, undefined, undefined);
-							productsData = result.products;
-						} else {
-							throw new Error(`El componente ProductListSection con type='category' requiere la prop 'categoryId'. Título: ${title}`);
-						}
-						break;
-					}
-					case 'ids': {
-						if (productIds && productIds.length > 0) {
-							result = await getProducts(1, productsPerPage, undefined, undefined, undefined, undefined, undefined, undefined, productIds);
-							productsData = result.products;
-						} else {
-							console.warn(`[ProductListSection] Componente con type='ids' pero sin 'productIds'. Título: ${title}`);
-							productsData = [];
-						}
-						break;
-					}
-					default: {
-						throw new Error(`Tipo de lista de productos desconocido en ProductListSection: '${type}'. Título: ${title}`);
-					}
-				}
+            } catch (caughtError: unknown) {
+                const err = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+                console.error(`[ProductListSection] Título: "${title}", Tipo: "${type}" - Error al cargar productos:`, err);
+                setError(err);
+                setProducts([]); // Asegurar que products esté vacío en caso de error
+            } finally {
+                setLoading(false);
+            }
+        };
 
-				setProducts(productsData);
+        fetchSectionProducts();
 
-			} catch (caughtError: unknown) {
-				const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-				console.error(`[ProductListSection] Error al cargar productos para tipo '${type}' (Título: ${title}):`, error);
-				setError(error);
-				setProducts([]);
-			} finally {
-				setLoading(false);
-			}
-		};
+    }, [type, categoryId, productIds, productsPerPage, title]); // Dependencias del efecto
 
-		fetchProducts();
-
-	}, [type, categoryId, productIds, productsPerPage, title]);
-
-
-	// ======================================================================
-	// Renderizado (Return JSX) - USANDO ProductGrid (estructura) dentro de .products-display-area (layout Flexbox + estilos de item)
-	// ======================================================================
-
-	return (
-		// Contenedor principal de la sección de lista de productos
-		<section className="product-list-section">
-			{/* Banner o título de la sección */}
-			<div className="section-banner">
-				<h2>{title}</h2>
-				{subtitle && <p>{subtitle}</p>}
-			</div>
-
-			{/* Área donde se mostrarán los productos o los mensajes de estado */}
-			{/* Este div .products-display-area APLICARÁ el layout Flexbox con scroll horizontal Y LOS ESTILOS DE CADA ITEM */}
-			<div className="products-display-area">
-
-				{/* Renderizado Condicional: Muestra mensajes de estado */}
-				{loading && <div className="product-list-loading">Cargando productos...</div>}
-				{!loading && error && <div className="product-list-error">Error al cargar productos: {error.message}</div>}
-				{!loading && !error && products.length === 0 && <div className="product-list-empty">No se encontraron productos en esta sección.</div>}
-
-
-				{/* !!! USAMOS EL COMPONENTE ProductGrid aquí !!! */}
-				{/* ProductGrid solo renderiza los ítems que recibe (estructura HTML). El layout (flexbox) y LOS ESTILOS DE ITEM (.product-item, etc.) los pone el contenedor padre (.products-display-area y ProductListSection.css). */}
-				{!loading && !error && products.length > 0 && (
-					<ProductGrid products={products} /> 
-				)}
-
-			</div> {/* Cierre de products-display-area */}
-
-		</section> // Cierre de product-list-section
-	);
+    // --- Renderizado ---
+    // (Se mantiene igual, ya que ProductGrid recibe los 'products' y los mensajes de carga/error se manejan aquí)
+    return (
+        <section className="product-list-section">
+            <div className="section-banner">
+                <h2>{title}</h2>
+                {subtitle && <p>{subtitle}</p>}
+            </div>
+            <div className="products-display-area">
+                {loading && <div className="product-list-loading">Cargando productos...</div>}
+                {!loading && error && <div className="product-list-error">Error: {error.message}</div>}
+                {!loading && !error && products.length === 0 && (
+                    // Mostrar mensaje solo si no es el caso de 'ids' sin productIds (ya manejado arriba)
+                    !(type === 'ids' && (!productIds || productIds.length === 0)) && 
+                    <div className="product-list-empty">No se encontraron productos.</div>
+                )}
+                {!loading && !error && products.length > 0 && (
+                    <ProductGrid products={products} />
+                )}
+            </div>
+        </section>
+    );
 }
 
 export default ProductListSection;

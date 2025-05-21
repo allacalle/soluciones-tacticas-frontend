@@ -50,7 +50,7 @@ function ProductPage() {
         variationsLoading,      // boolean
         variationsError,        // string | null
         initialDisplayState     // { price?, image?, attributes } | null
-    } = useProductDetails(productSlug); // <--- ¡NUEVO!
+    } = useProductDetails(productSlug); 
 
    
     const [mainImage, setMainImage] = useState<string | undefined>(undefined);
@@ -88,27 +88,7 @@ function ProductPage() {
         initialProductImage: initialDisplayState?.image // Pasamos la imagen inicial del producto padre como fallback
     });
 
-       useEffect(() => {
-        console.log("[ProductPage] Actualizando display con datos de useVariationMatcher:", { matchingPrice, matchingImage, isMatched, matchedVariation });
-        
-        setDisplayedPrice(matchingPrice);
-        setDisplayedImage(matchingImage);
-        setIsSpecificVariationSelected(isMatched);
-        setActiveVariation(matchedVariation);
-
-        // Sincronizar mainImage (thumbnail activo) con la imagen mostrada si es relevante:
-        if (isMatched && matchedVariation?.image?.src) {
-            // Si la variación tiene una imagen propia, mainImage la refleja.
-            setMainImage(matchedVariation.image.src);
-        } else if (product) { // Si no hay match o es simple, mainImage es la del producto padre/inicial.
-            setMainImage(initialDisplayState?.image || product.images?.[0]?.src);
-        }
-        // Si !product, mainImage ya se habrá reseteado en el efecto [initialDisplayState, loading, product]
-
-    }, [matchingPrice, matchingImage, isMatched, matchedVariation, product, initialDisplayState]);
-
-
-
+      
     // === EFECTO para actualizar los estados de display de ProductPage cuando los valores del hook cambian ===
     useEffect(() => {
         console.log("[ProductPage] Actualizando display con datos de useVariationMatcher:", { matchingPrice, matchingImage, isMatched, matchedVariation });
@@ -121,9 +101,9 @@ function ProductPage() {
         if (isMatched && matchedVariation?.image?.src) {
             // Si la variación tiene una imagen propia, mainImage la refleja.
             setMainImage(matchedVariation.image.src);
-        } else if (!isMatched && product) {
-             // Si no hay match o es producto simple, mainImage vuelve a la del producto padre (o initial)
-            setMainImage(initialDisplayState?.image || product.images?.[0]?.src);
+         } else if (product) { 
+            const parentImage = initialDisplayState?.image || product.images?.[0]?.src;
+            setMainImage(parentImage);
         }
 
     }, [matchingPrice, matchingImage, isMatched, matchedVariation, product, initialDisplayState]);

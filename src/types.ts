@@ -67,6 +67,12 @@ export interface Brand {
     count?: number;
 }
 
+export interface Tag { // Nueva interfaz para los objetos Tag
+    id: number;
+    name: string;
+    slug: string;
+}
+
 export interface Product {
     id: number;
     name: string;
@@ -86,10 +92,10 @@ export interface Product {
 
     images: Image[];
 
-    // MODIFICADO: Ahora usa las interfaces exportadas
     categories: Category[]; // <--- USA LA INTERFAZ Category
     brand?: Brand[];      // <--- USA LA INTERFAZ Brand
 
+    tags?: Tag[]; // <--- AÑADE ESTA LÍNEA (array de objetos Tag)
     attributes: Attribute[];
     variations: number[];
     average_rating?: string;
