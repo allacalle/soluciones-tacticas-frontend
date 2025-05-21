@@ -1,203 +1,256 @@
-/* src/pages/css/CategoriesPage.css - Estilos para la página de lista/árbol de categorías */
+/* src/pages/css/CategoriesPage.css */
 
-/* Contenedor principal de la página de lista de categorías */
+/* ==========================================================================
+   1. Contenedor Principal y Estados de Página
+   ========================================================================== */
 .categories-page-container {
-	max-width: var(--max-width-content, 900px); /* Quizás un poco más estrecho para una lista */
-	margin: var(--spacing-large, 20px) auto;
-	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
-	box-sizing: border-box;
-	color: var(--color-text-dark, #333);
-	font-family: var(--font-family-base);
+    max-width: var(--max-width-content, 800px); /* Ligeramente más estrecho para listas */
+    margin: var(--spacing-large, 24px) auto;
+    padding: 0 var(--spacing-medium, 16px); /* Un padding lateral consistente */
+    box-sizing: border-box;
+    font-family: var(--font-family-base);
+    color: var(--color-text-dark);
 }
 
-/* Estilos para los mensajes de estado (Cargando, Error, Vacío) */
 .categories-page-loading,
 .categories-page-error,
 .categories-page-not-found {
-	text-align: center;
-	font-size: 1.2em;
-	padding: var(--spacing-large, 20px);
+    text-align: center;
+    font-size: 1.1em; /* Ligeramente más pequeño que antes */
+    padding: var(--spacing-large, 24px) var(--spacing-medium, 16px);
+    color: var(--color-neutral-dark);
+}
+.categories-page-error {
+    color: var(--color-call-to-action); /* Usar color de error si lo tienes */
 }
 
-/* Estilos para el título de la página (H2) */
-.categories-page-container h2 {
-	text-align: center;
-	margin-bottom: var(--spacing-large, 30px);
-	font-size: 2.2em;
-	color: var(--color-primary-dark, #556B2F);
+/* Título principal de la página */
+.page-title-block { /* Asumiendo que usas este contenedor como en otras páginas */
+    text-align: center;
+    margin-bottom: var(--spacing-large, 24px);
+}
+.page-title-block h2 { /* O directamente .categories-page-container > h2 si no hay .page-title-block */
+    font-size: 2rem; /* Ligeramente ajustado */
+    color: var(--color-primary-dark);
+    font-weight: var(--font-weight-bold, 700);
+    margin-top: 0;
 }
 
-
-/* === Estilos para la Lista Jerárquica de Categorías === */
-
-/* Contenedor principal de la lista (ul en el TSX) */
+/* ==========================================================================
+   2. Lista Jerárquica de Categorías
+   ========================================================================== */
 .categories-tree-list {
-	list-style: none; /* Quita los puntos por defecto de la lista */
-	padding: 0; /* Quita el padding por defecto de la lista */
-	margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-/* Estilo para cada ítem de la lista (li en el TSX) */
 .category-list-item {
-	border: 1px solid var(--color-neutral-medium, #ddd);
-	margin-bottom: var(--spacing-small, 10px); /* Espacio entre ítems principales */
-	border-radius: 5px;
-	background-color: var(--color-background-light, #fff);
-	overflow: hidden; /* Asegura que el borde redondeado se vea bien */
+    background-color: var(--color-background-light);
+    border: 1px solid var(--color-neutral-medium);
+    border-radius: 6px; /* Bordes un poco más suaves */
+    margin-bottom: var(--spacing-medium, 16px);
+    overflow: hidden; /* Para que el contenido respete el border-radius */
+    transition: box-shadow 0.2s ease-in-out;
+}
+.category-list-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* Estilo para el contenedor de la cabecera del ítem (nombre y toggle) */
+/* Cabecera de cada ítem de categoría (toggle, icono, nombre) */
 .category-item-header {
-	display: flex; /* Usa flexbox para alinear el toggle y el nombre */
-	align-items: center;
-	padding: var(--spacing-medium, 15px); /* Padding interno */
-	background-color: var(--color-neutral-light, #f8f8f8); /* Fondo sutil para la cabecera */
-	border-bottom: 1px solid var(--color-neutral-medium, #ddd); /* Separador de la cabecera */
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small, 8px); /* Espacio entre toggle, icono y nombre */
+    padding: var(--spacing-medium, 12px) var(--spacing-medium, 16px);
+    background-color: var(--color-neutral-light);
+    /* border-bottom: 1px solid var(--color-neutral-medium); /* Quitado para un look más limpio si hay descripción/hijos */
+}
+.category-list-item.expanded > .category-item-header { /* Si está expandido, mantener el borde inferior */
+    border-bottom: 1px solid var(--color-neutral-medium);
 }
 
-/* Estilo para el botón de expandir/colapsar */
-.expand-toggle {
-	background: none;
-	border: 1px solid var(--color-neutral-medium, #ccc);
-	border-radius: 3px;
-	width: 25px; /* Ancho fijo para el botón */
-	height: 25px; /* Alto fijo para el botón */
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 1.2em;
-	font-weight: bold;
-	cursor: pointer;
-	margin-right: var(--spacing-small, 10px); /* Espacio entre el toggle y el nombre */
-	color: var(--color-text-dark, #333);
-	transition: background-color 0.2s ease;
-}
-
-.expand-toggle:hover {
-	background-color: var(--color-neutral-medium, #eee);
-}
-
-.expand-toggle:active {
-	background-color: var(--color-neutral-dark, #ccc);
-}
-
-/* Estilo para el placeholder de espacio cuando no hay toggle */
+.expand-toggle,
 .expand-toggle-placeholder {
-	width: 25px; /* Mismo ancho que el botón para alinear */
-	margin-right: var(--spacing-small, 10px);
+    flex-shrink: 0; /* Evita que se encoja */
+    width: 28px;    /* Un poco más de área clickeable */
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.expand-toggle {
+    background: none;
+    border: 1px solid transparent; /* Borde invisible, aparece en hover/focus */
+    border-radius: 50%; /* Redondo */
+    color: var(--color-primary-dark);
+    font-size: 1.1em; /* Ajusta según el tamaño de tus iconos +/- */
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.expand-toggle:hover,
+.expand-toggle:focus {
+    background-color: rgba(0,0,0,0.05);
+    border-color: var(--color-neutral-medium);
+    outline: none;
 }
 
+.category-icon-container {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.4em; /* Tamaño del icono de categoría */
+    color: var(--color-primary-dark);
+    line-height: 1; /* Para mejor alineación vertical del icono */
+    /* margin-right ya no es necesario si se usa gap en .category-item-header */
+}
 
-/* Estilo para el enlace del nombre de la categoría */
 .category-name-link {
-	text-decoration: none;
-	color: var(--color-text-dark, #333);
-	font-size: 1.1em;
-	font-weight: var(--font-weight-bold, bold);
-	flex-grow: 1; /* Permite que el enlace ocupe el espacio restante */
-	transition: color 0.2s ease;
+    flex-grow: 1; /* Ocupa el espacio restante */
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-size: 1.1em;
+    font-weight: var(--font-weight-medium, 500); /* Un poco menos bold que antes */
+    transition: color 0.2s ease;
+    padding: 4px 0; /* Para mejor área clickeable vertical */
 }
-
 .category-name-link:hover {
-	color: var(--color-primary, #556B2F); /* Cambia color al pasar el ratón */
-	text-decoration: underline; /* Añade subrayado al pasar el ratón */
+    color: var(--color-accent); /* Usar color de acento para hover */
+    text-decoration: underline;
 }
 
-
-/* Estilo para la descripción de la categoría */
+/* Descripción de la categoría (si está visible) */
 .category-description {
-	padding: var(--spacing-medium, 15px);
-	font-size: 0.95em;
-	color: var(--color-text-medium, #555);
-	line-height: 1.5;
-	/* margin-top: var(--spacing-small, 10px); */ /* Espacio arriba si no hay imagen */
+    padding: var(--spacing-small, 8px) var(--spacing-medium, 16px) var(--spacing-medium, 16px);
+    font-size: 0.9em;
+    color: var(--color-neutral-dark); /* Un gris más oscuro que #555 */
+    line-height: 1.6;
+    /* Indentación para alinear con el nombre, no con el icono/toggle */
+    /* (Ancho del placeholder + gap + Ancho del icono + gap) */
+    /* Asumiendo toggle 28px, icono 1.4em (aprox 22px si font-size base es 16px), y gap 8px:
+       28px + 8px + 22px + 8px = 66px. Ajusta si tus tamaños son diferentes. */
+    padding-left: calc(28px + var(--spacing-small, 8px) + 1.4em + var(--spacing-small, 8px) + var(--spacing-medium, 16px));
+    border-top: 1px dashed var(--color-neutral-light); /* Separador sutil si hay descripción */
+}
+.category-list-item:not(.expanded) .category-description {
+    /* Asegurar que no ocupe espacio si no está expandido y la descripción no se muestra */
+    display: none;
 }
 
-/* Estilo para la lista de subcategorías */
+
+/* ==========================================================================
+   3. Subcategorías
+   ========================================================================== */
 .subcategories-list {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	border-top: 1px solid var(--color-neutral-medium, #ddd); /* Separador de la lista de subcategorías */
-	/* Aplica padding al ítem padre si quieres sangría en la lista de hijos */
-	/* padding-left: var(--spacing-large, 30px); */ /* Ejemplo de sangría para subcategorías */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* No necesita borde superior si la descripción ya tiene uno o el header lo tiene */
 }
 
-/* Estilo para los ítems dentro de la lista de subcategorías */
+/* Indentación y estilo para los items de subcategoría */
 .subcategories-list .category-list-item {
-	/* Ajusta márgenes, padding, o bordes para diferenciar subcategorías */
-	margin-bottom: 0; /* Quita margen entre subcategorías si no lo quieres */
-	border: none; /* Quita bordes individuales si quieres que la lista se vea como un bloque */
-	border-bottom: 1px dashed var(--color-neutral-light, #eee); /* Borde sutil entre subcategorías */
-	border-radius: 0; /* Quita bordes redondeados */
-	background-color: transparent; /* Fondo transparente */
+    margin-bottom: 0; /* Sin margen inferior entre sub-items */
+    border: none;     /* Quitar borde general del sub-item */
+    border-radius: 0;
+    background-color: transparent; /* O un fondo ligeramente diferente si se quiere */
+}
+.subcategories-list .category-list-item .category-item-header {
+    background-color: transparent; /* Cabecera de subcategoría sin fondo especial */
+    border-bottom: 1px dashed var(--color-neutral-light); /* Separador sutil entre sub-items */
+    padding-left: calc(28px + var(--spacing-small, 8px)); /* Indentación para alinear con el nombre del padre */
+                                                     /* (Ancho del toggle padre + gap) */
+    padding-top: var(--spacing-small, 8px);
+    padding-bottom: var(--spacing-small, 8px);
+}
+.subcategories-list .category-list-item:last-child > .category-item-header {
+    border-bottom: none; /* Quitar borde del último sub-item */
 }
 
-/* Último ítem de subcategoría no tiene borde inferior */
-.subcategories-list .category-list-item:last-child {
-	border-bottom: none;
+/* Indentación más profunda para la descripción de una subcategoría */
+.subcategories-list .category-description {
+    /* (Indentación del header de subcat + Ancho del toggle + gap + Ancho del icono + gap) */
+    padding-left: calc(28px + var(--spacing-small, 8px) + 28px + var(--spacing-small, 8px) + 1.4em + var(--spacing-small, 8px) + var(--spacing-medium, 16px));
+    border-top: none; /* La descripción de subcategoría no necesita borde superior si el header lo tiene */
+}
+
+/* Indentación aún más profunda para las sub-subcategorías */
+.subcategories-list .subcategories-list .category-item-header {
+    padding-left: calc(28px + var(--spacing-small, 8px) + 28px + var(--spacing-small, 8px)); /* Doble indentación */
+}
+.subcategories-list .subcategories-list .category-description {
+     padding-left: calc(28px + var(--spacing-small, 8px) + 28px + var(--spacing-small, 8px) + 28px + var(--spacing-small, 8px) + 1.4em + var(--spacing-small, 8px) + var(--spacing-medium, 16px));
 }
 
 
-/* Estilo para la imagen de categoría dentro de la lista jerárquica */
-/* Puede que no uses imágenes en este layout, pero si sí, estilízalas aquí */
-.category-image {
-	max-width: 100%;
-	height: auto; /* Altura automática para no forzar tamaño */
-	margin-bottom: var(--spacing-small, 10px);
-	border-radius: 4px;
+/* ==========================================================================
+   4. Estilos Opcionales (Imágenes de Categoría, Contador - No usados actualmente)
+   ========================================================================== */
+.category-image { /* Si decides usar imágenes en lugar de iconos */
+    width: 40px; /* Ejemplo */
+    height: 40px;
+    object-fit: contain;
+    margin-right: var(--spacing-medium, 16px);
+    border-radius: 4px;
+    flex-shrink: 0;
 }
 
-/* Estilo para el placeholder de imagen dentro de la lista jerárquica */
-.no-category-image-placeholder {
-	width: 100%; /* O el ancho que prefieras */
-	height: 80px; /* Altura para el placeholder sin imagen */
-	background-color: var(--color-neutral-light, #f0f0f0);
-	color: var(--color-text-dark, #555);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 4px;
-	margin-bottom: var(--spacing-small, 10px);
-	font-size: 0.9em;
-}
-
-/* Estilo para el número de productos - Opcional */
 .category-count {
-	font-size: 0.9em;
-	color: var(--color-text-medium, #666);
-	margin-top: 5px;
+	font-size: 0.85em;
+	color: var(--color-neutral-dark);
+	margin-left: auto; /* Empuja el contador a la derecha */
+    padding-left: var(--spacing-medium, 16px);
+    white-space: nowrap;
 }
 
 
-/* Media Queries para Responsividad */
+/* ==========================================================================
+   5. Media Queries para Responsividad
+   ========================================================================== */
 @media (max-width: 768px) {
-	.categories-page-container {
-		padding: 0 var(--spacing-medium, 15px);
-	}
+    .categories-page-container {
+        padding: 0 var(--spacing-small, 8px); /* Menos padding en móviles */
+    }
+    .page-title-block h2 {
+        font-size: 1.8rem;
+    }
 
-	.category-item-header {
-		padding: var(--spacing-small, 10px);
-	}
+    .category-item-header {
+        padding: var(--spacing-small, 10px);
+        gap: var(--spacing-small, 6px);
+    }
 
-	.expand-toggle {
-		width: 20px;
-		height: 20px;
-		font-size: 1em;
-		margin-right: var(--spacing-small, 5px);
-	}
+    .expand-toggle,
+    .expand-toggle-placeholder {
+        width: 24px;
+        height: 24px;
+    }
+    .expand-toggle {
+        font-size: 1em;
+    }
 
-	.expand-toggle-placeholder {
-		width: 20px;
-		margin-right: var(--spacing-small, 5px);
-	}
+    .category-icon-container {
+        font-size: 1.2em; /* Iconos un poco más pequeños */
+    }
+    .category-name-link {
+        font-size: 1em;
+    }
 
-	.category-name-link {
-		font-size: 1em;
-	}
+    .category-description {
+        padding: var(--spacing-small, 8px) var(--spacing-medium, 12px);
+        font-size: 0.85em;
+        /* Ajustar indentación si es necesario para móviles */
+        padding-left: calc(24px + var(--spacing-small, 6px) + 1.2em + var(--spacing-small, 6px) + var(--spacing-medium, 12px));
 
-	.category-description {
-		padding: var(--spacing-small, 10px);
-		font-size: 0.9em;
-	}
+    }
+    .subcategories-list .category-item-header {
+        padding-left: calc(24px + var(--spacing-small, 6px));
+    }
+    .subcategories-list .category-description {
+        padding-left: calc(24px + var(--spacing-small, 6px) + 24px + var(--spacing-small, 6px) + 1.2em + var(--spacing-small, 6px) + var(--spacing-medium, 12px));
+    }
+    .subcategories-list .subcategories-list .category-item-header {
+        padding-left: calc(24px + var(--spacing-small, 6px) + 24px + var(--spacing-small, 6px));
+    }
 }

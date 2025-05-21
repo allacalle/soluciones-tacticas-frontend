@@ -1,82 +1,126 @@
 // src/components/ProductCarousel.tsx
+import React from 'react'; // Siempre importa React
 import { Link } from 'react-router-dom';
-import { Product } from '../types'; // La interfaz Product sigue siendo necesaria
+import { Product } from '../types';
 
 // Importaciones de react-slick
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick-theme.css'; // Sigue siendo bueno tenerlo por si algún estilo base ayuda
 
-// Estilos CSS para el carrusel genérico (puedes crear uno nuevo o reutilizar)
-import './css/ProductCarousel.css'; // Asegúrate de que este archivo CSS exista o ajusta la ruta
+// Tu CSS personalizado para este componente
+import './css/ProductCarousel.css';
 
-// Define las propiedades que recibirá el componente ProductCarousel
+// --- COMPONENTES DE FLECHAS PERSONALIZADAS ---
+interface ArrowProps {
+    className?: string;
+    style?: React.CSSProperties;
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+}
+
+const NextArrow: React.FC<ArrowProps> = (props) => {
+    const { className, style, onClick } = props;
+    // Asegúrate de que className (pasado por react-slick) se incluya para los estilos base de .slick-arrow
+    return (
+        <div
+            className={`${className || ''} custom-slick-arrow custom-slick-next`} // Tus clases personalizadas
+            style={{ ...style }} // Estilos inline pasados por react-slick (a veces para display)
+            onClick={onClick}
+        >
+            <span>{'>'}</span> {/* O tu icono SVG */}
+        </div>
+    );
+};
+
+const PrevArrow: React.FC<ArrowProps> = (props) => {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className || ''} custom-slick-arrow custom-slick-prev`} // Tus clases personalizadas
+            style={{ ...style }}
+            onClick={onClick}
+        >
+            <span>{'<'}</span> {/* O tu icono SVG */}
+        </div>
+    );
+};
+// --- FIN COMPONENTES DE FLECHAS ---
+
 interface ProductCarouselProps {
-    title?: string;                 // Título opcional para la sección del carrusel
-    products: Product[];            // Array de productos a mostrar (¡prop principal!)
-    productsToShow?: number;        // Cuántos productos mostrar a la vez en el carrusel
-    autoPlayInterval?: number;    // Intervalo para el auto-play en milisegundos
-    // Puedes añadir más props de configuración de react-slick si quieres controlarlas desde fuera
-    // ej: arrows, dots, etc.
+    title?: string;
+    products: Product[];
+    productsToShow?: number;
+    autoPlayInterval?: number;
+    showArrows?: boolean;
 }
 
 function ProductCarousel({
     title,
     products,
-    productsToShow = 5,      // Valor por defecto si no se proporciona
-    autoPlayInterval = 3000, // Valor por defecto
+    productsToShow = 4,
+    autoPlayInterval = 5000,
+    showArrows = true,
 }: ProductCarouselProps) {
 
-    // Si no hay productos, podemos decidir no renderizar nada o mostrar un mensaje.
-    // Por ahora, si no hay productos, no se renderizará el Slider.
-    // El componente padre puede decidir no renderizar ProductCarousel si la lista está vacía.
-    if (products.length === 0) {
-        // Opcional: Si hay un título, podrías querer mostrar el título y "No hay productos".
-        // if (title) {
-        //     return (
-        //         <section className="product-carousel-section empty">
-        //             {title && <div className="section-title-container"><h2>{title}</h2></div>}
-        //             <p style={{ textAlign: 'center' }}>No hay productos para mostrar.</p>
-        //         </section>
-        //     );
-        // }
-        return null; // Si no hay productos, no renderiza nada.
+    if (!products || products.length === 0) {
+        if (title) {
+             return (
+                 <section className="product-carousel-section empty">
+                     {title && <div className="section-title-container"><h2>{title}</h2></div>}
+                     <p style={{ textAlign: 'center', padding: '20px' }}>No hay productos para mostrar en este carrusel.</p>
+                 </section>
+             );
+        }
+        return null;
     }
 
-    // Configuración de react-slick
+    // Log para depurar la condición de las flechas
+    const shouldRenderArrows = showArrows && (products.length > productsToShow);
+    console.log('PRODUCT CAROUSEL - FLECHAS PERSONALIZADAS:', {
+        passedShowArrowsProp: showArrows,
+        actualProductsLength: products.length,
+        actualProductsToShow: productsToShow,
+        calculatedArrowFlag: shouldRenderArrows
+    });
+
     const settings = {
-        dots: false, // Puedes hacer esto una prop si quieres controlarlo desde fuera
-        infinite: products.length >= productsToShow, // Solo es infinito si hay suficientes items
+        dots: true,
+        infinite: products.length > productsToShow,
         speed: 500,
         slidesToShow: productsToShow,
         slidesToScroll: 1,
-        autoplay: products.length > productsToShow && autoPlayInterval > 0, // Solo autoplay si hay suficientes y un intervalo válido
+        autoplay: products.length > productsToShow && autoPlayInterval > 0,
         autoplaySpeed: autoPlayInterval,
         pauseOnHover: true,
-        arrows: products.length > productsToShow, // Solo mostrar flechas si hay más items de los que se ven
+        // === USAR FLECHAS PERSONALIZADAS ===
+        arrows: shouldRenderArrows, // La condición sigue siendo la misma
+        nextArrow: <NextArrow />,   // Tu componente NextArrow
+        prevArrow: <PrevArrow />,   // Tu componente PrevArrow
+        // === FIN USO FLECHAS PERSONALIZADAS ===
         responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: Math.min(productsToShow, 4),
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: Math.min(productsToShow, 3),
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: Math.min(productsToShow, 2), // En móviles más pequeños, podrías poner 1 o 2
-                    slidesToScroll: 1
-                }
-            }
-        ]
+         {
+             breakpoint: 1024,
+             settings: {
+                 slidesToShow: Math.min(productsToShow, 3),
+                 // Actualizar la condición de arrows también en responsive
+                 arrows: showArrows && (products.length > Math.min(productsToShow, 3)),
+             }
+         },
+         {
+             breakpoint: 768,
+             settings: {
+                 slidesToShow: Math.min(productsToShow, 2),
+                 arrows: showArrows && (products.length > Math.min(productsToShow, 2)),
+             }
+         },
+         {
+             breakpoint: 480,
+             settings: {
+                 slidesToShow: Math.min(productsToShow, 1),
+                 arrows: showArrows && (products.length > Math.min(productsToShow, 1)),
+             }
+         }
+     ]
     };
 
     return (
@@ -86,11 +130,9 @@ function ProductCarousel({
                     <h2>{title}</h2>
                 </div>
             )}
-
-            {/* El Slider ahora usa directamente la prop 'products' */}
             <Slider {...settings}>
                 {products.map((product) => (
-                    <div key={product.id} className="product-slide">
+                    <div key={product.id} className="carousel-slide-item-wrapper">
                         <Link to={`/producto/${product.slug}`} className="product-slide-link" onClick={() => window.scrollTo(0, 0)}>
                             {product.images && product.images[0]?.src ? (
                                 <img
@@ -102,8 +144,7 @@ function ProductCarousel({
                                 <div className="no-product-image">Sin Imagen</div>
                             )}
                             <div className="product-name">{product.name}</div>
-                            {/* Opcional: Precio, etc. */}
-                            {/* <div className="product-price">{product.price}€</div> */}
+                            {product.price && <div className="product-price">{product.price}€</div>}
                         </Link>
                     </div>
                 ))}
@@ -111,5 +152,4 @@ function ProductCarousel({
         </section>
     );
 }
-
 export default ProductCarousel;

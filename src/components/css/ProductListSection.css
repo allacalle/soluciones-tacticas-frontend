@@ -1,10 +1,12 @@
+
 /* Estilos para el contenedor principal de la sección */
 .product-list-section {
 	margin: 30px 0;
-	padding: var(--spacing-medium, 16px) 0;
+	padding: var(--spacing-medium, 16px) 0; /* Padding vertical para la sección */
 	background-color: var(--color-neutral-light, #f8f8f8);
 	border-top: 1px solid var(--color-neutral-light, #eee);
 	border-bottom: 1px solid var(--color-neutral-light, #eee);
+    position: relative; /* Importante para el posicionamiento de flechas del carrusel si son absolutas */
 }
 
 /* Estilos para el banner de título/subtítulo de la sección */
@@ -21,8 +23,6 @@
 	font-size: 1.8em;
 	font-weight: var(--font-weight-bold, bold);
 	color: var(--color-text-light, #fff);
-	/* Asegúrate de que este h2 no tenga márgenes grandes que lo desajusten del banner */
-	/* Si tienes estilos h2 generales en index.css, quizás necesites sobrescribirlos aquí si quieres un estilo diferente */
 }
 
 .section-banner p {
@@ -30,6 +30,7 @@
 	font-size: 1em;
 	opacity: 0.9;
 }
+
 
 /* === Estilos para el área que contiene las tarjetas de producto (CONTENEDOR FLEXBOX) === */
 .products-display-area { /* Contenedor Flexbox para scroll horizontal */

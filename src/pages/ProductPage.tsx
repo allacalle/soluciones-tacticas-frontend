@@ -3,7 +3,6 @@
 
 import  { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './css/ProductPage.css';
 import {  Variation } from '../types';
 
 
@@ -18,6 +17,12 @@ import ProductFullDescription from '../components/ProductFullDescription'; // <-
 // Hooks
 import { useProductDetails } from '../hooks/useProductDetails'; 
 import { useVariationMatcher } from '../hooks/useVariationMatcher'; 
+import { useRecommendedProducts } from '../hooks/useRecommendedProducts'; // El hook de recomendaciones
+import ProductCarousel from '../components/ProductCarousel';          // Nuestro componente de carrusel genérico
+
+
+// CSS
+import './css/ProductPage.css';
 
 
 
@@ -126,6 +131,18 @@ function ProductPage() {
         setDisplayedImage(imageUrl); // Actualiza la imagen grande
     };
 
+     // === USAR EL HOOK DE RECOMENDACIONES ===
+    // Pasamos el 'product' actual y la cantidad de recomendaciones que queremos obtener.
+    // El hook internamente pide más para tener margen, pero aquí definimos cuántos queremos en total.
+    const numberOfRecommendationsToFetch = 8; // Por ejemplo, queremos hasta 8 productos para el carrusel.
+                                           // El carrusel podría mostrar 4-5 a la vez.
+    const {
+        recommendedProducts,
+        loading: recommendationsLoading, // Renombrar para evitar colisión con 'loading' de useProductDetails
+        error: recommendationsError      // Renombrar para evitar colisión con 'error' de useProductDetails
+    } = useRecommendedProducts(product, numberOfRecommendationsToFetch);
+    // === FIN USO HOOK RECOMENDACIONES ===
+
     // Renderizado condicional (SIN CAMBIOS)
     if (loading) { /* ... */ }
     if (error) { /* ... */ }
@@ -191,6 +208,41 @@ function ProductPage() {
             {!categoryIdentifierForCarousel && (
                 <div className="no-related-products-message">No se encontraron categorías para mostrar productos relacionados.</div>
             )}
+
+             {/* === SECCIÓN PARA EL CARRUSEL DE PRODUCTOS RECOMENDADOS === */}
+            {/* Solo mostramos esta sección si tenemos un producto cargado,
+                 no estamos cargando recomendaciones, no hay error en recomendaciones,
+                 y efectivamente tenemos productos recomendados. */}
+            {product && !recommendationsLoading && !recommendationsError && recommendedProducts.length > 0 && (
+                <div className="related-products-section"> {/* Un contenedor opcional para esta sección */}
+                    <ProductCarousel
+                        title="También te podría interesar"
+                        products={recommendedProducts}
+                        productsToShow={4}      // Cuántos mostrar a la vez en pantallas grandes
+                                                // react-slick manejará los breakpoints para menos en móviles
+                        autoPlayInterval={10000} // Rotar cada 5 segundos (o el valor que prefieras)
+                        // Podrías añadir más props aquí si tu ProductCarousel las acepta
+                    />
+                </div>
+            )}
+
+            {/* Opcional: Mostrar un estado de carga para las recomendaciones */}
+            {product && recommendationsLoading && (
+                <div className="related-products-loading" style={{ textAlign: 'center', padding: '20px' }}>
+                    <p>Buscando productos que podrían interesarte...</p>
+                    {/* Aquí podrías poner un spinner/loader visual si tienes uno */}
+                </div>
+            )}
+
+            {/* Opcional: Mostrar un mensaje si hay un error al cargar recomendaciones */}
+            {product && recommendationsError && (
+                <div className="related-products-error" style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
+                    <p>No se pudieron cargar las recomendaciones en este momento.</p>
+                </div>
+            )}
+            {/* === FIN SECCIÓN CARRUSEL RECOMENDACIONES === */}
+
+
         </div>
     );
 }

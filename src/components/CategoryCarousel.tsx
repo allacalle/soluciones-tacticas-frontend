@@ -37,7 +37,7 @@ function CategoryCarousel({
     categoryIdentifier,
     productsToShow = 5,     // Lo usaremos al pasar a ProductCarousel
     productsPerFetch = 10,
-    autoPlayInterval = 3000, // Lo usaremos al pasar a ProductCarousel
+    autoPlayInterval = 10000, // Lo usaremos al pasar a ProductCarousel
     excludeProductId
 }: CategoryCarouselProps) {
 

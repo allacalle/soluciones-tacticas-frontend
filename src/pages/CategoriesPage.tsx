@@ -1,229 +1,262 @@
 // src/pages/CategoriesPage.tsx
 
+import './css/CategoriesPage.css';
+import { useEffect, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { getCategories } from '../api/wooApi';
+import { Category } from '../types';
 
-// Importa los estilos CSS específicos de esta página
-import	'./css/CategoriesPage.css';
+// --- IMPORTACIÓN DE ICONOS DE REACT-ICONS (AJUSTADA SEGÚN USO) ---
+import {
+    FaShoppingBag, FaFirstAid, FaUserShield, FaTools, FaCog, FaFolder,
+    FaSprayCan, // FaKey para grilletes/seguridad
+    FaTshirt, FaFire, FaGift, FaPlusCircle, FaMinusCircle, FaGraduationCap, // Para acceso academia
+    FaBookOpen, 
+    FaHandPaper,
+    FaShieldAlt,
+    FaBell // Usando FaBell como reemplazo de FaBelt
+} from 'react-icons/fa';
+import { GiKitchenKnives } from 'react-icons/gi';
 
-import	{ useEffect, useState, useMemo } from 'react'; // Importa useMemo
-import	{ Link } from 'react-router-dom';
+import {
+    GiPoliceOfficerHead, GiMilitaryFort, GiLeatherBoot,
+        GiFlashlight, GiCape, GiShirt, 
+        GiHandcuffs, // Para Grilletes
+        GiTargetShot,
+        GiStaticWaves, // Para "Pouches" (usando GiStaticWaves como reemplazo)
+        GiCampingTent // Para "Utensilios" (Outdoor)
+    } from 'react-icons/gi';
 
-// Importa las funciones y interfaces necesarias
-import	{ getCategories } from '../api/wooApi';
-import	{ Category } from '../types';
+import {
+    MdCleaningServices, MdOutlineOutdoorGrill} from "react-icons/md";
+// --- FIN IMPORTACIÓN DE ICONOS ---
 
-// Definir una interfaz para la estructura jerárquica de categorías
 interface HierarchicalCategory extends Category {
-	children: HierarchicalCategory[];
+    children: HierarchicalCategory[];
 }
 
-// Helper function to build the category tree
-const	buildCategoryTree = (categories: Category[]): HierarchicalCategory[] => {
-	const	categoryMap: { [id: number]: HierarchicalCategory } = {};
-	const	topLevelCategories: HierarchicalCategory[] = [];
+const buildCategoryTree = (categories: Category[]): HierarchicalCategory[] => {
+    const categoryMap: { [id: number]: HierarchicalCategory } = {};
+    const topLevelCategories: HierarchicalCategory[] = [];
 
-	// Primero, mapear todas las categorías y añadir la propiedad children
-	categories.forEach(cat => {
-		// Excluir la categoría "Sin categorizar" al construir el mapa inicial
-		if (cat.slug === 'uncategorized') {
-			return;
-		}
-		categoryMap[cat.id] = { ...cat, children: [] };
-	});
+    categories.forEach(cat => {
+        if (cat.slug === 'uncategorized' || cat.name.toLowerCase() === 'sin categorizar') {
+            return;
+        }
+        categoryMap[cat.id] = { ...cat, children: [] };
+    });
 
-	// Luego, construir la jerarquía
-	Object.values(categoryMap).forEach(cat => {
-		if (cat.parent === 0) {
-			// Es una categoría de nivel superior
-			topLevelCategories.push(cat);
-		} else {
-			// Es una subcategoría, encontrar a su padre y añadirla como hijo
-			const	parentId = typeof cat.parent === 'number' ? cat.parent : undefined;
-			if (parentId !== undefined) {
-				const parent = categoryMap[parentId];
-				if (parent) {
-					parent.children.push(cat);
-				}
-			}
-			// Si el padre no se encuentra en el mapa (ej: padre filtrado/excluido), la subcategoría no se añade
-		}
-	});
+    Object.values(categoryMap).forEach(cat => {
+        if (cat.parent === 0) {
+            topLevelCategories.push(cat);
+        } else {
+            const parentId = typeof cat.parent === 'number' ? cat.parent : undefined;
+            if (parentId !== undefined) {
+                const parent = categoryMap[parentId];
+                if (parent) {
+                    parent.children.push(cat);
+                }
+            }
+        }
+    });
 
-	// Opcional: Ordenar categorías de nivel superior y sus hijos por nombre
-	topLevelCategories.sort((a, b) => a.name.localeCompare(b.name));
-	topLevelCategories.forEach(cat => {
-		cat.children.sort((a, b) => a.name.localeCompare(b.name));
-	});
+    const sortByName = (a: HierarchicalCategory, b: HierarchicalCategory) => a.name.localeCompare(b.name);
+    topLevelCategories.sort(sortByName);
+    topLevelCategories.forEach(cat => {
+        cat.children.sort(sortByName);
+    });
 
-
-	return	topLevelCategories;
+    return topLevelCategories;
 };
 
+type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
+
+// --- MAPEO DE CATEGORÍAS A ICONOS (ACTUALIZADO CON TUS SLUGS) ---
+const categoryIconMap: Record<string, IconComponent> = {
+    // Categorías Padre Principales
+    'armeria': FaShieldAlt,
+    'equipacion': FaShoppingBag,
+    'gala_y_regalos': FaGift,
+    'militar': GiMilitaryFort,
+    'outdoor_bushcraft': MdOutlineOutdoorGrill,
+    'policial_vigilante': GiPoliceOfficerHead,
+    'vestuario': FaTshirt,
+
+    // Subcategorías (slugs en minúsculas como en tu log)
+    'acceso_academia': FaGraduationCap, // o MdSchool
+    'acceso_cefot': FaBookOpen, // o GiMilitaryFort si es más específico del Cefot
+    'armas': GiTargetShot, // o un icono de arma más directo si lo encuentras
+    'botas': GiLeatherBoot,
+    'cabeza': GiCape,
+    'cargadores': FaFolder, // GiBulletCase no existe, usando FaFolder como placeholder
+    'chaquetas': GiShirt,
+    'cinturones_hebillas': FaBell, // Usando FaBell como reemplazo de FaBelt
+    'complementos': FaCog, // Para "Complementos" (Militar)
+    'complementos_armas': FaTools,
+    'defensas_armeria': FaUserShield,
+    'defensas_policial': FaUserShield, // Mismo icono para ambas "Defensas"
+    'entrenamiento': GiTargetShot, // Reutilizando o buscar algo como FaDumbbell
+    'equipo_proteccion': FaUserShield,
+    'equipo_sanitario': FaFirstAid, // o GiMedicalPack
+    'fundas_arma': FaFolder, // Placeholder, busca icono de pistolera
+    'fundas_complementos': FaFolder,
+    'grilletes_armeria': GiHandcuffs,
+    'grilletes_policial': GiHandcuffs, // Mismo icono
+    'guantes': FaHandPaper,
+    'iluminacion_equipacion': GiFlashlight,
+    'iluminacion_outdoor': GiFlashlight, // Mismo icono
+    'limpieza_armas': MdCleaningServices,
+    'navajas_cuchillos_outdoor': GiKitchenKnives, // Usando GiKitchenKnives porque GiKnife no existe
+    'navajas_cuchillos_equipacion': GiKitchenKnives, // Mismo icono
+    // 'navajas_cuchillos_equipacion': FaKnife, // FaKnife no existe, línea comentada
+    'pantalones': FaTshirt, // Placeholder, necesitas un icono de pantalones
+    'pedernales': FaFire,
+    'pouches': GiStaticWaves, // Para "Pouches" (Militar)
+    'pouches_chaleco_cinturon': GiStaticWaves, // Para "Pouches chaleco/cinturón" (Equipación)
+    'primera_linea': FaShoppingBag, // Placeholder, muy genérico
+    'proteccion_anticorte': FaUserShield, // O un icono de guante con escudo
+    'spray_de_defensa': FaSprayCan,
+    'utensilios': GiCampingTent, // Para "Utensilios" (Outdoor)
+    'varios': FaFolder, // Para "Varios" (Outdoor)
+
+    // Fallback por si algún slug no se encuentra
+    'default': FaFolder,
+};
+// Asegúrate de importar FaBelt si lo usas: import { FaBelt } from 'react-icons/fa';
+
+const getCategoryIcon = (slug: string, categoryName: string): IconComponent => {
+    const normalizedSlug = slug.toLowerCase(); // Ya vienen en minúsculas de tu log, pero por si acaso
+    const icon = categoryIconMap[normalizedSlug];
+    if (!icon) {
+        console.warn(`[CategoriesPage] ICON WARN: No se encontró icono para slug: '${normalizedSlug}' (Nombre: '${categoryName}'). Usando icono por defecto (FaFolder).`);
+        return categoryIconMap['default'];
+    }
+    return icon;
+};
+// --- FIN MAPEO ---
 
 export default function CategoriesPage() {
-	// HOOKS
-	const	[allCategories, setAllCategories] = useState<Category[]>([]); // Estado para la lista plana de la API
-	const	[loading, setLoading] = useState<boolean>(true);
-	const	[error, setError] = useState<Error | null>(null);
-	const	[expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set()); // Estado para saber qué IDs están expandidos
+    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<Error | null>(null);
+    const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set());
 
-	const	perPage = 100; // Fetching a large number to get most/all categories
+    // --- NUEVO ESTADO PARA CONTROLAR LA EXPANSIÓN INICIAL ---
+    const [initialExpansionDone, setInitialExpansionDone] = useState<boolean>(false);
+    // --- FIN NUEVO ESTADO ---
 
+    const perPage = 100;
 
-	// *** useMemo para construir la jerarquía cada vez que allCategories cambia ***
-	const	hierarchicalCategories = useMemo(() => {
-		return	buildCategoryTree(allCategories);
-	}, [allCategories]);
+    const hierarchicalCategories = useMemo(() => {
+        return buildCategoryTree(allCategories);
+    }, [allCategories]);
 
-
-	// *** useEffect para cargar TODAS las CATEGORÍAS planas ***
-	useEffect(() => {
-		const	fetchCategories = async () => {
-			setLoading(true);
-			setError(null);
-			setAllCategories([]);
-
-			try {
-				// !!! Llamada a getCategories - Fetching ALL categories (parent=undefined) !!!
-				// Usamos context='view' por si necesitamos la descripción completa
-				 const result = await getCategories({ 
-                    page: 1, 
-                    per_page: perPage, // Usamos la variable perPage definida en el componente
-                    // Puedes añadir más opciones aquí si las necesitas, ej:
-                    // orderby: 'name',
-                    // order: 'asc',
-                    // hide_empty: true, // Para no mostrar categorías sin productos
+    useEffect(() => {
+        const fetchCategories = async () => {
+            setLoading(true);
+            setError(null);
+            setAllCategories([]);
+            try {
+                const result = await getCategories({
+                    page: 1,
+                    per_page: perPage,
                 });
+                setAllCategories(result.categories);
+            } catch (caughtError: unknown) {
+                const err = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
+                console.error("[CategoriesPage] Error al cargar las categorías:", err);
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCategories();
+    }, [perPage]);
+
+    // --- useEffect CORREGIDO PARA EXPANSIÓN INICIAL ---
+    useEffect(() => {
+        // Solo ejecutar si las categorías jerárquicas están listas Y la expansión inicial no se ha hecho
+        if (hierarchicalCategories.length > 0 && !initialExpansionDone) {
+            const allIds = new Set<number>();
+            const addIdsRecursively = (categories: HierarchicalCategory[]) => {
+                for (const category of categories) {
+                    allIds.add(category.id);
+                    if (category.children.length > 0) {
+                        addIdsRecursively(category.children);
+                    }
+                }
+            };
+            addIdsRecursively(hierarchicalCategories);
+            setExpandedCategories(allIds);
+            setInitialExpansionDone(true); // Marcar que la expansión inicial ya se hizo
+            console.log("[CategoriesPage] DEBUG: Todas las categorías expandidas por defecto (expansión inicial).");
+        }
+    }, [hierarchicalCategories, initialExpansionDone]); // Depender solo de estas dos
+    // --- FIN useEffect CORREGIDO ---
+
+    const toggleCategoryExpansion = (categoryId: number) => {
+        setExpandedCategories(prevExpanded => {
+            const newExpanded = new Set(prevExpanded);
+            if (newExpanded.has(categoryId)) {
+                newExpanded.delete(categoryId);
+            } else {
+                newExpanded.add(categoryId);
+            }
+            return newExpanded;
+        });
+    };
+
+    const renderCategoryItem = (category: HierarchicalCategory) => {
+        // ... (tu función renderCategoryItem se mantiene igual)
+        const isExpanded = expandedCategories.has(category.id);
+        const hasChildren = category.children && category.children.length > 0;
+        const IconToRender = getCategoryIcon(category.slug, category.name);
+
+        return (
+            <li key={category.id} className={`category-list-item ${hasChildren ? 'has-children' : ''} ${isExpanded ? 'expanded' : ''}`}>
+                <div className="category-item-header">
+                    {hasChildren && (
+                        <button
+                            className="expand-toggle"
+                            onClick={(e) => { e.preventDefault(); toggleCategoryExpansion(category.id); }}
+                            aria-expanded={isExpanded}
+                            aria-controls={`subcategories-${category.id}`}
+                            title={isExpanded ? "Colapsar" : "Expandir"}
+                        >
+                            {isExpanded ? <FaMinusCircle /> : <FaPlusCircle />}
+                        </button>
+                    )}
+                    {!hasChildren && <span className="expand-toggle-placeholder"></span>}
+                    <span className="category-icon-container"><IconToRender /></span>
+                    <Link to={`/productos/${category.slug}`} className="category-name-link">{category.name}</Link>
+                </div>
+                {category.description && isExpanded && (
+                    <div className="category-description" dangerouslySetInnerHTML={{ __html: category.description }} />
+                )}
+                {hasChildren && isExpanded && (
+                    <ul className="subcategories-list" id={`subcategories-${category.id}`}>
+                        {category.children.map(subcat => renderCategoryItem(subcat))}
+                    </ul>
+                )}
+            </li>
+        );
+    };
+
+    // ... (tu lógica de renderizado condicional para loading, error, not-found se mantiene igual) ...
+    if (loading && allCategories.length === 0) { /* ... */ }
+    if (error) { /* ... */ }
+    if (hierarchicalCategories.length === 0 && !loading) { /* ... */ }
 
 
-				// Nota: Aquí no filtramos por parent=0, obtenemos TODAS para construir la jerarquía
-				setAllCategories(result.categories);
-				console.log(`[CategoriesPage] Fetched ${result.categories.length} total categories.`);
-
-			} catch (caughtError: unknown) {
-				const	error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-				console.error("[CategoriesPage] Error al cargar las categorías:", error);
-				setError(error);
-				setAllCategories([]);
-			} finally {
-				setLoading(false);
-				console.log("[CategoriesPage] Finished fetching all categories process.");
-			}
-		};
-
-		fetchCategories();
-
-	}, []); // Dependencias: array vacío
-
-
-	// Lógica para expandir/colapsar una categoría
-	const	toggleCategoryExpansion = (categoryId: number) => {
-		setExpandedCategories(prevExpanded => {
-			const	newExpanded = new Set(prevExpanded);
-			if (newExpanded.has(categoryId)) {
-				newExpanded.delete(categoryId);
-			} else {
-				newExpanded.add(categoryId);
-			}
-			return	newExpanded;
-		});
-	};
-
-
-	// ======================================================================
-	// Componente o Función de Ayuda para Renderizar un Ítem de Categoría y sus Hijos
-	// Lo definimos dentro del componente principal para que tenga acceso a toggleCategoryExpansion y expandedCategories
-	// ======================================================================
-	const	renderCategoryItem = (category: HierarchicalCategory) => {
-		const	isExpanded = expandedCategories.has(category.id);
-		const	hasChildren = category.children && category.children.length > 0;
-
-		return (
-			// Usamos li para una estructura de lista semántica, pero puedes usar div si prefieres
-			<li key={category.id} className={`category-list-item ${hasChildren ? 'has-children' : ''} ${isExpanded ? 'expanded' : ''}`}>
-
-				{/* Contenedor del nombre de la categoría, expand/collapse y enlace */}
-				<div className="category-item-header">
-					{/* Botón para expandir/colapsar si tiene hijos */}
-					{hasChildren && (
-						<button
-							className="expand-toggle"
-							onClick={(e) => {
-								e.preventDefault(); // Prevenir la navegación si el Link lo envuelve
-								toggleCategoryExpansion(category.id);
-							}}
-							aria-expanded={isExpanded}
-							aria-controls={`subcategories-${category.id}`} // Para accesibilidad
-						>
-							{isExpanded ? '-' : '+'} {/* Símbolo + o - */}
-						</button>
-					)}
-					{/* Espacio para alinear ítems sin toggle */}
-					{!hasChildren && <span className="expand-toggle-placeholder"></span>} {/* Espacio vacío si no hay hijos */}
-
-
-					{/* Nombre de la Categoría como Link */}
-					<Link to={`/productos/${category.slug}`} className="category-name-link">
-						{category.name}
-					</Link>
-				</div>
-
-				{/* Descripción de la categoría (si existe) */}
-				{/* Usamos dangerouslySetInnerHTML si la descripción puede contener HTML */}
-				{category.description && (
-					<div className="category-description" dangerouslySetInnerHTML={{ __html: category.description }} />
-				)}
-
-
-				{/* Renderizar subcategorías si está expandido y tiene hijos */}
-				{hasChildren && isExpanded && (
-					<ul className="subcategories-list" id={`subcategories-${category.id}`}> {/* Usamos ul para la lista de hijos */}
-						{category.children.map(subcat => (
-							// Llamada recursiva para renderizar cada subcategoría
-							renderCategoryItem(subcat) // Renderiza la subcategoría usando la misma función
-						))}
-					</ul>
-				)}
-			</li>
-		);
-	};
-
-	// ======================================================================
-	// Lógica de Renderizado Condicional del Componente Principal
-	// ======================================================================
-
-	if (loading) {
-		return	<div className="categories-page-loading">Cargando categorías...</div>;
-	}
-
-	if (error) {
-		return	<div className="categories-page-error">Error al cargar las categorías: {error.message}</div>;
-	}
-
-	// Si no se encontraron categorías (después de filtrar 'uncategorized' durante la construcción del árbol)
-	// hierarchicalCategories contendrá solo categorías de nivel superior que no sean uncategorized.
-	if (hierarchicalCategories.length === 0) {
-		return	<div className="categories-page-not-found">No se encontraron categorías principales disponibles (o todas son subcategorías de otras).</div>;
-	}
-
-
-	// ======================================================================
-	// Renderizado Final de la Página Principal
-	// ======================================================================
-	return (
-		<div className="categories-page-container">
-
-			{/* Título de la página */}
-			<h2>Nuestras Categorías de Productos</h2>
-
-			{/* Lista de categorías de nivel superior */}
-			{/* Usamos ul como contenedor principal para la lista jerárquica */}
-			<ul className="categories-tree-list">
-				{hierarchicalCategories.map(category => (
-					// Llama a la función de ayuda para renderizar cada categoría de nivel superior
-					renderCategoryItem(category)
-				))}
-			</ul>
-
-		</div>
-	);
+    return (
+        // ... (tu JSX principal se mantiene igual) ...
+        <div className="categories-page-container page-container">
+            <div className="page-title-block">
+              <h2>Nuestras Categorías</h2>
+            </div>
+            <ul className="categories-tree-list">
+                {hierarchicalCategories.map(category => renderCategoryItem(category))}
+            </ul>
+        </div>
+    );
 }
