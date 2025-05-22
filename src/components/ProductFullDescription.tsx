@@ -11,7 +11,7 @@ const ProductFullDescription: React.FC<ProductFullDescriptionProps> = ({ descrip
     if (!descriptionHtml) { 
         return (
             <div className="product-full-description">
-                <h3>Descripción Completa</h3>
+                <h3>Descripción </h3>
                 <p>No hay descripción completa disponible para este producto.</p>
             </div>
         );
@@ -19,7 +19,7 @@ const ProductFullDescription: React.FC<ProductFullDescriptionProps> = ({ descrip
 
     return (
         <div className="product-full-description">
-            <h3>Descripción Completa</h3>
+            <h3>Descripción</h3>
             <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
         </div>
     );

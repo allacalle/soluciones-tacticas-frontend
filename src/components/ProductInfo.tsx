@@ -118,11 +118,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
             </div>
 
             <div className="product-short-description">
-                <h3>Descripción Breve</h3>
                 {product.short_description ? (
                     <div dangerouslySetInnerHTML={{ __html: product.short_description }} />
                 ) : (
-                    <p>No hay descripción breve disponible.</p>
+                    <p></p>
                 )}
             </div>
         </div>

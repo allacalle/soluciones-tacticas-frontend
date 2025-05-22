@@ -1,63 +1,37 @@
 // src/pages/ProductPage.tsx
 
-
-import  { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react'; // Añadido React para FC si se usara
 import { useParams } from 'react-router-dom';
-import {  Variation } from '../types';
-
+import { Variation, Product as ProductType } from '../types';
 
 // Componentes
-import CategoryCarousel from '../components/CategoryCarousel';
 import ProductImageGallery from '../components/ProductImageGallery';
-import ProductInfo from '../components/ProductInfo'; 
-import ProductFullDescription from '../components/ProductFullDescription'; // <-- AÑADE ESTA
-
-
+import ProductInfo from '../components/ProductInfo';
+import ProductFullDescription from '../components/ProductFullDescription';
+import ProductCarousel from '../components/ProductCarousel';
 
 // Hooks
-import { useProductDetails } from '../hooks/useProductDetails'; 
-import { useVariationMatcher } from '../hooks/useVariationMatcher'; 
-import { useRecommendedProducts } from '../hooks/useRecommendedProducts'; // El hook de recomendaciones
-import ProductCarousel from '../components/ProductCarousel';          // Nuestro componente de carrusel genérico
-
+import { useProductDetails } from '../hooks/useProductDetails';
+import { useVariationMatcher } from '../hooks/useVariationMatcher';
+import { useRecommendedProducts } from '../hooks/useRecommendedProducts';
+// import { getProducts } from '../api/wooApi'; // Para el fetch de categoryRelatedProducts
 
 // CSS
 import './css/ProductPage.css';
 
-
-
-
-// === Mapeo para nombres de colores de la API a valores CSS ===
 const colorMap: { [key: string]: string } = {
-    "Negro": "#000000", // Negro -> HEX negro
-    "Azul Oscuro": "#00008B", // Azul Oscuro -> CSS darkblue (o c\u00F3digo HEX)
-    "Gris": "#808080", // Gris -> HEX gris (o nombre CSS grey)
-    "Rojo": "#FF0000", // Ejemplo: Rojo
-    "Verde": "#008000", // Ejemplo: Verde
-    "Blanco": "#FFFFFF", // Ejemplo: Blanco (puede necesitar borde para verse)
-    // A\u00Fñade todos los colores que uses en tus productos
+    "Negro": "#000000", "Azul Oscuro": "#00008B", "Gris": "#808080",
+    "Rojo": "#FF0000", "Verde": "#008000", "Blanco": "#FFFFFF",
 };
 
-
-/*
- * Componente de la página de detalle de producto individual (versión escaparate)
- * Muestra imágenes, precio, descripciones, metadatos y productos variables.
- */
-function ProductPage() { 
-   
+function ProductPage() {
     const { productSlug } = useParams<{ productSlug: string }>();
 
     const {
-        product,                // Product | null
-        loading,                // boolean
-        error,                  // string | null
-        variationsData,         // Variation[]
-        variationsLoading,      // boolean
-        variationsError,        // string | null
-        initialDisplayState     // { price?, image?, attributes } | null
-    } = useProductDetails(productSlug); 
+        product, loading, error, variationsData,
+        variationsLoading, variationsError, initialDisplayState
+    } = useProductDetails(productSlug);
 
-   
     const [mainImage, setMainImage] = useState<string | undefined>(undefined);
     const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string | null }>({});
     const [displayedPrice, setDisplayedPrice] = useState<string | undefined>(undefined);
@@ -65,186 +39,154 @@ function ProductPage() {
     const [isSpecificVariationSelected, setIsSpecificVariationSelected] = useState(false);
     const [activeVariation, setActiveVariation] = useState<Variation | null>(null);
 
-  
-    // === EFECTO para inicializar estados locales al cargar el producto ===
-    // Este efecto se ejecuta al cargar el producto y al cambiar el estado inicial
-     useEffect(() => {
-        console.log("[ProductPage] Efecto de inicialización con initialDisplayState:", initialDisplayState);
+    useEffect(() => {
         if (initialDisplayState) {
             setSelectedAttributes(initialDisplayState.attributes);
-            setMainImage(initialDisplayState.image); // Imagen para el thumbnail activo
-        } else if (!loading && !product) { // Si terminó de cargar y no hay producto (error o no encontrado)
-            console.log("[ProductPage] Reseteando estados locales (selectedAttrs, mainImage) por no haber producto.");
+            setMainImage(initialDisplayState.image);
+        } else if (!loading && !product) {
             setSelectedAttributes({});
             setMainImage(undefined);
         }
-    }, [initialDisplayState, loading, product]); // Dependencias correctas
-  
+    }, [initialDisplayState, loading, product]);
 
-      const {
-        matchingPrice,
-        matchingImage,
-        isMatched,
-        matchedVariation
-    } = useVariationMatcher({
-        product,
-        variationsData,
-        selectedAttributes,
-        initialProductImage: initialDisplayState?.image // Pasamos la imagen inicial del producto padre como fallback
+    const { matchingPrice, matchingImage, isMatched, matchedVariation } = useVariationMatcher({
+        product, variationsData, selectedAttributes, initialProductImage: initialDisplayState?.image
     });
 
-      
-    // === EFECTO para actualizar los estados de display de ProductPage cuando los valores del hook cambian ===
     useEffect(() => {
-        console.log("[ProductPage] Actualizando display con datos de useVariationMatcher:", { matchingPrice, matchingImage, isMatched, matchedVariation });
         setDisplayedPrice(matchingPrice);
-        setDisplayedImage(matchingImage); // Este es el que ProductImageGallery muestra como grande
+        setDisplayedImage(matchingImage);
         setIsSpecificVariationSelected(isMatched);
         setActiveVariation(matchedVariation);
-
-       
         if (isMatched && matchedVariation?.image?.src) {
-            // Si la variación tiene una imagen propia, mainImage la refleja.
             setMainImage(matchedVariation.image.src);
-         } else if (product) { 
+        } else if (product) { // Comprobación de product aquí
             const parentImage = initialDisplayState?.image || product.images?.[0]?.src;
             setMainImage(parentImage);
+        } else { // Si product es null y no hay matchedVariation con imagen
+            setMainImage(initialDisplayState?.image); // Volver a la imagen inicial o undefined
         }
-
     }, [matchingPrice, matchingImage, isMatched, matchedVariation, product, initialDisplayState]);
 
-
+    // Asumiendo que SÍ usas los parámetros como en tu versión original
     const handleAttributeSelect = (attributeName: string, option: string) => {
         console.log(`[ProductPage] Atributo seleccionado: ${attributeName} - ${option}`);
         setSelectedAttributes(prev => ({
             ...prev,
             [attributeName]: option
         }));
-        // useVariationMatcher se disparará automáticamente porque selectedAttributes es una de sus dependencias
-    };// Actualiza el precio y la imagen mostrada según la variación seleccionada
-
-
-    // ProductImageGallery se encargará de llamar a esta función.
-    const handleThumbnailClick = (imageUrl: string) => {
-        console.log("[ProductPage] Thumbnail clicada:", imageUrl);
-        setMainImage(imageUrl);      // Actualiza la miniatura activa
-        setDisplayedImage(imageUrl); // Actualiza la imagen grande
     };
 
-     // === USAR EL HOOK DE RECOMENDACIONES ===
-    // Pasamos el 'product' actual y la cantidad de recomendaciones que queremos obtener.
-    // El hook internamente pide más para tener margen, pero aquí definimos cuántos queremos en total.
-    const numberOfRecommendationsToFetch = 8; // Por ejemplo, queremos hasta 8 productos para el carrusel.
-                                           // El carrusel podría mostrar 4-5 a la vez.
-    const {
-        recommendedProducts,
-        loading: recommendationsLoading, // Renombrar para evitar colisión con 'loading' de useProductDetails
-        error: recommendationsError      // Renombrar para evitar colisión con 'error' de useProductDetails
-    } = useRecommendedProducts(product, numberOfRecommendationsToFetch);
-    // === FIN USO HOOK RECOMENDACIONES ===
+    const handleThumbnailClick = (imageUrl: string) => {
+        console.log("[ProductPage] Thumbnail clicada:", imageUrl);
+        setMainImage(imageUrl);
+        setDisplayedImage(imageUrl);
+    };
 
-    // Renderizado condicional (SIN CAMBIOS)
-    if (loading) { /* ... */ }
-    if (error) { /* ... */ }
-    if (!product) { /* ... */ }
-    // ... (código idéntico al que tenías para loading, error, !product)
-    if (loading) { // `loading` del hook
-        return (<div className="page-container"><div className="product-page-loading">Cargando producto...</div></div>);
-    }
-    if (error) { // `error` del hook
-         return (<div className="page-container"><div className="product-page-error">Error: {error}</div></div>);
-    }
-    if (!product) { // `product` del hook
-        return (<div className="page-container"><div className="product-page-not-found">Producto no encontrado.</div></div>);
-    }
+    const numberOfRecommendationsToFetch = 8;
+    const { recommendedProducts, loading: recommendationsLoading, error: recommendationsError } = useRecommendedProducts(product, numberOfRecommendationsToFetch);
 
+    const [categoryRelatedProducts, setCategoryRelatedProducts] = useState<ProductType[]>([]);
+    const [categoryRelatedLoading, setCategoryRelatedLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (product && product.categories && product.categories.length > 0) {
+            const primaryCategoryId = product.categories[0].id;
+            setCategoryRelatedLoading(true); // Usar el setter
+            console.log(`TODO: Implementar fetch para categoría ID: ${primaryCategoryId}, excluyendo producto ID: ${product.id}`);
+            // Simulación de fetch
+            setTimeout(() => {
+                // const fetchedData = await getProducts({ category: primaryCategoryId.toString(), per_page: 5, exclude: [product.id!] });
+                // setCategoryRelatedProducts(fetchedData.products);
+                setCategoryRelatedProducts([]); // Placeholder, reemplazar con datos reales
+                setCategoryRelatedLoading(false); // Usar el setter
+            }, 500);
+        } else {
+            setCategoryRelatedProducts([]);
+            setCategoryRelatedLoading(false);
+        }
+    }, [product]); // Depender solo de product
+
+
+    if (loading && !product) { return (<div className="page-container product-page-container"><div className="product-page-loading">Cargando producto...</div></div>); }
+    if (error) { return (<div className="page-container product-page-container"><div className="product-page-error">Error: {error}</div></div>); }
+    
+    // === GUARDA PRINCIPAL PARA NULL ===
+    if (!product) {
+        return (<div className="page-container product-page-container"><div className="product-page-not-found">Producto no encontrado.</div></div>);
+    }
+    // === A PARTIR DE AQUÍ, 'product' NO ES NULL ===
 
     const categoryIdentifierForCarousel = product.categories && product.categories.length > 0
-                                            ? product.categories.map(cat => cat.id).join(',')
-                                            : undefined;
+        ? product.categories[0].id // Solo necesitamos el ID para el fetch de "Más en categoría"
+        : undefined;
 
-      return (
+
+    return (
         <div className="page-container product-page-container">
-            <h1 className="product-title-heading">{product.name}</h1>
+            <div className="product-layout-main-columns">
+                <div className="product-gallery-area">
+                    <ProductImageGallery
+                        productName={product.name} // Ahora product no es null
+                        images={product.images || []}
+                        displayedImage={displayedImage}
+                        activeThumbnailSrc={mainImage}
+                        onThumbnailClick={handleThumbnailClick}
+                    />
+                </div>
+                <div className="product-info-area">
+                    <h1 className="product-title-heading">{product.name}</h1>
+                    <ProductInfo
+                        product={product} // Ahora product no es null
+                        displayedPrice={displayedPrice}
+                        isSpecificVariationSelected={isSpecificVariationSelected}
+                        activeVariation={activeVariation}
+                        selectedAttributes={selectedAttributes}
+                        onAttributeSelect={handleAttributeSelect}
+                        variationsData={variationsData}
+                        variationsLoading={variationsLoading}
+                        variationsError={variationsError}
+                        colorMap={colorMap}
+                    />
+                    {/* <button className="add-to-cart-button">Añadir al Carrito</button> */}
+                </div>
+                <div className="product-sidebar-area">
+                    {categoryIdentifierForCarousel && (categoryRelatedProducts.length > 0 || categoryRelatedLoading) && (
+                        <div className="sidebar-widget">
+                            <h4 className="sidebar-widget-title">Más en "{product.categories?.[0]?.name}"</h4>
+                            {categoryRelatedLoading ? ( <p>Cargando...</p> ) : (
+                                <ProductCarousel
+                                    products={categoryRelatedProducts}
+                                    productsToShow={1}
+                                    autoPlayInterval={0}
+                                    showArrows={categoryRelatedProducts.length > 1}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
+            </div>
 
-            <div className="product-details-main">
-                <ProductImageGallery
-                    productName={product.name}
-                    images={product.images || []}
-                    displayedImage={displayedImage}    // La imagen grande a mostrar
-                    activeThumbnailSrc={mainImage}     // La URL de la miniatura activa
-                    onThumbnailClick={handleThumbnailClick}
-                />
-            <ProductInfo
-                product={product}
-                displayedPrice={displayedPrice}
-                isSpecificVariationSelected={isSpecificVariationSelected}
-                activeVariation={activeVariation}
-                selectedAttributes={selectedAttributes}
-                onAttributeSelect={handleAttributeSelect}
-                variationsData={variationsData}
-                variationsLoading={variationsLoading}
-                variationsError={variationsError}
-                colorMap={colorMap}
-            />
-
-             
-            </div> {/* Cierre de product-details-main */}
-
-            {/* Descripción Completa */}
-            {product && <ProductFullDescription descriptionHtml={product.description} />}
-
-
-            {/* Carrusel de Categorías */}
-            {categoryIdentifierForCarousel && (
-                <CategoryCarousel
-                    title={`Más en "${product.categories?.[0]?.name || 'esta categoría'}"`}
-                    categoryIdentifier={categoryIdentifierForCarousel}
-                    productsToShow={5}
-                    productsPerFetch={10}
-                    excludeProductId={product.id}
-                />
+            {product.description && (
+                <section className="product-full-width-section">
+                    <ProductFullDescription descriptionHtml={product.description} />
+                </section>
             )}
-            {!categoryIdentifierForCarousel && (
-                <div className="no-related-products-message">No se encontraron categorías para mostrar productos relacionados.</div>
-            )}
 
-             {/* === SECCIÓN PARA EL CARRUSEL DE PRODUCTOS RECOMENDADOS === */}
-            {/* Solo mostramos esta sección si tenemos un producto cargado,
-                 no estamos cargando recomendaciones, no hay error en recomendaciones,
-                 y efectivamente tenemos productos recomendados. */}
-            {product && !recommendationsLoading && !recommendationsError && recommendedProducts.length > 0 && (
-                <div className="related-products-section"> {/* Un contenedor opcional para esta sección */}
+            {recommendedProducts.length > 0 && ( // Solo mostrar si hay productos recomendados
+                <div className="related-products-wrapper">
+                    <div className="section-title-bar"><h2>También te podría interesar</h2></div>
                     <ProductCarousel
-                        title="También te podría interesar"
                         products={recommendedProducts}
-                        productsToShow={4}      // Cuántos mostrar a la vez en pantallas grandes
-                                                // react-slick manejará los breakpoints para menos en móviles
-                        autoPlayInterval={10000} // Rotar cada 5 segundos (o el valor que prefieras)
-                        // Podrías añadir más props aquí si tu ProductCarousel las acepta
+                        productsToShow={4}
+                        autoPlayInterval={10000}
+                        showArrows={recommendedProducts.length > 4} // Condición para flechas
                     />
                 </div>
             )}
-
-            {/* Opcional: Mostrar un estado de carga para las recomendaciones */}
-            {product && recommendationsLoading && (
-                <div className="related-products-loading" style={{ textAlign: 'center', padding: '20px' }}>
-                    <p>Buscando productos que podrían interesarte...</p>
-                    {/* Aquí podrías poner un spinner/loader visual si tienes uno */}
-                </div>
-            )}
-
-            {/* Opcional: Mostrar un mensaje si hay un error al cargar recomendaciones */}
-            {product && recommendationsError && (
-                <div className="related-products-error" style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
-                    <p>No se pudieron cargar las recomendaciones en este momento.</p>
-                </div>
-            )}
-            {/* === FIN SECCIÓN CARRUSEL RECOMENDACIONES === */}
-
-
+            {recommendationsLoading && <div className="related-products-loading" style={{ textAlign: 'center', padding: '20px' }}><p>Buscando productos que podrían interesarte...</p></div>}
+            {recommendationsError && <div className="related-products-error" style={{ textAlign: 'center', padding: '20px', color: 'red' }}><p>No se pudieron cargar las recomendaciones.</p></div>}
         </div>
     );
 }
-
 export default ProductPage;

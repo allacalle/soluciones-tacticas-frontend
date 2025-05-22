@@ -45,12 +45,18 @@ const ProductListingLayout: React.FC<ProductListingLayoutProps> = ({
                 <h2>{title}</h2> {/* Usamos el título pasado como prop */}
             </div>
 
+            {
+            /*
             {(totalProducts > 0 || products.length > 0) && (
-                <div className="pagination-info"> {/* USA LA CLASE DE AllProductsPage.css */}
+                <div className="pagination-info"> }
                     {totalProducts > 0 && <p>Total de productos encontrados: {totalProducts}</p>}
                     {totalPages > 1 && <p>Mostrando página {currentPage} de {totalPages}</p>}
                 </div>
             )}
+            */
+            }
+            
+            
 
             {products.length > 0 && (
                 <div className="products-display-area"> {/* USA LA CLASE DE AllProductsPage.css */}
