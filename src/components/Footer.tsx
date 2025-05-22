@@ -40,7 +40,7 @@ function Footer() {
 						</a>
 						{/* Breve descripción o lema (opcional, puedes personalizar esto) */}
 						<p className="footer-description">
-							{storeName} - Tu tienda online y física de material policial, outdoor y airsoft en Córdoba.
+							{storeName} - Tu tienda de material policial, outdoor y airsoft en Córdoba.
 						</p>
 					</div>
 

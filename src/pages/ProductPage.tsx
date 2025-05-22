@@ -20,8 +20,72 @@ import { useRecommendedProducts } from '../hooks/useRecommendedProducts';
 import './css/ProductPage.css';
 
 const colorMap: { [key: string]: string } = {
-    "Negro": "#000000", "Azul Oscuro": "#00008B", "Gris": "#808080",
-    "Rojo": "#FF0000", "Verde": "#008000", "Blanco": "#FFFFFF",
+    // --- COLORES BÁSICOS Y NEUTROS ---
+    "Negro": "#000000",
+    "Blanco": "#FFFFFF",
+    "Gris": "#808080",        // Gris medio
+    "Gris Oscuro": "#4A4A4A", // Un gris más oscuro, tipo "charcoal"
+    "Gris Claro": "#D3D3D3",  // Gris claro
+    "Antracita": "#36454F",   // Un gris muy oscuro, casi negro, con tonos azulados
+    "Grafito": "#383838",     // Similar al antracita
+
+    // --- TONOS VERDES ---
+    "Verde Oliva": "#556B2F",   // Clásico verde oliva (tu --color-primary-dark)
+    "Verde OD": "#4B5320",      // Olive Drab, un estándar militar
+    "Verde Militar": "#4F553F", // Otro tono común
+    "Verde Bosque": "#228B22",  // Un verde más vibrante de bosque
+    "Verde Ranger": "#5F745A",  // Ranger Green, popular en equipamiento táctico
+    "Verde Musgo": "#8FBC8F",   // Un verde más claro, como tu --color-primary-light
+    "Salvia": "#B2AC88",       // Sage green, un verde grisáceo
+
+    // --- TONOS TIERRA / MARRONES ---
+    "Coyote": "#8A6B4D",       // Coyote Brown, muy común
+    "Tan": "#D2B48C",          // Arena claro
+    "Arena": "#F4A460",        // Un color arena más cálido
+    "Desierto": "#C19A6B",     // Tono desierto
+    "Caqui": "#C3B091",        // Khaki
+    "Marrón": "#A0522D",       // Un marrón estándar (Sienna)
+    "Marrón Oscuro": "#654321", // Marrón oscuro
+
+    // --- TONOS AZULES (Para uniformes, etc.) ---
+    "Azul Marino": "#000080",   // Navy Blue
+    "Azul Noche": "#191970",    // Midnight Blue, muy oscuro
+    "Azul Policía": "#00205B",  // Un azul oscuro específico
+    // "Azul Oscuro": "#00008B", // Ya lo tenías
+
+    // --- CAMUFLAJES (Representación con un color base o un patrón simple si es posible) ---
+    // Para camuflajes, es difícil representarlos con un solo color.
+    // Opciones:
+    // 1. Usar el color predominante o un color representativo.
+    // 2. Si tus swatches pueden ser imágenes, usar una pequeña muestra del patrón.
+    // 3. Usar un icono o un patrón genérico para "Camuflaje".
+    // Aquí usaré colores base como ejemplo:
+    "Camuflaje Boscoso": "#384C30", // Un verde oscuro representativo de Woodland
+    "Woodland": "#384C30",          // Alias para Camuflaje Boscoso
+    "Camuflaje Desierto": "#D8C0A8", // Un beige/arena representativo
+    "Desert": "#D8C0A8",             // Alias
+    "Camuflaje Multicam": "#A48A6A", // Un color medio de Multicam (mezcla de verdes y marrones)
+    "Multicam": "#A48A6A",
+    "Camuflaje Urbano": "#7B7C7D",  // Un gris medio para camuflaje urbano
+    "Urban Camo": "#7B7C7D",
+    "Camuflaje Digital": "#656E58", // Un verde grisáceo para digital
+    "Digital Camo": "#656E58",
+    "Kryptek": "#706653",         // Color base para patrones tipo Kryptek
+    "A-TACS": "#A39978",          // Color base para patrones tipo A-TACS
+
+    // --- COLORES DE ALTA VISIBILIDAD (Para rescate, algunos equipos de outdoor) ---
+    "Naranja Rescate": "#FF8C00", // Naranja brillante
+    "Amarillo Flúor": "#CCFF00", // Lima/amarillo fluorescente
+    // "Rojo": "#FF0000",       // Ya lo tenías, puede ser para detalles o emergencia
+
+    // --- OTROS ---
+    "Beige": "#F5F5DC",
+    "Foliage Green": "#717A64", // Un verde grisáceo específico
+    "Wolf Grey": "#84888B",    // Un gris táctico popular
+
+    // AÑADE MÁS SEGÚN TU CATÁLOGO
+    // Ejemplo: si tienes "Rojo Vino" para alguna prenda de gala
+    // "Rojo Vino": "#722F37",
 };
 
 function ProductPage() {
