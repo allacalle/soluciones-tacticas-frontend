@@ -1,17 +1,11 @@
 /* src/css/pageLayout.css - Estilos para elementos de layout comunes en las páginas */
 
-/* Asegúrate de importar tus variables CSS si pageLayout.css no está importado después de variables.css */
-/* Si tus variables están en index.css y lo importas antes en App.tsx, esta línea no es estrictamente necesaria */
-
-
 /* === Estilos para el Contenedor Principal de la Mayoría de las Páginas === */
-/* Consolida las reglas que antes estaban en .all-products-page-container, .product-list-page-container, etc. */
 .page-container {
 	max-width: var(--max-width-content, 1200px); /* Ancho máximo definido por variable */
 	margin: var(--spacing-large, 20px) auto; /* Centra el contenedor y da margen vertical */
 	padding: 0 var(--spacing-large, 20px); /* Padding lateral */
 	box-sizing: border-box; /* Incluye padding y borde en el tamaño */
-	/* Otros estilos generales de contenedor si son comunes (ej: color de texto base si no está en body) */
 	color: var(--color-text-dark, #333);
 	font-family: var(--font-family-base);
 }
@@ -27,38 +21,31 @@
 	box-sizing: border-box; /* Incluye padding en el ancho */
 }
 
-/* Estilos para la etiqueta H2 dentro del bloque del título */
 .page-title-block h2 {
 	font-size: 2.2em; /* Tamaño del título */
 	color: var(--color-text-light, #fff); /* Color del texto blanco */
 	margin: 0; /* Elimina márgenes por defecto */
 	line-height: 1.2; /* Ajusta altura de línea */
-	/* Cualquier otro estilo consistente para h2s dentro de este bloque */
-	font-weight: var(--font-weight-bold, bold); /* Añadido para consistencia con títulos */
+	font-weight: var(--font-weight-bold, bold);
 }
 
 
 /* === Estilos para un título de página/sección común (texto centrado verde oscuro) === */
-/* Usado en páginas donde el estilo de banner (.page-title-block) no es necesario */
 .page-title {
 	text-align: center;
 	margin-bottom: var(--spacing-large, 20px);
-	font-size: 2em; /* Ajusta si quieres un tamaño diferente para este tipo de título */
-	color: var(--color-primary-dark, #556B2F); /* Color verde oscuro */
-	/* Puedes añadir font-weight u otras propiedades comunes si son parte de este estilo */
+	font-size: 2em;
+	color: var(--color-primary-dark, #556B2F);
 	font-weight: var(--font-weight-bold, bold);
 }
 
 
 /* === Estilos COMUNES para el área que contiene las tarjetas de producto (.products-display-area) === */
-/* Estas reglas se aplicarán a TODOS los elementos con esta clase (tanto Flexbox como Grid) */
-/* Las propiedades de display, grid-template-columns, overflow-x, y alineación específica irán en los CSS individuales */
 .products-display-area {
 	gap: var(--spacing-large, 20px); /* Espacio entre ítems (común a flex y grid) */
 	width: 100%;
 	box-sizing: border-box;
-	/* Padding lateral es manejado por el .page-container o la sección padre */
-	padding: 0;
+	padding: 0; /* Padding lateral es manejado por el .page-container o la sección padre */
 	margin-bottom: var(--spacing-large, 20px); /* Margen debajo del bloque de productos */
 
 	/* Estilos de scrollbar (si son consistentes en todos los lugares con scroll/overflow) */
@@ -66,24 +53,22 @@
 	scrollbar-width: none; /* Firefox */
 }
 
-/* Estilos de scrollbar webkit (si son consistentes) */
-.products-display-area::-webkit-scrollbar { /* Chrome, Safari */
-	height: 8px; /* Altura del scrollbar */
+.products-display-area::-webkit-scrollbar {
+	height: 8px;
+	width: 8px; /* Añadido por si hay scroll vertical también */
 }
 
 .products-display-area::-webkit-scrollbar-thumb {
-	background-color: var(--color-primary-dark, #4b5320); /* Color del "dedo" del scrollbar */
+	background-color: var(--color-primary-dark, #4b5320);
 	border-radius: 10px;
 }
 
 .products-display-area::-webkit-scrollbar-track {
-	background: var(--color-neutral-light, #f8f8f8); /* Color del "riel" del scrollbar */
+	background: var(--color-neutral-light, #f8f8f8);
 }
 
 
 /* === Estilos para Áreas de Paginación (si son consistentes) === */
-/* Mover aquí si los estilos de paginación son iguales en todas las páginas con paginación */
-/* (Incluye .pagination-info y .pagination-buttons y sus hijos) */
 .pagination-info {
 	text-align: center;
 	margin-top: var(--spacing-large, 20px);
@@ -93,6 +78,7 @@
 
 .pagination-info p {
 	margin: 5px 0;
+	font-size: 0.9em; /* Ligeramente más pequeño para información secundaria */
 }
 
 .pagination-buttons {
@@ -102,6 +88,109 @@
 	gap: var(--spacing-medium, 15px);
 	margin-top: var(--spacing-medium, 15px);
 	margin-bottom: var(--spacing-large, 20px);
+	flex-wrap: wrap; /* Permite que los botones pasen a la siguiente línea si no caben */
 }
 
-/* Asegúrate de que los estilos base de botón
+/* === Media Queries para Responsividad === */
+
+@media (max-width: 768px) { /* Tabletas y móviles grandes en horizontal */
+	.page-container {
+		margin-top: var(--spacing-medium, 15px);
+		margin-bottom: var(--spacing-medium, 15px);
+		padding-left: var(--spacing-medium, 15px);
+		padding-right: var(--spacing-medium, 15px);
+	}
+
+	.page-title-block {
+		padding-top: var(--spacing-small, 10px);
+		padding-bottom: var(--spacing-small, 10px);
+		margin-bottom: var(--spacing-medium, 20px);
+	}
+
+	.page-title-block h2 {
+		font-size: 1.8em; /* Reducir tamaño */
+	}
+
+	.page-title {
+		margin-bottom: var(--spacing-medium, 15px);
+		font-size: 1.7em; /* Reducir tamaño */
+	}
+
+	.products-display-area {
+		gap: var(--spacing-medium, 15px); /* Reducir espacio entre ítems */
+		margin-bottom: var(--spacing-medium, 15px);
+	}
+
+	.pagination-info {
+		margin-top: var(--spacing-medium, 15px);
+		margin-bottom: var(--spacing-small, 10px);
+	}
+    .pagination-info p {
+        font-size: 0.85em;
+    }
+
+	.pagination-buttons {
+		gap: var(--spacing-small, 10px);
+		margin-top: var(--spacing-small, 10px);
+		margin-bottom: var(--spacing-medium, 15px);
+	}
+}
+
+@media (max-width: 480px) { /* Móviles en vertical */
+	.page-container {
+		margin-top: var(--spacing-small, 10px);
+		margin-bottom: var(--spacing-small, 10px);
+		padding-left: var(--spacing-small, 10px);
+		padding-right: var(--spacing-small, 10px);
+	}
+
+	.page-title-block {
+		padding-top: var(--spacing-extra-small, 8px);
+		padding-bottom: var(--spacing-extra-small, 8px);
+		margin-bottom: var(--spacing-base, 15px); /* Usando una variable base o un valor menor */
+	}
+
+	.page-title-block h2 {
+		font-size: 1.5em; /* Reducción mayor */
+		line-height: 1.3;
+	}
+
+	.page-title {
+		margin-bottom: var(--spacing-base, 15px);
+		font-size: 1.4em; /* Reducción mayor */
+	}
+
+	.products-display-area {
+		gap: var(--spacing-small, 10px); /* Espacio aún menor */
+		margin-bottom: var(--spacing-base, 15px);
+	}
+    /* Opcional: Ocultar scrollbars en webkit para móviles si se desea una apariencia más limpia */
+    /*
+    .products-display-area::-webkit-scrollbar {
+        display: none;
+    }
+    */
+
+	.pagination-info {
+		margin-top: var(--spacing-base, 15px);
+		margin-bottom: var(--spacing-extra-small, 8px);
+	}
+    .pagination-info p {
+        font-size: 0.8em;
+    }
+
+	.pagination-buttons {
+		gap: var(--spacing-extra-small, 8px);
+		margin-top: var(--spacing-extra-small, 8px);
+		margin-bottom: var(--spacing-base, 15px);
+	}
+    /* Para botones de paginación, si son elementos <button> o <a> estilizados,
+       podrías necesitar ajustar su padding interno aquí también si se ven muy grandes.
+       Ejemplo:
+       .pagination-buttons button,
+       .pagination-buttons a {
+           padding: var(--spacing-extra-small, 5px) var(--spacing-small, 10px);
+           font-size: 0.9em;
+       }
+    */
+}

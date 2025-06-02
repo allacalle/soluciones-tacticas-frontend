@@ -2,100 +2,121 @@
 
 /* Contenedor principal de la tarjeta de reseña */
 .review-card {
-	/* Borde general - Usamos variable de color neutro medio */
-	border: 1px solid var(--color-neutral-medium, #ddd); /* Usamos variable, con fallback */
-	/* Borde superior verde - Usamos variable de color primario oscuro */
-	border-top: 5px solid var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback. 5px es un grosor fijo. */
-	/* Espacio interno - Usamos variable de espaciado large */
-	padding: var(--spacing-large, 25px); /* Usamos variable, con fallback (original era 25px) */
-	/* Radio de borde - Manteniendo original, o usa variable */
+	/* Borde general */
+	border: 1px solid var(--color-neutral-medium, #ddd);
+	/* Borde superior verde */
+	border-top: 5px solid var(--color-primary-dark, #4b5320);
+	/* Espacio interno */
+	padding: var(--spacing-large, 25px);
 	border-radius: 8px;
-	/* Fondo verde suave de la tarjeta - Usamos variable o define una nueva */
-	/* Nota: #b5d2c5 es un verde específico. Puedes usar var(--color-primary-light)
-             si te gusta, o definir una variable nueva como --color-background-review-card */
-	background-color: var(--color-primary-light, #b5d2c5); /* Usamos variable primaria clara, con fallback */
-	/* O si quieres un fondo blanco/claro y que el color venga del borde/texto: */
-	/* background-color: var(--color-background-light, #fff); */
-
-	/* Sombra - Manteniendo original */
+	/* Fondo */
+	background-color: var(--color-primary-light, #b5d2c5);
+	/* background-color: var(--color-background-light, #fff); */ /* Alternativa de fondo */
 	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 
-	/* *** MODIFICADO PARA ASEGURAR ALTURA CONSISTENTE Y FLEXIBILIDAD *** */
-	width: 100%; /* Ocupa el 100% del ancho de su contenedor (.slick-slide > div) */
-	height: 100%; /* *** Asegura que estira su altura al 100% del contenedor *** */
-	min-height: 240px; /* Mantén un min-height como respaldo, ajusta si es necesario */
-	min-width: none;
-
+	/* Dimensiones y Flexbox */
+	width: 100%;
+	height: 100%;
+	min-height: 240px; /* Ajusta si es necesario */
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	/* margin-top: auto; en .reviewer-name ya ayuda a empujar el nombre hacia abajo */
-
 	position: relative;
+
+	/* Transición para efectos suaves (movida desde :hover) */
+	transition: all 0.3s ease-in-out;
 }
 
-/* Estilos para el icono de comillas o rating (opcional) */
-/* .review-icon, .review-rating {
-    // Espacio debajo - Usamos variable de espaciado medio
-    margin-bottom: var(--spacing-medium, 15px); // Usamos variable, con fallback
-    // Color de marca - Usamos variable de color primario oscuro
-    color: var(--color-primary-dark, #4b5320); // Usamos variable, con fallback
-    font-size: 2em; // Tamaño de fuente - Manteniendo original
-} */
-
+/* Estilos para el icono de comillas o rating (opcional - descomentar y ajustar si se usa) */
+/*
+.review-icon, .review-rating {
+	margin-bottom: var(--spacing-medium, 15px);
+	color: var(--color-primary-dark, #4b5320);
+	font-size: 2em;
+}
+*/
 
 /* Estilos para el Texto de la reseña */
 .review-text {
-	font-size: 1.25em; /* Tamaño de fuente - Manteniendo original */
-	font-style: italic; /* Estilo de fuente - Manteniendo original */
-	/* Grosor de fuente - Usamos variable bold (original era 1000, puede que no se soporte) */
-	font-weight: var(--font-weight-bold, 700); /* Usamos variable bold, con fallback (original era 1000) */
-	/* Color del texto - Usamos variable de texto oscuro */
-	color: var(--color-text-dark, #555); /* Usamos variable, con fallback */
-	/* Espacio debajo - Usamos variable de espaciado medio */
-	margin: 0 0 var(--spacing-medium, 15px) 0; /* Usamos variable, con fallback */
-	line-height: 1.6; /* Espaciado entre líneas - Manteniendo original */
+	font-size: 1.25em;
+	font-style: italic;
+	font-weight: var(--font-weight-bold, 700);
+	color: var(--color-text-dark, #555);
+	margin: 0 0 var(--spacing-medium, 15px) 0;
+	line-height: 1.6;
 	text-align: center;
 
-	/* *** PROPIEDADES PARA LIMITAR TEXTO A 4 LÍNEAS (verifica que están aquí) *** */
+	/* Limitación de texto a X líneas */
 	display: -webkit-box;
-	-webkit-line-clamp: 4; /* Límite de 4 líneas para Webkit */
+	-webkit-line-clamp: 4; /* Límite de 4 líneas */
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-clamp: 4;
-
-
-	/* Asegura que el texto no fuerce un alto mayor si la limitación de líneas falla */
-	/* max-height: calc(1.6em * 4); */
-
-
-	/* ... (otras propiedades) ... */
+	/* line-clamp: 4; */ /* La propiedad estándar, -webkit-line-clamp es más soportada para esto */
+    /* max-height: calc(1.6em * 4); /* Comentado, -webkit-line-clamp debería ser suficiente */
 }
 
 /* Estilos para el Nombre del cliente */
 .reviewer-name {
-	font-size: 0.9em; /* Tamaño de fuente - Manteniendo original */
-	/* Grosor de fuente - Usamos variable bold */
-	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
+	font-size: 0.9em;
+	font-weight: var(--font-weight-bold, bold);
 	text-align: center;
-	/* Color del nombre - Usamos variable de texto oscuro */
-	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
+	color: var(--color-text-dark, #333);
 	margin: 0;
 	margin-top: auto; /* Empuja el nombre al final del contenedor flex (.review-card) */
 }
 
 /* Opcional: Estilo al pasar el ratón */
 .review-card:hover {
-	/* Sombra - Manteniendo original */
 	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-	/* Transform - Manteniendo original */
 	transform: translateY(-3px);
-	/* Transición - Manteniendo original */
-	transition: all 0.3s ease-in-out;
 	cursor: pointer;
-	/* Puedes añadir un borde o outline al pasar el ratón */
-	/* outline: 2px solid var(--color-accent); */
+	/* outline: 2px solid var(--color-accent); */ /* Opcional */
+}
+
+
+
+/* === Media Queries para Responsividad === */
+
+@media (max-width: 768px) { /* Tabletas y móviles grandes en horizontal */
+	.review-card {
+		padding: var(--spacing-medium, 18px);
+		min-height: 210px;
+        /* border-top-width: 4px; */
+	}
+
+	.review-text {
+		font-size: 1.0em;
+        line-height: 1.5;
+		margin-bottom: var(--spacing-small, 10px);
+        /* -webkit-line-clamp: 4; */
+        overflow-wrap: break-word; /* Añadido para ayudar con palabras largas */
+	}
+
+	.reviewer-name {
+		font-size: 0.8em;
+	}
+}
+
+@media (max-width: 480px) { /* Móviles en vertical */
+	.review-card {
+        /* Aseguramos padding lateral y vertical. Quizás un poco más en los lados si es el problema principal. */
+		padding: var(--spacing-base, 12px) var(--spacing-small, 15px); /* Ej: 12px arriba/abajo, 15px a los lados */
+		min-height: auto;
+        border-top-width: 3px;
+	}
+
+	.review-text {
+		font-size: 0.88em; /* Reducción muy ligera adicional, o mantener 0.9em si el padding/break-word ayuda */
+		line-height: 1.4; /* Reducido ligeramente para compensar el font-size si es muy pequeño */
+        -webkit-line-clamp: 4; /* O ajusta según el contenido que quieras mostrar */
+		margin-bottom: var(--spacing-extra-small, 8px);
+        overflow-wrap: break-word; /* MUY IMPORTANTE: Añadido para ayudar con palabras largas */
+        hyphens: auto; /* Opcional: Puede ayudar a dividir palabras con guiones si el idioma está configurado */
+	}
+
+	.reviewer-name {
+		font-size: 0.75em;
+	}
 }
