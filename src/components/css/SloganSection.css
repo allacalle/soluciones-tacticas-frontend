@@ -1,54 +1,78 @@
-/* src/components/SloganSection.css */
-
-/* Estilos para el contenedor principal de la sección de eslóganes */
+/* src/components/SloganSection.css - Estilos responsivos para la sección de eslóganes */
 .slogan-section {
-	/* Espacio arriba y abajo para separar - Manteniendo original, o usa variable */
-	margin: 40px 0;
-	/* Más padding interno para dar aire - Manteniendo original, o usa variable */
-	padding: 40px 20px;
-	/* Puedes comentar o quitar el color de fondo sólido */
-	/* background-color: var(--color-neutral-light, #e9ecef); */ /* Usamos variable neutro claro, con fallback */
-
-	/* *** ESTAS SON LAS PROPIEDADES PARA LA IMAGEN DE FONDO - MANTENIENDO ORIGINALES *** */
-	background-image: url('/images/fondoSlogan.jpg'); /* *** CAMBIA 'fondoSlogan.jpg' por el nombre de tu archivo si es diferente *** */
-	background-size: cover; /* Hace que la imagen cubra toda el área sin distorsionarse */
-	background-position: center; /* Centra la imagen en el área */
-	background-repeat: no-repeat; /* Evita que la imagen se repita */
-	/* Opcional: añadir un color de fondo de fallback si la imagen no carga */
-	/* background-color: var(--color-primary-dark); */
-
-	text-align: center; /* Centrar el contenido (si tuviera un título principal) */
-	/* Opcional: Añadir un borde o sombra si quieres más separación */
-	/* border-bottom: 1px solid var(--color-neutral-medium, #ccc); */ /* Usamos variable neutro medio, con fallback */
+	margin: var(--spacing-xlarge, 40px) 0;
+	padding: var(--spacing-xlarge, 40px) var(--spacing-large, 20px);
+	background-image: url('/images/fondoSlogan.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	text-align: center; /* Para un posible título de sección */
 }
 
-/* Estilos para el contenedor de las tarjetas individuales (Flexbox) */
 .slogan-cards-container {
 	display: flex;
-	/* Cómo distribuir el espacio extra - Manteniendo original */
-	justify-content: space-evenly; /* O center, space-around... */
-	flex-wrap: nowrap; /* Asegura que se quedan en una línea */
-
-	/* Espacio entre las tarjetas - Manteniendo original 5% */
-	gap: 5%; /* Puedes usar un valor fijo como var(--spacing-large) si prefieres px */
-	margin: 0 auto; /* Centra el contenedor de tarjetas */
-
-	/* Opcional: overflow-x si no quieres que se aplasten en ventanas muy estrechas */
-	/* overflow-x: auto; */
-	/* Opcional: limitar ancho máximo del contenedor de tarjetas */
-	/* max-width: 1200px; */
-	/* Opcional: añadir padding horizontal si overflow-x es auto */
-	/* padding: 0 var(--spacing-large); */
+	flex-wrap: wrap;
+	justify-content: space-between; /* Base para escritorio: reparte las tarjetas */
+	gap: var(--spacing-medium, 15px); /* Gap base */
+	margin: 0 auto; /* Centra el contenedor si tiene max-width */
+	max-width: 80%; /* Base: el contenedor de tarjetas ocupa el 80% de su padre */
 }
 
+.slogan-section h2 { /* Estilos para un título opcional de la sección */
+	margin-bottom: var(--spacing-large, 30px);
+	font-size: 2em;
+	color: var(--color-text-light, white);
+}
 
-/* Opcional: Estilos para el título principal de la sección si lo añades */
-/* .slogan-section h2 {
-    // Espacio debajo - Manteniendo original, o usa variable large
-    margin-bottom: 30px; // O var(--spacing-large, 30px);
-    font-size: 2em; // Manteniendo original
-    // Color del título - Usamos variable de texto oscuro
-    color: var(--color-text-dark, #333); // Usamos variable, con fallback
-    // Grosor de fuente - Podrías usar variable bold
-    // font-weight: var(--font-weight-bold);
-} */
+/* === Media Queries para SloganSection === */
+
+/* Tableta y pantallas medias (donde quieres 1 tarjeta por fila) */
+/* Tableta y pantallas medias (donde quieres 1 tarjeta por fila) */
+@media (max-width: 1300px) {
+	.slogan-cards-container {
+        /* ¡ESTA ES LA CLAVE PARA CENTRAR LA TARJETA! */
+		justify-content: center;
+        /* El max-width: 80% del contenedor se hereda de la regla base, está bien. */
+        /* Si quieres que el área de las tarjetas sea un poco más ancha en tabletas: */
+        /* max-width: 85%; */
+        gap: var(--spacing-large, 25px); /* Este 'gap' ahora será principalmente el espacio vertical entre tarjetas apiladas */
+	}
+    .slogan-section {
+		padding-left: var(--spacing-medium, 15px);
+        padding-right: var(--spacing-medium, 15px);
+	}
+}
+
+/* Móviles grandes */
+@media (max-width: 767.98px) {
+	.slogan-section {
+		margin: var(--spacing-large, 30px) 0;
+		padding: var(--spacing-large, 30px) var(--spacing-small, 10px); /* Aún menos padding lateral */
+	}
+	.slogan-cards-container {
+		max-width: 90%; /* El contenedor de tarjetas puede ser más ancho */
+		gap: var(--spacing-medium, 20px); /* Ajustar gap vertical */
+        /* justify-content: center; se hereda */
+	}
+	.slogan-section h2 {
+		font-size: 1.75em;
+		margin-bottom: var(--spacing-medium, 20px);
+	}
+}
+
+/* Móviles pequeños */
+@media (max-width: 575.98px) {
+	.slogan-section {
+		margin: var(--spacing-medium, 20px) 0;
+		padding: var(--spacing-medium, 20px) var(--spacing-extra-small, 5px); /* Mínimo padding lateral */
+	}
+	.slogan-cards-container {
+        max-width: 95%; /* Casi todo el ancho para el contenedor de tarjetas */
+		gap: var(--spacing-medium, 15px); /* Ajustar gap vertical */
+        /* justify-content: center; se hereda */
+	}
+	.slogan-section h2 {
+		font-size: 1.5em;
+		margin-bottom: var(--spacing-base, 15px);
+	}
+}

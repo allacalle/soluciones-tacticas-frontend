@@ -2,161 +2,132 @@
 /* Estilos para ProductListSection                  */
 /* ================================================ */
 
-/* Estilos para el contenedor principal de la sección */
+/* Contenedor principal de la sección */
 .product-list-section {
-	margin: 30px 0;
-	padding: var(--spacing-medium, 16px) 0; /* Padding vertical para la sección */
+	margin: var(--spacing-large, 30px) 0; /* Base */
+	padding: var(--spacing-medium, 16px) 0;
 	background-color: var(--color-neutral-light, #f8f8f8);
 	border-top: 1px solid var(--color-neutral-light, #eee);
 	border-bottom: 1px solid var(--color-neutral-light, #eee);
-    position: relative; /* Importante para el posicionamiento de flechas del carrusel si son absolutas */
+    position: relative;
 }
 
-/* Estilos para el banner de título/subtítulo de la sección */
+/* Banner de título/subtítulo */
 .section-banner {
 	background-color: var(--color-primary-dark, #4b5320);
 	color: var(--color-text-light, #fff);
-	padding: var(--spacing-medium, 15px) var(--spacing-large, 20px);
+	padding: var(--spacing-medium, 15px) var(--spacing-large, 24px); /* Ajustado padding horizontal base */
 	text-align: center;
-	margin-bottom: var(--spacing-large, 20px);
+	margin-bottom: var(--spacing-large, 24px); /* Ajustado margen base */
 }
-
 .section-banner h2 {
-	margin: 0 0 var(--spacing-small, 5px) 0;
-	font-size: 1.8em;
+	margin: 0 0 var(--spacing-extra-small, 5px) 0; /* Reducido margen inferior del h2 */
+	font-size: 1.8em; /* Base */
 	font-weight: var(--font-weight-bold, bold);
-	color: var(--color-text-light, #fff); /* Aunque .section-banner ya establece color, es explícito */
+	color: var(--color-text-light, #fff);
 }
-
 .section-banner p {
 	margin: 0;
-	font-size: 1em;
+	font-size: 1em; /* Base */
 	opacity: 0.9;
 }
 
-
-/* === Estilos para el área que contiene las tarjetas de producto (CONTENEDOR FLEXBOX) === */
+/* Área de display de productos (Scroll Horizontal) */
 .product-list-section .products-display-area {
 	display: flex;
-	overflow-x: auto; /* Habilita scroll horizontal */
-	gap: var(--spacing-large, 20px); /* Espacio entre ítems */
-	align-items: stretch; /* Asegura que los ítems se estiren verticalmente */
-	justify-content: flex-start; /* Alinea ítems al inicio para scroll horizontal */
-	padding-left: var(--spacing-large, 20px);
-	padding-right: var(--spacing-large, 20px);
-	padding-bottom: var(--spacing-small, 10px); /* Espacio inferior para scrollbar */
-	/* margin-bottom: var(--spacing-large, 20px);  Si necesitas un margen inferior específico para esta área */
+	overflow-x: auto;
+	gap: var(--spacing-large, 20px); /* Base */
+	align-items: stretch;
+	justify-content: flex-start; /* Importante para el inicio del scroll */
+	/* Añadir un padding horizontal consistente al contenedor de la sección, en lugar de aquí,
+       o si es específico para el scroll, asegurarse de que no cause doble padding.
+       Considera si el padding de .product-list-section ya es suficiente. */
+	padding: 0 var(--spacing-large, 24px); /* Padding lateral para el inicio/fin del scroll dentro de la sección */
+	padding-bottom: var(--spacing-medium, 12px); /* Espacio para el scrollbar, ajustado */
+	/* Para asegurar que los items flex no se encojan más allá de su flex-basis si son muy pocos: */
+    /* flex-shrink: 0; /* Aplicar a los .product-item-link o .product-item en ProductGrid.css si es necesario */
 }
 
-/* Estilos específicos del scrollbar (opcional, pero buena práctica si se personaliza) */
+/* Estilos del Scrollbar (Webkit) */
 .product-list-section .products-display-area::-webkit-scrollbar {
-	height: 8px; /* Altura del scrollbar para Chrome, Safari */
+	height: 8px;
 }
-
 .product-list-section .products-display-area::-webkit-scrollbar-thumb {
 	background-color: var(--color-primary-dark, #4b5320);
 	border-radius: 10px;
 }
-
 .product-list-section .products-display-area::-webkit-scrollbar-track {
-	background: var(--color-neutral-light, #f8f8f8);
+	background: transparent; /* Hacer el track transparente para que se vea el fondo de la sección */
+    /* O un color muy sutil: var(--color-neutral-medium, #ddd); */
 }
 
-/* Ocultar scrollbar en IE, Edge, Firefox (si se desea una apariencia más limpia) */
+/* Ocultar scrollbar en IE, Edge, Firefox */
 .product-list-section .products-display-area {
-	-ms-overflow-style: none;  /* IE y Edge */
-	scrollbar-width: none;  /* Firefox */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
-
-/*
-    IMPORTANTE:
-    Todas las reglas de estilo para .product-item, .product-item-link,
-    .product-item img, .product-item .no-image-placeholder, .product-item h3,
-    y los estilos de precio dentro del .product-item han sido ELIMINADAS de este archivo.
-    Se asume que estos estilos están definidos y se gestionan en 'ProductGrid.css',
-    el cual se importa directamente en tu componente ProductGrid.tsx.
-    El layout de los ítems dentro de esta área de scroll (su tamaño base, etc.)
-    se controlará mediante 'flex-basis' y 'flex-shrink' en 'ProductGrid.css'.
-*/
 
 /* === Media Queries para Responsividad === */
 
-@media (max-width: 768px) { /* Tabletas y móviles grandes en horizontal */
-    .product-list-section {
-        margin: var(--spacing-medium, 20px) 0; /* Reducir margen vertical de la sección */
-        padding-top: var(--spacing-small, 10px); /* Reducir padding superior */
-        padding-bottom: var(--spacing-small, 10px); /* Reducir padding inferior */
-    }
-
-    .section-banner {
-        padding: var(--spacing-small, 10px) var(--spacing-medium, 15px); /* Reducir padding del banner */
-        margin-bottom: var(--spacing-medium, 15px); /* Reducir margen inferior del banner */
-    }
-
-    .section-banner h2 {
-        font-size: 1.5em; /* Reducir tamaño de fuente del título */
-    }
-
-    .section-banner p {
-        font-size: 0.9em; /* Reducir tamaño de fuente del subtítulo */
-    }
-
+/* Tabletas (~769px a ~992px) - Podrías añadir un breakpoint aquí si es necesario
+   para ajustes intermedios, pero los de 768px ya cubren bastante. */
+@media (max-width: 991.98px) {
+    .section-banner h2 { font-size: 1.7em; }
+    .section-banner p { font-size: 0.95em; }
     .product-list-section .products-display-area {
-        gap: var(--spacing-medium, 15px); /* Reducir espacio entre ítems */
-        padding-left: var(--spacing-medium, 15px); /* Reducir padding lateral */
-        padding-right: var(--spacing-medium, 15px);
-        padding-bottom: var(--spacing-extra-small, 5px); /* Menos espacio si el scrollbar es más delgado o no visible */
+        gap: var(--spacing-medium, 16px); /* Ligeramente menos gap */
+        padding-left: var(--spacing-medium, 16px);
+        padding-right: var(--spacing-medium, 16px);
     }
-
-    /*
-       Nota sobre el tamaño de los ítems (.product-item) en móviles:
-       El 'flex-basis' de '.product-item' (definido en ProductGrid.css) determina su ancho en este scroll.
-       Si necesitas que los ítems sean más pequeños en móviles, deberías añadir una media query
-       DENTRO de 'ProductGrid.css' para ajustar 'flex-basis'. Por ejemplo:
-       // En ProductGrid.css:
-       // @media (max-width: 768px) { // O el breakpoint que prefieras
-       //     .product-item { // Dentro de .product-item-link si así está estructurado
-       //         flex-basis: 180px; // O el tamaño deseado para móviles en el scroll
-       //     }
-       // }
-       Esto mantiene la responsabilidad del tamaño del ítem en su propio archivo CSS.
-    */
 }
 
-@media (max-width: 480px) { /* Móviles en vertical */
+/* Tabletas y móviles grandes en horizontal */
+@media (max-width: 767.98px) { /* Ajustado el breakpoint a 767.98px para ser más estándar */
     .product-list-section {
-        margin: var(--spacing-small, 10px) 0; /* Aún menos margen para la sección */
+        margin: var(--spacing-medium, 20px) 0;
+        padding-top: var(--spacing-small, 12px); /* Ajustado */
+        padding-bottom: var(--spacing-small, 12px); /* Ajustado */
     }
-
     .section-banner {
-        padding: var(--spacing-small, 10px); /* Padding uniforme y más pequeño */
-        margin-bottom: var(--spacing-small, 10px);
+        padding: var(--spacing-base, 12px) var(--spacing-medium, 16px); /* Ajustado */
+        margin-bottom: var(--spacing-medium, 16px); /* Ajustado */
     }
-
-    .section-banner h2 {
-        font-size: 1.3em;
-    }
-
-    .section-banner p {
-        font-size: 0.85em;
-    }
+    .section-banner h2 { font-size: 1.5em; }
+    .section-banner p { font-size: 0.9em; }
 
     .product-list-section .products-display-area {
-        gap: var(--spacing-small, 10px); /* Espacio aún menor entre ítems */
-        padding-left: var(--spacing-small, 10px);
-        padding-right: var(--spacing-small, 10px);
-        /* Si deseas ocultar completamente el scrollbar en Webkit para móviles pequeños: */
-        /*
-        &::-webkit-scrollbar { // Si usaras un preprocesador como SASS/LESS
-            height: 0;
-            width: 0;
-        }
-        */
-        /* En CSS puro, tendrías que re-declarar: */
-        /*
-        &::-webkit-scrollbar {
-            display: none; // Otra forma de ocultarlo
-        }
-        */
+        gap: var(--spacing-medium, 16px); /* Mantenido de 992px o ajusta (ej. 12px) */
+        padding-left: var(--spacing-medium, 16px); /* Mantenido o ajusta */
+        padding-right: var(--spacing-medium, 16px); /* Mantenido o ajusta */
+        padding-bottom: var(--spacing-small, 8px); /* Ajustado */
     }
+    .product-list-section .products-display-area::-webkit-scrollbar {
+        height: 6px; /* Scrollbar más delgado en móviles */
+    }
+}
+
+/* Móviles en vertical */
+@media (max-width: 575.98px) { /* Nuevo breakpoint para móviles más pequeños */
+    .product-list-section {
+        margin: var(--spacing-base, 15px) 0; /* Ajustado */
+    }
+    .section-banner {
+        padding: var(--spacing-small, 10px) var(--spacing-base, 12px); /* Ajustado */
+        margin-bottom: var(--spacing-base, 12px); /* Ajustado */
+    }
+    .section-banner h2 { font-size: 1.35em; } /* Ajustado */
+    .section-banner p { font-size: 0.85em; }
+
+    .product-list-section .products-display-area {
+        gap: var(--spacing-small, 12px); /* Ajustado */
+        padding-left: var(--spacing-base, 12px); /* Ajustado */
+        padding-right: var(--spacing-base, 12px); /* Ajustado */
+        padding-bottom: var(--spacing-extra-small, 6px); /* Scrollbar delgado o casi invisible */
+    }
+    /* Opcional: Ocultar completamente el scrollbar en Webkit para móviles muy pequeños */
+    /*
+    .product-list-section .products-display-area::-webkit-scrollbar {
+        display: none;
+    }
+    */
 }

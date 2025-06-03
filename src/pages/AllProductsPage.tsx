@@ -1,16 +1,38 @@
 // src/pages/AllProductsPage.tsx
-import { useMemo } from 'react'; // <--- AÑADE ESTO
-import './css/AllProductsPage.css'; // <--- IMPORTA TU CSS EXISTENTE AQUÍ
+import { useMemo, useState, useEffect } from 'react'; // <--- AÑADE useState y useEffect
+import './css/AllProductsPage.css';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 import ProductListingLayout from '../components/ProductListingLayout';
 
-const PRODUCTS_PER_PAGE_ALL = 8;
+// Define los productos por página para escritorio y móvil
+const PRODUCTS_PER_PAGE_DESKTOP = 8;
+const PRODUCTS_PER_PAGE_MOBILE = 6; // O el número que prefieras para móvil
+const MOBILE_BREAKPOINT = 768; // Define tu breakpoint para móvil (ej. 768px)
 
 export default function AllProductsPage() {
-    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
-        productsPerPage: PRODUCTS_PER_PAGE_ALL,
-    }), []); // No tiene dependencias reales que cambien para AllProductsPage
+    // 1. Estado para saber si estamos en vista móvil
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth < MOBILE_BREAKPOINT);
 
+    // 2. useEffect para actualizar isMobileView cuando cambie el tamaño de la ventana
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < MOBILE_BREAKPOINT);
+        };
+
+        window.addEventListener('resize', handleResize);
+        // Limpia el event listener cuando el componente se desmonte
+        return () => window.removeEventListener('resize', handleResize);
+    }, []); // El array vacío asegura que esto solo se ejecute al montar y desmontar
+
+    // 3. Determina productsPerPage basado en isMobileView
+    const currentProductsPerPage = useMemo(() => {
+        return isMobileView ? PRODUCTS_PER_PAGE_MOBILE : PRODUCTS_PER_PAGE_DESKTOP;
+    }, [isMobileView]); // Se recalcula solo cuando isMobileView cambia
+
+    // 4. Pasa el currentProductsPerPage a las opciones del hook
+    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
+        productsPerPage: currentProductsPerPage,
+    }), [currentProductsPerPage]); // Ahora depende de currentProductsPerPage
 
     const {
         products,
@@ -20,31 +42,24 @@ export default function AllProductsPage() {
         totalProducts,
         totalPages,
         setCurrentPage,
-    } = usePaginatedProducts(productFetcherOptions);
+    } = usePaginatedProducts(productFetcherOptions); // El hook usará el productsPerPage dinámico
 
-    // Manejo de estados globales de carga y error
+    // El resto de tu lógica de renderizado (loading, error, not-found, ProductListingLayout)
+    // puede permanecer prácticamente igual, ya que el hook usePaginatedProducts
+    // se encargará de obtener la cantidad correcta de productos y de recalcular totalPages.
+
     if (loading && products.length === 0 && !error) {
-        return <div className="all-products-page-loading">Cargando todos los productos...</div>; // Usa tu clase CSS
+        return <div className="all-products-page-loading">Cargando todos los productos...</div>;
     }
 
     if (error) {
-        return <div className="all-products-page-error">Error al cargar los productos: {error.message}</div>; // Usa tu clase CSS
+        return <div className="all-products-page-error">Error al cargar los productos: {error.message}</div>;
     }
 
-    // Si ProductListingLayout maneja "no productos" cuando products.length es 0 (después de carga y sin error)
-    // no necesitamos una comprobación adicional aquí, a menos que el mensaje sea diferente.
-    // Tu CSS original tenía un .all-products-page-not-found para cuando products.length === 0 && totalProducts === 0
-    // ProductListingLayout ahora tiene una lógica similar pero podría ser ligeramente diferente.
-    // Si products.length es 0 pero totalProducts era > 0 (ej. error en una página subsiguiente), ProductListingLayout
-    // mostrará su mensaje de "no se encontraron productos que coincidan...".
-    // Si quieres el mensaje exacto "No se encontraron productos en la tienda." cuando totalProducts es 0,
-    // podrías añadir esa lógica aquí ANTES de llamar a ProductListingLayout.
-
-    // Caso especial para "Tienda vacía" (como en tu original)
     if (!loading && !error && products.length === 0 && totalProducts === 0) {
         return (
             <div className="all-products-page-container">
-                <div className="page-title-block">
+                <div className="page-title-block"> {/* Asumo que tienes estilos para esto o es un placeholder */}
                     <h2>Todos los Productos</h2>
                 </div>
                 <div className="all-products-page-not-found">
@@ -55,15 +70,17 @@ export default function AllProductsPage() {
     }
     
     return (
-        <div className="all-products-page-container"> {/* Contenedor principal de la PÁGINA */}
+        <div className="all-products-page-container">
             <ProductListingLayout
-                title="Todos los Productos" // Pasa el título aquí
+                title="Todos los Productos"
                 products={products}
-                loading={loading}
+                loading={loading} // Pasa el estado de carga, incluso si es para páginas subsiguientes
                 currentPage={currentPage}
                 totalProducts={totalProducts}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
+                // Opcional: Podrías pasar productsPerPage a ProductListingLayout si necesita mostrar esa info
+                // itemsPerPage={currentProductsPerPage}
             />
         </div>
     );

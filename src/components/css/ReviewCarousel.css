@@ -2,27 +2,21 @@
 
 /* Contenedor principal de la sección */
 .review-carousel-section {
-	/* Espacio arriba y abajo - Manteniendo original, o usa variable */
-	margin: 40px 0;
-	/* Espacio interno - Manteniendo original, o usa variable */
-	padding: 40px 20px;
-	/* Estilos de imagen de fondo - Manteniendo originales */
+	margin: var(--spacing-xlarge, 40px) 0; /* Usar variable para consistencia */
+	padding: var(--spacing-xlarge, 40px) var(--spacing-large, 20px); /* Usar variables */
 	background-image: url('/images/fondoReviews2.png');
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: center 30%;
-	text-align: center; /* Centrar contenido */
+	background-position: center 30%; /* Posición base */
+	text-align: center;
 }
 
 /* Estilos para el título de la sección */
 .review-carousel-section h2 {
-	/* Espacio debajo del título - Manteniendo original, o usa variable */
-	margin-bottom: 30px;
-	/* Color blanco para resaltar - Usamos variable de texto claro */
-	color: var(--color-text-light, white); /* Usamos variable, con fallback */
-	font-size: 2em; /* Tamaño de fuente - Manteniendo original */
-	/* Grosor de fuente - Podrías usar variable bold si no lo hace ya por herencia */
-	/* font-weight: var(--font-weight-bold); */
+	margin-bottom: var(--spacing-large, 30px); /* Usar variable */
+	color: var(--color-text-light, white);
+	font-size: 2em; /* Tamaño base */
+	/* font-weight: var(--font-weight-bold); */ /* Si no es heredado o definido por h2 por defecto */
 }
 
 /* ============================================================== */
@@ -31,8 +25,10 @@
 
 /* Contenedor principal del Slider */
 .slick-slider {
-	max-width: 75%; /* Limita el ancho - Manteniendo original */
-	margin: 0 auto; /* Centra */
+	max-width: 75%; /* Ancho máximo base */
+	margin: 0 auto;
+    /* Considera un max-width en px para pantallas muy grandes si 75% se vuelve demasiado */
+    /* max-width: 1200px; */
 }
 
 /* Contenedor de la lista de diapositivas */
@@ -40,39 +36,27 @@
 	padding: 0 !important; /* Elimina padding por defecto si lo hay */
 }
 
-/* Contenedor del track (manejado por Slick) */
-.slick-track {
-	/* Estilos por defecto de Slick */
-}
-
-
 /* Cada diapositiva individual (.slick-slide) */
-/* Contenedor que envuelve tu ReviewCard */
 .slick-slide {
-	height: auto; /* Permitir que la altura se ajuste */
-	min-height: auto; /* Asegurar que no haya min-height conflictivo */
-	margin-bottom: 0; /* Eliminar margen inferior por defecto */
+	height: auto;
+	min-height: auto;
+	margin-bottom: 0;
 }
 
 /* Div interno dentro de cada .slick-slide (contiene la ReviewCard) */
-/* Aquí se define el espacio entre tarjetas y se controlan las alturas */
 .slick-slide > div {
-	/* Padding para crear el gap horizontal entre tarjetas - Usamos variable de espaciado pequeño */
-	padding: 0 var(--spacing-small, 10px); /* Usamos variable, con fallback */
-
-	/* Asegurar que la ReviewCard dentro estire a la altura disponible */
+	padding: 0 var(--spacing-small, 10px); /* Gap horizontal entre tarjetas */
 	display: flex !important;
 	justify-content: center !important;
-	align-items: stretch !important; /* Permite que ReviewCard (child) estire */
-	height: 100%; /* Ocupa el 100% de la altura del .slick-slide */
+	align-items: stretch !important;
+	height: 100%;
 }
-
 
 /* Eliminar estilos de flechas y puntos por defecto */
 .slick-prev,
 .slick-next,
 .slick-dots {
-	display: none !important; /* Oculta navegación por defecto */
+	display: none !important;
 }
 
 /* Eliminar outlines de foco por defecto */
@@ -82,40 +66,99 @@
 	outline: none !important;
 }
 
-
 /* ============================================================== */
 /* Estilos para el Enlace a Google Reviews */
 /* ============================================================== */
 
-/* Contenedor para el enlace */
 .reviews-google-link-container {
-	/* Espacio superior - Manteniendo original, o usa variable */
-	margin-top: 30px;
+	margin-top: var(--spacing-large, 30px); /* Usar variable */
 	text-align: center;
 }
 
-/* Estilo del enlace dentro del contenedor (si necesitas un color específico) */
 .reviews-google-link-container a {
-	/* Color del enlace en este contenedor - Usamos variable de texto claro */
-	color: var(--color-text-light, azure); /* Usamos variable, con fallback (original era azure) */
+	color: var(--color-text-light, azure);
 }
 
-/* Estilos principales para el enlace */
 .reviews-google-link {
-	/* Color de marca (puede ser sobrescrito por el color en .reviews-google-link-container a) - Usamos variable de color primario oscuro */
-	color: var(--color-primary-dark, #4b5320); /* Usamos variable, con fallback */
-	text-decoration: none; /* Quita el subrayado */
-	/* Grosor de fuente - Usamos variable bold */
-	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
-	font-size: 1.1em; /* Tamaño de fuente - Manteniendo original */
+	color: var(--color-primary-dark, #4b5320);
+	text-decoration: none;
+	font-weight: var(--font-weight-bold, bold);
+	font-size: 1.1em; /* Tamaño base */
 	transition: color 0.3s ease;
 }
 
-/* Estilo hover para el enlace */
 .reviews-google-link:hover {
-	text-decoration: underline; /* Añade subrayado en hover */
-	/* Color hover - Usamos variable de color acento */
-	color: var(--color-accent, #c9f115); /* Usamos variable, con fallback (original era #c9f115) */
+	text-decoration: underline;
+	color: var(--color-accent, #c9f115);
 }
 
-/* Nota: Los estilos de la ReviewCard (.review-card, .review-text, etc.) están en ReviewCard.css */
+/* === Media Queries para Responsividad === */
+
+/* Tabletas y móviles grandes en horizontal (ej. pantallas < 992px) */
+@media (max-width: 991.98px) { /* Un breakpoint común antes de tabletas más típicas */
+    .slick-slider {
+        max-width: 85%; /* Aumentar un poco el ancho relativo en pantallas medianas */
+    }
+}
+
+
+/* Tabletas y móviles grandes (ej. pantallas < 768px) */
+@media (max-width: 767.98px) {
+	.review-carousel-section {
+		margin: var(--spacing-large, 30px) 0;
+		padding: var(--spacing-large, 30px) var(--spacing-medium, 15px);
+		background-position: center center; /* O ajustar el % vertical si es necesario */
+	}
+
+	.review-carousel-section h2 {
+		font-size: 1.75em; /* Reducir tamaño del título */
+		margin-bottom: var(--spacing-medium, 20px);
+	}
+
+	.slick-slider {
+		max-width: 90%; /* El carrusel puede ocupar más ancho de la pantalla */
+	}
+
+    /* Si las ReviewCards se ven muy apretadas, y estás mostrando menos slides en móvil (vía JS de react-slick) */
+    /* podrías mantener el padding o incluso aumentarlo ligeramente si hay espacio */
+	.slick-slide > div {
+		 padding: 0 var(--spacing-extra-small, 8px); /* Reducir ligeramente el gap si es necesario */
+	}
+
+	.reviews-google-link-container {
+		margin-top: var(--spacing-medium, 20px);
+	}
+
+	.reviews-google-link {
+		font-size: 1em; /* Reducir tamaño del enlace */
+	}
+}
+
+/* Móviles pequeños (ej. pantallas < 576px o < 480px) */
+@media (max-width: 575.98px) {
+	.review-carousel-section {
+		margin: var(--spacing-medium, 20px) 0;
+		padding: var(--spacing-medium, 20px) var(--spacing-small, 10px);
+	}
+
+	.review-carousel-section h2 {
+		font-size: 1.5em; /* Reducir más el título */
+		margin-bottom: var(--spacing-base, 15px);
+	}
+
+	.slick-slider {
+		max-width: 95%; /* Casi todo el ancho en móviles muy pequeños */
+	}
+
+    .slick-slide > div {
+		 padding: 0 5px; /* Un gap aún más pequeño si es necesario */
+	}
+
+	.reviews-google-link-container {
+		margin-top: var(--spacing-base, 15px);
+	}
+
+	.reviews-google-link {
+		font-size: 0.9em; /* Reducir más el enlace */
+	}
+}

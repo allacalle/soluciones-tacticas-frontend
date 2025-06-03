@@ -4,7 +4,7 @@
 .review-card {
 	/* Borde general */
 	border: 1px solid var(--color-neutral-medium, #ddd);
-	/* Borde superior verde */
+	/* Borde superior distintivo */
 	border-top: 5px solid var(--color-primary-dark, #4b5320);
 	/* Espacio interno */
 	padding: var(--spacing-large, 25px);
@@ -16,36 +16,28 @@
 
 	/* Dimensiones y Flexbox */
 	width: 100%;
-	height: 100%;
-	min-height: 240px; /* Ajusta si es necesario */
+	height: 100%; /* Asegura que la tarjeta pueda ocupar altura si el contenedor padre lo gestiona */
+	min-height: 240px; /* Altura mínima base, ajusta según contenido típico */
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	position: relative;
+	align-items: center; /* Centra elementos si no ocupan todo el ancho */
+	/* position: relative; */ /* Solo necesario si tienes elementos hijos posicionados absolutamente respecto a la tarjeta */
 
-	/* Transición para efectos suaves (movida desde :hover) */
+	/* Transición para efectos suaves */
 	transition: all 0.3s ease-in-out;
 }
 
-/* Estilos para el icono de comillas o rating (opcional - descomentar y ajustar si se usa) */
-/*
-.review-icon, .review-rating {
-	margin-bottom: var(--spacing-medium, 15px);
-	color: var(--color-primary-dark, #4b5320);
-	font-size: 2em;
-}
-*/
-
 /* Estilos para el Texto de la reseña */
 .review-text {
-	font-size: 1.25em;
+	font-size: 1.2em; /* Ajustado ligeramente para legibilidad general */
 	font-style: italic;
-	font-weight: var(--font-weight-bold, 700);
+	font-weight: var(--font-weight-bold, 700); /* Usar 700 es más estándar que 'bold' para variables */
 	color: var(--color-text-dark, #555);
 	margin: 0 0 var(--spacing-medium, 15px) 0;
 	line-height: 1.6;
 	text-align: center;
+	width: 100%; /* Asegura que toma el ancho para el truncamiento */
 
 	/* Limitación de texto a X líneas */
 	display: -webkit-box;
@@ -53,14 +45,14 @@
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	/* line-clamp: 4; */ /* La propiedad estándar, -webkit-line-clamp es más soportada para esto */
-    /* max-height: calc(1.6em * 4); /* Comentado, -webkit-line-clamp debería ser suficiente */
+	overflow-wrap: break-word; /* Ayuda con palabras largas, movido de MQs */
+    /* hyphens: auto; */ /* Opcional: puede ser agresivo con los guiones, probar bien si se activa */
 }
 
 /* Estilos para el Nombre del cliente */
 .reviewer-name {
 	font-size: 0.9em;
-	font-weight: var(--font-weight-bold, bold);
+	font-weight: var(--font-weight-bold, 700); /* Usar 700 */
 	text-align: center;
 	color: var(--color-text-dark, #333);
 	margin: 0;
@@ -72,51 +64,49 @@
 	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 	transform: translateY(-3px);
 	cursor: pointer;
-	/* outline: 2px solid var(--color-accent); */ /* Opcional */
+	/* outline: 2px solid var(--color-accent); */ /* Opcional para destacar más en hover */
 }
-
 
 
 /* === Media Queries para Responsividad === */
 
-@media (max-width: 768px) { /* Tabletas y móviles grandes en horizontal */
+/* Para tabletas y móviles grandes (ej. > 600px y <= 768px) */
+@media (max-width: 768px) {
 	.review-card {
 		padding: var(--spacing-medium, 18px);
-		min-height: 210px;
-        /* border-top-width: 4px; */
+		min-height: 210px; /* O ajustar a 'auto' si se prefiere altura dinámica */
+        /* border-top-width: 4px; */ /* Si se quiere reducir el borde superior en pantallas pequeñas */
 	}
 
 	.review-text {
-		font-size: 1.0em;
+		font-size: 1.0em; /* Equivalente a 16px si el root es 16px */
         line-height: 1.5;
 		margin-bottom: var(--spacing-small, 10px);
-        /* -webkit-line-clamp: 4; */
-        overflow-wrap: break-word; /* Añadido para ayudar con palabras largas */
 	}
 
 	.reviewer-name {
-		font-size: 0.8em;
+		font-size: 0.85em; /* Ligero ajuste */
 	}
 }
 
-@media (max-width: 480px) { /* Móviles en vertical */
+/* Para móviles pequeños (ej. <= 600px o <= 480px, ajustar según necesidad) */
+/* Nota: Considerar un enfoque "mobile-first" en el futuro podría simplificar las MQs. [18] */
+@media (max-width: 480px) {
 	.review-card {
-        /* Aseguramos padding lateral y vertical. Quizás un poco más en los lados si es el problema principal. */
-		padding: var(--spacing-base, 12px) var(--spacing-small, 15px); /* Ej: 12px arriba/abajo, 15px a los lados */
-		min-height: auto;
-        border-top-width: 3px;
+		padding: var(--spacing-medium, 15px); /* Padding uniforme o ajustado ej: 15px lados, 12px arriba/abajo */
+		min-height: auto; /* Permite que la tarjeta se encoja con el contenido */
+        border-top-width: 4px; /* Borde superior ligeramente más delgado */
 	}
 
 	.review-text {
-		font-size: 0.88em; /* Reducción muy ligera adicional, o mantener 0.9em si el padding/break-word ayuda */
-		line-height: 1.4; /* Reducido ligeramente para compensar el font-size si es muy pequeño */
-        -webkit-line-clamp: 4; /* O ajusta según el contenido que quieras mostrar */
+		font-size: 0.9em; /* Ligeramente mayor para mejor legibilidad en móviles pequeños, probar */
+		line-height: 1.45;
+        /* -webkit-line-clamp: 3; */ /* Quizás reducir a 3 líneas en móviles muy pequeños si es mucho texto */
 		margin-bottom: var(--spacing-extra-small, 8px);
-        overflow-wrap: break-word; /* MUY IMPORTANTE: Añadido para ayudar con palabras largas */
-        hyphens: auto; /* Opcional: Puede ayudar a dividir palabras con guiones si el idioma está configurado */
+        /* hyphens: auto; */ /* Considerar si es necesario para el idioma de las reseñas */
 	}
 
 	.reviewer-name {
-		font-size: 0.75em;
+		font-size: 0.8em; /* Mantener o ajustar ligeramente */
 	}
 }

@@ -1,83 +1,128 @@
 /* src/pages/HomePage.css - Estilos para el texto del Hero más visible */
 
-/* ... (Reglas para .home-hero-section se quedan igual en estructura) ... */
 .home-hero-section {
-	min-height: 500px; /* Altura mínima - Manteniendo original */
+	min-height: 500px; /* Altura mínima base para escritorio */
 	position: relative;
-	overflow: hidden;
+	overflow: hidden; /* Evita que el contenido del carrusel (si lo hay) se desborde sin control */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* Color de fondo de fallback - Usamos variable de color neutro claro */
-	background-color: var(--color-neutral-light, #eee); /* Usamos variable, con fallback */
-	/* Si tienes una imagen de fondo o carrusel, este color solo se verá mientras carga o si no carga */
+	padding: var(--spacing-large, 24px); /* Añadir padding para que el text-box no toque los bordes en pantallas muy anchas sin max-width */
+	box-sizing: border-box;
+	background-color: var(--color-neutral-light, #eee);
+	/* Aquí irían los estilos de tu imagen de fondo o carrusel de fondo */
+    /* Ejemplo:
+    background-image: url('/path-to-your-hero-image.jpg');
+    background-size: cover;
+    background-position: center;
+    */
 }
 
 /* Recuadro de texto sobre el carrusel/imagen */
 .hero-text-box {
-	/* *** Ajustes para hacerlo más ancho y transparente *** */
-
-	/* Fondo semi-transparente (ajusta la opacidad 0.X) */
-	/* Usamos variable de fondo claro con opacidad */
-	/* Nota: rgba() con variables requiere que la variable sea RGB, o usar var() y opacity */
-	background-color: rgba(var(--color-background-light-rgb, 255, 255, 255), 0.8); /* Usamos variable RGB si existe, sino fallback con blanco y opacidad 0.8 */
-	/* Si no tienes variable RGB, puedes usar: */
-	/* background-color: var(--color-background-light, #fff); opacity: 0.8; */
-
-
-	/* Añadimos padding para dar espacio interno - Manteniendo original 30px o usa variable */
-	padding: 30px; /* O var(--spacing-large, 30px); */
-
-	/* Quitamos max-width o lo hacemos mucho mayor para que sea más ancho */
-	/* Podemos usar width en porcentaje para que se adapte al ancho de la pantalla */
-	width: 80%; /* Ejemplo: que ocupe el 80% del ancho de su contenedor (home-hero-section) - Manteniendo original */
-	max-width: 800px; /* Opcional: un ancho máximo para pantallas muy grandes - Manteniendo original */
-
+	background-color: rgba(var(--color-background-light-rgb, 255, 255, 255), 0.85); /* Opacidad ligeramente mayor para legibilidad */
+	padding: var(--spacing-xlarge, 30px); /* Padding base */
+	width: 80%; /* Ancho relativo */
+	max-width: 750px; /* Reducido ligeramente el max-width para que no sea tan extenso */
 	text-align: center;
-
-	/* Asegura que esté encima del carrusel */
-	position: relative; /* Ayuda con z-index */
-	z-index: 10; /* Z-index más alto que el del carrusel (z-index: 1) */
-
-	/* Otros estilos opcionales */
-	border-radius: 8px; /* Esquinas redondeadas - Manteniendo original */
-	/* Sombra - Manteniendo original */
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-	/* Color del texto si el fondo es claro - Usamos variable de texto oscuro */
-	color: var(--color-text-dark, #333); /* Usamos variable, con fallback */
-	font-size: 1.8em; /* Texto un poco más grande - Manteniendo original */
-	line-height: 1.6; /* Interlineado - Manteniendo original */
-
-
+	position: relative;
+	z-index: 10;
+	border-radius: 8px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); /* Sombra un poco más difusa */
+	color: var(--color-text-dark, #333);
+	font-size: 1.8em; /* Tamaño de fuente base */
+	line-height: 1.6;
+    box-sizing: border-box; /* Asegurar que el padding no aumente el width/max-width */
 }
 
 .hero-text-box p {
-	/* Aplica el grosor de fuente específicamente al párrafo - Usamos variable bold */
-	font-weight: var(--font-weight-bold, bold); /* Usamos variable, con fallback */
-	/* O si usaste un color general en .hero-text-box, puedes repetirlo aquí para asegurar */
-	/* color: var(--color-text-dark); */ /* Usamos variable de texto oscuro */
-	margin-bottom: 0; /* Quita el margen inferior por defecto si es el último elemento */
+	font-weight: var(--font-weight-bold, bold);
+	color: var(--color-text-dark, #333); /* Asegurar color si es diferente al del contenedor */
+	margin-bottom: 0; /* Para el último párrafo o si solo hay uno */
+    /* Si hay múltiples párrafos, considera un margin-bottom: var(--spacing-medium);
+       y luego al último p:nth-last-child(1) { margin-bottom: 0; } */
 }
-
 
 /* Estilos para los enlaces dentro del recuadro de texto */
 .hero-text-box a {
-	/* Color de los enlaces - Usamos variable de color primario oscuro para un color de marca visible */
-	color: var(--color-primary-dark, #000); /* Usamos variable, con fallback */
-	/* O si quieres un color que contraste mucho pero siga siendo legible (como un verde acento): */
-	/* color: var(--color-accent); */
-
-	text-decoration: underline; /* Mantener o ajustar el subrayado */
-	/* Sombra de texto - Manteniendo original */
-	text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-	/* Opcional: si quieres que los enlaces también sean en negrita */
-	/* font-weight: var(--font-weight-bold); */
-	/* Asegúrate de que la variable de fuente base se hereda o aplícala aquí */
-	/* font-family: var(--font-family-base); */
+	color: var(--color-primary-dark, #4b5320); /* Un color de marca más oscuro */
+	text-decoration: underline;
+	font-weight: var(--font-weight-bold, bold); /* Hacer los enlaces también bold para destacar */
+	/* text-shadow: 0 0 3px rgba(255, 255, 255, 0.7); */ /* Sombra de texto más sutil o quitarla si el fondo ya es claro */
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .hero-text-box a:hover {
-    text-decoration: none; /* Quita el subrayado en hover */
-/* Puedes añadir un cambio de color en hover si quieres */
-/* color: var(--color-accent); */
+    color: var(--color-accent, #0056b3); /* Un color de acento para el hover */
+    text-decoration-color: transparent; /* Oculta el subrayado en hover de forma elegante */
+    /* text-decoration: none; */ /* Alternativa más simple */
+}
+
+
+/* === Media Queries para Responsividad === */
+
+/* Tabletas y pantallas medianas (ej. < 992px) */
+@media (max-width: 991.98px) {
+	.home-hero-section {
+		min-height: 450px; /* Reducir altura mínima */
+        padding: var(--spacing-medium, 16px);
+	}
+	.hero-text-box {
+		width: 85%; /* Puede ocupar un poco más del ancho */
+		max-width: 650px; /* Ajustar max-width */
+		padding: var(--spacing-large, 24px);
+		font-size: 1.6em; /* Reducir tamaño de fuente */
+		line-height: 1.55;
+	}
+}
+
+/* Móviles grandes (ej. < 768px) */
+@media (max-width: 767.98px) {
+	.home-hero-section {
+		min-height: 400px; /* Reducir más la altura mínima */
+        /* El padding se hereda, o ajusta si es necesario */
+	}
+	.hero-text-box {
+		width: 90%; /* Que ocupe más del ancho disponible */
+		max-width: none; /* Quitar el max-width en px, dejar que el % domine */
+		padding: var(--spacing-medium, 20px);
+		font-size: 1.3em; /* Reducir fuente significativamente */
+		line-height: 1.5;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra más sutil para móviles */
+	}
+    .hero-text-box p {
+        font-weight: var(--font-weight-medium, 500); /* Un poco menos bold si la fuente es muy grande */
+    }
+    .hero-text-box a {
+        font-weight: var(--font-weight-medium, 500); /* Igual que el párrafo */
+    }
+}
+
+/* Móviles pequeños (ej. < 576px o < 480px) */
+@media (max-width: 575.98px) {
+	.home-hero-section {
+		min-height: 350px; /* Altura mínima aún menor */
+        /* Podrías incluso considerar min-height: auto y dejar que el contenido defina la altura,
+           más un padding vertical generoso en .hero-text-box */
+        /* min-height: auto; padding-top: 80px; padding-bottom: 80px; */
+	}
+	.hero-text-box {
+		width: 95%; /* Casi todo el ancho */
+		padding: var(--spacing-base, 16px);
+		font-size: 1.15em; /* Fuente más pequeña para mejor encaje */
+		line-height: 1.45;
+	}
+}
+
+/* Opcional: para pantallas muy muy pequeñas (< 380px) */
+@media (max-width: 379.98px) {
+    .home-hero-section {
+        min-height: 300px;
+    }
+    .hero-text-box {
+        padding: var(--spacing-small, 12px);
+        font-size: 1.05em;
+        line-height: 1.4;
+    }
+    
 }

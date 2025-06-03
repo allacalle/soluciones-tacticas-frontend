@@ -1,42 +1,56 @@
 // src/pages/ProductsByBrandPage.tsx
-import './css/ProductsByBrandPage.css'; // Estilos específicos de esta página
-import { useEffect, useState, useMemo } from 'react'; // Añadimos useMemo
+import './css/ProductsByBrandPage.css';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBrandBySlug } from '../api/wooApi'; // getProducts ya no se importa aquí
-import { Brand } from '../types'; // Product ya no se importa aquí
+import { getBrandBySlug } from '../api/wooApi';
+import { Brand } from '../types';
 
-// Componentes y Hooks
 import ProductListingLayout from '../components/ProductListingLayout';
-import BrandInfoHeader from '../components/BrandInfoHeader'; // Nuevo componente
+import BrandInfoHeader from '../components/BrandInfoHeader';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 
-const PRODUCTS_PER_PAGE_BRAND = 8; // O el valor que prefieras
+// Define los productos por página para escritorio y móvil para ESTA PÁGINA
+const PRODUCTS_PER_PAGE_BRAND_DESKTOP = 8; // Tu valor actual
+const PRODUCTS_PER_PAGE_BRAND_MOBILE = 6;  // O el que prefieras para móvil
+const MOBILE_BREAKPOINT = 768; // Define tu breakpoint, igual que antes
 
 export default function ProductsByBrandPage() {
     const { brandSlug } = useParams<{ brandSlug?: string }>();
     const navigate = useNavigate();
 
-    // 1. ESTADOS Y LÓGICA PARA CARGAR LA MARCA (se mantiene similar)
     const [brand, setBrand] = useState<Brand | null>(null);
     const [loadingBrand, setLoadingBrand] = useState<boolean>(true);
     const [errorBrand, setErrorBrand] = useState<Error | null>(null);
-    // const [brandFetched, setBrandFetched] = useState<boolean>(false); // Ya no tan necesario con 'skip'
+
+    // 1. Estado para saber si estamos en vista móvil (igual que en las otras páginas)
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth < MOBILE_BREAKPOINT);
+
+    // 2. useEffect para actualizar isMobileView (igual que en las otras páginas)
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < MOBILE_BREAKPOINT);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // 3. Determina productsPerPage basado en isMobileView (igual que en las otras páginas)
+    const currentProductsPerPageBrand = useMemo(() => {
+        return isMobileView ? PRODUCTS_PER_PAGE_BRAND_MOBILE : PRODUCTS_PER_PAGE_BRAND_DESKTOP;
+    }, [isMobileView]);
 
     useEffect(() => {
         if (!brandSlug) {
             console.error("[ProductsByBrandPage] No brand slug provided.");
             setErrorBrand(new Error("No se especificó una marca."));
             setLoadingBrand(false);
-            // setBrandFetched(true);
-            // navigate('/marcas'); // Opcional: redirigir
             return;
         }
-
         const fetchBrandDetails = async () => {
+            // ... (tu lógica para fetchBrandDetails se mantiene igual) ...
             setLoadingBrand(true);
             setErrorBrand(null);
             setBrand(null);
-            // setBrandFetched(false);
             try {
                 const fetchedBrand = await getBrandBySlug(brandSlug);
                 if (fetchedBrand) {
@@ -48,7 +62,6 @@ export default function ProductsByBrandPage() {
                 setErrorBrand(err instanceof Error ? err : new Error(String(err)));
             } finally {
                 setLoadingBrand(false);
-                // setBrandFetched(true);
             }
         };
         fetchBrandDetails();
@@ -57,57 +70,47 @@ export default function ProductsByBrandPage() {
     console.log('[ProductsByBrandPage] Brand object:', brand);
     console.log('[ProductsByBrandPage] Brand ID for filter:', brand?.id);
 
-    // 2. USA EL HOOK usePaginatedProducts
-    // Determinar si se debe saltar el fetch de productos:
-    // - Si la marca aún está cargando.
-    // - Si hubo un error al cargar la marca.
-    // - Si la marca se cargó pero no se encontró (brand es null).
-    // - Si no hay brandSlug.
-   const shouldSkipProductFetch = useMemo(() => {
-    const skip = loadingBrand || !!errorBrand || !brand || !brand?.id || !brandSlug;
-    console.log('[ProductsByBrandPage] shouldSkipProductFetch:', skip, {loadingBrand, errorBrand, brandExists: !!brand, brandIdExists: !!brand?.id, brandSlugExists: !!brandSlug});
-    return skip;
-}, [loadingBrand, errorBrand, brand, brandSlug]);
-
+    const shouldSkipProductFetch = useMemo(() => {
+        // ... (tu lógica para shouldSkipProductFetch se mantiene igual) ...
+        const skip = loadingBrand || !!errorBrand || !brand || !brand?.id || !brandSlug;
+        console.log('[ProductsByBrandPage] shouldSkipProductFetch:', skip, {loadingBrand, errorBrand, brandExists: !!brand, brandIdExists: !!brand?.id, brandSlugExists: !!brandSlug});
+        return skip;
+    }, [loadingBrand, errorBrand, brand, brandSlug]);
     
-
+    // 4. Pasa el currentProductsPerPageBrand a las opciones del hook
     const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
-        productsPerPage: PRODUCTS_PER_PAGE_BRAND,
-        brandId: brand?.id, // Pasa el brand.id obtenido. Será undefined si brand es null.
+        productsPerPage: currentProductsPerPageBrand, // <--- ¡AQUÍ USAMOS EL VALOR DINÁMICO!
+        brandId: brand?.id,
         skip: shouldSkipProductFetch,
-        initialPage: 1, // El hook resetea la página si brandId cambia
-    }), [brand?.id, shouldSkipProductFetch]); // Depende de brand.id y skip
+        initialPage: 1,
+    }), [currentProductsPerPageBrand, brand?.id, shouldSkipProductFetch]); // Añadimos currentProductsPerPageBrand a las dependencias
 
     const {
         products,
-        loading: loadingProducts, // Renombrado
-        error: errorProducts,     // Renombrado
+        loading: loadingProducts,
+        error: errorProducts,
         currentPage,
         totalProducts,
         totalPages,
         setCurrentPage,
     } = usePaginatedProducts(productFetcherOptions);
 
+    // 3. LÓGICA DE RENDERIZADO CONDICIONAL
+    // (Se mantiene igual)
+    // ...
 
-    // 3. LÓGICA DE RENDERIZADO CONDICIONAL (más simplificada)
     if (loadingBrand) {
         return <div className="products-by-brand-loading">Cargando información de la marca...</div>;
     }
 
-    if (errorBrand) { // Error al cargar la marca o marca no encontrada
+    if (errorBrand) {
         return <div className="products-by-brand-error">Error: {errorBrand.message}</div>;
     }
 
-    if (!brand) { // Si la marca es null después de cargar (ej. slug no válido y getBrandBySlug devolvió null)
-        // Esto podría estar cubierto por errorBrand si setErrorBrand se llama cuando fetchedBrand es null.
-        // Doble check: si errorBrand es null pero brand es null, también es un "no encontrado".
+    if (!brand) {
         return <div className="products-by-brand-not-found">La marca solicitada no existe.</div>;
     }
 
-    // Si llegamos aquí, 'brand' está cargado y no es null.
-    // Ahora manejamos la carga/error de los productos.
-
-    // Si está cargando productos Y no hay productos previos Y no hay error de productos
     if (loadingProducts && products.length === 0 && !errorProducts) {
         return (
             <div className="products-by-brand-container">
@@ -117,8 +120,7 @@ export default function ProductsByBrandPage() {
         );
     }
 
-    // Si hay error al cargar productos (y no es la carga inicial de productos)
-    if (errorProducts && products.length === 0) { // Muestra error solo si no hay productos para mostrar
+    if (errorProducts && products.length === 0) {
         return (
             <div className="products-by-brand-container">
                 <BrandInfoHeader brand={brand} />
@@ -127,7 +129,6 @@ export default function ProductsByBrandPage() {
         );
     }
     
-    // Si después de cargar, no hay error, pero no hay productos y el total es cero para esta marca
     if (!loadingProducts && !errorProducts && products.length === 0 && totalProducts === 0) {
         return (
             <div className="products-by-brand-container">
@@ -139,22 +140,18 @@ export default function ProductsByBrandPage() {
         );
     }
 
-    // Renderizado principal: Mostrar info de marca y luego el layout de listado de productos
     return (
-        <div className="products-by-brand-container"> {/* Contenedor principal de la página */}
+        <div className="products-by-brand-container">
             <BrandInfoHeader brand={brand} />
-            
             <ProductListingLayout
-                // El título del layout podría ser algo como "Productos" o dejarlo vacío
-                // si BrandInfoHeader ya tiene un h2 con el nombre de la marca.
-                // O podrías pasar un título más específico si quieres.
-                title={`Productos de ${brand.name}`} // O simplemente "Productos"
+                title={`Productos de ${brand.name}`}
                 products={products}
                 loading={loadingProducts}
                 currentPage={currentPage}
                 totalProducts={totalProducts}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
+                // itemsPerPage={currentProductsPerPageBrand} // Opcional
             />
         </div>
     );

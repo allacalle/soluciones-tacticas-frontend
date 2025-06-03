@@ -250,6 +250,35 @@
 
 
 /* ============================================================== */
+/* === NUEVA MEDIA QUERY PARA AJUSTES SUTILES EN PANTALLAS MEDIANAS === */
+/* ============================================================== */
+/* Se aplica cuando la pantalla es más estrecha que 1180px PERO AÚN MÁS ANCHA que 992px */
+@media (max-width: 1179.98px) and (min-width: 992.02px) { /* AJUSTA EL 1179.98px SEGÚN NECESITES */
+
+    /* Ajustes para la fila inferior del header (navegación principal) */
+    .main-navigation ul {
+        gap: var(--spacing-small, 8px); /* Reducir el espacio entre ítems del menú */
+    }
+
+    .main-navigation ul li .nav-link {
+        padding: 0 var(--spacing-small, 10px); /* Reducir el padding horizontal de cada ítem */
+        font-size: 0.82rem; /* Reducir ligeramente el tamaño de la fuente */
+        letter-spacing: normal; /* Eliminar o reducir el espaciado entre letras si ayuda */
+    }
+
+    /* Ajuste específico para el padding del botón de contacto si tiene !important */
+    .main-navigation ul li.nav-contact-item .nav-link {
+        padding: var(--spacing-extra-small, 6px) var(--spacing-small, 10px) !important;
+        font-size: 0.82rem; /* Mantener consistencia de fuente con los otros nav-links */
+    }
+
+    /* Opcional: Si la barra de búsqueda también se vuelve un problema en este rango */
+    /* .header-search { max-width: 320px; } */
+    /* .site-branding .site-title { font-size: 1.5em; } */
+}
+
+
+/* ============================================================== */
 /* Media Queries para Responsividad (Usando tu base para móvil) */
 /* ============================================================== */
 @media (max-width: 992px) { /* Ajustado breakpoint a 992px para más consistencia */

@@ -1,44 +1,54 @@
 // src/pages/OffersPage.tsx
 import './css/OffersPage.css'; // Importa los estilos específicos si los hay
-// Product y getProducts ya no se importan aquí directamente
-// ProductGrid se usa dentro de ProductListingLayout
-
-// Componentes y Hooks
+import { useMemo, useState, useEffect } from 'react'; // <--- AÑADE useState y useEffect
 import ProductListingLayout from '../components/ProductListingLayout';
-import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts'; // Importa el hook y las opciones
-import { useMemo } from 'react'; // Importa useMemo para las opciones del hook
+import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 
 // Configuración de productos por página para esta vista específica
-const PRODUCTS_PER_PAGE_OFFERS = 8; // O el valor que prefieras, podría ser el mismo que en otras listas
+const PRODUCTS_PER_PAGE_OFFERS_DESKTOP = 8; // Tu valor actual para escritorio
+const PRODUCTS_PER_PAGE_OFFERS_MOBILE = 6;  // O el que prefieras para móvil
+const MOBILE_BREAKPOINT = 768; // Mantenemos el breakpoint consistente
 
 export default function OffersPage() {
-    // 1. CONFIGURA LAS OPCIONES PARA usePaginatedProducts
-    // Usamos useMemo para asegurar que el objeto de opciones sea estable si no cambian sus dependencias
-    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
-        productsPerPage: PRODUCTS_PER_PAGE_OFFERS,
-        onSale: true, // <--- ¡CLAVE! Para obtener solo productos en oferta
-        // initialPage por defecto es 1 en el hook
-        // categoryId, searchTerm, etc., son undefined por defecto, lo cual está bien aquí
-    }), []); // El array de dependencias está vacío porque las opciones son estáticas para esta página
+    // 1. Estado para saber si estamos en vista móvil
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth < MOBILE_BREAKPOINT);
 
-    // 2. USA EL HOOK
+    // 2. useEffect para actualizar isMobileView cuando cambie el tamaño de la ventana
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < MOBILE_BREAKPOINT);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // 3. Determina productsPerPage basado en isMobileView
+    const currentProductsPerPageOffers = useMemo(() => {
+        return isMobileView ? PRODUCTS_PER_PAGE_OFFERS_MOBILE : PRODUCTS_PER_PAGE_OFFERS_DESKTOP;
+    }, [isMobileView]);
+
+    // 4. CONFIGURA LAS OPCIONES PARA usePaginatedProducts
+    const productFetcherOptions: UsePaginatedProductsOptions = useMemo(() => ({
+        productsPerPage: currentProductsPerPageOffers, // <--- ¡AQUÍ USAMOS EL VALOR DINÁMICO!
+        onSale: true,
+    }), [currentProductsPerPageOffers]); // Añadimos currentProductsPerPageOffers a las dependencias
+
+    // 5. USA EL HOOK
     const {
-        products,           // Estos son tus 'offerProducts'
+        products,
         loading,
         error,
         currentPage,
         totalProducts,
         totalPages,
-        setCurrentPage,     // Para la paginación
+        setCurrentPage,
     } = usePaginatedProducts(productFetcherOptions);
 
-    // 3. MANEJO DE ESTADOS GLOBALES DE CARGA Y ERROR (antes de renderizar el layout)
-    // Muestra "Cargando..." solo en la carga inicial o si no hay productos aún y no hay error
+    // 6. MANEJO DE ESTADOS GLOBALES DE CARGA Y ERROR
     if (loading && products.length === 0 && !error) {
-        // Puedes usar clases genéricas o las específicas de OffersPage si las tienes
         return (
-            <div className="page-container">
-                <div className="page-title-block"><h2>Ofertas</h2></div>
+            <div className="page-container"> {/* Asumiendo que .page-container es tu contenedor principal de página */}
+                <div className="page-title-block"><h2>Ofertas</h2></div> {/* Asumiendo estilos para page-title-block */}
                 <p className="page-loading offers-page-loading">Cargando ofertas...</p> 
             </div>
         );
@@ -53,38 +63,29 @@ export default function OffersPage() {
         );
     }
     
-    // 4. RENDERIZA USANDO ProductListingLayout
-    // El layout manejará internamente el mensaje de "no hay productos" si es necesario,
-    // o puedes personalizarlo aquí si el mensaje de "No hay ofertas disponibles..." es diferente.
-    
-    // Si después de cargar, no hay error, pero no hay productos y el total es cero
     if (!loading && !error && products.length === 0 && totalProducts === 0) {
         return (
             <div className="page-container">
                 <div className="page-title-block">
                     <h2>Ofertas</h2>
                 </div>
-                {/* Usa la clase que tengas definida para el mensaje de "no ofertas" 
-                    o una genérica como "page-empty" o "product-listing-not-found" 
-                    si ProductListingLayout no se ajusta perfectamente al mensaje que quieres.
-                    Para usar el mensaje exacto de tu versión original:
-                */}
                 <p className="page-empty offers-page-empty">No hay ofertas disponibles en este momento.</p>
             </div>
         );
     }
 
+    // 7. RENDERIZA USANDO ProductListingLayout
     return (
-        // El div "page-container" es el wrapper principal de la página
         <div className="page-container"> 
             <ProductListingLayout
                 title="Ofertas"
                 products={products}
-                loading={loading} // Para deshabilitar botones de paginación durante cargas
+                loading={loading}
                 currentPage={currentPage}
                 totalProducts={totalProducts}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
+                // itemsPerPage={currentProductsPerPageOffers} // Opcional, si lo necesitas en ProductListingLayout
             />
         </div>
     );
