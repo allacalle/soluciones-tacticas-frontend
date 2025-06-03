@@ -1,17 +1,28 @@
-/* src/pages/css/ProductPage.css - Adaptado para nuevo layout de columnas */
+/* src/pages/css/ProductPage.css - Adaptado para nuevo layout de columnas y toque profesional */
 
 /* ==========================================================================
    1. Contenedor Principal y Estados de Página
    ========================================================================== */
 .product-page-container {
-    padding-top: var(--spacing-medium, 16px);
-    padding-bottom: var(--spacing-xlarge, 48px);
+    padding-top: var(--spacing-medium, 20px); /* PROFESIONAL: Ajuste ligero de padding */
+    padding-bottom: var(--spacing-xlarge, 56px); /* PROFESIONAL: Un poco más de espacio abajo */
     background-color: var(--color-background-light, #fff);
+    box-sizing: border-box;
 }
-/* ... (Estilos para .product-page-loading, .product-page-error, .product-page-not-found se mantienen) ... */
-.product-page-loading, .product-page-error, .product-page-not-found { text-align: center; font-size: 1.1em; margin: var(--spacing-xlarge, 40px) auto; padding: var(--spacing-large, 24px); max-width: 650px; border: 1px solid var(--color-neutral-light); border-left-width: 4px; border-radius: 0 6px 6px 0; background-color: var(--color-neutral-lightest, #fdfdfd); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.product-page-error { border-left-color: var(--color-call-to-action, #d32f2f); color: var(--color-call-to-action, #d32f2f); background-color: rgba(211, 47, 47, 0.05); }
-.product-page-not-found { border-left-color: var(--color-warning, #ff9800); color: var(--color-warning, #ff9800); background-color: rgba(255, 152, 0, 0.05); }
+.product-page-loading, .product-page-error, .product-page-not-found {
+    text-align: center;
+    font-size: 1.1em;
+    margin: var(--spacing-xlarge, 48px) auto; /* PROFESIONAL: Más margen vertical */
+    padding: var(--spacing-large, 24px) var(--spacing-xlarge, 32px); /* PROFESIONAL: Más padding interno */
+    max-width: 700px; /* PROFESIONAL: Un poco más de ancho */
+    border: 1px solid var(--color-neutral-light, #e0e0e0); /* PROFESIONAL: Borde más sutil */
+    border-left-width: 5px; /* PROFESIONAL: Borde izquierdo más grueso para énfasis */
+    border-radius: 8px; /* PROFESIONAL: Bordes más redondeados */
+    background-color: var(--color-neutral-lightest, #fdfdfd);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* PROFESIONAL: Sombra muy sutil */
+}
+.product-page-error { border-left-color: var(--color-call-to-action, #d32f2f); color: var(--color-call-to-action, #d32f2f); background-color: rgba(211, 47, 47, 0.03); } /* PROFESIONAL: Fondo casi imperceptible */
+.product-page-not-found { border-left-color: var(--color-warning, #ff9800); color: var(--color-warning, #ff9800); background-color: rgba(255, 152, 0, 0.03); } /* PROFESIONAL: Fondo casi imperceptible */
 
 
 /* ==========================================================================
@@ -19,15 +30,15 @@
    ========================================================================== */
 .product-layout-main-columns {
     display: grid;
-    /* Ejemplo de 3 columnas: Galería (con sus thumbs), Info Principal, Sidebar */
-    /* Ajusta las unidades 'fr' para dar más o menos peso a cada columna */
-    /* O 'auto' si quieres que una columna se ajuste a su contenido (ej. thumbs) */
-    grid-template-columns: minmax(300px, 1.2fr) minmax(300px, 2fr) minmax(250px, 1fr);
-    /* Ejemplo si la galería (con thumbs debajo) es una sola columna: */
-    /* grid-template-columns: minmax(400px, 1.5fr) minmax(300px, 2fr) minmax(250px, 1fr); */
-    gap: var(--spacing-large, 30px);
-    margin-bottom: var(--spacing-xlarge, 40px);
-    align-items: flex-start; /* Alinear items al inicio de la celda del grid */
+    grid-template-columns: minmax(320px, 1.2fr) minmax(320px, 2fr) minmax(260px, 0.8fr);
+    gap: var(--spacing-xlarge, 40px); /* PROFESIONAL: Un gap más generoso */
+    margin-bottom: var(--spacing-xlarge, 48px); /* PROFESIONAL: Más espacio antes de la siguiente sección */
+    align-items: flex-start;
+    max-width: var(--max-width-content, 1280px); /* PROFESIONAL: Un poco más de ancho para el contenido principal */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--spacing-large, 32px); /* PROFESIONAL: Padding lateral más generoso */
+    box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -36,145 +47,244 @@
 
 /* Columna de Galería de Imágenes */
 .product-gallery-area {
-    /* Si la galería necesita ser sticky: */
-    /* position: sticky; */
-    /* top: calc(var(--header-height, 80px) + var(--spacing-medium, 16px)); */
-    /* max-height: calc(100vh - var(--header-height, 80px) - var(--spacing-medium, 16px) * 2); */
-    /* overflow-y: auto; */
-    /* padding-right: 0;  Asegúrate de que no haya padding que cree barras innecesarias */
+    position: sticky;
+    top: calc(var(--header-height, 70px) + var(--spacing-large, 30px)); /* PROFESIONAL: Más espacio desde el header */
+    max-height: calc(100vh - var(--header-height, 70px) - var(--spacing-large, 30px) * 2);
+    overflow-y: auto;
+    padding-right: var(--spacing-base, 16px); /* PROFESIONAL: Padding para el scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-neutral-medium) transparent; /* PROFESIONAL: Scrollbar más sutil para Firefox */
 }
-/* Los estilos para .product-main-image, .product-thumbnails, .product-thumbnail
-   DEBEN estar dentro del CSS de ProductImageGallery.tsx O aquí con un selector
-   más específico si ProductImageGallery no tiene su propio CSS, ej:
-   .product-gallery-area .product-main-image { ... }
-   Por ahora, mantendré los que tenías, asumiendo que se aplican bien
-   si <ProductImageGallery /> está directamente en esta área. */
+.product-gallery-area::-webkit-scrollbar { width: 5px; height: 5px; } /* PROFESIONAL: Scrollbar más delgado */
+.product-gallery-area::-webkit-scrollbar-thumb { background-color: var(--color-neutral-medium); border-radius: 10px; }
+.product-gallery-area::-webkit-scrollbar-track { background-color: transparent; }
 
-.product-main-image { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; border: 1px solid var(--color-neutral-light); margin-bottom: var(--spacing-small, 10px); background-color: var(--color-neutral-lightest); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.product-thumbnails { display: flex; gap: var(--spacing-small, 8px); overflow-x: auto; padding-bottom: var(--spacing-extra-small, 5px); scrollbar-width: thin; }
+
+.product-main-image { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; /* PROFESIONAL: Bordes más redondeados */ border: 1px solid var(--color-neutral-light, #e0e0e0); margin-bottom: var(--spacing-base, 12px); /* PROFESIONAL: Espacio ajustado */ background-color: var(--color-neutral-lightest); box-shadow: 0 5px 15px rgba(0,0,0,0.07); /* PROFESIONAL: Sombra sutil */ }
+.product-thumbnails { display: flex; gap: var(--spacing-small, 10px); /* PROFESIONAL: Gap ajustado */ overflow-x: auto; padding-bottom: var(--spacing-small, 8px); /* PROFESIONAL: Padding para scrollbar */ scrollbar-width: thin; scrollbar-color: var(--color-neutral-medium) transparent; }
 .product-thumbnails::-webkit-scrollbar { height: 4px; }
 .product-thumbnails::-webkit-scrollbar-thumb { background-color: var(--color-neutral-medium); border-radius: 2px; }
-.product-thumbnail { width: 65px; height: 65px; object-fit: cover; border: 2px solid transparent; border-radius: 4px; cursor: pointer; transition: border-color 0.2s ease; flex-shrink: 0; }
-.product-thumbnail.active, .product-thumbnail:hover { border-color: var(--color-accent); }
-.no-product-image { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; background-color: var(--color-neutral-light); color: var(--color-neutral-dark); border-radius: 6px; font-style: italic; border: 1px dashed var(--color-neutral-medium); }
+.product-thumbnails::-webkit-scrollbar-track { background-color: transparent; }
+
+.product-thumbnail { width: 70px; height: 70px; /* PROFESIONAL: Ligeramente más grandes */ object-fit: cover; border: 2px solid transparent; border-radius: 6px; /* PROFESIONAL: Bordes más redondeados */ cursor: pointer; transition: border-color 0.25s ease-out, opacity 0.25s ease-out; flex-shrink: 0; opacity: 0.75; /* PROFESIONAL: Opacidad para no activos */ }
+.product-thumbnail.active, .product-thumbnail:hover { border-color: var(--color-primary-dark, #556B2F); /* PROFESIONAL: Un color de acento primario */ opacity: 1; }
+.no-product-image { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; background-color: var(--color-neutral-light, #f7f7f7); color: var(--color-text-medium, #666); border-radius: 8px; font-style: italic; border: 1px dashed var(--color-neutral-medium, #ccc); font-size: 0.9em; }
 
 
 /* Columna de Información Principal del Producto */
 .product-info-area {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-medium, 20px);
+    gap: var(--spacing-large, 24px); /* PROFESIONAL: Espaciado entre bloques de info */
 }
-/* Título del producto (H1) - Ahora DENTRO de esta columna */
-.product-info-area .product-title-heading { /* Selector más específico */
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem); /* Ligeramente más pequeño que antes */
-    font-weight: var(--font-weight-medium, 600); /* Un poco menos bold */
+.product-info-area .product-title-heading {
+    font-size: clamp(1.9rem, 3.8vw, 2.6rem); /* PROFESIONAL: Ajuste de clamp */
+    font-weight: var(--font-weight-bold, 700);
     color: var(--color-text-dark);
-    line-height: 1.3;
-    margin: 0 0 var(--spacing-medium, 16px) 0; /* Espacio debajo */
-    padding-bottom: var(--spacing-small, 8px); /* Para una posible línea inferior sutil */
-    /* border-bottom: 1px solid var(--color-neutral-light); Opcional */
+    line-height: 1.25; /* PROFESIONAL: Interlineado más ajustado para títulos grandes */
+    margin: 0 0 var(--spacing-base, 12px) 0; /* PROFESIONAL: Espacio inferior ajustado */
+    padding-bottom: var(--spacing-base, 12px);
+    border-bottom: 1px solid var(--color-neutral-light, #eee); /* PROFESIONAL: Borde sutil */
+    letter-spacing: -0.02em; /* PROFESIONAL: Ligero ajuste para fuentes grandes */
 }
-/* Los estilos para los elementos DENTRO de ProductInfo (precio, desc breve, etc.)
-   deberían estar en el CSS de ProductInfo.tsx o aquí con selectores como:
-   .product-info-area .product-price-container { ... }
-   .product-info-area .product-short-description { ... }
-   Mantengo los estilos que ya tenías para estos elementos, asumiendo que
-   ProductInfo.tsx los renderiza con estas clases. */
-
-.product-info-area .product-price-container { font-size: 1.8rem; font-weight: var(--font-weight-bold); color: var(--color-primary-dark); margin-bottom: var(--spacing-small); }
-.product-info-area .product-price-container .regular-price { font-size: 0.9rem; text-decoration: line-through; color: var(--color-neutral-dark); margin-left: 8px; }
+.product-info-area .product-price-container { font-size: clamp(1.7rem, 3.2vw, 2.2rem); font-weight: var(--font-weight-bold); color: var(--color-primary-dark); margin-bottom: var(--spacing-base, 12px); }
+.product-info-area .product-price-container .regular-price { font-size: 0.8em; /* PROFESIONAL: Relativo al precio actual */ text-decoration: line-through; color: var(--color-text-medium, #777); margin-left: 10px; font-weight: var(--font-weight-regular); }
 .product-info-area .product-price-container .current-price.sale { color: var(--color-call-to-action); }
-.product-info-area .product-short-description { font-size: 0.95rem; line-height: 1.6; color: var(--color-neutral-darker, #444); margin-bottom: var(--spacing-medium); }
-.product-info-area .variable-attribute-selector-container { margin-bottom: var(--spacing-medium); }
-.product-info-area .variation-group label { display: block; font-weight: var(--font-weight-medium); margin-bottom: var(--spacing-extra-small); font-size: 0.9rem; }
-.product-info-area .variation-options button, .product-info-area .variation-options select { margin-right: var(--spacing-small); margin-bottom: var(--spacing-small); padding: 6px 12px; border: 1px solid var(--color-neutral-medium); border-radius: 4px; background-color: var(--color-background-light); cursor: pointer; }
-.product-info-area .variation-options button.selected { border-color: var(--color-accent); background-color: var(--color-accent); color: var(--color-text-light); }
-.product-info-area .add-to-cart-button { margin-top: var(--spacing-small); /* ... (tus estilos de botón) ... */ }
-.product-info-area .product-meta { font-size: 0.85rem; color: var(--color-neutral-dark); margin-top: var(--spacing-medium); padding-top: var(--spacing-small); border-top: 1px solid var(--color-neutral-light); }
-.product-info-area .product-meta .brand-logo-product-page {
-    display: inline-block;
-    width: 80px;           /* ANCHO MÁXIMO O FIJO DESEADO */
-    height: 35px;          /* ALTO MÁXIMO O FIJO DESEADO */
-    object-fit: contain;   /* La imagen se ajustará dentro de estas dimensiones manteniendo su proporción */
-    vertical-align: middle;
-    margin-right: var(--spacing-extra-small, 6px);
+
+.product-info-area .product-short-description { font-size: clamp(0.95rem, 1.6vw, 1.05rem); line-height: 1.65; /* PROFESIONAL: Mejor interlineado */ color: var(--color-neutral-darker, #4a4a4a); margin-bottom: var(--spacing-large, 24px); } /* PROFESIONAL: Más espacio antes de las opciones */
+
+.product-info-area .variable-attribute-selector-container { margin-bottom: var(--spacing-large, 24px); }
+.product-info-area .variation-group label { display: block; font-weight: var(--font-weight-medium); margin-bottom: var(--spacing-small, 8px); font-size: 0.95rem; color: var(--color-text-medium, #555); }
+.product-info-area .variation-options { display: flex; flex-wrap: wrap; gap: var(--spacing-small, 10px); } /* PROFESIONAL: Usar gap */
+.product-info-area .variation-options button, .product-info-area .variation-options select {
+    /* margin-right: 0; margin-bottom: 0; Quitados, ahora usa gap */
+    padding: 8px 14px; /* PROFESIONAL: Padding más equilibrado */
+    border: 1px solid var(--color-neutral-medium, #ccc);
+    border-radius: 6px; /* PROFESIONAL: Bordes consistentes */
+    background-color: var(--color-background-light);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out; /* PROFESIONAL: Transición general */
 }
+.product-info-area .variation-options button:hover, .product-info-area .variation-options select:hover { border-color: var(--color-primary-dark, #556B2F); background-color: var(--color-neutral-lightest, #fdfdfd); }
+.product-info-area .variation-options button.selected { border-color: var(--color-primary-dark, #556B2F); background-color: var(--color-primary-dark, #556B2F); color: var(--color-text-light); box-shadow: 0 2px 5px rgba(var(--color-primary-dark-rgb, 85, 107, 47), 0.3); } /* PROFESIONAL: Sombra sutil en seleccionado */
+
+/* Botón Añadir al carrito (asumiendo que es un .button-primary o similar) */
+.product-info-area .add-to-cart-button {
+    /* Si tienes una clase global .button-primary, estos estilos podrían ir ahí */
+    display: inline-flex; /* PROFESIONAL: Para alinear icono si lo tuviera */
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-medium, 14px) var(--spacing-large, 28px); /* PROFESIONAL: Padding generoso */
+    font-size: 1.05rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-light);
+    background-color: var(--color-call-to-action, #d9534f); /* O tu color primario de acción */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase; /* PROFESIONAL: Para CTAs */
+    letter-spacing: 0.03em;
+    transition: background-color 0.25s ease-out, transform 0.15s ease-out, box-shadow 0.25s ease-out;
+    margin-top: var(--spacing-medium, 20px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+.product-info-area .add-to-cart-button:hover {
+    background-color: 색상(--color-call-to-action, #c9302c); /* Un tono más oscuro de tu CTA */
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+
+.product-info-area .product-meta { font-size: 0.88rem; /* PROFESIONAL: Ligeramente más grande */ color: var(--color-text-medium, #666); margin-top: var(--spacing-large, 24px); padding-top: var(--spacing-medium, 16px); border-top: 1px solid var(--color-neutral-light, #eee); }
+.product-info-area .product-meta span { display: block; margin-bottom: var(--spacing-extra-small, 6px); } /* PROFESIONAL: Mejor espaciado para meta items */
+.product-info-area .product-meta .brand-logo-product-page { /* ... (tus estilos se mantienen, están bien) ... */ }
 
 /* Columna Sidebar (Derecha) */
 .product-sidebar-area {
-    /* Esta columna contendrá el carrusel "Más en Categoría" */
-    /* Puedes darle un padding, borde, o fondo si quieres diferenciarla */
-    /* padding: var(--spacing-medium, 16px); */
-    /* border-left: 1px solid var(--color-neutral-light); */
+    /* PROFESIONAL: Darle un poco de "presencia" si no es muy larga */
+    /* padding-top: var(--spacing-small); */
 }
-.sidebar-widget { /* Wrapper para cada "widget" en la sidebar */
-    margin-bottom: var(--spacing-large, 24px);
-}
-.sidebar-widget-title { /* Título para "Más en X" */
-    font-size: 1.1rem;
+.sidebar-widget { margin-bottom: var(--spacing-xlarge, 32px); /* PROFESIONAL: Más separación entre widgets */ }
+.sidebar-widget-title {
+    font-size: 1.15rem; /* PROFESIONAL: Un poco más grande */
     font-weight: var(--font-weight-medium, 600);
     color: var(--color-text-dark);
-    margin: 0 0 var(--spacing-small, 10px) 0;
-    padding-bottom: var(--spacing-extra-small, 6px);
-    border-bottom: 1px solid var(--color-neutral-medium);
+    margin: 0 0 var(--spacing-base, 12px) 0; /* PROFESIONAL: Ajuste de margen */
+    padding-bottom: var(--spacing-small, 10px); /* PROFESIONAL: Ajuste de padding */
+    border-bottom: 2px solid var(--color-primary-light, #8FBC8F); /* PROFESIONAL: Borde más distintivo */
+    letter-spacing: -0.01em;
 }
-/* El ProductCarousel dentro de .sidebar-widget ya usa ProductCarousel.css */
-/* Podrías necesitar ajustar ProductCarousel.css para un modo "compacto" o "sidebar"
-   si quieres que las tarjetas sean más pequeñas aquí. */
+
+/* ==========================================================================
+   4. Secciones Inferiores (Tabs, Descripción Completa, Carruseles de Ancho Completo)
+   ========================================================================== */
+/* Ejemplo para una barra de título de sección (si la usas para "Descripción", "Productos Relacionados") */
+.section-title-bar { /* Si usas esto como reemplazo de .sidebar-widget-title para secciones de ancho completo */
+    text-align: center;
+    margin-bottom: var(--spacing-large, 32px);
+    padding-bottom: var(--spacing-medium, 16px);
+    border-bottom: 1px solid var(--color-neutral-light, #eee);
+}
+.section-title-bar h2, .section-title-bar h3 { /* El título dentro de esta barra */
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-dark);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.product-details-tabs-section, /* Placeholder si tienes una sección de tabs */
+.product-full-description-section, /* Wrapper para la descripción larga */
+.related-products-section-wrapper,
+.upsells-products-section-wrapper {
+    max-width: var(--max-width-text-content, 900px); /* PROFESIONAL: Ancho más legible para bloques de texto largos y carruseles de ancho "contenido" */
+    margin: var(--spacing-xlarge, 48px) auto; /* PROFESIONAL: Más espaciado vertical */
+    padding: 0 var(--spacing-large, 24px);
+    box-sizing: border-box;
+}
+.product-full-description-content { /* Estilos para el contenido de la descripción larga */
+    font-size: 1rem;
+    line-height: 1.7; /* PROFESIONAL: Interlineado generoso para lectura */
+    color: var(--color-neutral-darker, #444);
+}
+.product-full-description-content p { margin-bottom: var(--spacing-medium, 1.5em); /* Relativo al font-size */ }
+.product-full-description-content h3, .product-full-description-content h4 { /* Subtítulos dentro de la descripción */
+    font-size: 1.3em; /* O relativo al 1rem */
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-large, 2em);
+    margin-bottom: var(--spacing-small, 0.8em);
+    padding-bottom: var(--spacing-extra-small, 4px);
+    border-bottom: 1px solid var(--color-neutral-light);
+}
+/* ... (Tus estilos para .related-products-wrapper > h2, ::after, .product-carousel-section se mantienen,
+       pero asegúrate de que los títulos de estas secciones usen una jerarquía consistente, como .section-title-bar si aplica) ... */
 
 
 /* ==========================================================================
-   4. Secciones Inferiores (Descripción Completa, Carruseles de Ancho Completo)
+   5. Media Queries (Adaptando el nuevo layout de grid y los toques profesionales)
    ========================================================================== */
-.section-title-bar { /* ... (tus estilos para la barra de título se mantienen) ... */ }
-.product-full-description-content, .related-products-content { /* ... (se mantienen) ... */ }
-.related-products-wrapper { /* ... (se mantienen) ... */ }
-.related-products-wrapper > h2 { /* ... (se mantienen, incluyendo el ::after) ... */ }
-.related-products-wrapper > h2::after { /* ... */ }
-.related-products-wrapper .product-carousel-section { /* ... (se mantienen) ... */ }
-
-
-/* ==========================================================================
-   5. Media Queries (Adaptando el nuevo layout de grid)
-   ========================================================================== */
-@media (max-width: 1024px) { /* Tablets */
+/* Tablets Grandes y Escritorios Pequeños */
+@media (max-width: 1199.98px) {
     .product-layout-main-columns {
-        /* En tablet, podríamos pasar a 2 columnas: Galería | Info + Sidebar debajo de Info */
-        grid-template-columns: minmax(300px, 1fr) minmax(300px, 1.5fr); /* Galería | Info+Sidebar */
-        /* O mantener 3 columnas pero más estrechas si caben */
-        /* grid-template-columns: minmax(280px, 1fr) minmax(280px, 1.5fr) minmax(200px, 0.8fr); */
-        gap: var(--spacing-medium, 20px);
+        grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.8fr) minmax(220px, 0.7fr); /* PROFESIONAL: Ajustar el min de la sidebar */
+        gap: var(--spacing-large, 32px); /* PROFESIONAL: Mantener o ajustar gap */
+        padding: 0 var(--spacing-medium, 20px);
     }
-    .product-sidebar-area {
-        /* Si se apila debajo de la info en un layout de 2 columnas principal: */
-        /* grid-column: 2 / 3; */ /* Ocupa la segunda columna del grid padre */
-        /* margin-top: var(--spacing-large, 24px); */ /* Espacio si se apila */
-        /* O si quieres que sea una columna más estrecha al lado */
-    }
-    .product-gallery-area { position: static; max-height: none; overflow-y: visible; } /* Quitar sticky */
+    .product-gallery-area { top: calc(var(--header-height, 70px) + var(--spacing-medium, 24px)); padding-right: var(--spacing-small, 8px); }
+    .product-info-area .product-title-heading { font-size: clamp(1.7rem, 3.5vw, 2.3rem); }
+    .product-info-area .product-price-container { font-size: clamp(1.5rem, 2.8vw, 1.9rem); }
 }
 
-@media (max-width: 768px) { /* Móviles */
+/* Tablets */
+@media (max-width: 991.98px) {
     .product-layout-main-columns {
-        grid-template-columns: 1fr; /* Una sola columna */
-        gap: var(--spacing-large, 24px);
+        grid-template-columns: minmax(260px, 0.8fr) 1.2fr; /* Galería más pequeña, Info más grande */
+        gap: var(--spacing-large, 28px);
+        padding: 0 var(--spacing-base, 16px); /* PROFESIONAL: Padding lateral general para tablet */
     }
-    /* El orden visual en móvil sería el orden del DOM.
-       Asegúrate de que en ProductPage.tsx, el orden de
-       .product-gallery-area, .product-info-area, .product-sidebar-area
-       sea el que quieres para móvil. */
-    .product-gallery-area,
-    .product-info-area,
+    .product-gallery-area { position: static; max-height: none; overflow-y: visible; padding-right: 0; }
     .product-sidebar-area {
-        max-width: 100%;
-        width: 100%;
-        padding-right: 0; /* Resetear padding si lo tenía para scrollbar */
-        border-left: none; /* Resetear borde si lo tenía */
+        grid-column: 1 / -1;
+        margin-top: var(--spacing-xlarge, 32px); /* PROFESIONAL: Más espacio */
+        border-left: none; padding-left: 0;
     }
-    .product-title-heading { /* El que está dentro de .product-info-area */
-        text-align: center;
-        font-size: clamp(1.5rem, 5vw, 2rem);
+    .product-details-tabs-section,
+    .product-full-description-section,
+    .related-products-section-wrapper,
+    .upsells-products-section-wrapper {
+        padding: 0 var(--spacing-base, 16px); /* PROFESIONAL: Padding lateral general para tablet */
+        margin-top: var(--spacing-large, 32px); margin-bottom: var(--spacing-large, 32px);
     }
-    /* ... (otros ajustes móviles que ya tenías para tamaños de fuente, etc.) ... */
+    .product-info-area .add-to-cart-button { padding: var(--spacing-base, 12px) var(--spacing-large, 24px); font-size: 1rem; }
+}
+
+/* Móviles Grandes */
+@media (max-width: 767.98px) {
+    .product-page-container { padding-top: var(--spacing-small, 10px); padding-bottom: var(--spacing-large, 32px); }
+    .product-layout-main-columns {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-large, 28px); /* PROFESIONAL: Mantener un buen gap vertical */
+        padding: 0 var(--spacing-medium, 16px); /* PROFESIONAL: Padding lateral móvil */
+        margin-bottom: var(--spacing-large, 32px);
+    }
+    .product-gallery-area, .product-info-area, .product-sidebar-area { max-width: 100%; width: 100%; margin-top: 0; }
+    .product-sidebar-area { margin-top: var(--spacing-xlarge, 32px); }
+
+    .product-info-area .product-title-heading { text-align: left; font-size: clamp(1.5rem, 5.5vw, 1.9rem); border-bottom: none; padding-bottom: var(--spacing-extra-small); } /* PROFESIONAL: Alinear a la izq en móvil puede ser más limpio que centrado para el flujo */
+    .product-info-area .product-price-container { text-align: left; justify-content: flex-start; font-size: clamp(1.4rem, 4.5vw, 1.8rem); }
+    .product-info-area .product-short-description { font-size: clamp(0.9rem, 2.5vw, 1rem); }
+    .product-info-area .add-to-cart-button { width: 100%; padding-top: 14px; padding-bottom: 14px; font-size: 1rem; } /* PROFESIONAL: Padding un poco mayor */
+
+    .product-details-tabs-section,
+    .product-full-description-section,
+    .related-products-section-wrapper,
+    .upsells-products-section-wrapper {
+        padding: 0 var(--spacing-medium, 16px); /* PROFESIONAL: Padding lateral móvil */
+        margin-top: var(--spacing-large, 28px); margin-bottom: var(--spacing-large, 28px);
+    }
+    .sidebar-widget-title { font-size: 1.1rem; } /* PROFESIONAL: Un poco más grande aún puede estar bien */
+    .product-full-description-content { line-height: 1.65; }
+}
+
+/* Móviles Pequeños */
+@media (max-width: 479.98px) {
+    .product-layout-main-columns { gap: var(--spacing-medium, 20px); padding: 0 var(--spacing-small, 12px); }
+    .product-main-image { margin-bottom: var(--spacing-small, 8px); }
+    .product-thumbnails { gap: var(--spacing-small, 8px); }
+    .product-thumbnail { width: 60px; height: 60px; }
+
+    .product-info-area { gap: var(--spacing-base, 15px); }
+    .product-info-area .product-title-heading { font-size: clamp(1.3rem, 5vw, 1.7rem); }
+    .product-info-area .product-price-container { font-size: clamp(1.3rem, 3.8vw, 1.7rem); }
+    .product-info-area .variation-options { gap: var(--spacing-extra-small, 6px); }
+    .product-info-area .variation-options button, .product-info-area .variation-options select { font-size: 0.8rem; padding: 6px 10px; }
+    .product-info-area .add-to-cart-button { font-size: 0.95rem; padding-top: 12px; padding-bottom: 12px; }
+
+    .product-details-tabs-section,
+    .related-products-section-wrapper {
+        padding: 0 var(--spacing-small, 12px);
+        margin-top: var(--spacing-medium, 24px); margin-bottom: var(--spacing-medium, 24px);
+    }
 }
