@@ -138,7 +138,18 @@
 
 .product-info-area .product-meta { font-size: 0.88rem; /* PROFESIONAL: Ligeramente más grande */ color: var(--color-text-medium, #666); margin-top: var(--spacing-large, 24px); padding-top: var(--spacing-medium, 16px); border-top: 1px solid var(--color-neutral-light, #eee); }
 .product-info-area .product-meta span { display: block; margin-bottom: var(--spacing-extra-small, 6px); } /* PROFESIONAL: Mejor espaciado para meta items */
-.product-info-area .product-meta .brand-logo-product-page { /* ... (tus estilos se mantienen, están bien) ... */ }
+.product-info-area .product-meta .brand-logo-product-page { 
+     max-width: 80px;   /* Ajusta este valor según el tamaño deseado (ej: 60px, 100px) */
+    max-height: 30px;  /* Opcional, pero ayuda a mantener la proporción y evitar que sean muy altas */
+    height: auto;      /* Mantiene la proporción si solo se aplica max-width */
+    width: auto;       /* Mantiene la proporción si solo se aplica max-height */
+    object-fit: contain; /* Muy importante para que el logo se vea completo y no se deforme */
+
+    display: inline-block; /* Para que se siente en la línea y respete márgenes/dimensiones */
+    vertical-align: middle; /* Intenta alinearla verticalmente con el texto circundante */
+    margin-right: 5px;     /* Espacio entre el logo y el nombre de la marca */
+    margin-left: 3px;      /* Un pequeño espacio si viene después de "Marca(s):" o una coma */
+}
 
 /* Columna Sidebar (Derecha) */
 .product-sidebar-area {
