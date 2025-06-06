@@ -3,9 +3,9 @@ import  { useEffect, useState } from 'react';
 
 // *** Importa tus imágenes específicas del carrusel ***
 // Asegúrate de que las rutas sean correctas desde src/components a donde pusiste las imágenes
-import militarImage from '@/assets/hero-carousel/militar.jpg';
-import outdoorImage from '@/assets/hero-carousel/outdoor.jpg';
-import policialImage from '@/assets/hero-carousel/policial.jpg';
+import militarImage from '/src/assets/hero-carousel/militar.jpg'; // <-- Ruta a militar.jpg
+import outdoorImage from '/src/assets/hero-carousel/outdoor.jpg'; // <-- Ruta a outdoor.jpg
+import policialImage from '/src/assets/hero-carousel/policial.jpg'; // <-- Ruta a policial.jpg
 
 
 // Define el array con las imágenes del carrusel usando las importaciones
