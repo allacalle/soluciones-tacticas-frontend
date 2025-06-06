@@ -1,18 +1,17 @@
-// src/components/ImageCarousel.tsx (o src/components/ImageCarousel.jsx)
-import  { useEffect, useState } from 'react';
+// src/components/ImageCarousel.tsx
+import { useEffect, useState } from 'react'; // React se importa implícitamente si usas JSX
 
-// *** Importa tus imágenes específicas del carrusel ***
-// Asegúrate de que las rutas sean correctas desde src/components a donde pusiste las imágenes
-import militarImage from '@/assets/hero-carousel/militar.jpg';
-import outdoorImage from '@/assets/hero-carousel/outdoor.jpg';
-import policialImage from '@/assets/hero-carousel/policial.jpg';
+// *** YA NO IMPORTAMOS LAS IMÁGENES DIRECTAMENTE COMO MÓDULOS ***
+// import militarImage from '@/assets/hero-carousel/militar.jpg';
+// import outdoorImage from '@/assets/hero-carousel/outdoor.jpg';
+// import policialImage from '@/assets/hero-carousel/policial.jpg';
 
 
-// Define el array con las imágenes del carrusel usando las importaciones
-const carouselImages = [
-  militarImage,
-  outdoorImage,
-  policialImage,
+// Define el array con las rutas a las imágenes en la carpeta `public`
+const carouselImagePaths = [ // Cambiado el nombre de la variable para mayor claridad
+  "/assets/hero-carousel/outdoor.jpg", 
+  "/assets/hero-carousel/policial.jpg",   // Ruta absoluta desde la raíz del sitio web
+  "/assets/hero-carousel/militar.jpg"     // Ruta absoluta desde la raíz del sitio web
 ];
 
 // Define el intervalo de tiempo para cambiar de imagen (en milisegundos)
@@ -27,7 +26,7 @@ function ImageCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
-        (prevIndex + 1) % carouselImages.length // Calcula el siguiente índice, volviendo a 0 al final
+        (prevIndex + 1) % carouselImagePaths.length // Usa carouselImagePaths
       );
     }, carouselInterval);
 
@@ -35,7 +34,6 @@ function ImageCarousel() {
     return () => {
       clearInterval(timer);
     };
-
   }, []); // Dependencia vacía: se ejecuta solo una vez al montar
 
   // Renderiza la imagen actual
@@ -51,14 +49,14 @@ function ImageCarousel() {
         zIndex: 1 // Z-index bajo para que el texto esté encima
     }}>
        <img
-           src={carouselImages[currentImageIndex]} // La imagen a mostrar
+           src={carouselImagePaths[currentImageIndex]} // Usa la ruta de cadena del array
            alt={`Carousel Image ${currentImageIndex + 1}`} // Texto alternativo
            className="carousel-image"
            style={{
                width: '100%',
                height: '100%',
                objectFit: 'cover', // Asegura que la imagen cubra el área
-               transition: 'opacity 1s ease-in-out', // Transición suave al cambiar (requiere más CSS para un efecto completo)
+               transition: 'opacity 1s ease-in-out', // Transición suave al cambiar
                opacity: 1 // Asegura que la opacidad inicial sea 1
            }}
        />
