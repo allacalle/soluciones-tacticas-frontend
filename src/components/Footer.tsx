@@ -1,6 +1,6 @@
 // src/components/Footer.tsx
 
-
+import { Link } from 'react-router-dom';
 import './css/Footer.css'; // Importa los estilos para el footer
 import logoPlaceholder from '../assets/logo/footer-logo.png'; // *** Reemplaza con la ruta real a tu logo si es diferente ***
 
@@ -35,9 +35,9 @@ function Footer() {
 					{/* Columna 1: Logo e Información de la tienda */}
 					<div className="footer-brand-info">
 						{/* Logo enlazado a la página de inicio */}
-						<a href="/" className="footer-logo-link">
+						<Link to="/" className="footer-logo-link">
 							<img src={logoPlaceholder} alt={`${storeName} Logo`} className="footer-logo"/> {/* *** Asegúrate de que la ruta del logo sea correcta *** */}
-						</a>
+						</Link>
 						{/* Breve descripción o lema (opcional, puedes personalizar esto) */}
 						<p className="footer-description">
 							{storeName} - Tu tienda de material policial, outdoor y airsoft en Córdoba.
@@ -48,10 +48,10 @@ function Footer() {
 					<div className="footer-links-col">
 						<h3>Tienda</h3>
 						<ul>
-							<li><a href="/productos">Todos los Productos</a></li>
-							<li><a href="/categorias">Categorías</a></li>
-							<li><a href="/marcas">Marcas</a></li> {/* Enlaza a la página de marcas si la creas */}
-							<li><a href="/ofertas">Ofertas</a></li> 
+							<li><Link to="/productos">Todos los Productos</Link></li>
+							<li><Link to ="/categorias">Categorías</Link></li>
+							<li><Link to="/marcas">Marcas</Link></li> {/* Enlaza a la página de marcas si la creas */}
+							<li><Link to="/ofertas">Ofertas</Link></li> 
 						</ul>
 					</div>
 
@@ -59,8 +59,8 @@ function Footer() {
 					<div className="footer-links-col">
 						<h3>Empresa</h3>
 						<ul>
-							<li><a href="/quienes-somos">Quiénes Somos</a></li>
-							<li><a href="/contacto">Contacto</a></li> {/* Enlaza a la página de Contacto si la creas */}
+							<li><Link to="/quienes-somos">Quiénes Somos</Link></li>
+							<li><Link to ="/contacto">Contacto</Link></li> {/* Enlaza a la página de Contacto si la creas */}
 							{/* <li><a href="/blog">Blog</a></li> */}{/* Si tienes blog */}
 							{/* <li><a href="/faqs">FAQs</a></li> */}{/* Si tienes página de preguntas frecuentes */}
 						</ul>
@@ -72,9 +72,9 @@ function Footer() {
 						<h3>Legal</h3> {/* Título para la columna Legal */}
 						<ul>
 							{/* Estas páginas son relevantes para el uso del propio frontend de React */}
-							<li><a href="/politica-privacidad">Política de Privacidad</a></li> {/* Asegúrate de crear esta página */}
-							<li><a href="/terminos-condiciones">Términos y Condiciones</a></li> {/* Asegúrate de crear esta página */}
-							<li><a href="/politica-cookies">Política de Cookies</a></li> {/* Asegúrate de crear esta página */}
+							<li><Link to="/politica-privacidad">Política de Privacidad</Link></li> {/* Asegúrate de crear esta página */}
+							<li><Link to="/terminos-condiciones">Términos y Condiciones</Link></li> {/* Asegúrate de crear esta página */}
+							<li><Link to="/politica-cookies">Política de Cookies</Link></li> {/* Asegúrate de crear esta página */}
 						</ul>
 					</div>
 

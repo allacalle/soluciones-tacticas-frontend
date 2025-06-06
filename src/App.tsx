@@ -17,6 +17,8 @@ import OffersPage from './pages/OffersPage'; // <-- Asegúrate que la ruta sea c
 import Header from './components/Header'; // <-- Asegúrate que la ruta sea correcta
 import ProductPage from './pages/ProductPage';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop'; // <--- IMPORTA EL NUEVO COMPONENTE
+
 
 import './css/pageLayout.css'
 import './index.css'
@@ -29,6 +31,8 @@ import AboutUsPage from './pages/AboutUsPage';
 function App() {
   return (
     <div>
+      <ScrollToTop /> {/* <--- AÑADE EL COMPONENTE AQUÍ */}
+
       {/* *** Usa el componente Header aquí en lugar de la etiqueta <header> *** */}
       <Header /> {/* <-- Aquí va tu nuevo componente Header */}
 
