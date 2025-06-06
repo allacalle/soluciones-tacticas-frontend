@@ -1,6 +1,5 @@
 // src/pages/TermsAndConditionsPage.tsx
 
-import React from 'react';
 import './css/TermsAndConditionsPage.css'; // Importa los estilos CSS para esta página
 
 function TermsAndConditionsPage() {

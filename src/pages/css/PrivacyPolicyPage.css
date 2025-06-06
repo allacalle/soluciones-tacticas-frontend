@@ -28,12 +28,6 @@
 	/* font-weight: var(--font-weight-bold); */
 }
 
-/* Estilos para el contenedor del texto de la política (si necesitas aplicar un fondo o borde a todo el bloque de texto) */
-.privacy-policy-content {
-	/* El espaciado de línea y tamaño de fuente base deberían heredar de body (index.css) */
-	/* line-height: 1.6; */
-	/* font-size: 1em; */
-}
 
 /* Espacio entre párrafos dentro del contenido usando variable */
 /* Nota: Esto podría entrar en conflicto si ya tienes reglas p{} en index.css, revisa cual tiene más especificidad */

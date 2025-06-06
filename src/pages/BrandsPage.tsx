@@ -42,7 +42,7 @@ export default function BrandsPage() { // Página para listar todas las marcas
 			try {
 				// !!! Llamada a getBrands !!!
 				// Usamos los parámetros por defecto de paginación (página 1, 100 por página)
-				const	result = await getBrands(1, perPage);
+				const	result = await getBrands({ page: 1, per_page: perPage });
 
 				// Opcional: filtrar marcas sin productos asociados si la API lo indica y quieres ocultarlas
 				// const	filteredBrands = result.brands.filter(brand => brand.count > 0);

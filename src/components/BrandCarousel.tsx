@@ -52,8 +52,8 @@ function BrandCarousel({ title, brandsToShow = 5, autoPlayInterval = 3000 }: Bra
                 setError(null); // Limpiamos errores anteriores
 
                 // Llama a la función getBrands de tu WooApi.ts
-                // Pasamos 1 para la página y 50 para per_page como argumentos separados
-                const result = await getBrands(1, 50); // *** Llamada a getBrands corregida ***
+                // Pasamos los parámetros como un objeto: { page: 1, per_page: 50 }
+                const result = await getBrands({ page: 1, per_page: 50 }); // *** Llamada a getBrands corregida ***
 
 
                 // Filtramos las marcas que no tienen imagen

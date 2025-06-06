@@ -223,10 +223,7 @@
 		margin-bottom: var(--spacing-medium, 15px);
 	}
 
-	.contact-details {
-		/* Si el texto de detalles no se centra automáticamente al apilar, forzar aquí */
-		/* text-align: center; */
-	}
+	
 
 	.contact-map {
 		margin-top: var(--spacing-medium, 15px); /* Menos espacio antes del mapa en móvil */

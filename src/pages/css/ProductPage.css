@@ -152,10 +152,7 @@
 }
 
 /* Columna Sidebar (Derecha) */
-.product-sidebar-area {
-    /* PROFESIONAL: Darle un poco de "presencia" si no es muy larga */
-    /* padding-top: var(--spacing-small); */
-}
+
 .sidebar-widget { margin-bottom: var(--spacing-xlarge, 32px); /* PROFESIONAL: Más separación entre widgets */ }
 .sidebar-widget-title {
     font-size: 1.15rem; /* PROFESIONAL: Un poco más grande */
