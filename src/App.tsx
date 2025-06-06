@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 
 import './css/pageLayout.css'
 import './index.css'
+import AboutUsPage from './pages/AboutUsPage';
 
 // Define una interfaz para tipar los datos de producto que esperamos de la API de WooCommerce
 // Esta interfaz se queda aquí en App.tsx (o puedes moverla a un archivo compartido si la usas en varios sitios)
@@ -49,6 +50,8 @@ function App() {
 
           <Route path="/marcas" element={<BrandsPage />} /> {/* Ruta para la página de lista de marcas */}
           <Route path="/marca/:brandSlug" element={<ProductsByBrandPage />} />
+          <Route path="/quienes-somos" element={<AboutUsPage />} /> // O la ruta que prefieras
+
 
           
           <Route path="*" element={<div>Página No Encontrada (404)</div>} />

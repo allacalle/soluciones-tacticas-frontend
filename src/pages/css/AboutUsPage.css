@@ -1,0 +1,142 @@
+/* src/pages/css/AboutUsPage.css */
+
+.about-us-page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-large, 24px) var(--spacing-medium, 16px);
+    color: var(--color-text-dark, #333);
+    line-height: 1.7;
+    background-color: var(--color-background-light, #fff);
+}
+
+.about-us-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xlarge, 40px); /* Reducido un poco */
+    padding-bottom: var(--spacing-medium, 16px);
+    border-bottom: 2px solid var(--color-primary, #556B2F);
+}
+
+.about-us-header h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem); /* Ligeramente ajustado */
+    color: var(--color-primary-dark, #3a4a1f);
+    margin-bottom: var(--spacing-small, 8px);
+}
+
+.store-header-image { /* Si decides usar una imagen en la cabecera */
+    max-width: 100%;
+    height: auto;
+    max-height: 300px; /* Limita la altura máxima */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: var(--spacing-medium, 16px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.about-us-section {
+    margin-bottom: var(--spacing-large, 32px);
+    padding: var(--spacing-medium, 20px); /* Un poco más de padding */
+    background-color: var(--color-neutral-lightest, #fdfdfd); /* Más sutil que #f9f9f9 */
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06); /* Sombra un poco más definida */
+}
+
+.about-us-section h2 {
+    font-size: clamp(1.4rem, 4vw, 1.8rem); /* Ligeramente ajustado */
+    color: var(--color-primary, #556B2F);
+    margin-top: 0;
+    margin-bottom: var(--spacing-base, 16px);
+    padding-bottom: var(--spacing-small, 10px);
+    border-bottom: 1px solid var(--color-neutral-light, #e8e8e8); /* Borde más sutil */
+}
+
+.about-us-section p,
+.about-us-section ul {
+    font-size: 1rem;
+    color: var(--color-text-medium, #505050); /* Un poco más oscuro */
+    margin-bottom: var(--spacing-base, 16px);
+}
+
+.about-us-section ul {
+    list-style: disc;
+    padding-left: var(--spacing-large, 24px);
+}
+
+.about-us-section li {
+    margin-bottom: var(--spacing-small, 10px); /* Un poco más de espacio */
+}
+
+.about-us-section strong {
+    color: var(--color-text-dark, #333);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.visit-us .contact-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Columnas responsivas */
+    gap: var(--spacing-medium, 20px);
+    margin-bottom: var(--spacing-medium, 16px);
+}
+
+.contact-detail-item {
+    padding: var(--spacing-base, 16px);
+    background-color: var(--color-background-light, #fff);
+    border: 1px solid var(--color-neutral-lighter, #f0f0f0);
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.contact-detail-item h3 {
+    font-size: 1.1rem;
+    color: var(--color-primary-dark, #3a4a1f);
+    margin-top: 0;
+    margin-bottom: var(--spacing-small, 8px);
+}
+
+.contact-detail-item p {
+    margin-bottom: 0; /* El párrafo es el último elemento aquí */
+    font-size: 0.95rem;
+}
+
+.contact-detail-item a {
+    color: var(--color-primary, #556B2F);
+    text-decoration: none;
+}
+
+.contact-detail-item a:hover {
+    text-decoration: underline;
+}
+
+.map-link { /* Si decides añadir el enlace a Google Maps */
+    display: inline-block;
+    margin-top: var(--spacing-small, 8px);
+    font-size: 0.9rem;
+    text-decoration: underline;
+}
+
+.opening-hours-note {
+    text-align: center;
+    font-style: italic;
+    color: var(--color-text-light-medium, #777); /* Un gris más claro */
+    margin-top: var(--spacing-medium, 20px);
+    font-size: 0.9rem;
+}
+
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .about-us-header h1 {
+        font-size: clamp(1.7rem, 6vw, 2.2rem);
+    }
+
+    .about-us-section h2 {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+    }
+
+    .about-us-page-container {
+        padding: var(--spacing-medium, 16px) var(--spacing-small, 12px);
+    }
+
+    .visit-us .contact-details-grid {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+    }
+}
