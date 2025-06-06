@@ -139,7 +139,7 @@
 .product-info-area .product-meta { font-size: 0.88rem; /* PROFESIONAL: Ligeramente más grande */ color: var(--color-text-medium, #666); margin-top: var(--spacing-large, 24px); padding-top: var(--spacing-medium, 16px); border-top: 1px solid var(--color-neutral-light, #eee); }
 .product-info-area .product-meta span { display: block; margin-bottom: var(--spacing-extra-small, 6px); } /* PROFESIONAL: Mejor espaciado para meta items */
 .product-info-area .product-meta .brand-logo-product-page { 
-     max-width: 80px;   /* Ajusta este valor según el tamaño deseado (ej: 60px, 100px) */
+    max-width: 80px;   /* Ajusta este valor según el tamaño deseado (ej: 60px, 100px) */
     max-height: 30px;  /* Opcional, pero ayuda a mantener la proporción y evitar que sean muy altas */
     height: auto;      /* Mantiene la proporción si solo se aplica max-width */
     width: auto;       /* Mantiene la proporción si solo se aplica max-height */
