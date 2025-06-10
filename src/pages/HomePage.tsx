@@ -7,6 +7,7 @@ import './css/HomePage.css';
 import ImageCarousel from '../components/ImageCarrousel';
 
 // *** Importa el componente ProductListSection ***
+import { Link } from 'react-router-dom';
 import ProductListSection from '../components/ProductListSection';
 import SloganSection from '../components/SloganSection'; 
 import ReviewCarousel from '../components/ReviewCarousel'; 
@@ -27,7 +28,7 @@ function HomePage() {
                 <p>
                   Somos una tienda en Córdoba dedicada a material policial, militar y de aventura. Esta tienda es el escaparate
                   para todos nuestros clientes. Si estás interesado en nuestros productos, ponte en contacto con nosotros
-                  mediante <a href="https://wa.me/TU_NUMERO_WHATSAPP" target="_blank" rel="noopener noreferrer">Whatsapp</a>, <a href="mailto:TU_CORREO_ELECTRONICO">correo</a>, o en nuestra página de <a href="/contacto">contacto</a>.
+                  mediante <a href="https://wa.me/34605363660" target="_blank" rel="noopener noreferrer">Whatsapp</a>, <a href="mailto:stmaterialpolicial@gmail.com">correo</a>, o en nuestra página de <Link to="/contacto">contacto</Link>.
                 </p>
             </div>
         </div> {/* Fin de la sección Hero */}
