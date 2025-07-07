@@ -88,6 +88,7 @@ const navigationData: NavItem[] = [
 ];
 
 
+
 function Header() {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
@@ -96,10 +97,19 @@ function Header() {
     const [showMobileMenu, setShowMobileMenu] = useState(false); // Estado para menú móvil
     const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null); // Para desplegables en hover
     const searchDropdownRef = useRef<HTMLDivElement>(null); // Ref para el dropdown de búsqueda
+    const [openMobileSubMenu, setOpenMobileSubMenu] = useState<string | null>(null);
+
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
+
+    const handleMobileSubMenuToggle = (itemPath: string) => {
+    // Si el submenú que se quiere abrir ya está abierto, lo cerramos.
+    // Si no, abrimos el nuevo.
+    setOpenMobileSubMenu(openMobileSubMenu === itemPath ? null : itemPath);
+};
+
 
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -163,6 +173,9 @@ function Header() {
                 onMouseEnter={() => item.children && setActiveSubMenu(item.path)}
                 onMouseLeave={() => item.children && setActiveSubMenu(null)}
             >
+
+            
+
                 <Link to={item.path} className={isSubMenu ? "sub-menu-link" : "nav-link"} onClick={() => setShowMobileMenu(false)}>
                     {item.label}
                     {item.children && <FaChevronDown className="nav-arrow-icon" />}

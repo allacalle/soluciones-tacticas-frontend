@@ -34,7 +34,8 @@
 
 /* Área de display de productos (Scroll Horizontal) */
 .product-list-section .products-display-area {
-	display: flex;
+	display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	overflow-x: auto;
 	gap: var(--spacing-large, 20px); /* Base */
 	align-items: stretch;
@@ -43,9 +44,10 @@
        o si es específico para el scroll, asegurarse de que no cause doble padding.
        Considera si el padding de .product-list-section ya es suficiente. */
 	padding: 0 var(--spacing-large, 24px); /* Padding lateral para el inicio/fin del scroll dentro de la sección */
-	padding-bottom: var(--spacing-medium, 12px); /* Espacio para el scrollbar, ajustado */
-	/* Para asegurar que los items flex no se encojan más allá de su flex-basis si son muy pocos: */
-    /* flex-shrink: 0; /* Aplicar a los .product-item-link o .product-item en ProductGrid.css si es necesario */
+	padding-bottom: var(--spacing-medium, 12px);
+	-ms-overflow-style: none;  /* Ocultar scrollbar en IE/Edge */
+  	scrollbar-width: none;  /* Ocultar scrollbar en Firefox */
+
 }
 
 /* Estilos del Scrollbar (Webkit) */
