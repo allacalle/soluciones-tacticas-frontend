@@ -29,24 +29,29 @@
 }
 
 /* Estilos para el Texto de la reseña */
+/* Estilos para el Texto de la reseña */
 .review-text {
-	font-size: 1.2em; /* Ajustado ligeramente para legibilidad general */
+	font-size: 1.2em;
 	font-style: italic;
-	font-weight: var(--font-weight-bold, 700); /* Usar 700 es más estándar que 'bold' para variables */
+	font-weight: var(--font-weight-bold, 700);
 	color: var(--color-text-dark, #555);
 	margin: 0 0 var(--spacing-medium, 15px) 0;
-	line-height: 1.6;
+	line-height: 1.6; /* <-- Mantenemos el line-height consistente */
 	text-align: center;
-	width: 100%; /* Asegura que toma el ancho para el truncamiento */
+	width: 100%;
+	
+    /* --- INICIO DEL CAMBIO CLAVE --- */
+    /* Calculamos la altura mínima para 4 líneas: font-size * line-height * 4 */
+    min-height: calc(1.2em * 1.6 * 4);
+    /* --- FIN DEL CAMBIO CLAVE --- */
 
-	/* Limitación de texto a X líneas */
+	/* Limitación de texto a X líneas (tu código actual es correcto) */
 	display: -webkit-box;
-	-webkit-line-clamp: 4; /* Límite de 4 líneas */
+	-webkit-line-clamp: 4;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	overflow-wrap: break-word; /* Ayuda con palabras largas, movido de MQs */
-    /* hyphens: auto; */ /* Opcional: puede ser agresivo con los guiones, probar bien si se activa */
+	overflow-wrap: break-word;
 }
 
 /* Estilos para el Nombre del cliente */
@@ -79,9 +84,11 @@
 	}
 
 	.review-text {
-		font-size: 1.0em; /* Equivalente a 16px si el root es 16px */
+		font-size: 1.0em;
         line-height: 1.5;
 		margin-bottom: var(--spacing-small, 10px);
+        /* Nuevo cálculo de min-height para esta resolución */
+        min-height: calc(1.0em * 1.5 * 4); 
 	}
 
 	.reviewer-name {
@@ -99,11 +106,11 @@
 	}
 
 	.review-text {
-		font-size: 0.9em; /* Ligeramente mayor para mejor legibilidad en móviles pequeños, probar */
+		font-size: 0.9em;
 		line-height: 1.45;
-        /* -webkit-line-clamp: 3; */ /* Quizás reducir a 3 líneas en móviles muy pequeños si es mucho texto */
 		margin-bottom: var(--spacing-extra-small, 8px);
-        /* hyphens: auto; */ /* Considerar si es necesario para el idioma de las reseñas */
+        /* Nuevo cálculo de min-height para esta resolución */
+        min-height: calc(0.9em * 1.45 * 4);
 	}
 
 	.reviewer-name {

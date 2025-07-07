@@ -37,11 +37,11 @@ function ReviewCarousel({ title, reviewsToShow = 2, autoPlayInterval = 5000 }: R
     // *** Configuración de react-slick (Props del componente <Slider>) ***
     // ======================================================================
     const settings = {
-        dots: false, // Puedes poner true si quieres puntos de navegación
+        dots: true, // Puedes poner true si quieres puntos de navegación
         infinite: true, // Habilita el loop suave (react-slick lo maneja)
         speed: 500, // Velocidad de la animación de desplazamiento (en ms)
         slidesToShow: reviewsToShow, // *** Número de diapositivas visibles a la vez ***
-        slidesToScroll: reviewsToShow, // Cuántas diapositivas avanzan por paso (igual que las visibles para que se vean grupos completos)
+        slidesToScroll: 1, // Cuántas diapositivas avanzan por paso (igual que las visibles para que se vean grupos completos)
         autoplay: true, // Habilita el auto-play
         autoplaySpeed: autoPlayInterval, // Intervalo del auto-play (en ms)
         pauseOnHover: true, // Detiene el auto-play al pasar el ratón (buena UX)
@@ -50,33 +50,25 @@ function ReviewCarousel({ title, reviewsToShow = 2, autoPlayInterval = 5000 }: R
         // arrows: false, // Puedes poner true si quieres flechas de navegación (necesitan estilos)
 
         // Opcional: Configuración de responsividad (breakpoints) si la necesitas
-        // responsive: [
-        //     {
-        //         breakpoint: 1024, // Cuando el ancho de la ventana es menor o igual a 1024px
-        //         settings: {
-        //             slidesToShow: 3,
-        //             slidesToScroll: 3,
-        //             infinite: true,
-        //             dots: true
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 600, // Cuando el ancho de la ventana es menor o igual a 600px
-        //         settings: {
-        //             slidesToShow: 2,
-        //             slidesToScroll: 2,
-        //             initialSlide: 2
-        //         }
-        //     },
-        //     {
-        //         breakpoint: 480, // Cuando el ancho de la ventana es menor o igual a 480px (móviles)
-        //         settings: {
-        //             slidesToShow: 1, // Mostrar solo 1 en móviles
-        //             slidesToScroll: 1
-        //         }
-        //     }
-        // ]
-    };
+        responsive: [
+        {
+            breakpoint: 1024, // Para pantallas de hasta 1024px de ancho (tabletas grandes)
+            settings: {
+                slidesToShow: 2, // Muestra 2 tarjetas
+                slidesToScroll: 1 // Avanza de 1 en 1
+            }
+        },
+        {
+            breakpoint: 767, // Para pantallas de hasta 767px de ancho (tabletas pequeñas y móviles grandes)
+            settings: {
+                slidesToShow: 1, // Muestra 1 sola tarjeta
+                slidesToScroll: 1,
+                arrows: false // Ocultamos las flechas en móvil, ya que se usa el swipe
+            }
+        }
+        // Puedes añadir más breakpoints si lo necesitas, por ejemplo para 480px.
+    ]
+};
 
     // Si no hay reseñas, no renderizamos el carrusel para evitar errores.
     if (!allReviews || allReviews.length === 0) {

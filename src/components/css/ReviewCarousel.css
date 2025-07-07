@@ -1,69 +1,60 @@
-/* src/components/ReviewCarousel.css - Estilos para el carrusel de reseñas */
+/* src/components/css/ReviewCarousel.css - VERSIÓN CORREGIDA Y OPTIMIZADA */
 
 /* Contenedor principal de la sección */
 .review-carousel-section {
-	margin: var(--spacing-xlarge, 40px) 0; /* Usar variable para consistencia */
-	padding: var(--spacing-xlarge, 40px) var(--spacing-large, 20px); /* Usar variables */
+	margin: var(--spacing-xlarge, 40px) 0;
+	padding: var(--spacing-xlarge, 40px) var(--spacing-large, 20px);
 	background-image: url('/images/fondoReviews2.png');
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: center 30%; /* Posición base */
+	background-position: center 30%;
 	text-align: center;
 }
 
 /* Estilos para el título de la sección */
 .review-carousel-section h2 {
-	margin-bottom: var(--spacing-large, 30px); /* Usar variable */
+	margin-bottom: var(--spacing-large, 30px);
 	color: var(--color-text-light, white);
-	font-size: 2em; /* Tamaño base */
-	/* font-weight: var(--font-weight-bold); */ /* Si no es heredado o definido por h2 por defecto */
+	font-size: 2em;
 }
 
 /* ============================================================== */
-/* ESTILOS PARA REACT-SLICK */
+/* ESTILOS PARA REACT-SLICK (SECCIÓN CORREGIDA) */
 /* ============================================================== */
 
-/* Contenedor principal del Slider */
+/* El contenedor principal del carrusel */
 .slick-slider {
-	max-width: 75%; /* Ancho máximo base */
+	max-width: 75%;
 	margin: 0 auto;
-    /* Considera un max-width en px para pantallas muy grandes si 75% se vuelve demasiado */
-    /* max-width: 1200px; */
 }
 
-/* Contenedor de la lista de diapositivas */
-.slick-list {
-	padding: 0 !important; /* Elimina padding por defecto si lo hay */
+/* El .slick-track es el contenedor flex real que envuelve todas las diapositivas */
+.slick-track {
+    display: flex !important;
+    align-items: stretch !important; /* ¡CLAVE! Fuerza a todos los slides a tener la misma altura */
 }
 
-/* Cada diapositiva individual (.slick-slide) */
+/* La diapositiva individual */
 .slick-slide {
-	height: auto;
-	min-height: auto;
-	margin-bottom: 0;
+    height: auto !important; /* Deja que el contenedor flex controle la altura */
 }
 
-/* Div interno dentro de cada .slick-slide (contiene la ReviewCard) */
+/* El div hijo directo de .slick-slide, que envuelve tu ReviewCard */
 .slick-slide > div {
-	padding: 0 var(--spacing-small, 10px); /* Gap horizontal entre tarjetas */
-	display: flex !important;
-	justify-content: center !important;
-	align-items: stretch !important;
-	height: 100%;
+    display: flex !important; /* Necesario para que el hijo (ReviewCard) pueda estirarse */
+    height: 100% !important;  /* Necesario para que el hijo (ReviewCard) pueda usar height: 100% */
+    padding: 0 var(--spacing-small, 10px); /* Esto crea el "gap" horizontal entre tarjetas */
+    box-sizing: border-box; /* Asegura que el padding no añada tamaño extra */
 }
 
-/* Eliminar estilos de flechas y puntos por defecto */
+/* Eliminar estilos de flechas, puntos y outlines por defecto */
 .slick-prev,
 .slick-next,
-.slick-dots {
-	display: none !important;
-}
-
-/* Eliminar outlines de foco por defecto */
-.slick-list,
-.slick-slider,
-.slick-slide:focus {
-	outline: none !important;
+.slick-dots,
+.slick-slide:focus,
+.slick-list:focus {
+    display: none !important;
+    outline: none !important;
 }
 
 /* ============================================================== */
@@ -71,19 +62,15 @@
 /* ============================================================== */
 
 .reviews-google-link-container {
-	margin-top: var(--spacing-large, 30px); /* Usar variable */
+	margin-top: var(--spacing-large, 30px);
 	text-align: center;
 }
 
-.reviews-google-link-container a {
-	color: var(--color-text-light, azure);
-}
-
 .reviews-google-link {
-	color: var(--color-primary-dark, #4b5320);
+	color: var(--color-text-light, azure);
 	text-decoration: none;
 	font-weight: var(--font-weight-bold, bold);
-	font-size: 1.1em; /* Tamaño base */
+	font-size: 1.1em;
 	transition: color 0.3s ease;
 }
 
@@ -94,71 +81,37 @@
 
 /* === Media Queries para Responsividad === */
 
-/* Tabletas y móviles grandes en horizontal (ej. pantallas < 992px) */
-@media (max-width: 991.98px) { /* Un breakpoint común antes de tabletas más típicas */
-    .slick-slider {
-        max-width: 85%; /* Aumentar un poco el ancho relativo en pantallas medianas */
-    }
+@media (max-width: 991.98px) {
+    .slick-slider { max-width: 85%; }
 }
 
-
-/* Tabletas y móviles grandes (ej. pantallas < 768px) */
 @media (max-width: 767.98px) {
 	.review-carousel-section {
 		margin: var(--spacing-large, 30px) 0;
 		padding: var(--spacing-large, 30px) var(--spacing-medium, 15px);
-		background-position: center center; /* O ajustar el % vertical si es necesario */
+		background-position: center center;
 	}
-
 	.review-carousel-section h2 {
-		font-size: 1.75em; /* Reducir tamaño del título */
+		font-size: 1.75em;
 		margin-bottom: var(--spacing-medium, 20px);
 	}
-
-	.slick-slider {
-		max-width: 90%; /* El carrusel puede ocupar más ancho de la pantalla */
-	}
-
-    /* Si las ReviewCards se ven muy apretadas, y estás mostrando menos slides en móvil (vía JS de react-slick) */
-    /* podrías mantener el padding o incluso aumentarlo ligeramente si hay espacio */
-	.slick-slide > div {
-		 padding: 0 var(--spacing-extra-small, 8px); /* Reducir ligeramente el gap si es necesario */
-	}
-
-	.reviews-google-link-container {
-		margin-top: var(--spacing-medium, 20px);
-	}
-
-	.reviews-google-link {
-		font-size: 1em; /* Reducir tamaño del enlace */
-	}
+	.slick-slider { max-width: 90%; }
+	.slick-slide > div { padding: 0 var(--spacing-extra-small, 8px); }
+	.reviews-google-link-container { margin-top: var(--spacing-medium, 20px); }
+	.reviews-google-link { font-size: 1em; }
 }
 
-/* Móviles pequeños (ej. pantallas < 576px o < 480px) */
 @media (max-width: 575.98px) {
 	.review-carousel-section {
 		margin: var(--spacing-medium, 20px) 0;
 		padding: var(--spacing-medium, 20px) var(--spacing-small, 10px);
 	}
-
 	.review-carousel-section h2 {
-		font-size: 1.5em; /* Reducir más el título */
+		font-size: 1.5em;
 		margin-bottom: var(--spacing-base, 15px);
 	}
-
-	.slick-slider {
-		max-width: 95%; /* Casi todo el ancho en móviles muy pequeños */
-	}
-
-    .slick-slide > div {
-		 padding: 0 5px; /* Un gap aún más pequeño si es necesario */
-	}
-
-	.reviews-google-link-container {
-		margin-top: var(--spacing-base, 15px);
-	}
-
-	.reviews-google-link {
-		font-size: 0.9em; /* Reducir más el enlace */
-	}
+	.slick-slider { max-width: 95%; }
+    .slick-slide > div { padding: 0 5px; }
+	.reviews-google-link-container { margin-top: var(--spacing-base, 15px); }
+	.reviews-google-link { font-size: 0.9em; }
 }
