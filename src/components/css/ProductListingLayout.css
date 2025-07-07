@@ -1,0 +1,9 @@
+/* En el archivo CSS correspondiente (ej: AllProductsPage.css o un nuevo ProductListingLayout.css) */
+
+.product-listing-layout {
+    /* ... tus otros estilos para el layout ... */
+
+    /* --- ESTA ES LA LÍNEA CLAVE PARA AFINAR EL SCROLL --- */
+    /* Añade un margen superior invisible solo para el cálculo del scroll */
+    scroll-margin-top: 200px; /* Ajusta este valor según lo necesites */
+}

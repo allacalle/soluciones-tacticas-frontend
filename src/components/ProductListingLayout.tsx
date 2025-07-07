@@ -1,21 +1,22 @@
 // src/components/ProductListingLayout.tsx
-import React from 'react';
+import React, { useRef, useEffect } from 'react'; // <-- AÑADE useRef y useEffect
 import { Product } from '../types';
 import ProductGrid from './ProductGrid';
-// NO importaremos un CSS específico aquí, ya que dependeremos del CSS de la página que lo usa.
+import Pagination from './Pagination';
+import './css/ProductListingLayout.css'; // Asegúrate de que este archivo exista
 
 interface ProductListingLayoutProps {
-    title: string; // El título se pasará como prop
+    title: string;
     products: Product[];
     loading: boolean;
     currentPage: number;
     totalProducts: number;
     totalPages: number;
-    onPageChange: (page: number | ((prevPage: number) => number)) => void;
+    onPageChange: (page: number) => void; // Simplificado para que sea más fácil de llamar
 }
 
 const ProductListingLayout: React.FC<ProductListingLayoutProps> = ({
-    title, // Recibimos el título
+    title,
     products,
     loading,
     currentPage,
@@ -23,68 +24,75 @@ const ProductListingLayout: React.FC<ProductListingLayoutProps> = ({
     totalPages,
     onPageChange,
 }) => {
+    // --- INICIO DE CAMBIOS PARA EL SCROLL ---
+
+    // 1. Crea una referencia al contenedor que queremos que esté visible
+    const layoutRef = useRef<HTMLDivElement>(null);
+
+    // 2. Crea un efecto que se dispare cuando 'currentPage' cambie
+    useEffect(() => {
+        // Comprobamos si la referencia existe para evitar errores
+        if (layoutRef.current) {
+            // Hacemos scroll suavemente hacia la parte superior del layout
+            layoutRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [currentPage]); // <-- La dependencia clave es currentPage
+
+    // --- FIN DE CAMBIOS PARA EL SCROLL ---
+
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            onPageChange(currentPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            onPageChange(currentPage - 1);
+        }
+    };
 
     if (!loading && products.length === 0 && totalProducts === 0) {
+        // 3. Asigna la referencia también aquí para consistencia
         return (
-            // Usamos la clase del CSS original para "no encontrado"
-            // El título lo ponemos aquí también para consistencia si la página de "no encontrados" lo necesita
-            <>
+            <div className="product-listing-layout" ref={layoutRef}>
                 <div className="page-title-block">
                     <h2>{title}</h2>
                 </div>
-                <div className="all-products-page-not-found"> {/* USA LA CLASE DE AllProductsPage.css */}
+                <div className="all-products-page-not-found">
                     <p>No se encontraron productos que coincidan con los criterios actuales.</p>
                 </div>
-            </>
+            </div>
         );
     }
 
     return (
-        <> {/* Usamos un Fragment aquí porque el contenedor principal (.all-products-page-container) estará en AllProductsPage.tsx */}
-            <div className="page-title-block"> {/* USA LA CLASE DE AllProductsPage.css */}
-                <h2>{title}</h2> {/* Usamos el título pasado como prop */}
+        // 3. Asigna la referencia al div principal del layout
+        <div className="product-listing-layout" ref={layoutRef}>
+            <div className="page-title-block">
+                <h2>{title}</h2>
             </div>
-
-            {
-            /*
-            {(totalProducts > 0 || products.length > 0) && (
-                <div className="pagination-info"> }
-                    {totalProducts > 0 && <p>Total de productos encontrados: {totalProducts}</p>}
-                    {totalPages > 1 && <p>Mostrando página {currentPage} de {totalPages}</p>}
-                </div>
+            
+            {totalProducts > 0 && (
+                 <div className="pagination-info">
+                    {/* ... tu info de paginación si la quieres ... */}
+                 </div>
             )}
-            */
-            }
-            
-            
 
             {products.length > 0 && (
-                <div className="products-display-area"> {/* USA LA CLASE DE AllProductsPage.css */}
+                <div className="products-display-area">
                     <ProductGrid products={products} />
                 </div>
             )}
 
-            {totalPages > 1 && (
-                <div className="pagination-buttons"> {/* USA LA CLASE DE AllProductsPage.css */}
-                    <button
-                        onClick={() => onPageChange(prev => Math.max(1, prev - 1))}
-                        disabled={currentPage === 1 || loading}
-                        // Los estilos de los botones vendrán de .pagination-buttons button en AllProductsPage.css
-                    >
-                        Página Anterior
-                    </button>
-                    <span className="pagination-current-page"> {/* Añade esta clase si necesitas estilizar el span */}
-                        Página {currentPage} de {totalPages}
-                    </span>
-                    <button
-                        onClick={() => onPageChange(prev => prev + 1)}
-                        disabled={currentPage === totalPages || loading}
-                    >
-                        Página Siguiente
-                    </button>
-                </div>
-            )}
-        </>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onNextPage={handleNextPage}
+                onPrevPage={handlePrevPage}
+            />
+        </div>
     );
 };
 

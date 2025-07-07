@@ -1,0 +1,78 @@
+/* src/components/css/Pagination.css */
+
+/*
+  Contenedor principal para los controles de paginación.
+  Usamos Flexbox para alinear los elementos (los dos botones y el texto)
+  de forma fácil y ordenada.
+*/
+.pagination-controls {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente en el espacio disponible */
+    align-items: center;   /* Alinea los elementos verticalmente en el centro */
+    gap: var(--spacing-medium, 16px); /* Crea un espacio uniforme entre cada elemento */
+    margin-top: var(--spacing-large, 32px); /* Un margen superior para separarlo del contenido de arriba */
+    margin-bottom: var(--spacing-large, 32px); /* Margen inferior para separarlo del footer */
+    width: 100%; /* Asegura que ocupe todo el ancho para un centrado correcto */
+}
+
+/*
+  Estilo base para los botones "Anterior" y "Siguiente".
+*/
+.pagination-button {
+    padding: var(--spacing-small, 10px) var(--spacing-medium, 18px); /* Relleno interno para un buen tamaño táctil */
+    border: 1px solid var(--color-neutral-medium, #ccc);
+    background-color: var(--color-background-light, #fff);
+    color: var(--color-primary-dark, #556B2F); /* Color del texto del botón */
+    font-weight: var(--font-weight-medium, 600); /* Un poco más de peso en la fuente */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* Transición suave para todos los cambios */
+}
+
+/*
+  Efecto hover para los botones, cuando no están deshabilitados.
+  Le da feedback visual al usuario.
+*/
+.pagination-button:hover:not(:disabled) {
+    background-color: var(--color-primary-dark, #556B2F); /* El fondo cambia al color primario */
+    color: var(--color-text-light, #fff); /* El texto se vuelve claro */
+    border-color: var(--color-primary-dark, #556B2F);
+}
+
+/*
+  Estilo para los botones cuando están deshabilitados.
+  Se ven "apagados" y el cursor cambia para indicar que no se pueden clicar.
+*/
+.pagination-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5; /* Reduce la opacidad para que se vea "desactivado" */
+    background-color: var(--color-neutral-light, #f0f0f0);
+}
+
+/*
+  Estilo para el texto "Página X de Y" que está en medio.
+*/
+.pagination-current-page {
+    margin: 0; /* Quita el margen por defecto de los párrafos <p> */
+    font-size: 0.95em;
+    color: var(--color-text-medium, #555);
+    font-weight: var(--font-weight-medium, 500);
+}
+
+/* ============================================================== */
+/* Media Queries para Responsividad en Móviles */
+/* ============================================================== */
+@media (max-width: 575.98px) {
+    .pagination-controls {
+        gap: var(--spacing-small, 10px); /* Reducimos el espacio entre elementos en pantallas pequeñas */
+    }
+
+    .pagination-button {
+        padding: var(--spacing-extra-small, 8px) var(--spacing-small, 12px); /* Hacemos los botones un poco más compactos */
+        font-size: 0.9em; /* Reducimos un poco el tamaño de la fuente */
+    }
+
+    .pagination-current-page {
+        font-size: 0.85em; /* También reducimos el texto del medio */
+    }
+}
