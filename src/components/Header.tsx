@@ -97,18 +97,13 @@ function Header() {
     const [showMobileMenu, setShowMobileMenu] = useState(false); // Estado para menú móvil
     const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null); // Para desplegables en hover
     const searchDropdownRef = useRef<HTMLDivElement>(null); // Ref para el dropdown de búsqueda
-    const [openMobileSubMenu, setOpenMobileSubMenu] = useState<string | null>(null);
+    // const [, setOpenMobileSubMenu] = useState<string | null>(null);
 
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleMobileSubMenuToggle = (itemPath: string) => {
-    // Si el submenú que se quiere abrir ya está abierto, lo cerramos.
-    // Si no, abrimos el nuevo.
-    setOpenMobileSubMenu(openMobileSubMenu === itemPath ? null : itemPath);
-};
 
 
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
