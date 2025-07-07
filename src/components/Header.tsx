@@ -1,27 +1,22 @@
 // src/components/Header.tsx
-import React, { useState, useEffect, useRef } from 'react'; // Añadido useRef
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './css/Header.css';
 import storeLogo from '../assets/logo/header-logo.jpg';
 import { getProducts } from '../api/wooApi';
 import { Product } from '../types';
-
-// Iconos para redes y menú (ejemplos)
 import { FaSearch, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
-// Definición de la estructura del menú
 interface NavItem {
     label: string;
     path: string;
-    children?: NavItem[]; // Para submenús
-    isMegaMenu?: boolean; // Opcional: para marcar si debe ser un mega menú
-    isContact?: boolean; // Opcional: para marcar si es un ítem de contacto
+    children?: NavItem[];
+    isMegaMenu?: boolean;
+    isContact?: boolean;
 }
 
-// Define tu estructura de navegación aquí
-// (Esto podría venir de un CMS, una API, o estar definido en un archivo separado)
 const navigationData: NavItem[] = [
     { label: 'Inicio', path: '/' },
     {
@@ -84,33 +79,34 @@ const navigationData: NavItem[] = [
         ]
     },
     { label: 'Gala y regalos', path: '/productos/gala_y_regalos' },
-    { label: 'Contacto', path: '/contacto', isContact: true }, // Prop para estilizar diferente si es necesario
+    { label: 'Contacto', path: '/contacto', isContact: true },
 ];
-
-
 
 function Header() {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     const [searchResults, setSearchResults] = useState<Product[]>([]);
     const [isSearching, setIsSearching] = useState(false);
-    const [showMobileMenu, setShowMobileMenu] = useState(false); // Estado para menú móvil
-    const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null); // Para desplegables en hover
-    const searchDropdownRef = useRef<HTMLDivElement>(null); // Ref para el dropdown de búsqueda
-    // const [, setOpenMobileSubMenu] = useState<string | null>(null);
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
+    const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
+    const searchDropdownRef = useRef<HTMLDivElement>(null);
+    // Estado para controlar qué submenú está abierto en la vista móvil
+    const [openMobileSubMenu, setOpenMobileSubMenu] = useState<string | null>(null);
 
+    // Función para abrir/cerrar un submenú específico en móvil
+    const handleMobileSubMenuToggle = (itemPath: string) => {
+        setOpenMobileSubMenu(prevPath => (prevPath === itemPath ? null : itemPath));
+    };
 
     const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
-
-
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (searchTerm.trim()) {
             navigate(`/search?s=${encodeURIComponent(searchTerm.trim())}`);
-            setSearchTerm(''); // Limpiar después de buscar
+            setSearchTerm('');
             setSearchResults([]);
         }
     };
@@ -124,14 +120,10 @@ function Header() {
         setIsSearching(true);
         const debounceTimer = setTimeout(async () => {
             try {
-                const result = await getProducts({ // Modificado para no pasar page y per_page fijos aquí
-                    search: searchTerm.trim(),
-                    per_page: 5 // Limitar sugerencias
-                });
+                const result = await getProducts({ search: searchTerm.trim(), per_page: 5 });
                 setSearchResults(result.products);
             } catch (error) {
                 console.error("Error fetching search suggestions:", error);
-                setSearchResults([]);
             } finally {
                 setIsSearching(false);
             }
@@ -145,45 +137,79 @@ function Header() {
         navigate(`/producto/${productSlug}`);
     };
 
-    // Cerrar dropdown de búsqueda si se hace clic fuera
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (searchDropdownRef.current && !searchDropdownRef.current.contains(event.target as Node)) {
-                setSearchResults([]); // O solo si searchTerm está vacío y no hay foco
+                setSearchResults([]);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [searchDropdownRef]);
 
-
-    const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
-
-    // Componente recursivo para renderizar items de navegación y submenús
-    const renderNavItems = (items: NavItem[], isSubMenu = false) => {
-        return items.map((item) => (
-            <li
-                key={item.path}
-                className={`${item.children ? 'menu-item-has-children' : ''} ${item.isContact ? 'nav-contact-item' : ''} ${activeSubMenu === item.path ? 'active' : ''}`}
-                onMouseEnter={() => item.children && setActiveSubMenu(item.path)}
-                onMouseLeave={() => item.children && setActiveSubMenu(null)}
-            >
-
-            
-
-                <Link to={item.path} className={isSubMenu ? "sub-menu-link" : "nav-link"} onClick={() => setShowMobileMenu(false)}>
-                    {item.label}
-                    {item.children && <FaChevronDown className="nav-arrow-icon" />}
-                </Link>
-                {item.children && (
-                    <ul className={`sub-menu ${item.isMegaMenu ? 'mega-menu' : ''} ${activeSubMenu === item.path || showMobileMenu ? 'open' : ''}`}>
-                        {renderNavItems(item.children, true)}
-                    </ul>
-                )}
-            </li>
-        ));
+    const toggleMobileMenu = () => {
+        setShowMobileMenu(!showMobileMenu);
+        // Al cerrar el menú principal, también reseteamos los submenús abiertos
+        if (showMobileMenu) {
+            setOpenMobileSubMenu(null);
+        }
     };
 
+    // --- FUNCIÓN DE RENDERIZADO MODIFICADA ---
+    const renderNavItems = (items: NavItem[], isSubMenu = false) => {
+        return items.map((item) => {
+            const isMobileSubMenuOpen = openMobileSubMenu === item.path;
+
+            return (
+                <li
+                    key={item.path}
+                    className={
+                        [
+                            item.children ? 'menu-item-has-children' : '',
+                            item.isContact ? 'nav-contact-item' : '',
+                            isMobileSubMenuOpen ? 'mobile-submenu-open' : '', // Clase para móvil
+                            activeSubMenu === item.path ? 'active' : '' // Clase para hover en escritorio
+                        ].join(' ').trim()
+                    }
+                    onMouseEnter={() => !showMobileMenu && item.children && setActiveSubMenu(item.path)}
+                    onMouseLeave={() => !showMobileMenu && setActiveSubMenu(null)}
+                >
+                    <div className="menu-item-wrapper">
+                        <Link
+                            to={item.path}
+                            className={isSubMenu ? "sub-menu-link" : "nav-link"}
+                            onClick={() => {
+                                // Al hacer clic, cerramos el menú móvil completo y reseteamos submenús
+                                setShowMobileMenu(false);
+                                setOpenMobileSubMenu(null);
+                            }}
+                        >
+                            {item.label}
+                        </Link>
+
+                        {/* Botón separado para desplegar submenús (en móvil) */}
+                        {item.children && (
+                            <button
+                                className="submenu-toggle-button"
+                                onClick={() => handleMobileSubMenuToggle(item.path)}
+                                aria-label={`Desplegar submenú de ${item.label}`}
+                                aria-expanded={isMobileSubMenuOpen}
+                            >
+                                <FaChevronDown className="nav-arrow-icon" />
+                            </button>
+                        )}
+                    </div>
+
+                    {/* El submenú se muestra si está activo por hover (escritorio) O por clic (móvil) */}
+                    {item.children && (
+                        <ul className={`sub-menu ${item.isMegaMenu ? 'mega-menu' : ''} ${activeSubMenu === item.path || isMobileSubMenuOpen ? 'open' : ''}`}>
+                            {renderNavItems(item.children, true)}
+                        </ul>
+                    )}
+                </li>
+            );
+        });
+    };
 
     return (
         <header className="site-header">
@@ -191,11 +217,8 @@ function Header() {
                 <div className="site-branding">
                     <Link to="/" className="site-title-link">
                         <img src={storeLogo} alt="Soluciones Tacticas Logo" className="site-logo" />
-                        {/* Podrías añadir el nombre del sitio aquí si el logo no lo incluye bien */}
-                        {/* <span className="site-title">Soluciones Tácticas</span> */}
                     </Link>
                 </div>
-
                 <div className="header-search" ref={searchDropdownRef}>
                     <form onSubmit={handleSearchSubmit} className="search-form">
                         <input
@@ -215,50 +238,30 @@ function Header() {
                             {!isSearching && searchResults.length > 0 && (
                                 <ul> {searchResults.map(product => (
                                     <li key={product.id} className="search-suggestion-item" onClick={() => handleSuggestionClick(product.slug)}>
-                                        {product.images && product.images[0]?.src && (
-                                            <img src={product.images[0].src} alt={product.name} className="suggestion-image" />
-                                        )}
+                                        {product.images && product.images[0]?.src && (<img src={product.images[0].src} alt={product.name} className="suggestion-image" />)}
                                         <span className="suggestion-name">{product.name}</span>
                                     </li>))}
                                 </ul>
                             )}
-                            {!isSearching && searchTerm.trim() && searchResults.length === 0 && document.activeElement === document.querySelector('.search-input') && (
-                                <div className="no-results">No se encontraron resultados.</div>
-                            )}
+                            {!isSearching && searchTerm.trim() && searchResults.length === 0 && document.activeElement === document.querySelector('.search-input') && (<div className="no-results">No se encontraron resultados.</div>)}
                         </div>
                     )}
                 </div>
-
                 <div className="header-social">
-				<h3>Síguenos</h3>
-					<div className="social-icons">
-						{/* Facebook Icon */}
-						<a href="https://www.facebook.com/soluciones.tacticas.cor?locale=es_ES" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-							<FontAwesomeIcon icon={faFacebook} />
-						</a>
-						{/* Instagram Icon */}
-						<a href="https://www.instagram.com/stmaterialpolicial/?hl=es" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-							<FontAwesomeIcon icon={faInstagram} />
-						</a>
-						{/* Twitter/X Icon */}
-						<a href="https://x.com/STacticas" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X">
-							<FontAwesomeIcon icon={faTwitter} />
-						</a>
-						{/* WhatsApp Icon - Usamos el formato wa.me para enlace directo */}
-						<a href="https://wa.me/34605363660" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-							<FontAwesomeIcon icon={faWhatsapp} />
-						</a>
-						{/* Puedes añadir más iconos aquí si los necesitas */}
-					</div>
-				</div>							
-
+                    <h3>Síguenos</h3>
+                    <div className="social-icons">
+                        <a href="https://www.facebook.com/soluciones.tacticas.cor?locale=es_ES" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FontAwesomeIcon icon={faFacebook} /></a>
+                        <a href="https://www.instagram.com/stmaterialpolicial/?hl=es" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
+                        <a href="https://x.com/STacticas" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X"><FontAwesomeIcon icon={faTwitter} /></a>
+                        <a href="https://wa.me/34605363660" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><FontAwesomeIcon icon={faWhatsapp} /></a>
+                    </div>
+                </div>
                 <div className="mobile-menu-toggle">
                     <button onClick={toggleMobileMenu} aria-label="Abrir menú">
                         {showMobileMenu ? <FaTimes /> : <FaBars />}
                     </button>
                 </div>
             </div>
-
             <div className={`header-bottom-row ${showMobileMenu ? 'mobile-menu-open' : ''}`}>
                 <nav className="main-navigation">
                     <ul>

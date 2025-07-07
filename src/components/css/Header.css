@@ -1,4 +1,4 @@
-/* src/components/css/Header.css - Estilos para el header (cabecera) */
+/* src/components/css/Header.css */
 
 /* ============================================================== */
 /* Estilos Generales del Header */
@@ -7,355 +7,189 @@
     width: 100%;
     box-sizing: border-box;
     background-color: var(--color-background-light);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07); /* Sombra sutil */
-    position: sticky; /* Opcional: para header fijo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);
+    position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 /* ============================================================== */
-/* Fila Superior del Header (Logo, Búsqueda, Redes) */
+/* Fila Superior del Header */
 /* ============================================================== */
 .header-top-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-small, 12px) var(--spacing-large, 24px); /* Padding vertical reducido */
+    padding: var(--spacing-small, 12px) var(--spacing-large, 24px);
     flex-wrap: wrap;
     gap: var(--spacing-medium, 16px);
     border-bottom: 1px solid var(--color-neutral-light);
 }
 
-/* Sección del Logo y Nombre */
 .site-branding { display: flex; align-items: center; flex-shrink: 0; }
 .site-branding .site-title-link { text-decoration: none; color: var(--color-text-dark); display: flex; align-items: center; }
-.site-branding .site-logo {
-    height: 45px; /* Mantenemos tu altura preferida o la ajustamos ligeramente */
-    max-height: 55px;
-    width: auto;
-    margin-right: var(--spacing-small, 10px);
-    vertical-align: middle;
-}
-.site-branding .site-title { font-weight: var(--font-weight-bold); font-size: 1.6em; color: var(--color-text-dark); }
+.site-branding .site-logo { height: 45px; max-height: 55px; width: auto; margin-right: var(--spacing-small, 10px); }
+.site-branding .site-title { font-weight: var(--font-weight-bold); font-size: 1.6em; }
 
-/* Sección de la Barra de Búsqueda */
-.header-search {
-    flex-grow: 1;
-    max-width: 400px; /* MANTENEMOS TU MAX-WIDTH ORIGINAL para el contenedor */
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-.search-form { /* Contenedor del input y el botón */
-    display: flex;
-    width: 100%;
-    border: 1px solid var(--color-neutral-medium);
-    border-radius: 20px; /* Bordes redondeados */
-    overflow: hidden;
-    background-color: var(--color-neutral-lightest);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.search-form:focus-within {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 0, 123, 255), 0.2);
-}
-.header-search .search-input {
-    padding: var(--spacing-small, 9px) var(--spacing-medium, 15px); /* Padding interno del input */
-    border: none;
-    font-size: 0.95rem; /* Tamaño de fuente del input */
-    width: 100%;
-    box-sizing: border-box;
-    color: var(--color-text-dark);
-    background-color: transparent;
-}
+.header-search { flex-grow: 1; max-width: 400px; display: flex; justify-content: center; position: relative; }
+.search-form { display: flex; width: 100%; border: 1px solid var(--color-neutral-medium); border-radius: 20px; overflow: hidden; background-color: var(--color-neutral-lightest); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.search-form:focus-within { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 0, 123, 255), 0.2); }
+.header-search .search-input { padding: var(--spacing-small, 9px) var(--spacing-medium, 15px); border: none; font-size: 0.95rem; width: 100%; box-sizing: border-box; background-color: transparent; }
 .header-search .search-input:focus { outline: none; }
-
-.header-search .search-button { /* Botón de búsqueda con icono */
-    padding: 0 var(--spacing-medium, 12px);
-    border: none;
-    background-color: transparent;
-    color: var(--color-neutral-dark);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem; /* Tamaño del icono de búsqueda */
-    transition: color 0.2s ease;
-}
+.header-search .search-button { padding: 0 var(--spacing-medium, 12px); border: none; background-color: transparent; color: var(--color-neutral-dark); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: color 0.2s ease; }
 .header-search .search-button:hover { color: var(--color-accent); }
 
-/* Estilos para Sugerencias de Búsqueda (Dropdown) */
-.header-search .search-suggestions-dropdown {
-    position: absolute;
-    top: calc(100% + 4px); /* Un poco de espacio debajo del input */
-    left: 0;
-    right: 0;
-    z-index: 200;
-    background-color: var(--color-background-light);
-    border: 1px solid var(--color-neutral-light); /* Borde más sutil */
-    border-radius: 6px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Sombra más suave */
-    max-height: 300px;
-    overflow-y: auto;
-}
+.header-search .search-suggestions-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 200; background-color: var(--color-background-light); border: 1px solid var(--color-neutral-light); border-radius: 6px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); max-height: 300px; overflow-y: auto; }
 .header-search .search-suggestions-dropdown ul { list-style: none; padding: 0; margin: 0; }
-.search-suggestion-item {
-    padding: var(--spacing-small, 8px) var(--spacing-medium, 12px); /* Padding de cada sugerencia */
-    border-bottom: 1px solid var(--color-neutral-light);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.2s ease;
-    font-size: 0.9rem; /* Tamaño de fuente de sugerencias */
-}
+.search-suggestion-item { padding: var(--spacing-small, 8px) var(--spacing-medium, 12px); border-bottom: 1px solid var(--color-neutral-light); cursor: pointer; display: flex; align-items: center; transition: background-color 0.2s ease; font-size: 0.9rem; }
 .search-suggestion-item:last-child { border-bottom: none; }
 .search-suggestion-item:hover { background-color: var(--color-neutral-light); }
-
-/* Estilo para la imagen pequeña de la sugerencia - MANTENEMOS TU TAMAÑO */
-.search-suggestion-item .suggestion-image {
-    height: 30px;
-    width: 30px; /* Añadir width para mantener proporción si object-fit es cover */
-    object-fit: cover; /* O 'contain' si prefieres que se vea entera */
-    margin-right: var(--spacing-small, 10px);
-    border-radius: 3px;
-    flex-shrink: 0;
-    background-color: var(--color-neutral-light); /* Fondo por si la imagen es transparente o tarda */
-}
-.search-suggestion-item .suggestion-name { font-size: 0.9em; flex-grow: 1; } /* Ajustado tamaño */
+.search-suggestion-item .suggestion-image { height: 30px; width: 30px; object-fit: cover; margin-right: var(--spacing-small, 10px); border-radius: 3px; flex-shrink: 0; background-color: var(--color-neutral-light); }
+.search-suggestion-item .suggestion-name { font-size: 0.9em; flex-grow: 1; }
 .search-loading, .no-results { padding: var(--spacing-medium); text-align: center; color: var(--color-neutral-dark); font-style: italic; font-size: 0.9em; }
 
-/* Sección de Redes Sociales (con tu estructura de h3) */
 .header-social { display: flex; align-items: center; gap: var(--spacing-medium, 15px); }
 .header-social h3 { margin: 0; font-size: 0.85rem; font-weight: var(--font-weight-medium); color: var(--color-neutral-dark); margin-right: var(--spacing-small, 6px); text-transform: uppercase; letter-spacing: 0.5px;}
 .header-social .social-icons { display: flex; align-items: center; gap: var(--spacing-medium, 16px); }
 .header-social .social-icons a { color: var(--color-neutral-dark); font-size: 1.2rem; line-height: 1; text-decoration: none; display: inline-flex; transition: color 0.2s ease, transform 0.2s ease; }
 .header-social .social-icons a:hover { color: var(--color-accent); transform: translateY(-2px) scale(1.1); }
 
-/* Botón de Menú Móvil */
-.mobile-menu-toggle { display: none; /* ... (tus estilos base aquí) ... */ }
-
+.mobile-menu-toggle { display: none; }
 
 /* ============================================================== */
-/* Fila Inferior del Header: Navegación Principal */
+/* Fila Inferior del Header: Navegación */
 /* ============================================================== */
-.header-bottom-row {
-    background-color: var(--color-neutral-darkest, #1a1a1a); /* Negro o gris muy oscuro */
+.header-bottom-row { background-color: var(--color-neutral-darkest, #1a1a1a); display: flex; align-items: center; justify-content: center; padding: 0 var(--spacing-medium, 16px); height: var(--header-height-bottom-row, 50px); }
+.main-navigation ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: stretch; height: 100%; gap: var(--spacing-medium, 15px); }
+.main-navigation ul li { position: relative; display: flex; }
+
+/* Wrapper para el enlace y el botón de toggle */
+.menu-item-wrapper {
     display: flex;
+    width: 100%;
     align-items: center;
-    justify-content: center;
-    padding: 0 var(--spacing-medium, 16px); /* Padding lateral */
-    height: var(--header-height-bottom-row, 50px); /* Altura explícita para la barra */
-}
-
-.main-navigation ul {
-    list-style: none; padding: 0; margin: 0; display: flex; align-items: stretch; height: 100%;
-    gap: var(--spacing-medium, 15px); /* Reducido el gap original de 30px */
-}
-.main-navigation ul li {
-    position: relative; display: flex;
-    /* Quitado padding de aquí, se maneja en .nav-link para mejor control del hover */
 }
 
 .main-navigation ul li .nav-link {
     color: var(--color-neutral-light, #e0e0e0);
     text-decoration: none;
-    padding: 0 var(--spacing-medium, 15px); /* Padding horizontal para cada item */
-    font-size: 0.9rem; /* Un poco más pequeño para look refinado */
+    padding: 0 var(--spacing-medium, 15px);
+    font-size: 0.9rem;
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     display: flex;
     align-items: center;
-    height: 100%; /* Ocupa toda la altura de la barra */
+    height: 100%;
     transition: background-color 0.2s ease, color 0.2s ease;
-}
-.main-navigation ul li:hover > .nav-link { /* Estado hover en el LI para el submenú */
-    background-color: var(--color-primary-dark); /* Tu verde oscuro */
-    color: var(--color-text-light);
-}
-.nav-arrow-icon { margin-left: var(--spacing-small, 5px); font-size: 0.7em; opacity: 0.7; transition: transform 0.2s ease-out, opacity 0.2s ease; }
-.main-navigation ul li:hover > .nav-link .nav-arrow-icon { opacity: 1; transform: rotate(180deg); }
-
-/* Item de Contacto */
-.main-navigation ul li.nav-contact-item { margin-left: auto; }
-.main-navigation ul li.nav-contact-item .nav-link { /* Mantenemos tu estilo de "botón" */
-    border: 1px solid var(--color-call-to-action);
-    color: var(--color-call-to-action);
-    border-radius: 4px;
-    margin: auto var(--spacing-small);
-    padding: var(--spacing-small, 8px) var(--spacing-medium, 12px) !important; /* Forzar padding si es necesario */
-    height: auto;
-    background-color: transparent; /* Sin fondo por defecto */
-}
-.main-navigation ul li.nav-contact-item:hover > .nav-link {
-    background-color: var(--color-call-to-action);
-    color: var(--color-text-light);
-    border-color: var(--color-call-to-action);
+    flex-grow: 1; /* Para que el enlace ocupe espacio */
 }
 
-.main-navigation ul li .sub-menu {
-    list-style: none;
-    padding: var(--spacing-small, 8px) 0; /* Padding vertical para el UL */
-    margin: 0;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: var(--color-neutral-darkest, #181818); /* FONDO DEL CONTENEDOR UL */
-    min-width: 230px;
-    width: max-content;
-    z-index: 1000;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border-radius: 0 0 6px 6px;
-    border-top: 3px solid var(--color-accent);
-    opacity: 0; /* Para animación */
-    visibility: hidden; /* Para animación */
-    transform: translateY(5px); /* Para animación */
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear 0.2s;
-    display: block;
-}
-
-/* ... (estilos de :hover para mostrar el .sub-menu) ... */
-.main-navigation ul li.menu-item-has-children:hover > .sub-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-
-.main-navigation ul li .sub-menu li {
-    width: 100%;
-    /* NO necesita background aquí si el .sub-menu-link lo tiene */
-}
-
-.main-navigation ul li .sub-menu li .sub-menu-link {
-    display: block;
-    padding: var(--spacing-small, 10px) var(--spacing-large, 20px);
+/* El botón de toggle para el submenú (flecha) */
+.submenu-toggle-button {
+    background: transparent;
+    border: none;
     color: var(--color-neutral-light, #e0e0e0);
-    text-decoration: none;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    transition: background-color 0.15s ease, color 0.15s ease;
-	width : 100%; /* Asegura que ocupe todo el ancho */
-	    /* === AÑADIR ESTO PARA ASEGURAR QUE CADA ITEM TENGA FONDO === */
-    /* Esto hará que cada enlace tenga el mismo fondo que el ul padre,
-       asegurando que no haya transparencias entre ítems. */
-    background-color: var(--color-neutral-darkest, #181818);
+    cursor: pointer;
+    padding: 0 var(--spacing-medium, 15px);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 0.7em;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
 }
-
-.main-navigation ul li .sub-menu li .sub-menu-link:hover {
-    background-color: var(--color-primary-dark); /* Este SÍ cambia en hover */
+.submenu-toggle-button .nav-arrow-icon {
+    transition: transform 0.2s ease-out;
+}
+.main-navigation ul li:hover > .menu-item-wrapper {
+    background-color: var(--color-primary-dark);
     color: var(--color-text-light);
 }
-
-
-/* ============================================================== */
-/* === NUEVA MEDIA QUERY PARA AJUSTES SUTILES EN PANTALLAS MEDIANAS === */
-/* ============================================================== */
-/* Se aplica cuando la pantalla es más estrecha que 1180px PERO AÚN MÁS ANCHA que 992px */
-@media (max-width: 1179.98px) and (min-width: 992.02px) { /* AJUSTA EL 1179.98px SEGÚN NECESITES */
-
-    /* Ajustes para la fila inferior del header (navegación principal) */
-    .main-navigation ul {
-        gap: var(--spacing-small, 8px); /* Reducir el espacio entre ítems del menú */
-    }
-
-    .main-navigation ul li .nav-link {
-        padding: 0 var(--spacing-small, 10px); /* Reducir el padding horizontal de cada ítem */
-        font-size: 0.82rem; /* Reducir ligeramente el tamaño de la fuente */
-        letter-spacing: normal; /* Eliminar o reducir el espaciado entre letras si ayuda */
-    }
-
-    /* Ajuste específico para el padding del botón de contacto si tiene !important */
-    .main-navigation ul li.nav-contact-item .nav-link {
-        padding: var(--spacing-extra-small, 6px) var(--spacing-small, 10px) !important;
-        font-size: 0.82rem; /* Mantener consistencia de fuente con los otros nav-links */
-    }
-
-    /* Opcional: Si la barra de búsqueda también se vuelve un problema en este rango */
-    /* .header-search { max-width: 320px; } */
-    /* .site-branding .site-title { font-size: 1.5em; } */
+.main-navigation ul li:hover > .menu-item-wrapper .nav-link,
+.main-navigation ul li:hover > .menu-item-wrapper .submenu-toggle-button {
+    background-color: transparent; /* El fondo está en el wrapper, no en los hijos */
+    color: var(--color-text-light);
+}
+.main-navigation ul li.active > .menu-item-wrapper .nav-arrow-icon {
+    transform: rotate(180deg);
+    opacity: 1;
 }
 
+/* Contacto y Submenús (sin cambios significativos) */
+.main-navigation ul li.nav-contact-item { margin-left: auto; }
+.main-navigation ul li.nav-contact-item .nav-link { border: 1px solid var(--color-call-to-action); color: var(--color-call-to-action); border-radius: 4px; margin: auto var(--spacing-small); padding: var(--spacing-small, 8px) var(--spacing-medium, 12px) !important; height: auto; flex-grow: 0; }
+.main-navigation ul li.nav-contact-item:hover > .menu-item-wrapper .nav-link { background-color: var(--color-call-to-action); color: var(--color-text-light); border-color: var(--color-call-to-action); }
+
+.main-navigation ul li .sub-menu { list-style: none; padding: var(--spacing-small, 8px) 0; margin: 0; position: absolute; top: 100%; left: 0; background-color: var(--color-neutral-darkest, #181818); min-width: 230px; width: max-content; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-radius: 0 0 6px 6px; border-top: 3px solid var(--color-accent); opacity: 0; visibility: hidden; transform: translateY(5px); transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear 0.2s; display: block; }
+.main-navigation ul li.menu-item-has-children:hover > .sub-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.main-navigation ul li .sub-menu li { width: 100%; }
+.main-navigation ul li .sub-menu li .sub-menu-link { display: block; padding: var(--spacing-small, 10px) var(--spacing-large, 20px); color: var(--color-neutral-light, #e0e0e0); text-decoration: none; font-size: 0.9rem; white-space: nowrap; transition: background-color 0.15s ease, color 0.15s ease; width: 100%; background-color: var(--color-neutral-darkest, #181818); }
+.main-navigation ul li .sub-menu li .sub-menu-link:hover { background-color: var(--color-primary-dark); color: var(--color-text-light); }
 
 /* ============================================================== */
-/* Media Queries para Responsividad (Usando tu base para móvil) */
+/* Media Query para Escritorios Pequeños */
 /* ============================================================== */
-@media (max-width: 992px) { /* Ajustado breakpoint a 992px para más consistencia */
-    .header-top-row {
-        padding: var(--spacing-medium, 12px) var(--spacing-medium, 16px);
-        flex-direction: column;
-        align-items: center; /* Centrar todo en móvil */
-        gap: var(--spacing-medium, 12px);
-        height: auto;
-    }
-    .site-branding { margin-bottom: 0; width: auto; /* No necesita ocupar todo el ancho si está centrado */ }
-    .header-search { order: 3; width: 100%; margin: 0; max-width: 100%; /* Ocupa todo el ancho disponible */ }
+@media (max-width: 1179.98px) and (min-width: 992.02px) {
+    .main-navigation ul { gap: var(--spacing-small, 8px); }
+    .main-navigation ul li .nav-link,
+    .main-navigation ul li .submenu-toggle-button { padding: 0 var(--spacing-small, 10px); }
+    .main-navigation ul li .nav-link { font-size: 0.82rem; letter-spacing: normal; }
+    .main-navigation ul li.nav-contact-item .nav-link { padding: var(--spacing-extra-small, 6px) var(--spacing-small, 10px) !important; font-size: 0.82rem; }
+}
+
+/* ============================================================== */
+/* Media Queries para Móvil */
+/* ============================================================== */
+@media (max-width: 991.98px) { /* Ligeramente ajustado el breakpoint */
+    .header-top-row { flex-direction: column; align-items: center; gap: var(--spacing-medium, 12px); padding: var(--spacing-medium, 12px) var(--spacing-medium, 16px); }
+    .site-branding { margin-bottom: 0; width: auto; }
+    .header-search { order: 3; width: 100%; max-width: 100%; }
     .header-social { order: 2; justify-content: center; margin-bottom: var(--spacing-small); }
     .header-social h3 { display: none; }
+    .mobile-menu-toggle { display: block; position: absolute; top: 15px; right: var(--spacing-medium, 16px); z-index: 1001; }
+    .mobile-menu-toggle button { color: var(--color-text-dark); font-size: 1.8rem; background: none; border: none; }
 
-    .mobile-menu-toggle {
-        display: block;
-        position: absolute; /* Posicionarlo bien */
-        top: 15px; /* Ajusta esto con el padding de header-top-row */
-        right: var(--spacing-medium, 16px);
-        z-index: 1001;
-    }
-    .mobile-menu-toggle button { color: var(--color-text-dark); font-size: 1.8rem; }
-
-
-    .header-bottom-row {
-        position: fixed; /* Para que se deslice sobre el contenido */
-        top: 0; left: 0; width: 100%; height: 100vh; /* Pantalla completa */
-        background-color: var(--color-neutral-darkest, #181818);
-        z-index: 999; /* Detrás de modales, encima de contenido */
-        padding-top: var(--header-height-top-row, 70px); /* Espacio para la fila superior si el header es sticky */
-                                                       /* O un padding fijo si el header no es sticky y la top-row se oculta */
-        transform: translateX(-100%);
-        transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-        overflow-y: auto;
-        box-shadow: 3px 0 15px rgba(0,0,0,0.2);
-    }
+    .header-bottom-row { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--color-neutral-darkest, #181818); z-index: 999; padding-top: var(--header-height-top-row, 70px); transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); overflow-y: auto; box-shadow: 3px 0 15px rgba(0,0,0,0.2); }
     .header-bottom-row.mobile-menu-open { transform: translateX(0); }
-
-    .main-navigation ul {
-        flex-direction: column; align-items: stretch; /* Ocupar todo el ancho */
-        height: auto; padding: var(--spacing-medium) 0; gap: 0;
+    .main-navigation ul { flex-direction: column; align-items: stretch; height: auto; padding: var(--spacing-medium) 0; gap: 0; }
+    .main-navigation ul li { width: 100%; }
+    
+    .menu-item-wrapper {
+        border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .main-navigation ul li { width: 100%; /* display: block; ya lo es por defecto */ padding:0; }
     .main-navigation ul li .nav-link {
         padding: var(--spacing-medium, 15px) var(--spacing-large, 24px);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        justify-content: space-between; /* Flecha a la derecha */
         font-size: 1rem;
+        border-bottom: none; /* La línea se mueve al wrapper */
     }
-    .main-navigation ul li:hover > .nav-link { background-color: transparent; }
-    .main-navigation ul li.nav-contact-item { margin-left: 0; } /* Resetear margen */
-    .main-navigation ul li.nav-contact-item .nav-link {
-         margin: var(--spacing-medium) var(--spacing-large); /* Margen para el botón de contacto */
-         width: auto; /* Para que se ajuste al padding */
-         justify-content: center; /* Centrar texto del botón */
+    .main-navigation ul li:hover > .menu-item-wrapper { background-color: transparent; }
+    .main-navigation ul li.nav-contact-item { margin-left: 0; }
+    .main-navigation ul li.nav-contact-item .menu-item-wrapper { border-bottom: none; }
+    .main-navigation ul li.nav-contact-item .nav-link { margin: var(--spacing-medium) var(--spacing-large); width: auto; justify-content: center; }
+
+    /* ESTILOS PARA EL BOTÓN DE TOGGLE EN MÓVIL */
+    .submenu-toggle-button {
+        display: flex; /* Se muestra en móvil */
+        padding: 15px 20px; /* Área táctil generosa */
     }
-
-
-    .sub-menu { /* Acordeón de submenús en móvil */
-        position: static; width: 100%; box-shadow: none; border-top: none;
-        background-color: rgba(0,0,0,0.2); padding: 0;
-        padding-left: var(--spacing-large, 30px); /* Indentación */
-        border-radius: 0; max-height: 0; overflow: hidden;
-        transition: max-height 0.3s ease-out;
-        /* Resets para la animación de max-height */
-        opacity: 1; visibility: visible; transform:none;
-    }
-    .main-navigation ul li.menu-item-has-children.active > .sub-menu { max-height: 1000px; }
-
-    .sub-menu .sub-menu-link {
-        padding: var(--spacing-small, 10px) var(--spacing-medium, 16px);
-        padding-left: var(--spacing-medium, 16px); /* Menos padding lateral que el nav-link principal */
+    /* La flecha dentro del botón */
+    .submenu-toggle-button .nav-arrow-icon {
         font-size: 0.9rem;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        color: var(--color-neutral-light);
+        transition: transform 0.3s ease-out;
     }
+    /* Rotar la flecha cuando el submenú está abierto */
+    .main-navigation ul li.mobile-submenu-open > .menu-item-wrapper .submenu-toggle-button .nav-arrow-icon {
+        transform: rotate(180deg);
+    }
+    
+    /* ESTILOS DEL SUBMENÚ EN MÓVIL (ACORDEÓN) */
+    .sub-menu {
+        position: static; width: 100%; box-shadow: none; border-top: none; background-color: rgba(0,0,0,0.2); padding: 0; padding-left: var(--spacing-large, 30px); border-radius: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; opacity: 1; visibility: visible; transform: none;
+    }
+    .main-navigation ul li.mobile-submenu-open > .sub-menu {
+        max-height: 1000px; /* O un valor suficientemente grande */
+    }
+    .sub-menu .sub-menu-link { padding: var(--spacing-small, 10px) var(--spacing-medium, 16px); padding-left: var(--spacing-medium, 16px); font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--color-neutral-light); }
     .sub-menu li:last-child .sub-menu-link { border-bottom: none; }
 }
-
-
