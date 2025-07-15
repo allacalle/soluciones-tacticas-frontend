@@ -42,7 +42,7 @@ function HomePage() {
             title="Últimos Productos" // Prop para el título
             subtitle="Lo Último en Tecnología Táctica y Equipamiento Militar" // Prop para el subtítulo
             type="latest" // Prop CLAVE: Le dice que cargue los productos 'latest' (los últimos por fecha)
-            productsPerPage={6} // Prop opcional: Le dice que muestre 10 productos (o el valor por defecto si no la pones)
+            productsPerPage={8} // Prop opcional: Le dice que muestre 10 productos (o el valor por defecto si no la pones)
         />
 
 
@@ -61,7 +61,7 @@ function HomePage() {
             title="Productos Destacados" // Un título claro para esta sección
             subtitle="Nuestras recomendaciones" // Un subtítulo para los destacados
             type="featured" // La prop CLAVE: le dice que cargue los productos "featured"
-            productsPerPage={6} // Cuántos productos destacados mostrar
+            productsPerPage={8} // Cuántos productos destacados mostrar
         />
 
       <ReviewCarousel
@@ -77,7 +77,7 @@ function HomePage() {
             title="Productos en Oferta" // Un título claro para esta sección
             subtitle="¡Aprovecha nuestras promociones!" // Un subtítulo para las ofertas
             type="sale" // La prop CLAVE: le dice que cargue los productos "on sale"
-            productsPerPage={6} // Cuántos productos en oferta mostrar
+            productsPerPage={8} // Cuántos productos en oferta mostrar
         />
 
 

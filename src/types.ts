@@ -115,6 +115,12 @@ export interface ReviewData {
     // Posiblemente otras propiedades
 }
 
+// AÑADE ESTE NUEVO TIPO
+export interface ProductImage {
+  id: number;
+  src: string;
+  alt: string;
+}
 
 // Exporta todas las interfaces necesarias
 // (Las interfaces ya están exportadas individualmente arriba)
