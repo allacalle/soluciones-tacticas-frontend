@@ -1,10 +1,12 @@
+/* src/components/css/ProductListSection.css - ACTUALIZADO */
+
 /* ================================================ */
 /* Estilos para ProductListSection                  */
 /* ================================================ */
 
 /* Contenedor principal de la sección */
 .product-list-section {
-	margin: var(--spacing-large, 30px) 0; /* Base */
+	margin: var(--spacing-large, 30px) 0;
 	padding: var(--spacing-medium, 16px) 0;
 	background-color: var(--color-neutral-light, #f8f8f8);
 	border-top: 1px solid var(--color-neutral-light, #eee);
@@ -16,120 +18,106 @@
 .section-banner {
 	background-color: var(--color-primary-dark, #4b5320);
 	color: var(--color-text-light, #fff);
-	padding: var(--spacing-medium, 15px) var(--spacing-large, 24px); /* Ajustado padding horizontal base */
+	padding: var(--spacing-medium, 15px) var(--spacing-large, 24px);
 	text-align: center;
-	margin-bottom: var(--spacing-large, 24px); /* Ajustado margen base */
+	margin-bottom: var(--spacing-large, 24px);
 }
 .section-banner h2 {
-	margin: 0 0 var(--spacing-extra-small, 5px) 0; /* Reducido margen inferior del h2 */
-	font-size: 1.8em; /* Base */
+	margin: 0 0 var(--spacing-extra-small, 5px) 0;
+	font-size: 1.8em;
 	font-weight: var(--font-weight-bold, bold);
 	color: var(--color-text-light, #fff);
 }
 .section-banner p {
 	margin: 0;
-	font-size: 1em; /* Base */
+	font-size: 1em;
 	opacity: 0.9;
 }
 
-/* Área de display de productos (Scroll Horizontal) */
+/* --- ESTILOS BASE PARA ESCRITORIO (Scroll Horizontal con Flexbox) --- */
 .product-list-section .products-display-area {
-	display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	display: flex;
 	overflow-x: auto;
-	gap: var(--spacing-large, 20px); /* Base */
+	gap: var(--spacing-large, 20px);
 	align-items: stretch;
-	justify-content: flex-start; /* Importante para el inicio del scroll */
-	/* Añadir un padding horizontal consistente al contenedor de la sección, en lugar de aquí,
-       o si es específico para el scroll, asegurarse de que no cause doble padding.
-       Considera si el padding de .product-list-section ya es suficiente. */
-	padding: 0 var(--spacing-large, 24px); /* Padding lateral para el inicio/fin del scroll dentro de la sección */
-	padding-bottom: var(--spacing-medium, 12px);
-	-ms-overflow-style: none;  /* Ocultar scrollbar en IE/Edge */
-  	scrollbar-width: none;  /* Ocultar scrollbar en Firefox */
-
+	padding: 0 var(--spacing-large, 24px);
+    padding-bottom: var(--spacing-medium, 12px);
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* Estilos del Scrollbar (Webkit) */
 .product-list-section .products-display-area::-webkit-scrollbar {
-	height: 8px;
-}
-.product-list-section .products-display-area::-webkit-scrollbar-thumb {
-	background-color: var(--color-primary-dark, #4b5320);
-	border-radius: 10px;
-}
-.product-list-section .products-display-area::-webkit-scrollbar-track {
-	background: transparent; /* Hacer el track transparente para que se vea el fondo de la sección */
-    /* O un color muy sutil: var(--color-neutral-medium, #ddd); */
+    display: none;
 }
 
-/* Ocultar scrollbar en IE, Edge, Firefox */
-.product-list-section .products-display-area {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+.product-list-section .products-display-area .product-item-link {
+    scroll-snap-align: start;
 }
 
-/* === Media Queries para Responsividad === */
 
-/* Tabletas (~769px a ~992px) - Podrías añadir un breakpoint aquí si es necesario
-   para ajustes intermedios, pero los de 768px ya cubren bastante. */
+/* ================================================ */
+/* === MEDIA QUERIES PARA RESPONSIVIDAD === */
+/* ================================================ */
+
+/* --- Tabletas --- */
 @media (max-width: 991.98px) {
     .section-banner h2 { font-size: 1.7em; }
     .section-banner p { font-size: 0.95em; }
     .product-list-section .products-display-area {
-        gap: var(--spacing-medium, 16px); /* Ligeramente menos gap */
+        gap: var(--spacing-medium, 16px);
         padding-left: var(--spacing-medium, 16px);
         padding-right: var(--spacing-medium, 16px);
     }
 }
 
-/* Tabletas y móviles grandes en horizontal */
-@media (max-width: 767.98px) { /* Ajustado el breakpoint a 767.98px para ser más estándar */
+/* --- MÓVILES (aquí ocurre el cambio de layout) --- */
+@media (max-width: 767.98px) {
     .product-list-section {
         margin: var(--spacing-medium, 20px) 0;
-        padding-top: var(--spacing-small, 12px); /* Ajustado */
-        padding-bottom: var(--spacing-small, 12px); /* Ajustado */
+        padding-top: var(--spacing-small, 12px);
+        padding-bottom: var(--spacing-small, 12px);
     }
     .section-banner {
-        padding: var(--spacing-base, 12px) var(--spacing-medium, 16px); /* Ajustado */
-        margin-bottom: var(--spacing-medium, 16px); /* Ajustado */
+        padding: var(--spacing-base, 12px) var(--spacing-medium, 16px);
+        margin-bottom: var(--spacing-medium, 16px);
     }
     .section-banner h2 { font-size: 1.5em; }
     .section-banner p { font-size: 0.9em; }
 
+    /* === ¡LA MAGIA OCURRE AQUÍ! === */
     .product-list-section .products-display-area {
-        gap: var(--spacing-medium, 16px); /* Mantenido de 992px o ajusta (ej. 12px) */
-        padding-left: var(--spacing-medium, 16px); /* Mantenido o ajusta */
-        padding-right: var(--spacing-medium, 16px); /* Mantenido o ajusta */
-        padding-bottom: var(--spacing-small, 8px); /* Ajustado */
-    }
-    .product-list-section .products-display-area::-webkit-scrollbar {
-        height: 6px; /* Scrollbar más delgado en móviles */
+        /* 1. Cambiamos a un layout de Grid */
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+
+        /* 2. Reseteamos las propiedades del carrusel horizontal */
+        overflow-x: visible;
+        scroll-snap-type: none;
+
+        /* 3. Ajustamos el padding para una cuadrícula vertical */
+        padding: 0 var(--spacing-medium, 16px);
+        gap: var(--spacing-medium, 16px);
     }
 }
 
-/* Móviles en vertical */
-@media (max-width: 575.98px) { /* Nuevo breakpoint para móviles más pequeños */
+/* --- MÓVILES MUY PEQUEÑOS (Ajustes finos) --- */
+@media (max-width: 575.98px) {
     .product-list-section {
-        margin: var(--spacing-base, 15px) 0; /* Ajustado */
+        margin: var(--spacing-base, 15px) 0;
     }
     .section-banner {
-        padding: var(--spacing-small, 10px) var(--spacing-base, 12px); /* Ajustado */
-        margin-bottom: var(--spacing-base, 12px); /* Ajustado */
+        padding: var(--spacing-small, 10px) var(--spacing-base, 12px);
+        margin-bottom: var(--spacing-base, 12px);
     }
-    .section-banner h2 { font-size: 1.35em; } /* Ajustado */
+    .section-banner h2 { font-size: 1.35em; }
     .section-banner p { font-size: 0.85em; }
 
     .product-list-section .products-display-area {
-        gap: var(--spacing-small, 12px); /* Ajustado */
-        padding-left: var(--spacing-base, 12px); /* Ajustado */
-        padding-right: var(--spacing-base, 12px); /* Ajustado */
-        padding-bottom: var(--spacing-extra-small, 6px); /* Scrollbar delgado o casi invisible */
+        gap: var(--spacing-small, 12px);
+        padding: 0 var(--spacing-base, 12px);
     }
-    /* Opcional: Ocultar completamente el scrollbar en Webkit para móviles muy pequeños */
-    /*
-    .product-list-section .products-display-area::-webkit-scrollbar {
-        display: none;
-    }
-    */
+    /* En este punto, la regla de 'grid-template-columns: repeat(2, 1fr)' se hereda
+       de la media query anterior (max-width: 767.98px), lo cual está bien.
+       Si quisieras 1 columna para móviles muy pequeños, la añadirías aquí. */
 }

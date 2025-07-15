@@ -1,15 +1,14 @@
 // src/components/ProductListSection.tsx
 import './css/ProductListSection.css';
-import { useEffect, useState, useMemo } from 'react'; // Añadido useMemo si no estaba
-
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { getProducts, GetProductsOptions } from '../api/wooApi';
 import { Product } from '../types';
 import ProductGrid from './ProductGrid';
+import { useViewport } from '../hooks/useViewport';
 
-// Valores por defecto si productsPerPage no se proporciona explícitamente
-const DEFAULT_PRODUCTS_PER_PAGE_DESKTOP = 6; // O el valor que prefieras como defecto para escritorio
-const DEFAULT_PRODUCTS_PER_PAGE_MOBILE = 4;  // O el valor que prefieras como defecto para móvil
-const MOBILE_BREAKPOINT = 768; // Mantenemos el breakpoint consistente
+// Valores por defecto para el número de productos
+const DEFAULT_PRODUCTS_PER_PAGE_DESKTOP = 8;
+const DEFAULT_PRODUCTS_PER_PAGE_MOBILE = 4;
 
 interface ProductListSectionProps {
     title: string;
@@ -17,7 +16,7 @@ interface ProductListSectionProps {
     type: 'latest' | 'popular' | 'sale' | 'featured' | 'category' | 'ids';
     categoryId?: number;
     productIds?: number[];
-    productsPerPage?: number; // Esta prop sigue siendo opcional
+    productsPerPage?: number;
 }
 
 function ProductListSection({
@@ -26,106 +25,54 @@ function ProductListSection({
     type,
     categoryId,
     productIds,
-    productsPerPage // Ya no asignamos un valor por defecto aquí directamente
+    productsPerPage
 }: ProductListSectionProps) {
 
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
 
-    // 1. Estado para saber si estamos en vista móvil
-    const [isMobileView, setIsMobileView] = useState(window.innerWidth < MOBILE_BREAKPOINT);
+    // 1. Usamos nuestro hook personalizado para obtener el estado del viewport de forma fiable
+    const { isMobileView } = useViewport();
+    
+    // 2. Creamos una referencia para poder manipular el contenedor del scroll
+    const displayAreaRef = useRef<HTMLDivElement>(null);
 
-    // 2. useEffect para actualizar isMobileView cuando cambie el tamaño de la ventana
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobileView(window.innerWidth < MOBILE_BREAKPOINT);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // 3. Determina el número de productos a mostrar
-    //    Si se proporciona productsPerPage como prop, se usa.
-    //    Si no, se usa el valor por defecto responsivo.
+    // Calcula el número de productos a pedir basado en la vista (móvil o escritorio)
     const resolvedProductsPerPage = useMemo(() => {
         if (productsPerPage !== undefined) {
-            return productsPerPage; // Usar el valor proporcionado
+            return productsPerPage;
         }
-        // Si no se proporcionó, usar los defaults responsivos
         return isMobileView ? DEFAULT_PRODUCTS_PER_PAGE_MOBILE : DEFAULT_PRODUCTS_PER_PAGE_DESKTOP;
     }, [productsPerPage, isMobileView]);
 
+    // Efecto para cargar los productos cuando cambian las props
     useEffect(() => {
         const fetchSectionProducts = async () => {
             setLoading(true);
             setError(null);
-            setProducts([]);
-
-            const options: GetProductsOptions = {
-                page: 1,
-                // 4. USA EL VALOR RESUELTO AQUÍ
-                per_page: resolvedProductsPerPage,
-            };
+            
+            const options: GetProductsOptions = { page: 1, per_page: resolvedProductsPerPage };
+            
+            // Lógica para construir las opciones de la API
+            switch (type) {
+                case 'latest': options.orderby = 'date'; options.order = 'desc'; break;
+                case 'popular': options.orderby = 'popularity'; options.order = 'desc'; break;
+                case 'sale': options.on_sale = true; options.orderby = 'date'; options.order = 'desc'; break;
+                case 'featured': options.featured = true; break;
+                case 'category': if (categoryId !== undefined) { options.category = String(categoryId); } else { throw new Error("ID de categoría no proporcionado."); } break;
+                case 'ids': if (productIds && productIds.length > 0) { options.include = productIds; options.per_page = productIds.length; options.orderby = 'include'; } else { setLoading(false); return; } break;
+                default: throw new Error(`Tipo de sección desconocido: ${type}`);
+            }
+            if (!(type === 'ids' && productIds && productIds.length > 0)) {
+                options.per_page = resolvedProductsPerPage;
+            }
 
             try {
-                switch (type) {
-                    case 'latest':
-                        options.orderby = 'date';
-                        options.order = 'desc';
-                        break;
-                    case 'popular':
-                        options.orderby = 'popularity';
-                        options.order = 'desc';
-                        break;
-                    case 'sale':
-                        options.on_sale = true;
-                        options.orderby = 'date';
-                        options.order = 'desc';
-                        break;
-                    case 'featured':
-                        options.featured = true;
-                        break;
-                    case 'category':
-                        if (categoryId !== undefined) {
-                            options.category = String(categoryId);
-                        } else {
-                            console.error(`[ProductListSection] Título: "${title}" - Tipo 'category' requiere 'categoryId'.`);
-                            throw new Error("ID de categoría no proporcionado para la sección de categoría.");
-                        }
-                        break;
-                    case 'ids':
-                        if (productIds && productIds.length > 0) {
-                            options.include = productIds;
-                            // Para 'ids', es común querer mostrar todos los IDs especificados,
-                            // así que el resolvedProductsPerPage podría ser ignorado o ajustado.
-                            // Aquí, priorizamos mostrar todos los IDs.
-                            options.per_page = productIds.length;
-                            options.orderby = 'include';
-                        } else {
-                            console.warn(`[ProductListSection] Título: "${title}" - Tipo 'ids' sin 'productIds' o array vacío.`);
-                            setLoading(false);
-                            return; 
-                        }
-                        break;
-                    default:
-                        console.error(`[ProductListSection] Título: "${title}" - Tipo de sección desconocido: '${type}'.`);
-                        throw new Error(`Tipo de sección de productos desconocido: ${type}`);
-                }
-                
-                // Para el tipo 'ids', no queremos que resolvedProductsPerPage limite la cantidad si ya definimos productIds.length
-                // Solo aplicamos resolvedProductsPerPage si NO es de tipo 'ids' con productIds definidos.
-                if (!(type === 'ids' && productIds && productIds.length > 0)) {
-                    options.per_page = resolvedProductsPerPage;
-                }
-
-                console.log(`[ProductListSection] Título: "${title}", Tipo: "${type}", Fetching with options:`, options);
                 const result = await getProducts(options);
                 setProducts(result.products);
-
             } catch (caughtError: unknown) {
                 const err = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
-                console.error(`[ProductListSection] Título: "${title}", Tipo: "${type}" - Error al cargar productos:`, err);
                 setError(err);
                 setProducts([]);
             } finally {
@@ -134,22 +81,37 @@ function ProductListSection({
         };
 
         fetchSectionProducts();
-
-    // Asegúrate de que resolvedProductsPerPage esté en las dependencias del efecto principal
     }, [type, categoryId, productIds, resolvedProductsPerPage, title]);
 
-    // --- Renderizado ---
+    // --- EFECTO DEDICADO A CORREGIR EL SCROLL ---
+     useEffect(() => {
+        // Este efecto se ejecuta cuando los productos cambian.
+        if (!loading && displayAreaRef.current) {
+            
+            // Usamos un setTimeout para asegurar que el scroll se aplique
+            // DESPUÉS de que el navegador haya terminado de pintar el nuevo DOM.
+            const timer = setTimeout(() => {
+                if (displayAreaRef.current) {
+                    displayAreaRef.current.scrollLeft = 0;
+                }
+            }, 0); // Un retardo de 0ms es suficiente para ponerlo en la siguiente tarea del ciclo de eventos.
+
+            // Limpiamos el temporizador si el componente se desmonta antes de que se ejecute
+            return () => clearTimeout(timer);
+        }
+    }, [products, loading]); // La dependencia sigue siendo la misma
+
     return (
         <section className="product-list-section">
             <div className="section-banner">
                 <h2>{title}</h2>
                 {subtitle && <p>{subtitle}</p>}
             </div>
-            <div className="products-display-area">
+            {/* Asignamos la referencia (ref) al div que tiene el scroll */}
+            <div className="products-display-area" ref={displayAreaRef}>
                 {loading && <div className="product-list-loading">Cargando productos...</div>}
                 {!loading && error && <div className="product-list-error">Error: {error.message}</div>}
                 {!loading && !error && products.length === 0 && (
-                    !(type === 'ids' && (!productIds || productIds.length === 0)) && 
                     <div className="product-list-empty">No se encontraron productos.</div>
                 )}
                 {!loading && !error && products.length > 0 && (
