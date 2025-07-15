@@ -1,16 +1,16 @@
-// src/components/ProductImageGallery.tsx
+// src/components/ProductImageGallery.tsx - ADAPTADO CON ZOOM
 import React from 'react';
-import { Image as ImageType } from '../types'; // Usamos ImageType para evitar colisión con el elemento <img>
-import './css/ProductImageGallery.css'; // Crearemos este archivo CSS después
+import { ProductImage as ImageType } from '../types'; // Renombramos a ProductImage en types.ts
+import InnerImageZoom from 'react-inner-image-zoom'; // Importamos la librería de zoom
+import 'react-inner-image-zoom/lib/styles.min.css'; // <<<--- ESTA ES LA LÍNEA CORRECTA
+import './css/ProductImageGallery.css'; // Tus estilos personalizados
 
 interface ProductImageGalleryProps {
   productName: string;
-  images: ImageType[]; // Imágenes del producto padre para las miniaturas
-  displayedImage?: string; // URL de la imagen grande a mostrar
-  activeThumbnailSrc?: string; // URL de la miniatura que debe estar activa
-  onThumbnailClick: (imageUrl: string) => void; // Callback al hacer clic en miniatura
-  // Opcional: si quieres que la galería use un placeholder si no hay displayedImage
-  // placeholderImage?: string; 
+  images: ImageType[];
+  displayedImage?: string; // La URL de la imagen principal a mostrar
+  activeThumbnailSrc?: string; // La URL de la miniatura activa
+  onThumbnailClick: (imageUrl: string) => void;
 }
 
 const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
@@ -19,41 +19,33 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   displayedImage,
   activeThumbnailSrc,
   onThumbnailClick,
-  // placeholderImage // Descomenta si lo añades a las props
 }) => {
-  // Si no hay displayedImage y tienes un placeholder como prop, podrías usarlo aquí.
-  // const imageToShow = displayedImage || placeholderImage || '/assets/default-placeholder.jpg'; 
-  // Por ahora, asumiremos que ProductPage ya maneja el placeholder en displayedImage
-
-  if (!images || images.length === 0) {
-    // Si no hay imágenes en absoluto (ni siquiera para miniaturas),
-    // mostramos un placeholder o mensaje.
-    // O podrías pasar un placeholder general desde ProductPage para este caso.
-    return (
-      <div className="product-images-gallery">
-        {displayedImage ? (
-          <img src={displayedImage} alt={productName} className="product-main-image" />
-        ) : (
-          <div className="no-product-image">Imagen no disponible</div>
-        )}
-        {/* No hay miniaturas que mostrar */}
-      </div>
-    );
-  }
+  // Determinamos qué imagen mostrar, asegurándonos de que siempre haya un valor si es posible.
+  const imageToShow = displayedImage || (images && images.length > 0 ? images[0].src : undefined);
 
   return (
     <div className="product-images-gallery">
       {/* Imagen principal grande */}
-      {displayedImage ? (
-        <img src={displayedImage} alt={productName} className="product-main-image" />
+      {imageToShow ? (
+        // --- ESTE ES EL CAMBIO PRINCIPAL ---
+        // Envolvemos el componente de zoom en un div para aplicar estilos y posición.
+        <div className="main-image-zoom-wrapper">
+          <InnerImageZoom
+            src={imageToShow}
+            zoomSrc={imageToShow} // Idealmente, esta sería una imagen de mayor resolución
+            imgAttributes={{ alt: productName }}
+            zoomType="hover" // El zoom se activa al pasar el ratón
+            fullscreenOnMobile={true} // En móvil, al tocar se abre en pantalla completa (muy buena UX)
+            hideHint={true} // Opcional: oculta el texto "Hover to zoom"
+          />
+        </div>
       ) : (
-        // Este fallback podría ser un placeholder específico de la galería o el mismo que usa ProductPage
+        // El fallback si no hay ninguna imagen
         <div className="no-product-image">Imagen no disponible</div>
       )}
 
-      {/* Miniaturas */}
-      {/* Solo mostrar la sección de miniaturas si hay más de una imagen, o siempre si hay al menos una */}
-      {images.length > 0 && ( // O images.length > 1 si solo quieres miniaturas si hay varias
+      {/* Miniaturas (esta parte no cambia, sigue funcionando igual) */}
+      {images && images.length > 1 && ( // Solo mostramos miniaturas si hay más de 1 imagen
         <div className="product-thumbnails">
           {images.map((image, index) => (
             <img
@@ -61,7 +53,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
               src={image.src}
               alt={image.alt || `Thumbnail de ${productName} ${index + 1}`}
               className={`product-thumbnail ${activeThumbnailSrc === image.src ? 'active' : ''}`}
-              onClick={() => onThumbnailClick(image.src)} // Llama al callback pasado por ProductPage
+              onClick={() => onThumbnailClick(image.src)}
             />
           ))}
         </div>

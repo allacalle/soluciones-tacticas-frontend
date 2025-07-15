@@ -115,7 +115,6 @@ export interface ReviewData {
     // Posiblemente otras propiedades
 }
 
-// AÑADE ESTE NUEVO TIPO
 export interface ProductImage {
   id: number;
   src: string;
