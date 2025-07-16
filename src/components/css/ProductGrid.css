@@ -1,11 +1,11 @@
-/* src/components/css/ProductGrid.css - MODIFICADO PARA PRUEBAS */
+/* src/components/css/ProductGrid.css - ESTILO PROFESIONAL MEJORADO */
 
 /* ==========================================================================
-   Estilos Base para la Tarjeta (Pensados para Escritorio)
+   Estilos Base para la Tarjeta (Escritorio)
    ========================================================================== */
 
 .product-item {
-  /* Estructura Interna */
+  /* Estructura Interna (se mantiene) */
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -14,24 +14,32 @@
   width: 260px;
   height: 420px;
   
-  /* Apariencia */
+  /* --- CAMBIOS ESTÉTICOS --- */
   box-sizing: border-box;
-  padding: var(--spacing-medium, 15px);
-  border: 1px solid var(--color-neutral-medium, #ddd);
-  border-radius: 8px;
-  background-color: var(--color-background-light, #fff);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: all 0.3s ease-in-out;
+  padding: var(--spacing-medium, 16px);
+  
+  /* Borde más sutil y fondo ligeramente grisáceo */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: var(--color-neutral-lightest, #fafafa); /* Fondo casi blanco */
+  border-radius: 16px; /* Bordes más redondeados */
 
-  /* Estilos del Enlace */
+  /* Sombra más suave y difusa */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  
+  /* Transición más suave y específica */
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), 
+              box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+              border-color 0.3s ease;
+
+  /* Estilos del Enlace (se mantienen) */
   text-decoration: none;
   color: inherit;
 }
 
 .product-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  border-color: var(--color-primary, #556B2F);
+  transform: translateY(-8px); /* Efecto de "levantar" más pronunciado */
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  border-color: var(--color-primary-light, #B5D2C5); /* Usa tu verde claro para el borde en hover */
 }
 
 /* ==========================================================================
@@ -43,19 +51,27 @@
   width: 100%;
   height: 200px;
   object-fit: contain;
-  margin-bottom: var(--spacing-medium, 15px);
-  border-radius: 4px;
+  margin-bottom: var(--spacing-large, 20px); /* Más espacio bajo la imagen */
+  border-radius: 8px; /* Bordes redondeados para la imagen */
 }
 
-/* ... (estilos de .no-image-placeholder) ... */
+.product-item .no-image-placeholder {
+  background-color: var(--color-neutral-light, #f0f0f0);
+  /* ... (el resto de tus estilos de placeholder están bien) */
+}
 
 .product-item h3 {
-  font-size: 1rem;
+  /* --- TIPOGRAFÍA MEJORADA --- */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 1.1rem; /* Un poco más grande y en rem */
+  font-weight: 600; /* Semi-bold para un look más refinado */
+  letter-spacing: -0.01em; /* Ajuste sutil para mejor legibilidad */
   line-height: 1.4;
-  font-weight: 600;
-  color: var(--color-text-dark, #333);
-  margin: 0 0 var(--spacing-small, 10px) 0;
-  height: calc(1rem * 1.4 * 2); 
+  color: var(--color-text-dark, #1d1d1f); /* Un negro más suave */
+  
+  /* Espaciado y truncamiento (se mantienen) */
+  margin: 0 0 var(--spacing-base, 12px) 0;
+  height: calc(1.1rem * 1.4 * 2); 
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -68,73 +84,64 @@
   justify-content: center;
   align-items: baseline;
   gap: var(--spacing-small, 8px);
-  font-weight: bold;
+  font-weight: 700; /* Usamos 700 que es el estándar para bold */
   margin-top: auto;
 
-  /* --- CAMBIO: PRECIO MÁS GRANDE --- */
-  font-size: 1.6em; /* Aumentado de 1.5rem */
+  font-size: 1.5rem; /* Tamaño de precio ajustado */
+  color: var(--color-accent, #007bff); /* Usamos tu verde oscuro para el precio */
 }
 
-/* --- CAMBIO: AÑADIDA LA REGLA PARA EL COLOR DEL PRECIO --- */
-.product-item .product-price-container .current-price {
-    color: var(--color-accent, #007bff); /* Azul, como querías */
-}
 .product-item .product-price-container .current-price.sale {
-    color: var(--color-call-to-action, #d9534f); /* Mantenemos el rojo para ofertas */
+    /* Mantenemos el rojo para ofertas, pero usamos tu variable si existe */
+    color: var(--color-call-to-action, #d9534f);
 }
 
+.product-item .product-price-container .regular-price {
+    font-size: 0.75em;
+    color: var(--color-text-medium, #6e6e73); /* Un gris más suave */
+}
 
-/* --- Tabletas (ej: < 992px) --- */
+/* ==========================================================================
+   Ajustes Responsivos (Respetando tu lógica de tamaño)
+   ========================================================================== */
+
+/* --- Tabletas --- */
 @media (max-width: 991.98px) {
   .product-item {
-    /* Mantenemos un tamaño fijo para tabletas, que suelen tener más espacio */
     width: 240px;
     height: 400px;
   }
 }
 
-/* --- MÓVILES (ej: < 768px) --- */
+/* --- MÓVILES --- */
 @media (max-width: 767.98px) {
   .product-item {
-    /* --- ¡LA MAGIA OCURRE AQUÍ! --- */
-    
-    /* 1. Definimos el ancho como un cálculo basado en el viewport.
-       '48vw' significa el 48% del ancho de la pantalla.
-       Usamos un valor ligeramente menor al 50% para dejar espacio al 'gap'.
-       Esto asegura que siempre quepan 2 tarjetas por fila. */
     width: 48vw;
-    
-    /* 2. Hacemos la altura relativa al ancho con 'aspect-ratio'.
-       'aspect-ratio: 2 / 3' significa que la altura será 1.5 veces el ancho.
-       Esto mantiene la proporción de la tarjeta consistente. */
-    height: auto; /* Dejamos que el aspect-ratio controle la altura */
-    aspect-ratio: 2 / 3; /* O la proporción que te guste, ej: 3 / 4 */
-
-    /* También podemos definir una altura máxima para evitar que sean gigantes en móviles anchos */
+    height: auto;
+    aspect-ratio: 2 / 3;
     max-height: 400px;
+    border-radius: 12px; /* Un poco menos redondeado para el tamaño */
   }
 
-  /* Ajustamos el contenido interno para el nuevo tamaño de tarjeta */
   .product-item img,
   .product-item .no-image-placeholder {
-    height: 55%; /* La imagen ocupa el 55% de la altura de la tarjeta */
+    height: 55%;
   }
 
   .product-item h3 {
-    font-size: 0.9rem;
-    height: calc(0.9rem * 1.4 * 2); /* Mantenemos la altura fija para el título */
+    font-size: 0.95rem;
+    height: calc(0.95rem * 1.4 * 2);
   }
 
   .product-item .product-price-container {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
   }
 }
 
-/* --- MÓVILES MUY PEQUEÑOS (ej: < 420px) --- */
+/* --- MÓVILES MUY PEQUEÑOS --- */
 @media (max-width: 419.98px) {
   .product-item {
-    /* En pantallas muy estrechas, hacemos que ocupe casi todo el ancho para una sola columna */
     width: 90vw;
-    aspect-ratio: 3 / 4; /* Hacemos la tarjeta un poco más alta */
+    aspect-ratio: 3 / 4;
   }
 }

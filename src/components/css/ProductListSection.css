@@ -81,7 +81,6 @@
 @media (max-width: 479.98px) {
     .product-list-section .products-display-area {
         /* Pasamos a 1 columna para mejor legibilidad */
-        grid-template-columns: 1fr;
         grid-template-columns: repeat(2, 1fr);
 
     }
