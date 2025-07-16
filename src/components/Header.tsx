@@ -25,7 +25,7 @@ const navigationData: NavItem[] = [
             { label: 'Entrenamiento', path: '/productos/entrenamiento' },
             { label: 'Equipo protección', path: '/productos/equipo_proteccion' },
             { label: 'Equipo sanitario', path: '/productos/equipo_sanitario' },
-            { label: 'Fundas complementos', path: '/productos/fundas_complementos' },
+            { label: 'Complementos cinturón y molle', path: '/productos/complementos_cinturon' },
             { label: 'Guantes', path: '/productos/guantes' },
             { label: 'Iluminación', path: '/productos/iluminacion_equipacion' },
             { label: 'Mochilas/bolsas', path: '/productos/mochilas_bolsas' },

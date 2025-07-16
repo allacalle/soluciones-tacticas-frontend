@@ -82,9 +82,11 @@ export function useProductDetails(productSlug: string | undefined): UseProductDe
                     if (fetchedProduct.attributes && fetchedProduct.attributes.length > 0) {
                         fetchedProduct.attributes.forEach(attr => {
                             if (attr.variation) { // Solo si es un atributo usado para crear variaciones
-                                initialAttrs[attr.name] = null; // Inicializar a null (ninguna opción seleccionada por defecto)
+                                initialAttrs[attr.name] = attr.options && attr.options.length > 0 ? attr.options[0] : null; //Primera opcion por defecto
                                 // Si quisieras seleccionar la primera opción por defecto:
                                 // initialAttrs[attr.name] = attr.options && attr.options.length > 0 ? attr.options[0] : null;
+                                //initialAttrs[attr.name] = null; // Inicializar a null (ninguna opción seleccionada por defecto)
+
                             }
                         });
                     }
