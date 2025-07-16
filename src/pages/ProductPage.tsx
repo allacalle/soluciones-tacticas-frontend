@@ -37,6 +37,8 @@ const colorMap: { [key: string]: string } = {
     "Verde Ranger": "#5F745A",  // Ranger Green, popular en equipamiento táctico
     "Verde Musgo": "#8FBC8F",   // Un verde más claro, como tu --color-primary-light
     "Salvia": "#B2AC88",       // Sage green, un verde grisáceo
+    "Boscoso": "#4B8B3A",      // Un verde más terroso y oscuro
+    "Verde": "#228B22",        // Un verde más vibrante
 
     // --- TONOS TIERRA / MARRONES ---
     "Coyote": "#8A6B4D",       // Coyote Brown, muy común
@@ -51,7 +53,8 @@ const colorMap: { [key: string]: string } = {
     "Azul Marino": "#000080",   // Navy Blue
     "Azul Noche": "#191970",    // Midnight Blue, muy oscuro
     "Azul Policía": "#00205B",  // Un azul oscuro específico
-    // "Azul Oscuro": "#00008B", // Ya lo tenías
+    "Azul Oscuro": "#00008B", // Ya lo tenías
+    "Azul": "#0000FF",          // Azul estándar
 
     // --- CAMUFLAJES (Representación con un color base o un patrón simple si es posible) ---
     // Para camuflajes, es difícil representarlos con un solo color.
@@ -76,7 +79,7 @@ const colorMap: { [key: string]: string } = {
     // --- COLORES DE ALTA VISIBILIDAD (Para rescate, algunos equipos de outdoor) ---
     "Naranja Rescate": "#FF8C00", // Naranja brillante
     "Amarillo Flúor": "#CCFF00", // Lima/amarillo fluorescente
-    // "Rojo": "#FF0000",       // Ya lo tenías, puede ser para detalles o emergencia
+    "Rojo": "#FF0000",       // Ya lo tenías, puede ser para detalles o emergencia
 
     // --- OTROS ---
     "Beige": "#F5F5DC",

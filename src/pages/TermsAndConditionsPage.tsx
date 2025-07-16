@@ -1,5 +1,6 @@
 // src/pages/TermsAndConditionsPage.tsx
 
+import { Link } from 'react-router-dom';
 import './css/TermsAndConditionsPage.css'; // Importa los estilos CSS para esta página
 
 function TermsAndConditionsPage() {
@@ -34,7 +35,8 @@ function TermsAndConditionsPage() {
 				<h2>Contacto</h2>
 				<p>Si tiene alguna pregunta sobre estos Términos y Condiciones, puede contactarnos:</p>
 				<p>Por correo electrónico: stmaterialpolicial@gmail.com </p>
-				<p>Visitando esta página en nuestro sitio web: [Enlace a la página de Contacto si la creas]</p>
+				<p> Visitando nuestra pagina de <Link to="/contacto">contacto</Link></p>
+
 
 
 				{/* =================================================================== */}

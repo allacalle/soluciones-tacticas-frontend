@@ -1,6 +1,7 @@
 // src/pages/CookiesPolicyPage.tsx
 
 import './css/CookiesPolicyPage.css'; // Importa los estilos CSS para esta página
+import { Link } from 'react-router-dom';
 
 function CookiesPolicyPage() {
 	return (
@@ -48,6 +49,7 @@ function CookiesPolicyPage() {
 				<h2>Contacto</h2>
 				<p>Si tiene alguna pregunta sobre esta Política de Cookies, puede contactarnos:</p>
 				<p>Por correo electrónico: stmaterialpolicial@gmail.com </p>
+				<p> Visitando nuestra pagina de <Link to="/contacto">contacto</Link></p>
 
 
 				{/* =================================================================== */}
