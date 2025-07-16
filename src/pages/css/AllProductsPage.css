@@ -1,228 +1,82 @@
-/* src/pages/css/AllProductsPage.css - Estilos para la página "Todos los Productos" */
+/* src/pages/css/AllProductsPage.css - VERSIÓN OPTIMIZADA */
 
-/* Contenedor principal de la página "Todos los Productos" */
+/* ==========================================================================
+   1. Estilos Base (Mobile-First)
+   ========================================================================== */
+
+/* Contenedor principal de la página */
 .all-products-page-container {
 	max-width: var(--max-width-content, 1200px);
-	margin: var(--spacing-large, 20px) auto;
-	padding: 0 var(--spacing-large, 24px); /* Aumentado ligeramente para más aire en escritorio */
+	margin: 0 auto;
+	padding: var(--spacing-medium, 16px) var(--spacing-small, 12px); /* Padding para móvil */
 	box-sizing: border-box;
-	color: var(--color-text-dark, #333);
-	font-family: var(--font-family-base);
 }
 
-/* Estilos para los mensajes de estado */
+/* Título principal de la página */
+.all-products-page-container h2 {
+	text-align: center;
+	margin-bottom: var(--spacing-medium, 16px);
+	font-size: 1.8em; /* Tamaño para móvil */
+	color: var(--color-primary-dark, #556B2F);
+}
+
+/* Contenedor de la cuadrícula de productos */
+.products-display-area {
+	display: grid;
+    /* Por defecto en móvil, mostramos 2 columnas */
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-small, 12px); /* Gap para móvil */
+	width: 100%;
+}
+
+/* Mensajes de estado (loading, error, etc.) */
 .all-products-page-loading,
 .all-products-page-error,
 .all-products-page-not-found {
 	text-align: center;
-	font-size: 1.2em;
-	padding: var(--spacing-xlarge, 30px) var(--spacing-medium, 15px); /* Más padding vertical, menos lateral */
+	font-size: 1em;
+	padding: var(--spacing-large, 24px) var(--spacing-small, 12px);
+    grid-column: 1 / -1; /* Asegura que ocupe todas las columnas si se muestra */
 }
 
-/* Estilos para el título de la página (H2) */
-.all-products-page-container h2 {
-	text-align: center;
-	margin-bottom: var(--spacing-large, 24px);
-	font-size: 2.2em; /* Ligeramente más grande */
-	color: var(--color-primary-dark, #556B2F);
-}
-
-/* Estilos para la información de paginación */
-.pagination-info {
-	text-align: center;
-	margin-top: var(--spacing-large, 24px);
-	margin-bottom: var(--spacing-medium, 16px);
-	border-bottom: 1px solid var(--color-neutral-light, #eee);
-	padding-bottom: var(--spacing-medium, 16px); /* Aumentado ligeramente */
-	color: var(--color-text-dark, #333);
-}
-.pagination-info p { margin: var(--spacing-extra-small, 6px) 0; }
-
-/* Estilos para el contenedor de la cuadrícula de productos */
-.products-display-area {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Cambiado a auto-fit */
-	gap: var(--spacing-large, 24px);
-	width: 100%;
-	box-sizing: border-box;
-	/* padding ya no es necesario aquí, lo maneja el contenedor principal */
-}
-
-/* Estilos para los botones de paginación */
-.pagination-buttons {
-	margin-top: var(--spacing-large, 24px);
-	text-align: center;
-}
-.pagination-buttons button {
-	margin: 0 var(--spacing-small, 8px); /* Reducido ligeramente */
-	padding: var(--spacing-small, 8px) var(--spacing-medium, 15px);
-	transition: all 0.3s ease;
-}
-.pagination-buttons button:disabled { cursor: not-allowed; opacity: 0.6; }
-
-/* ============================================================== */
-/* ESTILOS DE LAS TARJETAS DE PRODUCTO INDIVIDUALES */
-/* ============================================================== */
-.product-item {
-	width: 100%; /* Ocupa el 100% de la celda del grid */
-	text-align: center;
-	border: 1px solid var(--color-neutral-medium, #ddd);
-	padding: var(--spacing-medium, 15px);
-	border-radius: 8px;
-	background-color: var(--color-background-light, #fff);
-	box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Sombra más sutil */
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	min-height: 320px; /* Altura mínima base, ajusta según contenido */
-	box-sizing: border-box;
-	transition: all 0.3s ease-in-out;
-}
-.product-item-link { text-decoration: none; color: inherit; display: block; height: 100%; /* Asegura que el enlace ocupe toda la tarjeta */ }
-.product-item-link:hover .product-item {
-	box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Sombra más pronunciada */
-	transform: translateY(-4px);
-	border-color: var(--color-accent, #90EE90); /* Considera usar tu --color-primary-dark o una variable de acento consistente */
-}
-
-.product-item img,
-.product-item .no-image-placeholder {
-	width: 100%;
-	height: 180px; /* Altura base de imagen */
-	object-fit: cover;
-	margin-bottom: var(--spacing-medium, 15px);
-	border-radius: 4px;
-}
-.product-item .no-image-placeholder {
-	background-color: var(--color-neutral-light, #f0f0f0); /* Color de placeholder más claro */
-	display: flex; align-items: center; justify-content: center;
-	color: var(--color-text-medium, #777); font-size: 0.9em;
-}
-
-.product-item h3 { /* Título del producto */
-	font-size: 1.1em;
-	margin: 0 0 var(--spacing-small, 10px) 0; /* Ajustado margen */
-	font-weight: var(--font-weight-bold, bold);
-	color: var(--color-text-dark, #333);
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	line-height: 1.4; /* Para mejor espaciado si son 2 líneas */
-}
-
-.product-item p { /* Contenedor de precio */
-	font-size: 1.8em; /* Tamaño base de precio, ajustado */
-	color: var(--color-accent, #007bff);
-	margin: var(--spacing-small, 10px) 0 0 0; /* Margen superior */
-	font-weight: var(--font-weight-bold, bold);
-	margin-top: auto; /* Empuja al final */
-    /* Quitando el borde/padding directo del p, si usas el contenedor de precios de ProductGrid.css que es más flexible */
-	/* border: 1px solid var(--color-neutral-medium, #ddd); */
-	/* padding: var(--spacing-small, 8px); */
-	/* border-radius: 4px; */
-	/* display: inline-block; */
-    /* Si quieres que el precio tenga un fondo o borde, es mejor hacerlo en un span dentro del p,
-       o si este 'p' es el contenedor de precios (.product-price-container de ProductGrid.css),
-       entonces los estilos de ese contenedor aplicarían.
-       Por ahora, lo dejo simple. */
-}
+/* Eliminamos .pagination-info, .pagination-buttons, y todos los estilos de .product-item
+   de este archivo. Esos estilos ahora viven en sus propios componentes
+   (Pagination.css y ProductGrid.css), lo que hace este archivo mucho más limpio. */
 
 
-/* ============================================================== */
-/* Media Queries para Responsividad */
-/* ============================================================== */
+/* ==========================================================================
+   2. Media Queries para Pantallas Más Grandes
+   ========================================================================== */
 
-/* Tabletas y escritorios pequeños (~769px a ~992px) */
-@media (max-width: 991.98px) {
-    .all-products-page-container h2 { font-size: 2em; }
+/* --- Tabletas --- */
+@media (min-width: 576px) {
+    .all-products-page-container {
+        padding: var(--spacing-large, 24px) var(--spacing-medium, 16px);
+    }
+
+    .all-products-page-container h2 {
+        font-size: 2em;
+        margin-bottom: var(--spacing-large, 24px);
+    }
+
     .products-display-area {
-        /* minmax(200px, 1fr) podría dar 3-4 columnas aquí. Ajusta el min si quieres menos. */
+        /* En pantallas un poco más grandes, usamos auto-fit para que
+           se creen más columnas (probablemente 3) si hay espacio. */
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: var(--spacing-medium, 16px);
     }
-    .product-item { min-height: 300px; } /* Ajustar si es necesario */
-    .product-item img, .product-item .no-image-placeholder { height: 160px; }
-    .product-item h3 { font-size: 1em; }
-    .product-item p { font-size: 1.7em; }
 }
 
-/* Tabletas pequeñas y móviles grandes (ej. ~577px a 768px) */
-@media (max-width: 767.98px) {
-	.all-products-page-container {
-		padding: 0 var(--spacing-medium, 16px);
-	}
-	.all-products-page-container h2 { font-size: 1.8em; }
-    .pagination-info { font-size: 0.95em; }
-    .pagination-buttons button {
-        padding: var(--spacing-small, 7px) var(--spacing-medium, 12px);
-        font-size: 0.9em;
+/* --- Escritorios y Pantallas Grandes --- */
+@media (min-width: 992px) {
+    .all-products-page-container h2 {
+        font-size: 2.2em;
     }
 
-	.products-display-area {
-        /* Aquí probablemente querremos 2 columnas en la mayoría de los casos */
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Aumentado el min para menos columnas */
-		gap: var(--spacing-medium, 16px);
-	}
-
-    /* Ajustes de la tarjeta de producto */
-	.product-item {
-        padding: var(--spacing-small, 12px);
-        min-height: auto; /* Altura dinámica basada en contenido */
+    .products-display-area {
+        /* En escritorio, usamos un tamaño mínimo mayor para las tarjetas,
+           lo que resultará en 4 o 5 columnas, dependiendo del ancho. */
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--spacing-large, 24px);
     }
-	.product-item img, .product-item .no-image-placeholder {
-        height: 150px; /* Imagen más pequeña */
-        margin-bottom: var(--spacing-small, 10px);
-    }
-	.product-item h3 {
-        font-size: 0.95em;
-        margin-bottom: var(--spacing-extra-small, 8px);
-    }
-	.product-item p { /* Precio */
-		font-size: 1.5em;
-        margin-top: var(--spacing-small, 8px);
-	}
-}
-
-/* Móviles pequeños (ej. < 576px) */
-@media (max-width: 575.98px) {
-	.all-products-page-container {
-		padding: 0 var(--spacing-small, 10px);
-        margin-top: var(--spacing-medium, 15px);
-        margin-bottom: var(--spacing-medium, 15px);
-	}
-    .all-products-page-loading,
-    .all-products-page-error,
-    .all-products-page-not-found {
-        font-size: 1em;
-        padding: var(--spacing-medium, 15px);
-    }
-	.all-products-page-container h2 {
-        font-size: 1.6em;
-        margin-bottom: var(--spacing-medium, 15px);
-    }
-    .pagination-info { font-size: 0.85em; margin-bottom: var(--spacing-small, 10px); }
-    .pagination-buttons { margin-top: var(--spacing-medium, 15px); }
-    .pagination-buttons button {
-        padding: var(--spacing-extra-small, 6px) var(--spacing-small, 10px);
-        font-size: 0.85em;
-        margin: 0 var(--spacing-extra-small, 5px);
-    }
-
-	.products-display-area {
-        /* Asegurar 2 columnas o incluso 1 si son muy estrechos */
-		grid-template-columns: repeat(auto-fit, minmax(calc(50% - 10px), 1fr)); /* Intenta 2 columnas */
-        /* Para 1 columna en móviles muy pequeños: */
-        /* grid-template-columns: 1fr; */
-		gap: var(--spacing-small, 12px);
-	}
-
-    /* Ajustes de la tarjeta de producto */
-	.product-item { padding: var(--spacing-small, 10px); }
-	.product-item img, .product-item .no-image-placeholder {
-        height: 130px;
-    }
-	.product-item h3 { font-size: 0.9em; }
-	.product-item p { font-size: 1.4em; }
 }

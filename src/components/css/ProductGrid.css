@@ -1,123 +1,140 @@
-/* src/components/css/ProductGrid.css - VERSIÓN FINAL Y LIMPIA */
+/* src/components/css/ProductGrid.css - MODIFICADO PARA PRUEBAS */
 
-/* ============================================================== */
-/* === ESTILOS BASE Y PARA ESCRITORIO (PARA FLEXBOX HORIZONTAL) === */
-/* ============================================================== */
+/* ==========================================================================
+   Estilos Base para la Tarjeta (Pensados para Escritorio)
+   ========================================================================== */
 
 .product-item {
-	/* Layout interno de la tarjeta (esto está bien) */
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	text-align: center;
-	
-	/* TAMAÑO PARA EL CARRUSEL DE ESCRITORIO */
-	flex-basis: 220px; /* Ancho base fijo */
-	flex-shrink: 0;   /* ¡Muy importante! Evita que la tarjeta se encoja */
-	
-    /* APARIENCIA */
-	min-height: 300px; /* Altura mínima para consistencia */
-	box-sizing: border-box;
-	padding: var(--spacing-medium, 15px);
-	border: 1px solid var(--color-neutral-medium, #ddd);
-	border-radius: 8px;
-	background-color: var(--color-background-light, #fff);
-	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-	transition: all 0.3s ease-in-out;
+  /* Estructura Interna */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  
+  /* Tamaño Fijo para Escritorio (se mantiene) */
+  width: 260px;
+  height: 420px;
+  
+  /* Apariencia */
+  box-sizing: border-box;
+  padding: var(--spacing-medium, 15px);
+  border: 1px solid var(--color-neutral-medium, #ddd);
+  border-radius: 8px;
+  background-color: var(--color-background-light, #fff);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.3s ease-in-out;
+
+  /* Estilos del Enlace */
+  text-decoration: none;
+  color: inherit;
 }
 
-.product-item-link {
-	text-decoration: none;
-	color: inherit;
-	display: flex; /* Cambiado a flex para que el .product-item con height: 100% funcione */
-    height: 100%; /* El item hijo (product-item) ahora puede usar height: 100% */
+.product-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-color: var(--color-primary, #556B2F);
 }
 
-/* El height: 100% ahora lo ponemos aquí para que la tarjeta llene la altura que le da el contenedor con align-items: stretch */
-.product-item-link > .product-item {
-    height: 100%;
-    width: 100%;
-}
-
-
-.product-item-link:hover .product-item {
-	box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-	transform: translateY(-4px);
-}
+/* ==========================================================================
+   Contenido Interno de la Tarjeta
+   ========================================================================== */
 
 .product-item img,
 .product-item .no-image-placeholder {
-	width: 100%;
-	height: 180px;
-	object-fit: contain;
-	margin-bottom: var(--spacing-medium, 15px);
-	border-radius: 4px;
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: var(--spacing-medium, 15px);
+  border-radius: 4px;
 }
 
-.product-item .no-image-placeholder {
-	background-color: var(--color-neutral-light, #ccc);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--color-text-dark, #555);
-	font-size: 0.9em;
-}
+/* ... (estilos de .no-image-placeholder) ... */
 
 .product-item h3 {
-    font-size: 1.1em;
-    line-height: 1.3;
-    width: 100%;
-    margin: 0 0 var(--spacing-small, 8px) 0;
-    color: var(--color-text-dark, #333);
-    min-height: calc(1.1em * 1.3 * 2); /* Reserva espacio para 2 líneas */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--color-text-dark, #333);
+  margin: 0 0 var(--spacing-small, 10px) 0;
+  height: calc(1rem * 1.4 * 2); 
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .product-item .product-price-container {
-	display: flex;
-	justify-content: center;
-	align-items: baseline;
-	gap: var(--spacing-small, 8px);
-	font-size: 1.6em;
-	font-weight: bold;
-	margin-top: auto; /* Empuja el precio al final */
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: var(--spacing-small, 8px);
+  font-weight: bold;
+  margin-top: auto;
+
+  /* --- CAMBIO: PRECIO MÁS GRANDE --- */
+  font-size: 1.6em; /* Aumentado de 1.5rem */
 }
 
-/* ... (el resto de tus estilos de precios se quedan igual) ... */
+/* --- CAMBIO: AÑADIDA LA REGLA PARA EL COLOR DEL PRECIO --- */
+.product-item .product-price-container .current-price {
+    color: var(--color-accent, #007bff); /* Azul, como querías */
+}
+.product-item .product-price-container .current-price.sale {
+    color: var(--color-call-to-action, #d9534f); /* Mantenemos el rojo para ofertas */
+}
 
 
-/* ============================================================== */
-/* === MEDIA QUERIES PARA MÓVIL (SOBRESCRIBIMOS LO NECESARIO) === */
-/* ============================================================== */
+/* --- Tabletas (ej: < 992px) --- */
+@media (max-width: 991.98px) {
+  .product-item {
+    /* Mantenemos un tamaño fijo para tabletas, que suelen tener más espacio */
+    width: 240px;
+    height: 400px;
+  }
+}
 
+/* --- MÓVILES (ej: < 768px) --- */
 @media (max-width: 767.98px) {
-    /* Hacemos la tarjeta más flexible para el scroll móvil */
-    .product-item {
-        /* SOBRESCRIBIMOS el flex-basis de escritorio */
-        /* Cada tarjeta ocupará el 40% del ancho del contenedor del carrusel. */
-        flex-basis: auto;
-        
-        /* Ajustamos el padding y la altura mínima para móvil */
-        padding: var(--spacing-small, 10px);
-        min-height: 250px;
-    }
+  .product-item {
+    /* --- ¡LA MAGIA OCURRE AQUÍ! --- */
+    
+    /* 1. Definimos el ancho como un cálculo basado en el viewport.
+       '48vw' significa el 48% del ancho de la pantalla.
+       Usamos un valor ligeramente menor al 50% para dejar espacio al 'gap'.
+       Esto asegura que siempre quepan 2 tarjetas por fila. */
+    width: 48vw;
+    
+    /* 2. Hacemos la altura relativa al ancho con 'aspect-ratio'.
+       'aspect-ratio: 2 / 3' significa que la altura será 1.5 veces el ancho.
+       Esto mantiene la proporción de la tarjeta consistente. */
+    height: auto; /* Dejamos que el aspect-ratio controle la altura */
+    aspect-ratio: 2 / 3; /* O la proporción que te guste, ej: 3 / 4 */
 
-    /* Ajustamos el tamaño de la imagen y el título para móvil */
-    .product-item img,
-    .product-item .no-image-placeholder {
-        height: 150px;
-    }
+    /* También podemos definir una altura máxima para evitar que sean gigantes en móviles anchos */
+    max-height: 400px;
+  }
 
-    .product-item h3 {
-        font-size: 1em;
-        min-height: calc(1em * 1.3 * 2);
-    }
+  /* Ajustamos el contenido interno para el nuevo tamaño de tarjeta */
+  .product-item img,
+  .product-item .no-image-placeholder {
+    height: 55%; /* La imagen ocupa el 55% de la altura de la tarjeta */
+  }
 
-    .product-item .product-price-container {
-        font-size: 1.4em;
-    }
+  .product-item h3 {
+    font-size: 0.9rem;
+    height: calc(0.9rem * 1.4 * 2); /* Mantenemos la altura fija para el título */
+  }
+
+  .product-item .product-price-container {
+    font-size: 1.3rem;
+  }
 }
 
+/* --- MÓVILES MUY PEQUEÑOS (ej: < 420px) --- */
+@media (max-width: 419.98px) {
+  .product-item {
+    /* En pantallas muy estrechas, hacemos que ocupe casi todo el ancho para una sola columna */
+    width: 90vw;
+    aspect-ratio: 3 / 4; /* Hacemos la tarjeta un poco más alta */
+  }
+}
