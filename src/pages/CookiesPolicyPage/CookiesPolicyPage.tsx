@@ -1,6 +1,6 @@
 // src/pages/CookiesPolicyPage.tsx
 
-import './css/CookiesPolicyPage.css'; // Importa los estilos CSS para esta página
+import './CookiesPolicyPage.css'; // Importa los estilos CSS para esta página
 import { Link } from 'react-router-dom';
 
 function CookiesPolicyPage() {

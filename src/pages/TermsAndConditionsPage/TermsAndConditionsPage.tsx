@@ -1,7 +1,7 @@
 // src/pages/TermsAndConditionsPage.tsx
 
 import { Link } from 'react-router-dom';
-import './css/TermsAndConditionsPage.css'; // Importa los estilos CSS para esta página
+import './TermsAndConditionsPage.css'; // Importa los estilos CSS para esta página
 
 function TermsAndConditionsPage() {
 	return (

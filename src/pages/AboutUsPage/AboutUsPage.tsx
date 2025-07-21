@@ -1,5 +1,5 @@
 import React from 'react';
-import './css/AboutUsPage.css'; // Asegúrate de que la ruta al CSS sea correcta
+import './AboutUsPage.css'; // Asegúrate de que la ruta al CSS sea correcta
 
 // Opcional: Si tienes un logo de la tienda o una imagen genérica que quieras usar
 // import storeImage from '../assets/store-front.jpg'; // Ejemplo

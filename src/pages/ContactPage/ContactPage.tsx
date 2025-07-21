@@ -2,7 +2,7 @@
 
 // Importar React (necesario para JSX)
 // Importar los estilos para esta página
-import './css/ContactPage.css';
+import './ContactPage.css';
 
 // *** Importar Font Awesome para iconos ***
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

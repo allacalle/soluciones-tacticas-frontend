@@ -33,7 +33,7 @@
 }
 
 .contact-intro h2 {
-	color: var(--color-neutral-dark, #333333); /* Usa un gris oscuro o color de acento */
+	color: var(--color-text-light, #ffffff); /* Usa un gris oscuro o color de acento */
 	margin-top: 0; /* Quita el margen superior si está dentro de .contact-intro */
 	margin-bottom: var(--spacing-medium, 15px); /* Espacio debajo del subtítulo */
 	/* font-size: 2em; */ /* Debería heredar de index.css */

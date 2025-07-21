@@ -1,6 +1,6 @@
 // src/hooks/useVariationMatcher.ts
 import { useState, useEffect } from 'react';
-import { Product, Variation, VariationAttribute } from '../types'; // Ajusta la ruta si es necesario
+import { Product, Variation, VariationAttribute } from '../../types'; // Ajusta la ruta si es necesario
 
 interface UseVariationMatcherProps {
     product: Product | null;

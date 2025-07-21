@@ -1,7 +1,7 @@
 // src/hooks/useProductDetails.ts
 import { useState, useEffect } from 'react';
-import { Product, Variation } from '../types'; // Ajusta la ruta si es necesario
-import { getProductByIdOrSlug, getVariationsByProductId } from '../api/wooApi'; // Ajusta la ruta, AÑADIDO getVariationsByProductId
+import { Product, Variation } from '../../types'; // Ajusta la ruta si es necesario
+import { getProductByIdOrSlug, getVariationsByProductId } from '../../api/wooApi'; // Ajusta la ruta, AÑADIDO getVariationsByProductId
 
 // Define una interfaz para lo que devolverá el hook, incluyendo los valores iniciales
 export interface UseProductDetailsReturn {

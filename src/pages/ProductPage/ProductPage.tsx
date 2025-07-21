@@ -2,22 +2,22 @@
 
 import  { useEffect, useState } from 'react'; // Añadido React para FC si se usara
 import { useParams } from 'react-router-dom';
-import { Variation, Product as ProductType } from '../types';
+import { Variation, Product as ProductType } from '../../types';
 
 // Componentes
-import ProductImageGallery from '../components/ProductImageGallery/ProductImageGallery';
-import ProductInfo from '../components/ProductInfo/ProductInfo';
-import ProductFullDescription from '../components/ProductFullDescription/ProductFullDescription';
-import ProductCarousel from '../components/ProductCarousel/ProductCarousel';
+import ProductImageGallery from '../../components/ProductImageGallery/ProductImageGallery';
+import ProductInfo from '../../components/ProductInfo/ProductInfo';
+import ProductFullDescription from '../../components/ProductFullDescription/ProductFullDescription';
+import ProductCarousel from '../../components/ProductCarousel/ProductCarousel';
 
 // Hooks
-import { useProductDetails } from '../hooks/useProductDetails';
-import { useVariationMatcher } from '../hooks/useVariationMatcher';
-import { useRecommendedProducts } from '../hooks/useRecommendedProducts';
+import { useProductDetails } from '../../hooks/useProductDetails/useProductDetails';
+import { useVariationMatcher } from '../../hooks/useVariationMatcher/useVariationMatcher';
+import { useRecommendedProducts } from '../../hooks/useRecommendedProducts/useRecommendedProducts';
 // import { getProducts } from '../api/wooApi'; // Para el fetch de categoryRelatedProducts
 
 // CSS
-import './css/ProductPage.css';
+import './ProductPage.css';
 
 const colorMap: { [key: string]: string } = {
     // --- COLORES BÁSICOS Y NEUTROS ---

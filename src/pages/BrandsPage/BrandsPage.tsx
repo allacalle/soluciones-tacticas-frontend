@@ -1,14 +1,14 @@
 // src/pages/BrandsPage.tsx
 
 // Importa los estilos CSS específicos de esta página
-import	'./css/BrandsPage.css';
 
 import	{ useEffect, useState } from 'react';
 import	{ Link } from 'react-router-dom'; // Necesitamos Link para enlazar a las páginas de productos por marca
 
 // Importa las funciones y interfaces necesarias
-import	{ getBrands } from '../api/wooApi'; // Importa la función para obtener marcas
-import	{ Brand } from '../types'; // Importa la interfaz Brand
+import	{ getBrands } from '../../api/wooApi'; // Importa la función para obtener marcas
+import	{ Brand } from '../../types'; // Importa la interfaz Brand
+import './BrandsPage.css'; // Importa los estilos CSS específicos de esta página
 
 // NO necesitamos importar ProductGrid en esta página principal
 

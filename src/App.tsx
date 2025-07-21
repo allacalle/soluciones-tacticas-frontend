@@ -3,26 +3,26 @@
 
 // *** Importa los componentes de React Router DOM ***
 import { Routes, Route } from 'react-router-dom';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsAndConditionsPage from './pages/TermsAndConditionsPage'; // Importa la nueva página
-import CookiesPolicyPage from './pages/CookiesPolicyPage'; // Importa la nueva página
-import ContactPage from './pages/ContactPage'; // Importa la nueva página
-import AllProductsPage from './pages/AllProductsPage'; // <-- Asegúrate que la ruta sea correcta
-import CategoriesPage from './pages/CategoriesPage'; // <-- Asegúrate que la ruta sea correcta
-import BrandsPage from './pages/BrandsPage'; // <-- Asegúrate que la ruta sea correcta
-import HomePage from './pages/HomePage'; // <-- Asegúrate que la ruta sea correcta
-import ProductListPage from './pages/ProductListPage'; // <-- Asegúrate que la ruta sea correcta
-import ProductsByBrandPage from './pages/ProductsByBrandPage'; // <-- Asegúrate que la ruta sea correct
-import OffersPage from './pages/OffersPage'; // <-- Asegúrate que la ruta sea correcta
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage';
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage/TermsAndConditionsPage'; // Importa la nueva página
+import CookiesPolicyPage from './pages/CookiesPolicyPage/CookiesPolicyPage'; // Importa la nueva página
+import ContactPage from './pages/ContactPage/ContactPage'; // Importa la nueva página
+import AllProductsPage from './pages/AllProductsPage/AllProductsPage'; // <-- Asegúrate que la ruta sea correcta
+import CategoriesPage from './pages/CategoriesPage/CategoriesPage'; // <-- Asegúrate que la ruta sea correcta
+import BrandsPage from './pages/BrandsPage/BrandsPage'; // <-- Asegúrate que la ruta sea correcta
+import HomePage from './pages/HomePage/HomePage'; // <-- Asegúrate que la ruta sea correcta
+import ProductListPage from './pages/ProductListPage/ProductListPage'; // <-- Asegúrate que la ruta sea correcta
+import ProductsByBrandPage from './pages/ProductsByBrandPage/ProductsByBrandPage'; // <-- Asegúrate que la ruta sea correct
+import OffersPage from './pages/OffersPage/OffersPage'; // <-- Asegúrate que la ruta sea correcta
 import Header from './components/Header/Header'; // <-- Asegúrate que la ruta sea correcta
-import ProductPage from './pages/ProductPage';
+import ProductPage from './pages/ProductPage/ProductPage';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'; // <--- IMPORTA EL NUEVO COMPONENTE
 
 
 import './css/pageLayout.css'
 import './index.css'
-import AboutUsPage from './pages/AboutUsPage';
+import AboutUsPage from './pages/AboutUsPage/AboutUsPage';
 
 // Define una interfaz para tipar los datos de producto que esperamos de la API de WooCommerce
 // Esta interfaz se queda aquí en App.tsx (o puedes moverla a un archivo compartido si la usas en varios sitios)

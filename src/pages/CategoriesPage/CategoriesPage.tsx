@@ -1,10 +1,10 @@
 // src/pages/CategoriesPage.tsx
 
-import './css/CategoriesPage.css';
+import './CategoriesPage.css';
 import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { getCategories } from '../api/wooApi';
-import { Category } from '../types';
+import { getCategories } from '../../api/wooApi';
+import { Category } from '../../types';
 
 // --- IMPORTACIÓN DE ICONOS DE REACT-ICONS (AJUSTADA SEGÚN USO) ---
 import {

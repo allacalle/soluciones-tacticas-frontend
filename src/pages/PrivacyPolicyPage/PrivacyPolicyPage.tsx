@@ -1,7 +1,7 @@
 // src/pages/PrivacyPolicyPage.tsx
 
 import { Link } from 'react-router-dom';
-import './css/PrivacyPolicyPage.css'; // Importa los estilos CSS para esta página
+import './PrivacyPolicyPage.css'; // Importa los estilos CSS para esta página
 
 function PrivacyPolicyPage() {
 	return (

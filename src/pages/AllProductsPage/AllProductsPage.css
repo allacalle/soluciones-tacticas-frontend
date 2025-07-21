@@ -17,7 +17,7 @@
 	text-align: center;
 	margin-bottom: var(--spacing-medium, 16px);
 	font-size: 1.8em; /* Tamaño para móvil */
-	color: var(--color-primary-dark, #556B2F);
+	color: var(--color-text-light, #ffffff);
 }
 
 /* Contenedor de la cuadrícula de productos */

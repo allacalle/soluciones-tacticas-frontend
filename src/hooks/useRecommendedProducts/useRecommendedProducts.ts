@@ -1,7 +1,7 @@
 // src/hooks/useRecommendedProducts.ts
 import { useState, useEffect } from 'react';
-import { Product, Tag } from '../types'; // Importa Tag también
-import { getProducts, GetProductsOptions } from '../api/wooApi'; // Importa GetProductsOptions
+import { Product, Tag } from '../../types'; // Importa Tag también
+import { getProducts, GetProductsOptions } from '../../api/wooApi'; // Importa GetProductsOptions
 
 interface UseRecommendedProductsReturn {
     recommendedProducts: Product[];

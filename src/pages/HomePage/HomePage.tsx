@@ -1,17 +1,17 @@
 // src/pages/HomePage.tsx (o src/pages/HomePage.jsx)
 
 // Importa el archivo CSS de la página de inicio (si lo tienes)
-import './css/HomePage.css';
+import './HomePage.css';
 
 // Importa el componente del carrusel hero
-import ImageCarousel from '../components/ImageCarrousel/ImageCarrousel';
+import ImageCarousel from '../../components/ImageCarrousel/ImageCarrousel';
 
 // *** Importa el componente ProductListSection ***
 import { Link } from 'react-router-dom';
-import ProductListSection from '../components/ProductListSection/ProductListSection';
-import SloganSection from '../components/SloganSection/SloganSection'; 
-import ReviewCarousel from '../components/ReviewCarousel/ReviewCarousel'; 
-import BrandCarousel from '../components//BrandCarousel/BrandCarousel'; // *** Importa el componente ***
+import ProductListSection from '../../components/ProductListSection/ProductListSection';
+import SloganSection from '../../components/SloganSection/SloganSection'; 
+import ReviewCarousel from '../../components/ReviewCarousel/ReviewCarousel'; 
+import BrandCarousel from '../../components/BrandCarousel/BrandCarousel'; // *** Importa el componente ***
 
 
 

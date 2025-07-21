@@ -1,8 +1,8 @@
 // src/pages/OffersPage.tsx
-import './css/OffersPage.css'; // Importa los estilos específicos si los hay
+import './OffersPage.css'; // Importa los estilos específicos si los hay
 import { useMemo, useState, useEffect } from 'react'; // <--- AÑADE useState y useEffect
-import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
-import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
+import ProductListingLayout from '../../components/ProductListingLayout/ProductListingLayout';
+import { usePaginatedProducts, UsePaginatedProductsOptions } from '../../hooks/usePaginatedProducts/usePaginatedProducts';
 
 // Configuración de productos por página para esta vista específica
 const PRODUCTS_PER_PAGE_OFFERS_DESKTOP = 8; // Tu valor actual para escritorio

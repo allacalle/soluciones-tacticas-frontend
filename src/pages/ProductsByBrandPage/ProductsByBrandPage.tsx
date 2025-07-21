@@ -1,13 +1,13 @@
 // src/pages/ProductsByBrandPage.tsx
-import './css/ProductsByBrandPage.css';
+import './ProductsByBrandPage.css';
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBrandBySlug } from '../api/wooApi';
-import { Brand } from '../types';
+import { getBrandBySlug } from '../../api/wooApi';
+import { Brand } from '../../types';
 
-import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
-import BrandInfoHeader from '../components/BrandInfoHeader/BrandInfoHeader';
-import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
+import ProductListingLayout from '../../components/ProductListingLayout/ProductListingLayout';
+import BrandInfoHeader from '../../components/BrandInfoHeader/BrandInfoHeader';
+import { usePaginatedProducts, UsePaginatedProductsOptions } from '../../hooks/usePaginatedProducts/usePaginatedProducts';
 
 // Define los productos por página para escritorio y móvil para ESTA PÁGINA
 const PRODUCTS_PER_PAGE_BRAND_DESKTOP = 8; // Tu valor actual

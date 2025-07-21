@@ -1,12 +1,12 @@
 // src/pages/ProductListPage.tsx
-import './css/ProductListPage.css';
+import './ProductListPage.css';
 import { useEffect, useState, useMemo } from 'react'; // useState y useEffect ya estaban, nos aseguramos
 import { useParams } from 'react-router-dom';
-import { getCategories } from '../api/wooApi';
-import { Category } from '../types';
+import { getCategories } from '../../api/wooApi';
+import { Category } from '../../types';
 
-import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
-import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
+import ProductListingLayout from '../../components/ProductListingLayout/ProductListingLayout';
+import { usePaginatedProducts, UsePaginatedProductsOptions } from '../../hooks/usePaginatedProducts/usePaginatedProducts';
 
 // Define los productos por página para escritorio y móvil para ESTA PÁGINA
 const PRODUCTS_PER_PAGE_CATEGORY_DESKTOP = 8; // Tu valor actual

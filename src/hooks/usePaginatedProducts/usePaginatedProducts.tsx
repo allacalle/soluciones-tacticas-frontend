@@ -1,8 +1,8 @@
 // src/hooks/usePaginatedProducts.tsx
 import { useState, useEffect, useCallback } from 'react';
-import { Product } from '../types';
+import { Product } from '../../types';
 // Importa getProducts y GetProductsResult, y la nueva interfaz de opciones si la exportaste
-import { getProducts, GetProductsResult, GetProductsOptions } from '../api/wooApi'; // <--- AÑADE GetProductsOptions
+import { getProducts, GetProductsResult, GetProductsOptions } from '../../api/wooApi'; // <--- AÑADE GetProductsOptions
 
 export type SortOrder = 'asc' | 'desc';
 
