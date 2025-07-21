@@ -1,9 +1,9 @@
 // src/components/ProductListingLayout.tsx
 import React, { useRef, useEffect } from 'react'; // <-- AÑADE useRef y useEffect
-import { Product } from '../types';
-import ProductGrid from './ProductGrid';
-import Pagination from './Pagination';
-import './css/ProductListingLayout.css'; // Asegúrate de que este archivo exista
+import { Product } from '../../types';
+import ProductGrid from '../ProductGrid/ProductGrid';
+import Pagination from '../Pagination/Pagination';
+import './ProductListingLayout.css'; // Asegúrate de que este archivo exista
 
 interface ProductListingLayoutProps {
     title: string;

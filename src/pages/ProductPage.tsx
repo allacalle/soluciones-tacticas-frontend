@@ -5,10 +5,10 @@ import { useParams } from 'react-router-dom';
 import { Variation, Product as ProductType } from '../types';
 
 // Componentes
-import ProductImageGallery from '../components/ProductImageGallery';
-import ProductInfo from '../components/ProductInfo';
-import ProductFullDescription from '../components/ProductFullDescription';
-import ProductCarousel from '../components/ProductCarousel';
+import ProductImageGallery from '../components/ProductImageGallery/ProductImageGallery';
+import ProductInfo from '../components/ProductInfo/ProductInfo';
+import ProductFullDescription from '../components/ProductFullDescription/ProductFullDescription';
+import ProductCarousel from '../components/ProductCarousel/ProductCarousel';
 
 // Hooks
 import { useProductDetails } from '../hooks/useProductDetails';

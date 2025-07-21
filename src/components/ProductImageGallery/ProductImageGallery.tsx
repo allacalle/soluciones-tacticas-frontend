@@ -1,9 +1,9 @@
 // src/components/ProductImageGallery.tsx - ADAPTADO CON ZOOM
 import React from 'react';
-import { ProductImage as ImageType } from '../types'; // Renombramos a ProductImage en types.ts
+import { ProductImage as ImageType } from '../../types'; // Renombramos a ProductImage en types.ts
 import InnerImageZoom from 'react-inner-image-zoom'; // Importamos la librería de zoom
 import 'react-inner-image-zoom/lib/styles.min.css'; // <<<--- ESTA ES LA LÍNEA CORRECTA
-import './css/ProductImageGallery.css'; // Tus estilos personalizados
+import './ProductImageGallery.css'; // Tus estilos personalizados
 
 interface ProductImageGalleryProps {
   productName: string;

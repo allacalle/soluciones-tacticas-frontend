@@ -3,11 +3,12 @@
 import  { useEffect, useState } from 'react'; // Importamos React, useEffect y useState
 
 // *** Importamos la función getBrands desde WooApi.ts ***
-import { getBrands } from '../api/wooApi'; // Asegúrate de la ruta correcta a tu WooApi.ts
+import { getBrands } from '../../api/wooApi'; // Asegúrate de la ruta correcta a tu WooApi.ts
 
 // *** Importamos la interfaz Brand desde types.ts (como tú lo tienes configurado) ***
 // Asegúrate de que la interfaz Brand en tu archivo src/types.ts coincide con la estructura esperada de la API
-import { Brand } from '../types'; // *** Usaremos esta importación como prefieres ***
+// Ajusta la ruta según la ubicación real de types.ts
+import { Brand } from '../../types'; // *** Usaremos una ruta relativa para evitar errores ***
 import { Link } from 'react-router-dom'; // Importa Link para enlazar a las páginas de productos por marca
 
 // ======================================================================
@@ -20,7 +21,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 // Importa el archivo CSS local para este carrusel
-import './css/BrandCarousel.css';
+import './BrandCarousel.css'; // Asegúrate de que este archivo existe y tiene los estilos necesarios
 
 
 // Define las propiedades que recibirá el componente BrandCarousel

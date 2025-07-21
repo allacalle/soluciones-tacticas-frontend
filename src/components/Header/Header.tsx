@@ -1,10 +1,10 @@
 // src/components/Header.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './css/Header.css';
-import storeLogo from '../assets/logo/header-logo.jpg';
-import { getProducts } from '../api/wooApi';
-import { Product } from '../types';
+import './Header.css'; // Asegúrate de que este archivo CSS existe y tiene los estilos necesarios
+import storeLogo from '/src/assets/logo/header-logo.jpg';
+import { getProducts } from '../../api/wooApi';
+import { Product } from '../../types';
 import { FaSearch, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';

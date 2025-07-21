@@ -1,10 +1,10 @@
 // src/components/ProductListSection.tsx
-import './css/ProductListSection.css';
+import './ProductListSection.css';
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { getProducts, GetProductsOptions } from '../api/wooApi';
-import { Product } from '../types';
-import ProductGrid from './ProductGrid';
-import { useViewport } from '../hooks/useViewport';
+import { getProducts, GetProductsOptions } from '../../api/wooApi';
+import { Product } from '../../types';
+import ProductGrid from '../ProductGrid/ProductGrid';
+import { useViewport } from '../../hooks/useViewport';
 
 // Valores por defecto para el número de productos
 const DEFAULT_PRODUCTS_PER_PAGE_DESKTOP = 8;

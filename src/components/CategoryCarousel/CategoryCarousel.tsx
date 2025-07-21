@@ -5,9 +5,9 @@ import  { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom'; 
 
 // Importamos la función getProducts desde WooApi.ts
-import { getProducts } from '../api/wooApi';
+import { getProducts } from '../../api/wooApi';
 // Importamos la interfaz Product desde types.ts
-import { Product } from '../types';
+import { Product } from '../../types';
 
 // === YA NO NECESITAMOS LAS IMPORTACIONES DE REACT-SLICK AQUÍ ===
 // Estas las maneja ProductCarousel.tsx
@@ -16,11 +16,11 @@ import { Product } from '../types';
 // import 'slick-carousel/slick/slick-theme.css';
 
 // Importa el NUEVO ProductCarousel que acabamos de crear
-import ProductCarousel from './ProductCarousel'; // Ajusta la ruta si es diferente
+import ProductCarousel from '../ProductCarousel/ProductCarousel'; // Ajusta la ruta si es diferente
 
 // Los estilos CSS específicos de la sección de categoría (si los hay) pueden quedarse,
 // pero los estilos del carrusel en sí los maneja ProductCarousel.css
-import './css/CategoryCarousel.css'; // Puede que este archivo CSS ahora sea más simple o incluso innecesario
+import '.CategoryCarousel.css'; // Puede que este archivo CSS ahora sea más simple o incluso innecesario
 
 // Define las propiedades que recibirá el componente CategoryCarousel (se mantienen similares)
 interface CategoryCarouselProps {

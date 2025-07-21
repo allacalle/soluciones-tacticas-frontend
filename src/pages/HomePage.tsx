@@ -4,14 +4,14 @@
 import './css/HomePage.css';
 
 // Importa el componente del carrusel hero
-import ImageCarousel from '../components/ImageCarrousel';
+import ImageCarousel from '../components/ImageCarrousel/ImageCarrousel';
 
 // *** Importa el componente ProductListSection ***
 import { Link } from 'react-router-dom';
-import ProductListSection from '../components/ProductListSection';
-import SloganSection from '../components/SloganSection'; 
-import ReviewCarousel from '../components/ReviewCarousel'; 
-import BrandCarousel from '../components/BrandCarousel'; // *** Importa el componente ***
+import ProductListSection from '../components/ProductListSection/ProductListSection';
+import SloganSection from '../components/SloganSection/SloganSection'; 
+import ReviewCarousel from '../components/ReviewCarousel/ReviewCarousel'; 
+import BrandCarousel from '../components//BrandCarousel/BrandCarousel'; // *** Importa el componente ***
 
 
 

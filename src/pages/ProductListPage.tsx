@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { getCategories } from '../api/wooApi';
 import { Category } from '../types';
 
-import ProductListingLayout from '../components/ProductListingLayout';
+import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 
 // Define los productos por página para escritorio y móvil para ESTA PÁGINA

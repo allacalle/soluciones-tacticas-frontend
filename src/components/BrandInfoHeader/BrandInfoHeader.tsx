@@ -1,6 +1,6 @@
 // src/components/BrandInfoHeader.tsx
 import React from 'react';
-import { Brand } from '../types'; // Asegúrate que la ruta a types.ts sea correcta
+import { Brand } from '../../types'; // Asegúrate que la ruta a types.ts sea correcta
 // Considera crear un CSS para este componente si necesita estilos propios
 // import './css/BrandInfoHeader.css'; 
 

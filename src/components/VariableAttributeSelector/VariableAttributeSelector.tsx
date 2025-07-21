@@ -1,8 +1,8 @@
 // src/components/VariableAttributeSelector.tsx
 
 // Importa las interfaces necesarias desde tu archivo types.ts
-import { Attribute, Variation } from '../types';
-import './css/VariableAttributeSelector.css'; 
+import { Attribute, Variation } from '../../types';
+import './VariableAttributeSelector.css'; 
 
 
 // Importa el mapeo de colores si lo pasas como prop (como vamos a hacer ahora)

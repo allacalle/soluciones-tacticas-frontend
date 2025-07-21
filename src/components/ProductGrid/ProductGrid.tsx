@@ -3,10 +3,10 @@
 import { Link } from 'react-router-dom'; // Necesitamos Link para enlazar a la página de producto individual
 
 // *** Importa los estilos CSS del ITEM. ESTO ES CLAVE. ***
-import	'./css/ProductGrid.css';
+import	'./ProductGrid.css';
 
 
-import { Product } from '../types'; // Importa la interfaz Product
+import { Product } from '../../types'; // Importa la interfaz Product
 
 // Define las propiedades que acepta ProductGrid: solo la lista de productos
 interface ProductGridProps {

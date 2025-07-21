@@ -14,10 +14,10 @@ import HomePage from './pages/HomePage'; // <-- Asegúrate que la ruta sea corre
 import ProductListPage from './pages/ProductListPage'; // <-- Asegúrate que la ruta sea correcta
 import ProductsByBrandPage from './pages/ProductsByBrandPage'; // <-- Asegúrate que la ruta sea correct
 import OffersPage from './pages/OffersPage'; // <-- Asegúrate que la ruta sea correcta
-import Header from './components/Header'; // <-- Asegúrate que la ruta sea correcta
+import Header from './components/Header/Header'; // <-- Asegúrate que la ruta sea correcta
 import ProductPage from './pages/ProductPage';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop'; // <--- IMPORTA EL NUEVO COMPONENTE
+import Footer from './components/Footer/Footer';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop'; // <--- IMPORTA EL NUEVO COMPONENTE
 
 
 import './css/pageLayout.css'

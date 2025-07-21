@@ -1,6 +1,6 @@
 // src/components/Pagination.tsx
 import React from 'react';
-import './css/Pagination.css'; // 1. Importamos su propio archivo de estilos
+import './Pagination.css'; // 1. Importamos su propio archivo de estilos
 
 // 2. Definimos las "props" que este componente necesita para funcionar.
 //    Esto es como un "contrato": cualquiera que use este componente

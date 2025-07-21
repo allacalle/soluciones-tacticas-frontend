@@ -3,7 +3,7 @@
 //import React from 'react';
 // Si usas iconos de alguna librería, los importarías aquí
 // Por ahora, usaremos un placeholder
-import './css/SloganCard.css'
+import './SloganCard.css'
 
 
 // Define las propiedades que recibirá una tarjeta de eslogan individual

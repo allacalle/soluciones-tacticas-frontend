@@ -2,7 +2,7 @@
 import { useMemo, useState, useEffect } from 'react'; // <--- AÑADE useState y useEffect
 import './css/AllProductsPage.css';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
-import ProductListingLayout from '../components/ProductListingLayout';
+import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
 
 // Define los productos por página para escritorio y móvil
 const PRODUCTS_PER_PAGE_DESKTOP = 8;

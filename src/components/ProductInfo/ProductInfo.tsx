@@ -1,8 +1,8 @@
 // src/components/ProductInfo.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Product, Variation, Category as CategoryType, Brand as BrandType } from '../types'; // Ajusta rutas
-import VariableAttributeSelector from './VariableAttributeSelector'; // Asumiendo que está en la misma carpeta o ajusta ruta
+import { Product, Variation, Category as CategoryType, Brand as BrandType } from '../../types'; // Ajusta rutas
+import VariableAttributeSelector from '../VariableAttributeSelector/VariableAttributeSelector'; // Asumiendo que está en la misma carpeta o ajusta ruta
 
 interface ProductInfoProps {
     product: Product;

@@ -4,9 +4,9 @@
 // *** Importaciones de React ***
 // ======================================================================
 // Importaciones de componentes y datos locales
-import ReviewCard from './ReviewCard';
-import { ReviewData } from '../types';
-import reviewsData from '../data/reviews.json'; // Ajusta la ruta si es diferente
+import ReviewCard from '../ReviewCard/ReviewCard';
+import { ReviewData } from '../../types';
+import reviewsData from '../../data/reviews.json'; // Ajusta la ruta si es diferente
 
 // ======================================================================
 // *** Importaciones de react-slick ***
@@ -18,7 +18,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 // Importa el archivo CSS local (para estilos de sección y contenedor)
-import './css/ReviewCarousel.css'; // Ajusta la ruta si es diferente
+import './ReviewCarousel.css'; // Ajusta la ruta si es diferente
 
 
 // Define las propiedades que recibirá el componente (similar a antes)

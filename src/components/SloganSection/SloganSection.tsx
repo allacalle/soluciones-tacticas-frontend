@@ -1,7 +1,7 @@
 // src/components/SloganSection.tsx
 
-import SloganCard from './SloganCard';
-import './css/SloganSection.css'; // Asegúrate de que este archivo existe y tiene estilos para la sección
+import SloganCard from '../SloganCard/SloganCard';
+import './SloganSection.css'; // Asegúrate de que este archivo existe y tiene estilos para la sección
 
 
 

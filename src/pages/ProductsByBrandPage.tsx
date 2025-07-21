@@ -5,8 +5,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getBrandBySlug } from '../api/wooApi';
 import { Brand } from '../types';
 
-import ProductListingLayout from '../components/ProductListingLayout';
-import BrandInfoHeader from '../components/BrandInfoHeader';
+import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
+import BrandInfoHeader from '../components/BrandInfoHeader/BrandInfoHeader';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 
 // Define los productos por página para escritorio y móvil para ESTA PÁGINA

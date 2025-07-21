@@ -1,7 +1,7 @@
 // src/pages/OffersPage.tsx
 import './css/OffersPage.css'; // Importa los estilos específicos si los hay
 import { useMemo, useState, useEffect } from 'react'; // <--- AÑADE useState y useEffect
-import ProductListingLayout from '../components/ProductListingLayout';
+import ProductListingLayout from '../components/ProductListingLayout/ProductListingLayout';
 import { usePaginatedProducts, UsePaginatedProductsOptions } from '../hooks/usePaginatedProducts';
 
 // Configuración de productos por página para esta vista específica

@@ -1,7 +1,7 @@
 // src/components/ReviewCard.tsx
 
 // Importa un archivo CSS para esta tarjeta (lo crearemos pronto)
- import './css/ReviewCard.css';
+ import './ReviewCard.css';
 
 // Define las propiedades que recibirá una tarjeta de reseña individual
 interface ReviewCardProps {

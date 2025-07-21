@@ -1,8 +1,8 @@
 // src/components/Footer.tsx
 
 import { Link } from 'react-router-dom';
-import './css/Footer.css'; // Importa los estilos para el footer
-import logoPlaceholder from '../assets/logo/footer-logo.png'; // *** Reemplaza con la ruta real a tu logo si es diferente ***
+import './Footer.css'; // Importa los estilos para el footer
+import logoPlaceholder from '/src/assets/logo/footer-logo.png'; // *** Reemplaza con la ruta real a tu logo si es diferente ***
 
 // Importar Font Awesome para iconos
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

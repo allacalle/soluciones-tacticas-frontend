@@ -1,7 +1,7 @@
 // src/components/ProductCarousel.tsx
 import React from 'react'; // Siempre importa React
 import { Link } from 'react-router-dom';
-import { Product } from '../types';
+import { Product } from '../../types';
 
 // Importaciones de react-slick
 import Slider from 'react-slick';
@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css'; // Sigue siendo bueno tenerlo por si algún estilo base ayuda
 
 // Tu CSS personalizado para este componente
-import './css/ProductCarousel.css';
+import './ProductCarousel.css';
 
 // --- COMPONENTES DE FLECHAS PERSONALIZADAS ---
 interface ArrowProps {
