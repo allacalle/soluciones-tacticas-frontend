@@ -54,8 +54,7 @@ function App() {
 
           <Route path="/marcas" element={<BrandsPage />} /> {/* Ruta para la página de lista de marcas */}
           <Route path="/marca/:brandSlug" element={<ProductsByBrandPage />} />
-          <Route path="/quienes-somos" element={<AboutUsPage />} /> // O la ruta que prefieras
-
+          <Route path="/quienes-somos" element={<AboutUsPage />} /> 
 
           
           <Route path="*" element={<div>Página No Encontrada (404)</div>} />
